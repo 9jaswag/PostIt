@@ -9,6 +9,33 @@
     <title>Login</title>
 </head>
 <body>
+    <!--login modal-->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="container-fluid padding2">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#login" aria-controls="home" role="tab" data-toggle="tab">Login</a></li>
+                        <li role="presentation"><a href="#register" aria-controls="profile" role="tab" data-toggle="tab">Register</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="login">
+                            <form action="">
+                                <label for="username"></label>
+                                <input type="text" name="" id="username" class="login-input" placeholder="Enter your username">
+                                <label for="password"></label>
+                                <input type="password" name="" id="password" class="login-input" placeholder="Enter your password">
+                                <input class="btn btn-primary login-input" type="submit" value="Login">
+                            </form>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="register">...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--page header-->
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -28,14 +55,17 @@
             <!--header nav items-->
             <nav id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                <button type="button" class="btn btn-primary navbar-btn">Register</button>
+                <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn">Register</button>
+                <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn">Login</button>
                 </ul>
             </nav>
             <!--header nav items end-->
         </div>
     </header>
 
-
+    <section>
+        input
+    </section>
     
     <!--jQuery-->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>

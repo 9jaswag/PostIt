@@ -1,0 +1,19 @@
+.padding {
+    padding: 2rem;
+}
+
+.padding2 {
+    padding: 4rem;
+}
+
+/*class for login input fields*/
+.login-input {
+    border-radius: 3px;
+    padding: 1rem 0rem 1rem 1rem;
+    width: 100%;
+    border: 1px solid;
+}
+
+input[type='submit'].login-input {
+    margin-top: 2rem;
+}
