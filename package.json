@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/9jaswag/PostIt/issues"
   },
-  "homepage": "https://github.com/9jaswag/PostIt#readme"
+  "homepage": "https://github.com/9jaswag/PostIt#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "morgan": "^1.8.2"
+  }
 }
