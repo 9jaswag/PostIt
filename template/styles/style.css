@@ -1,9 +1,90 @@
+/*add margin to body to accommodate fixed header*/
+body {
+    margin-top: 6rem;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+/*color class*/
+.text-green {
+    color: #18bc9c;
+}
+
+.bkg-green {
+    background-color: #18bc9c;
+}
+
+.text-white {
+    color: #fff;
+}
+
+/*icon classes*/
+
+.icon-2x {
+    font-size: 2em;
+}
+
+.icon-3x {
+    font-size: 3em;
+}
+
+/*margin classes*/
+.margin-none {
+    margin: 0;
+}
+
+.margin-v {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.margin-v2 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.margin-h {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.margin-h2 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+/*padding class*/
 .padding {
     padding: 2rem;
 }
-
 .padding2 {
     padding: 4rem;
+}
+.padding-top {
+    padding-top: 2rem;
+}
+.padding-bottom {
+    padding-bottom: 2rem;
+}
+.padding-left {
+    padding-left: 2rem;
+}
+.padding-right {
+    padding-right: 2rem;
+}
+.padding-top2 {
+    padding-top: 4rem;
+}
+.padding-bottom2 {
+    padding-bottom: 4rem;
+}
+.padding-left2 {
+    padding-left: 4rem;
+}
+.padding-right2 {
+    padding-right: 4rem;
 }
 
 /*class for login input fields*/
@@ -16,4 +97,29 @@
 
 input[type='submit'].login-input {
     margin-top: 2rem;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+/*classes for the message board page*/
+.message-card {
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem 2rem;
+    margin-bottom: 1rem;
+}
+.message-card-group-name {
+    border-radius: 4px;
+    padding: .5rem;
+    color: white;
+}
+.group-stat {
+    padding: 1rem 2rem;
+    color: white;
+}
+
+/*classes for message statistics*/
+.stat-group {
+    border: 1px solid #1a242f;
 }

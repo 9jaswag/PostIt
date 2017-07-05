@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css">
     <link rel="stylesheet" href="styles/style.css">
-    <title>Login</title>
+    <title>Message Board</title>
 </head>
 <body>
-    <!--login modal-->
+    <!--login and registration modal-->
     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -21,7 +21,7 @@
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="login">
+                        <div role="tabpanel" class="tab-pane fade in active" id="login">
                             <form action="">
                                 <label for="username"></label>
                                 <input type="text" name="" id="username" class="login-input" placeholder="Enter your username">
@@ -29,13 +29,16 @@
                                 <input type="password" name="" id="password" class="login-input" placeholder="Enter your password">
                                 <input class="btn btn-primary login-input" type="submit" value="Login">
                             </form>
+                            <a href="" class="">Forgot Password</a>
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="register">
+                        <div role="tabpanel" class="tab-pane fade in" id="register">
                             <form action="">
                                 <label for="username"></label>
-                                <input type="text" name="" id="username" class="login-input" placeholder="Enter your username">
+                                <input type="text" name="" id="username" class="login-input" placeholder="Enter a username">
                                 <label for="password"></label>
-                                <input type="password" name="" id="password" class="login-input" placeholder="Enter your password">
+                                <input type="password" name="" id="password" class="login-input" placeholder="Enter a password">
+                                <label for="email"></label>
+                                <input type="email" name="" id="email" class="login-input" placeholder="Enter your email address">
                                 <input class="btn btn-primary login-input" type="submit" value="Submit">
                             </form>
                         </div>
@@ -72,12 +75,55 @@
     </header>
 
     <section>
-        input
+        <div class="container-fluid">
+            <!--left part - message board-->
+            <div class="col-md-8 col-sm-8 col-xs-12 padding-top">
+                <section class="message-card">
+                    <h4 class="uppercase">Message Title</h4>
+                    <p class="inline-block bkg-green message-card-group-name">Group Name</p>
+                    <p class="message-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis! Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+                    </p>
+                </section>
+                <section class="message-card">
+                    <h4 class="uppercase">Message Title</h4>
+                    <p class="inline-block bkg-green message-card-group-name">Group Name</p>
+                    <p class="message-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis! Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+                    </p>
+                </section>
+                <section class="message-card">
+                    <h4 class="uppercase">Message Title</h4>
+                    <p class="inline-block bkg-green message-card-group-name">Group Name</p>
+                    <p class="message-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis! Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+                    </p>
+                </section>
+            </div>
+            <!--right part-->
+            <div class="col-md-4 col-sm-4 col-xs-12 padding-top">
+                <section class="group-stat bkg-green col-md-12 col-sm-12 col-xs-12 text-center">
+                    <h4 class="uppercase padding-top padding-bottom2">Group Statistics</h4>
+                    <section class="col-md-6 col-sm-6 col-xs-6 stat-group">
+                        <i class="fa fa-comments fa-3x" aria-hidden="true"></i>
+                        <p class="">Messages</p>
+                        <p class="">20</p>
+                    </section>
+                    <section class="col-md-6 col-sm-6 col-xs-6 stat-group">
+                        <i class="fa fa-users fa-3x" aria-hidden="true"></i>
+                        <p class="">Members</p>
+                        <p class="">15</p>                        
+                    </section>
+                </section>
+            </div>
+        </div>
     </section>
     
     <!--jQuery-->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <!--bootstrap js-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+    <!--fontawesome-->
+    <script src="https://use.fontawesome.com/f061fecdbc.js"></script>
 </body>
 </html>
