@@ -4,6 +4,7 @@
   "description": "PostIt is a simple application that allows friends and colleagues create groups for notifications.",
   "main": "index.js",
   "scripts": {
+    "start:dev": "nodemon ./bin/www",
     "test": "mocha --compilers js:babel-register",
     "lint": "esw server --color"
   },
@@ -23,6 +24,11 @@
   },
   "homepage": "https://github.com/9jaswag/PostIt#readme",
   "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-register": "^6.24.1",
     "body-parser": "^1.17.2",
     "eslint": "^4.1.1",
     "eslint-config-airbnb": "^15.0.2",
