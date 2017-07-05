@@ -124,3 +124,14 @@ input[type='submit'].login-input {
     /*border: 1px solid #1a242f;*/
     padding: 2rem;
 }
+
+/*create group page styles*/
+.user-list li {
+    margin-right: 0.3rem;
+}
+.user-list li:before {
+    font-family: 'FontAwesome';
+    content: '\f058';
+    color: #149c82;
+    margin-right: .2rem;
+}
