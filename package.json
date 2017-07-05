@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register",
-    "lint": "esw "
+    "lint": "esw server"
   },
   "repository": {
     "type": "git",
