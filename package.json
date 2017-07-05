@@ -1,0 +1,32 @@
+{
+  "name": "postit",
+  "version": "1.0.0",
+  "description": "PostIt is a simple application that allows friends and colleagues create groups for notifications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/9jaswag/PostIt.git"
+  },
+  "keywords": [
+    "Node",
+    "Express",
+    "PostgreSQL"
+  ],
+  "author": "Chuks Opia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/9jaswag/PostIt/issues"
+  },
+  "homepage": "https://github.com/9jaswag/PostIt#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "morgan": "^1.8.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
