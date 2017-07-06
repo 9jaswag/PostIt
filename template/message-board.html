@@ -80,34 +80,52 @@
     <div class="container-fluid">
       <!--left part - message board-->
       <div class="col-md-8 col-sm-8 col-xs-12 padding-top">
-        <h3 class="uppercase text-center">Group name message board</h3>
-        <section class="message-card">
-          <h4 class="uppercase">Message Title</h4>
-          <p class="inline-block bkg-green message-card-group-name">Group Name</p>
-          <p class="message-body">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
-            Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
-          </p>
-        </section>
-        <section class="message-card">
-          <h4 class="uppercase">Message Title</h4>
-          <p class="inline-block bkg-green message-card-group-name">Group Name</p>
-          <p class="message-body">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
-            Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
-          </p>
-        </section>
-        <section class="message-card">
-          <h4 class="uppercase">Message Title</h4>
-          <p class="inline-block bkg-green message-card-group-name">Group Name</p>
-          <p class="message-body">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
-            Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
-          </p>
-        </section>
+        <h3 class="uppercase text-center margin-v2">Group name message board</h3>
+        <!--message cards-->
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <section class="message-card col-md-12 col-sm-12 col-xs-12">
+            <h4 class="uppercase">Message Title</h4>
+            <p class="inline-block bkg-green message-card-group-name">Group Name</p>
+            <p class="message-body">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
+              Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+            </p>
+          </section>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <section class="message-card col-md-12 col-sm-12 col-xs-12">
+            <h4 class="uppercase">Message Title</h4>
+            <p class="inline-block bkg-green message-card-group-name">Group Name</p>
+            <p class="message-body">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
+              Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+            </p>
+          </section>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <section class="message-card col-md-12 col-sm-12 col-xs-12">
+            <h4 class="uppercase">Message Title</h4>
+            <p class="inline-block bkg-green message-card-group-name">Group Name</p>
+            <p class="message-body">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
+              Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+            </p>
+          </section>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+          <section class="message-card col-md-12 col-sm-12 col-xs-12">
+            <h4 class="uppercase">Message Title</h4>
+            <p class="inline-block bkg-green message-card-group-name">Group Name</p>
+            <p class="message-body">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
+              Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+            </p>
+          </section>
+        </div>
+        <!--message cards end-->
       </div>
       <!--right part-->
-      <div class="col-md-4 col-sm-4 col-xs-12 padding-top">
+      <div class="col-md-4 col-sm-4 col-xs-12 padding-top margin-v2">
         <section class="group-stat bkg-green col-md-12 col-sm-12 col-xs-12 text-center">
           <h4 class="uppercase padding-top padding-bottom2">Group Statistics</h4>
           <section class="col-md-6 col-sm-6 col-xs-6 stat-group">
@@ -121,6 +139,20 @@
             <p class="">15</p>
           </section>
         </section>
+        <section class="col-md-12 col-sm-12 col-xs-12 message-card margin-v2 display-none add-user-form">
+          <h4 class="text-center">Search for a user and add them to the group</h4>
+          <form action="">
+            <label for="search-name"></label>
+            <input type="text" name="" id="search-name" class="login-input" placeholder="Enter user's username">
+            <div class="text-center margin-v">
+              <input type="submit" value="Add To Group" class="btn btn-primary">
+              <input type="reset" value="Cancel" class="btn btn-default cancel-add-user" onclick="addUser()">
+            </div>
+          </form>
+        </section>
+        <section class="text-center">
+          <button class="btn btn-primary margin-v2" onclick="addUser()">Add New Users To Group</button>          
+        </section>
       </div>
     </div>
   </section>
@@ -132,6 +164,8 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <!--fontawesome-->
   <script src="https://use.fontawesome.com/f061fecdbc.js"></script>
+  <!--custom script-->
+  <script src="./script/script.js"></script>
 </body>
 
 </html>
