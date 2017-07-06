@@ -6,7 +6,8 @@
   "scripts": {
     "start:dev": "nodemon ./bin/www",
     "test": "mocha --compilers js:babel-register",
-    "lint": "esw server --color"
+    "lint": "esw server --color",
+    "build-css": "node-sass --include-path scss ./template/styles/main.scss ./template/styles/style.css"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "morgan": "^1.8.2"
   },
   "devDependencies": {
+    "node-sass": "^4.5.3",
     "nodemon": "^1.11.0"
   }
 }
