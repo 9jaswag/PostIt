@@ -1,102 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/style.css">
-    <title>Create New Group</title>
-</head>
-<body>
-    <!--login and registration modal-->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="container-fluid padding2">
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#login" aria-controls="home" role="tab" data-toggle="tab">Login</a></li>
-                        <li role="presentation"><a href="#register" aria-controls="profile" role="tab" data-toggle="tab">Register</a></li>
-                    </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane fade in active" id="login">
-                            <form action="">
-                                <label for="username"></label>
-                                <input type="text" name="" id="username" class="login-input" placeholder="Enter your username">
-                                <label for="password"></label>
-                                <input type="password" name="" id="password" class="login-input" placeholder="Enter your password">
-                                <input class="btn btn-primary login-input" type="submit" value="Login">
-                            </form>
-                            <a href="" class="">Forgot Password</a>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade in" id="register">
-                            <form action="">
-                                <label for="username"></label>
-                                <input type="text" name="" id="username" class="login-input" placeholder="Enter a username">
-                                <label for="password"></label>
-                                <input type="password" name="" id="password" class="login-input" placeholder="Enter a password">
-                                <label for="email"></label>
-                                <input type="email" name="" id="email" class="login-input" placeholder="Enter your email address">
-                                <input class="btn btn-primary login-input" type="submit" value="Submit">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--page header-->
-    <header class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <!--button for toggling menu in mobile and logo-->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">
-                    <p class="text-white">PostIT</p>
-                </a>
-                <!--button for toggling menu in mobile and logo ends-->
-            </div>
-            <!--header nav items-->
-            <nav id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn">Register</button>
-                <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn">Login</button>
-                </ul>
-            </nav>
-            <!--header nav items end-->
-        </div>
-    </header>
 
-    <section>
-        <div class="container-fluid">
-            <!--left part - message board-->
-            <div class="col-md-8 col-sm-8 col-xs-12 padding-top">
-            <h3 class="uppercase text-center">Create a new group</h3>                
-                <section class="">
-                    <form action="">
-                        <label for="group-name"></label>
-                        <input type="text" name="" id="group-name" class="login-input" placeholder="Enter group name">
-                        <label for="add-users"></label>
-                        <input class="login-input" type="search" name="" id="add-users" placeholder="Add users to this group">
-                        <section class="user-list padding-top">
-                            <li class="inline-block">Opia Chuks</li>
-                            <li class="inline-block">Opia Chuks</li>
-                            <li class="inline-block">Opia Chuks</li>
-                            <li class="inline-block">Opia Chuks</li>
-                        </section>
-                        <input class="login-input btn btn-primary" type="submit" value="Create Group">
-                    </form>
-                </section>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <title>Create New Group</title>
+</head>
+
+<body>
+  <!--login and registration modal-->
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="container-fluid padding2">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#login" aria-controls="home" role="tab" data-toggle="tab">Login</a></li>
+            <li role="presentation"><a href="#register" aria-controls="profile" role="tab" data-toggle="tab">Register</a></li>
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="login">
+              <form action="">
+                <label for="username"></label>
+                <input type="text" name="" id="username" class="login-input" placeholder="Enter your username">
+                <label for="password"></label>
+                <input type="password" name="" id="password" class="login-input" placeholder="Enter your password">
+                <input class="btn btn-primary login-input" type="submit" value="Login">
+              </form>
+              <a href="" class="">Forgot Password</a>
             </div>
-            <!--right part-->
-            <!--<div class="col-md-4 col-sm-4 col-xs-12 padding-top">
+            <div role="tabpanel" class="tab-pane fade in" id="register">
+              <form action="">
+                <label for="username"></label>
+                <input type="text" name="" id="username" class="login-input" placeholder="Enter a username">
+                <label for="password"></label>
+                <input type="password" name="" id="password" class="login-input" placeholder="Enter a password">
+                <label for="email"></label>
+                <input type="email" name="" id="email" class="login-input" placeholder="Enter your email address">
+                <input class="btn btn-primary login-input" type="submit" value="Submit">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--page header-->
+  <header class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!--button for toggling menu in mobile and logo-->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">
+          <p class="text-white">PostIT</p>
+        </a>
+        <!--button for toggling menu in mobile and logo ends-->
+      </div>
+      <!--header nav items-->
+      <nav id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn">Register</button>
+          <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn">Login</button>
+        </ul>
+      </nav>
+      <!--header nav items end-->
+    </div>
+  </header>
+
+  <section>
+    <div class="container-fluid">
+      <!--left part - message board-->
+      <div class="col-md-8 col-sm-8 col-xs-12 padding-top">
+        <h3 class="uppercase text-center">Create a new group</h3>
+        <section class="">
+          <form action="">
+            <label for="group-name"></label>
+            <input type="text" name="" id="group-name" class="login-input" placeholder="Enter group name">
+            <label for="add-users"></label>
+            <input class="login-input" type="search" name="" id="add-users" placeholder="Add users to this group">
+            <section class="user-list padding-top">
+              <li class="inline-block">Opia Chuks</li>
+              <li class="inline-block">Opia Chuks</li>
+              <li class="inline-block">Opia Chuks</li>
+              <li class="inline-block">Opia Chuks</li>
+            </section>
+            <input class="login-input btn btn-primary" type="submit" value="Create Group">
+          </form>
+        </section>
+      </div>
+      <!--right part-->
+      <!--<div class="col-md-4 col-sm-4 col-xs-12 padding-top">
                 <section class="group-stat bkg-green col-md-12 col-sm-12 col-xs-12 text-center">
                     <h4 class="uppercase padding-top padding-bottom2">Group Statistics</h4>
                     <section class="col-md-6 col-sm-6 col-xs-6 stat-group">
@@ -111,14 +113,16 @@
                     </section>
                 </section>
             </div>-->
-        </div>
-    </section>
-    
-    <!--jQuery-->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <!--bootstrap js-->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
-    <!--fontawesome-->
-    <script src="https://use.fontawesome.com/f061fecdbc.js"></script>
+    </div>
+  </section>
+
+  <!--jQuery-->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <!--bootstrap js-->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!--fontawesome-->
+  <script src="https://use.fontawesome.com/f061fecdbc.js"></script>
 </body>
+
 </html>
