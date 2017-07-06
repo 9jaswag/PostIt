@@ -92,7 +92,7 @@ body {
     border-radius: 3px;
     padding: 1rem 0rem 1rem 1rem;
     width: 100%;
-    border: 1px solid;
+    border: 1px solid #161f29;
 }
 
 input[type='submit'].login-input {
@@ -134,4 +134,13 @@ input[type='submit'].login-input {
     content: '\f058';
     color: #149c82;
     margin-right: .2rem;
+}
+
+/*styles for password reset form*/
+.reset-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 15rem;
 }
