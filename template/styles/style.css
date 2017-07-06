@@ -116,9 +116,9 @@ input[type='submit'].login-input {
   margin-right: .2rem; }
 
 /*styles for password reset form*/
-.reset-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+.reset-form.flex-center {
   margin-top: 15rem; }
+
+.flex-center {
+  display: flex;
+  justify-content: center; }

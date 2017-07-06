@@ -142,10 +142,12 @@ input[type='submit'].login-input {
 }
 
 /*styles for password reset form*/
-.reset-form {
+.reset-form.flex-center {
+  margin-top: 15rem;
+}
+
+// using css flex box to center items
+.flex-center {
   display: flex;
   justify-content: center;
-  align-items: center;
-  align-content: center;
-  margin-top: 15rem;
 }
