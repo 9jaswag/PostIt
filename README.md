@@ -10,7 +10,9 @@ PostIt has an API that allows do the following.
 ---
 
 The **template** directory contains the UI template for the front-end in HTML/CSS
+
 The **server** directory houses the back-end implementation in NodeJS-Express-Postgres
+
 The **client** directory houses the front-end implementation in ReactJS (Redux)
 
 # Get Started
