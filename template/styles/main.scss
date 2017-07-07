@@ -16,9 +16,12 @@ body {
   display: block;
 }
 
-
 .inline-block {
   display: inline-block;
+}
+
+.default-radius {
+  border-radius: 4px;
 }
 
 /*color class*/
@@ -59,6 +62,11 @@ body {
     margin-bottom: 2rem;
 }
 
+.margin-v4 {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
 .margin-h {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -70,6 +78,9 @@ body {
 }
 
 /*padding class*/
+.no-padding{
+  padding: 0;
+}
 .padding {
     padding: 2rem;
 }
@@ -159,4 +170,46 @@ input[type='submit'].login-input {
 .flex-center {
   display: flex;
   justify-content: center;
+}
+
+// scroll classes
+.scroll-x {
+  overflow-x: scroll;
+}
+
+.scroll-y {
+  overflow-y: scroll;
+}
+
+// height classes
+.full-height {
+  height: 100vh;
+}
+
+// styles for group sidebar
+.sidebar {
+  padding-left: 0;
+}
+.group-list {
+  padding-left: 0;
+}
+
+.group {
+  background: $white;
+  padding: 0.8rem 1rem;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  list-style-type: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.group:before {
+  font-family: 'FontAwesome';
+  content: '\f013';
+  color: $green;
+  margin-right: 1rem;
+}
+.group-stats {
+  padding-right: 0;
 }

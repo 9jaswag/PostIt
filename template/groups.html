@@ -82,51 +82,93 @@
   </header>
 
   <section>
-    <div class="container-fluid flex-center">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <h4 class="text-center margin-v2 uppercase">Your Groups</h4>
-        <!--Group cards-->
-        <div class="col-md-4 col-sm-3 col-xs-12">
-          <div class="col-md-12 col-sm-12 col-xs-12 message-card">
-            <h4 class="margin-v2">Group name</h4>
-            <p class="">Members : 5</p>
-            <p class="">Messages : 5</p>
-            <a href="./message-board.html" class="btn btn-primary">Go To Group</a>
+    <div class="container-fluid no-padding">
+      <div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+        <!--sidebar-->
+        <div class="col-md-2 col-sm-3 col-xs-12 bkg-green full-height scroll-y sidebar">
+          <ul class="padding-top padding-bottom group-list">
+            <li class="group">Group One</li>
+            <li class="group">Group Two</li>
+            <li class="group">Group Three</li>
+          </ul>
+        </div>
+        <div class="col-md-10 col-sm-9 col-xs-12 no-padding">
+          <div class="col-md-9 col-sm-12 col-xs-12">
+            <h3 class="uppercase text-center margin-v4">Group One message board</h3>
+            <!--message cards-->
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <section class="message-card col-md-12 col-sm-12 col-xs-12 default-radius">
+                <h4 class="uppercase">Message Title</h4>
+                <p class="message-body">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
+                  Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+                </p>
+                <button class="btn btn-primary btn-sm">View Message</button>
+              </section>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <section class="message-card col-md-12 col-sm-12 col-xs-12 default-radius">
+                <h4 class="uppercase">Message Title</h4>
+                <p class="message-body">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
+                  Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+                </p>
+                <button class="btn btn-primary btn-sm">View Message</button>
+              </section>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <section class="message-card col-md-12 col-sm-12 col-xs-12 default-radius">
+                <h4 class="uppercase">Message Title</h4>
+                <p class="message-body">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
+                  Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+                </p>
+                <button class="btn btn-primary btn-sm">View Message</button>
+              </section>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <section class="message-card col-md-12 col-sm-12 col-xs-12 default-radius">
+                <h4 class="uppercase">Message Title</h4>
+                <p class="message-body">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
+                  Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
+                </p>
+                <button class="btn btn-primary btn-sm">View Message</button>
+              </section>
+            </div>
+            <!--message cards end-->
+          </div>
+          <div class="col-md-3 col-sm-12 col-xs-12 margin-v4">
+            <section class="group-stat bkg-green col-md-12 col-sm-12 col-xs-12 text-center">
+              <h4 class="uppercase padding-top padding-bottom2">Group Statistics</h4>
+              <section class="col-md-6 col-sm-6 col-xs-6 stat-group">
+                <i class="fa fa-comments fa-3x" aria-hidden="true"></i>
+                <p class="">Messages</p>
+                <p class="">20</p>
+              </section>
+              <section class="col-md-6 col-sm-6 col-xs-6 stat-group">
+                <i class="fa fa-users fa-3x" aria-hidden="true"></i>
+                <p class="">Members</p>
+                <p class="">15</p>
+              </section>
+            </section>
+            <section class="col-md-12 col-sm-12 col-xs-12 message-card margin-v2 display-none add-user-form">
+              <h4 class="text-center">Search for a user and add them to the group</h4>
+              <form action="">
+                <label for="search-name"></label>
+                <input type="text" name="" id="search-name" class="login-input" placeholder="Enter user's username">
+                <div class="text-center margin-v">
+                  <input type="submit" value="Add To Group" class="btn btn-primary">
+                  <input type="reset" value="Cancel" class="btn btn-default cancel-add-user" onclick="addUser()">
+                </div>
+              </form>
+            </section>
+            <section class="text-center">
+              <button class="btn btn-primary margin-v2 add-user-trigger" onclick="addUser()">Add New Users To Group</button>          
+              <a href='./post.html' class="btn btn-primary margin-v2" >Send A Broadcast Message</a>          
+            </section>
           </div>
         </div>
-        <div class="col-md-4 col-sm-3 col-xs-12">
-          <div class="col-md-12 col-sm-12 col-xs-12 message-card">
-            <h4 class="margin-v2">Group name</h4>
-            <p class="">Members : 5</p>
-            <p class="">Messages : 5</p>
-            <a href="./message-board.html" class="btn btn-primary">Go To Group</a>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-3 col-xs-12">
-          <div class="col-md-12 col-sm-12 col-xs-12 message-card">
-            <h4 class="margin-v2">Group name</h4>
-            <p class="">Members : 5</p>
-            <p class="">Messages : 5</p>
-            <a href="./message-board.html" class="btn btn-primary">Go To Group</a>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-3 col-xs-12">
-          <div class="col-md-12 col-sm-12 col-xs-12 message-card">
-            <h4 class="margin-v2">Group name</h4>
-            <p class="">Members : 5</p>
-            <p class="">Messages : 5</p>
-            <a href="./message-board.html" class="btn btn-primary">Go To Group</a>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-3 col-xs-12">
-          <div class="col-md-12 col-sm-12 col-xs-12 message-card">
-            <h4 class="margin-v2">Group name</h4>
-            <p class="">Members : 5</p>
-            <p class="">Messages : 5</p>
-            <a href="./message-board.html" class="btn btn-primary">Go To Group</a>
-          </div>
-        </div>
-        
       </div>
     </div>
   </section>
