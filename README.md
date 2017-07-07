@@ -7,6 +7,9 @@ PostIt has an API that allows do the following.
 * Add users to a group
 * Post messages to a group with message priority
 * Retrieve all the messages posted to groups they belong to
+The **template** directory contains the UI template for the front-end in HTML/CSS
+The **server** directory houses the back-end implementation in NodeJS-Express-Postgres
+The **client** directory houses the front-end implementation in ReactJS (Redux)
 
 # Get Started
 1. Clone the repository and run ```npm install``` to install dependencies.
