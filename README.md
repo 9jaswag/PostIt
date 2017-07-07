@@ -10,16 +10,17 @@ PostIt has an API that allows do the following.
 
 # Get Started
 1. Clone the repository and run ```npm install``` to install dependencies.
+2. To start app, navigate to the root directory of the app and run ```node run start:dev```. This is start up the app with ```nodemon``` watching for changes.
 
 # End Points
 ## Sign Up
 ```POST: api/user/signup```
-## Parameters
-```Username, Password & Email Address```
+  #### Parameters
+  ```Username, Password & Email Address```
 ## Sign In
 ```POST: api/user/signin```
-## Parameters
-```Username & Password```
+  #### Parameters
+  ```Username & Password```
 ## Create New Group
 ```POST: api/group```
 ## Add Users To Group
