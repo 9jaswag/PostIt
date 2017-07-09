@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "chuks",
+    "password": "fgsltw@postgres",
+    "database": "postit-dev",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "chuks",
+    "password": "fgsltw@postgres",
+    "database": "postit-dev",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "chuks",
+    "password": "fgsltw@postgres",
+    "database": "postit-dev",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}
