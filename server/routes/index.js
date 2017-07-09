@@ -6,6 +6,8 @@ module.exports = (app) => {
     message: 'Welcome to the Post IT API!',
   }));
 
-  // API to handle user sign up
+  // API route to handle user sign up
   app.post('/api/user/signup', userController.signup);
+  // API route to handle user sign in
+  app.post('/api/user/login', userController.login);
 }
