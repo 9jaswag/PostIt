@@ -1,4 +1,5 @@
 const userController = require('../controllers').users;
+const messageController = require('../controllers').messages;
 
 module.exports = (app) => {
   // base API
@@ -10,4 +11,7 @@ module.exports = (app) => {
   app.post('/api/user/signup', userController.signup);
   // API route to handle user sign in
   app.post('/api/user/login', userController.login);
+
+  // API for logged in users to post messages to a group
+  app.post('/api/group/:id/message', messageController.send);
 }
