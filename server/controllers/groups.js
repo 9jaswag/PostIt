@@ -14,4 +14,5 @@ module.exports = {
       .then(group => res.status(201).send(group))
       .catch(error => res.status(400).send(error));
   }
+  // controller to allow users add other users to groups:
 }
