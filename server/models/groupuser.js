@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
   
   GroupUser.associate = (models) => {
     // associations can be defined here
+    GroupUser.belongsTo(models.User, {foreignKey: 'userId'});
+    GroupUser.belongsTo(models.Group, { foreignKey: 'groupid'});
   };
   return GroupUser;
 };

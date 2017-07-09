@@ -37,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   
   Message.associate = (models) => {
     // associations can be defined here
+    Message.belongsTo(models.Group);
   };
   return Message;
 };
