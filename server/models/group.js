@@ -2,7 +2,8 @@
 /*module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     name: DataTypes.STRING,
-    create_by: DataTypes.STRING
+    owner: DataTypes.STRING,
+    description: DataTypes.STRING
   }, {
     classMethods: {
       associate: (models) => {
@@ -19,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       allowNull: false,
     },
-    create_by: {
+    owner: {
+      type:DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
       type:DataTypes.STRING,
       allowNull: false,
     }
@@ -27,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
   
   Group.associate = (models) => {
     // associations can be defined here
-    Group.belongsTo(models.User);
     Group.hasMany(models.Message);
+    Group.belongsToMany(models.User, {through: 'UserGroup'});
   };
   return Group;
 };
