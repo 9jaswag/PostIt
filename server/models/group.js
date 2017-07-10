@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type:DataTypes.STRING,
       allowNull: false,
+      unique: true,
+      validate: {
+        notEmpty: {
+          msg: 'Group name can not be empty'
+        }
+      }
     },
     owner: {
       type:DataTypes.STRING,
@@ -27,12 +33,17 @@ module.exports = (sequelize, DataTypes) => {
     description: {
       type:DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Group description can not be empty'
+        }
+      }
     }
   });
   
   Group.associate = (models) => {
     // associations can be defined here
-    Group.hasMany(models.Message);
+    Group.hasMany(models.Message, {onDelete: 'cascade'});
     Group.belongsToMany(models.User, {through: 'UserGroup'});
   };
   return Group;

@@ -19,6 +19,11 @@ module.exports = (sequelize, DataTypes) => {
     message: {
       type:DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: "Message can not be empty"
+        }
+      }
     },
     priority: {
       type:DataTypes.STRING,
@@ -32,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   
   Message.associate = (models) => {
     // associations can be defined here
-    Message.belongsTo(models.User);
+    Message.belongsTo(models.User, {onDelete: 'cascade'});
   };
   return Message;
 };
