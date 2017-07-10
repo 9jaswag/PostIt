@@ -24,6 +24,24 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      groupId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        reference: {
+          model: 'Group',
+          key: 'id',
+          as: 'groupId',
+        }
+      },
+      userId: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        reference: {
+          model: 'User',
+          key: 'id',
+          as: 'userId',
+        }
       }
     });
   },

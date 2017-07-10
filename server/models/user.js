@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
   
   User.associate = (models) => {
     // associations can be defined here
-    User.belongsToMany(models.Group, {through: 'UserGroup'});
+    // User.belongsToMany(models.Group);
   };
   return User;
 };

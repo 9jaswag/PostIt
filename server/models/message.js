@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   
   Message.associate = (models) => {
     // associations can be defined here
-    Message.belongsTo(models.User, {onDelete: 'cascade'});
+    Message.belongsTo(models.User);
   };
   return Message;
 };

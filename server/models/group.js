@@ -43,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
   
   Group.associate = (models) => {
     // associations can be defined here
-    Group.hasMany(models.Message, {onDelete: 'cascade'});
-    Group.belongsToMany(models.User, {through: 'UserGroup'});
+    Group.hasMany(models.Message);
+    // Group.belongsToMany(models.User);
   };
   return Group;
 };
