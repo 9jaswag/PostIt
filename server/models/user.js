@@ -31,8 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         len: {
           args: [6, 500],
           msg: "Password length must be between 6 and 30"
-        },
-        unique: true,
+        }
       }
     },
     email: {
