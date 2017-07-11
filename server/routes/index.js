@@ -11,9 +11,9 @@ module.exports = (app) => {
   // API route to handle user sign up
   app.post('/api/user/signup', userController.signup);
   // API route to handle user sign in
-app.post('/api/user/login', userController.login);
-// API to get all users
-app.get('/api/users', userController.allUsers);
+  app.post('/api/user/login', userController.login);
+  // API to get all users
+  app.get('/api/users', userController.allUsers);
 
   // API for logged in users to post messages to a group
   app.post('/api/group/:id/message', messageController.send);
