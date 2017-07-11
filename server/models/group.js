@@ -1,5 +1,6 @@
 'use strict';
-/*module.exports = (sequelize, DataTypes) => {
+
+/* module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     name: DataTypes.STRING,
     owner: DataTypes.STRING,
@@ -17,7 +18,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     name: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
       validate: {
@@ -27,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     owner: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     description: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
@@ -40,7 +41,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  
   Group.associate = (models) => {
     // associations can be defined here
     Group.hasMany(models.Message);

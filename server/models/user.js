@@ -1,5 +1,6 @@
 'use strict';
-/*module.exports = (sequelize, DataTypes) => {
+
+/* module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: DataTypes.STRING,
     password: DataTypes.STRING,
@@ -25,17 +26,17 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     password: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len: {
           args: [6, 500],
-          msg: "Password length must be between 6 and 30"
+          msg: 'Password length must be between 6 and 30'
         }
       }
     },
     email: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
@@ -44,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  
+
   User.associate = (models) => {
     // associations can be defined here
     // User.belongsToMany(models.Group);

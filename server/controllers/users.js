@@ -11,10 +11,10 @@ const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 
 module.exports = {
-  signup (req, res) {
+  signup(req, res) {
     return User
       .create({
-        username:req.body.username,
+        username: req.body.username,
         password: bcrypt.hashSync(req.body.password, salt),
         email: req.body.email
       })
@@ -25,23 +25,29 @@ module.exports = {
       }))
       .catch(error => res.status(400).send(error));
   },
-  login (req, res) {
+  login(req, res) {
     return User
-    .findOne({
-      where: {
-        username: req.body.username,
-      }
-    }).then(user => {
-      if (!user) {
-        return res.status(401).send({success: false, message: "Username not found"})
-      }
-        return res.status(200).send({success: true, message: "You're signed in"})
-    })
+      .findOne({
+        where: {
+          username: req.body.username,
+        }
+      }).then((user) => {
+        if (!user) {
+          if (!bcrypt.compareSync(req.body.password, user.password)) {
+            return res.send(401)
+              .send({ success: false, message: 'Incorrect password' });
+          }
+          return res.status(401)
+            .send({ success: false, message: 'Username does not exist' });
+        }
+        return res.status(200)
+          .send({ success: true, message: "You're signed in" });
+      });
   },
-  allUsers (req, res) {
+  allUsers(req, res) {
     return User
       .all()
       .then(user => res.status(200).json(user))
       .catch(error => res.status(400).json(error));
   }
-}
+};
