@@ -4,13 +4,18 @@
  */
 
 const User = require('../models').User;
+const bcrypt = require('bcrypt');
+
+
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 module.exports = {
   signup (req, res) {
     return User
       .create({
         username:req.body.username,
-        password: req.body.password,
+        password: bcrypt.hashSync(req.body.password, salt),
         email: req.body.email
       })
       .then(user => res.status(201).send({
