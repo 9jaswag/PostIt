@@ -1,4 +1,4 @@
-'use strict';
+
 
 /* module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        msg: 'Group already exists'
+      },
       validate: {
         notEmpty: {
           msg: 'Group name can not be empty'
@@ -30,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
     owner: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Group must have an owner'
+        }
+      }
     },
     description: {
       type: DataTypes.STRING,
