@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        msg: 'Username already exists'
+      },
       validate: {
         is: /^[a-z]+$/i,
       }

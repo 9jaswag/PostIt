@@ -23,7 +23,7 @@ module.exports = {
         username: user.username,
         email: user.email
       }))
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(400).send(error.message));
   },
   login(req, res) {
     return User
@@ -33,16 +33,20 @@ module.exports = {
         }
       }).then((user) => {
         if (!user) {
-          if (!bcrypt.compareSync(req.body.password, user.password)) {
-            return res.send(401)
-              .send({ success: false, message: 'Incorrect password' });
-          }
           return res.status(401)
-            .send({ success: false, message: 'Username does not exist' });
+            .send({ success: false, message: 'User does not exist' });
+        }
+        if (user) {
+          const passwordHash = user.password;
+          if (!(bcrypt.compareSync(req.body.password, passwordHash))) {
+            return res.status(401)
+              .send({ success: false, message: 'Incorrect password!' });
+          }
         }
         return res.status(200)
           .send({ success: true, message: "You're signed in" });
-      });
+      })
+      .catch(error => res.status(400).send(error.message));
   },
   allUsers(req, res) {
     return User
