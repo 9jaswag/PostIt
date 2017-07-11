@@ -3,6 +3,7 @@
  * handles all group related tasks
  */
 const Group = require('../models').Group;
+const UserGroup = require('../models').UserGroup;
 
 module.exports = {
   create(req, res) {
@@ -14,6 +15,15 @@ module.exports = {
       })
       .then(group => res.status(201).send(group))
       .catch(error => res.status(400).send(error.message));
-  }
-  // controller to allow users add other users to groups:
+  },
+  addUser(req, res) {
+    return UserGroup
+      .create({
+        user_id: req.body.user_id,
+        group_id: req.params.group_id
+      })
+      .then(usergroup => res.status(201).send(usergroup))
+      .catch(error => res.status(400).send(error));
+  },
 };
+

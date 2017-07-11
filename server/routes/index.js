@@ -15,11 +15,16 @@ module.exports = (app) => {
   // API to get all users
   app.get('/api/users', userController.allUsers);
 
-  // API for logged in users to post messages to a group
-  app.post('/api/group/:id/message', messageController.send);
-  // API for logged in users to retrieve messages in their group
-  app.get('/api/group/:id/messages', messageController.fetch); // not working.
 
   // API to create new group
   app.post('/api/group', groupController.create);
+
+  // API route for users to add other users to groups:
+  app.post('/api/group/:group_id/user', groupController.addUser);
+
+  // API for logged in users to post messages to a group
+  app.post('/api/group/:id/message', messageController.send); // not working
+
+  // API for logged in users to retrieve messages in their group
+  app.get('/api/group/:id/messages', messageController.fetch); // not working.
 };
