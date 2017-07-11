@@ -19,11 +19,15 @@ module.exports = {
   login (req, res) {
     return User
     .findOne({
-      where: {username: req.body.username}
+      where: {username: req.body.username, password:req.body.password}
     }).then(user => {
       if (!user) {
-        res.status(401).send({success: false, message: "'Username not found'"})
-      }else if (password != req.body.password) {}
+        res.status(401).send({success: false, message: "Username not found"})
+      }else if (!password) {
+        res.status(401).send({success: false, message: "Password does not match"})        
+      }else {
+        res.status(200).send({success: true, message: "You're signed in"})
+      }
     })
     // .then(user => res.status(201).send(user))
     // .catch(error => res.status(400).send(error));
