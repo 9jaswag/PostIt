@@ -16,9 +16,24 @@ describe('PostIT Tests:', () => {
       cascade: true,
       truncate: true
     });
+    models.Message.destroy({
+      where: {},
+      cascade: true,
+      truncate: true
+    });
+    models.Group.destroy({
+      where: {},
+      cascade: true,
+      truncate: true
+    });
+    models.UserGroup.destroy({
+      where: {},
+      cascade: true,
+      truncate: true
+    });
     done();
   });
-  describe('User sign up:', () => {
+  describe('Create data:', () => {
     it('POST /api/user/signup creates a new user', (done) => {
       chai.request(app)
         .post('/api/user/signup')
@@ -31,6 +46,22 @@ describe('PostIT Tests:', () => {
         .end((err, res) => {
           res.body.email.should.equal('test@bootcamp.com');
           res.should.have.status(201);
+          done();
+        });
+    });
+    // write sign in
+    it('POST /api/group creates a new group', (done) => {
+      chai.request(app)
+        .post('/api/group')
+        .type('form')
+        .send({
+          name: 'Andela Group',
+          owner: 'chuks',
+          description: 'An Andela Group'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.name.should.equal('Andela Group');
           done();
         });
     });
