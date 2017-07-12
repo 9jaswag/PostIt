@@ -20,6 +20,13 @@ module.exports = {
   },
   // Method to add a user to a group
   addUser(req, res) {
+    if (!req.body.user_id) {
+      return res.status(400)
+        .send({ status: false, message: 'a User ID is required' });
+    } else if (!req.params.group_id) {
+      return res.status(400)
+        .send({ status: false, message: 'a Group ID is required' });
+    }
     return UserGroup
       .findOne({
         where: {
@@ -35,11 +42,16 @@ module.exports = {
         UserGroup.create({
           user_id: req.body.user_id,
           group_id: req.params.group_id
-        }).then(usergroup => res.status(201).send(usergroup))
+        }).then(usergroup => res.status(201).send({
+          status: true,
+          message: 'user successfully added to group',
+          usergroup
+        }))
           .catch(error => res.status(400).send(error.message));
       })
       .catch(error => res.status(400).send(error.message));
   },
+  // Method to post a message to a group
   postMessage(req, res) {
     if (!req.body.message) {
       return res.status(400).send({ success: false,
@@ -49,7 +61,10 @@ module.exports = {
         message: 'Choose a message priority' });
     } else if (!req.body.author) {
       return res.status(400).send({ success: false,
-        message: 'Choose an author' });
+        message: 'Message must have an author' });
+    } else if (!req.body.user_id) {
+      return res.status(400).send({ success: false,
+        message: 'Message must have a User ID' });
     }
 
     return Message
@@ -60,7 +75,11 @@ module.exports = {
         groupId: req.params.group_id,
         userId: req.body.user_id // not done
       })
-      .then(message => res.status(201).send(message))
+      .then(message => res.status(201).send({
+        success: true,
+        response: 'Message sent',
+        message
+      }))
       .catch(error => res.status(400).send(error.message));
   },
   // Method to retrieve messages based on groups

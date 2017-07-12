@@ -42,6 +42,13 @@ module.exports = {
       .catch(error => res.status(400).send(error.message));
   },
   login(req, res) {
+    if (!req.body.username) {
+      return res.status(401)
+        .send({ status: false, message: 'Please enter a username' });
+    } else if (!req.body.password) {
+      return res.status(401)
+        .send({ status: false, message: 'Please enter a password' });
+    }
     return User
       .findOne({
         where: {
@@ -67,7 +74,6 @@ module.exports = {
   allUsers(req, res) {
     return User
       .all()
-      // .then(user => res.status(200).json(user))
       .then((user) => {
         if (user.length === 0) {
           return res.status(200)
