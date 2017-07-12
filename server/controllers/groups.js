@@ -73,7 +73,7 @@ module.exports = {
         priority: req.body.priority,
         author: req.body.author,
         groupId: req.params.group_id,
-        userId: req.body.user_id // not done
+        userId: req.body.user_id
       })
       .then(message => res.status(201).send({
         success: true,
