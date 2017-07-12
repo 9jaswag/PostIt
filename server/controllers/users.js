@@ -12,6 +12,16 @@ const salt = bcrypt.genSaltSync(saltRounds);
 
 module.exports = {
   signup(req, res) {
+    if (!req.body.username) {
+      return res.status(400)
+        .send({ status: false, message: 'Please choose a username' });
+    } else if (!req.body.password) {
+      return res.status(400)
+        .send({ status: false, message: 'Please choose a password' });
+    } else if (!req.body.email) {
+      return res.status(400)
+        .send({ status: false, message: 'Please enter an email address' });
+    }
     return User
       .create({
         username: req.body.username,
@@ -20,8 +30,10 @@ module.exports = {
       })
       .then(user => res.status(201).send({
         success: true,
+        message: 'User successfully created',
         username: user.username,
-        email: user.email
+        email: user.email,
+        password: 'Chosen password'
       }))
       .catch(error => res.status(400).send(error.message));
   },

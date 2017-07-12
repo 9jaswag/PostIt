@@ -43,7 +43,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
+          args: true,
           msg: 'Email can not be empty'
+        },
+        isEmail: {
+          args: true,
+          msg: 'Enter a valid email address'
         }
       }
     }

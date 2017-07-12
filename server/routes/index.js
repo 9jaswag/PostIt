@@ -1,5 +1,5 @@
 const userController = require('../controllers').users;
-const messageController = require('../controllers').messages;
+// const messageController = require('../controllers').messages;
 const groupController = require('../controllers').groups;
 
 module.exports = (app) => {
@@ -18,13 +18,11 @@ module.exports = (app) => {
 
   // API to create new group
   app.post('/api/group', groupController.create);
-
   // API route for users to add other users to groups:
   app.post('/api/group/:group_id/user', groupController.addUser);
 
   // API for logged in users to post messages to a group
   app.post('/api/group/:group_id/message', groupController.postMessage);
-
   // API for logged in users to retrieve messages in their group
   app.get('/api/group/:group_id/messages', groupController.fetchMessage);
 };

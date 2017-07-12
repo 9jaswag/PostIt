@@ -68,7 +68,7 @@ module.exports = {
     return Message
       .findAll({
         where: {
-          groupId: req.params.group_id // not done
+          groupId: req.params.group_id
         }
       })
       .then(message => res.status(201).send(message))
