@@ -35,6 +35,8 @@
     "bcrypt": "^1.0.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.1.1",
     "eslint-config-airbnb": "^15.0.2",
@@ -44,6 +46,7 @@
     "eslint-watch": "^3.1.2",
     "express": "^4.15.3",
     "jsonwebtoken": "^7.4.1",
+    "mocha": "^3.4.2",
     "morgan": "^1.8.2",
     "pg": "^6.4.0",
     "pg-hstore": "^2.3.2",
@@ -51,10 +54,7 @@
     "sequelize-cli": "^2.7.0"
   },
   "devDependencies": {
-    "chai": "^4.1.0",
-    "chai-http": "^3.0.0",
     "eslint-plugin-import": "^2.7.0",
-    "mocha": "^3.4.2",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0"
   }
