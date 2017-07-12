@@ -1,9 +1,6 @@
 import jwt from 'jsonwebtoken';
 import controllers from '../controllers';
 
-const userController = require('../controllers').users;
-const groupController = require('../controllers').groups;
-
 module.exports = (app) => {
   // base API
   app.get('/api', (req, res) => res.status(200).send({
@@ -11,11 +8,11 @@ module.exports = (app) => {
   }));
 
   // API route to handle user sign up
-  app.post('/api/user/signup', userController.signup);
+  app.post('/api/user/signup', controllers.users.signup);
   // API route to handle user sign in
-  app.post('/api/user/login', userController.login);
+  app.post('/api/user/login', controllers.users.login);
   // API to get all users
-  app.get('/api/users', userController.allUsers);
+  app.get('/api/users', controllers.users.allUsers);
 
   // Middleware
   let token;
@@ -43,12 +40,12 @@ module.exports = (app) => {
   });
 
   // API to create new group
-  app.post('/api/group', groupController.create);
+  app.post('/api/group', controllers.groups.create);
   // API route for users to add other users to groups:
-  app.post('/api/group/:group_id/user', groupController.addUser);
+  app.post('/api/group/:group_id/user', controllers.groups.addUser);
 
   // API for logged in users to post messages to a group
-  app.post('/api/group/:group_id/message', groupController.postMessage);
+  app.post('/api/group/:group_id/message', controllers.groups.postMessage);
   // API for logged in users to retrieve messages in their group
-  app.get('/api/group/:group_id/messages', groupController.fetchMessage);
+  app.get('/api/group/:group_id/messages', controllers.groups.fetchMessage);
 };
