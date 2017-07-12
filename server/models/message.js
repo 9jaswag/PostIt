@@ -1,20 +1,5 @@
 'use strict';
 
-/* module.exports = (sequelize, DataTypes) => {
-  const Message = sequelize.define('Message', {
-    message: DataTypes.STRING,
-    priority: DataTypes.STRING,
-    author: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-      }
-    }
-  });
-  return Message;
-};*/
-
 module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
     message: {
