@@ -5,6 +5,7 @@
 const Group = require('../models').Group;
 const UserGroup = require('../models').UserGroup;
 const Message = require('../models').Message;
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   // Method to create a group
@@ -90,7 +91,7 @@ module.exports = {
           groupId: req.params.group_id
         }
       })
-      .then(message => res.status(201).send(message))
+      .then(message => res.status(200).send(message))
       .catch(error => res.status(400).send(error));
   }
 };

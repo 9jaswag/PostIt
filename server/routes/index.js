@@ -1,5 +1,7 @@
+import jwt from 'jsonwebtoken';
+import controllers from '../controllers';
+
 const userController = require('../controllers').users;
-// const messageController = require('../controllers').messages;
 const groupController = require('../controllers').groups;
 
 module.exports = (app) => {
@@ -15,6 +17,30 @@ module.exports = (app) => {
   // API to get all users
   app.get('/api/users', userController.allUsers);
 
+  // Middleware
+  let token;
+  app.use((req, res, next) => {
+    token = req.body.token || req.query.token || req.headers['x-access-token'];
+    // decode token
+    if (token) {
+      jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+          return res
+            .json({ success: false, message: 'Failed to authenticate token.' });
+        } else {
+        // if everything is good, save to request for use in other routes
+          req.decoded = decoded;
+          next();
+        }
+      });
+    } else {
+      // return an error
+      return res.status(403).send({
+        success: false,
+        message: 'No token provided.'
+      });
+    }
+  });
 
   // API to create new group
   app.post('/api/group', groupController.create);

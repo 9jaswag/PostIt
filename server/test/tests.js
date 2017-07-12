@@ -94,6 +94,17 @@ describe('PostIT Tests:', () => {
           done();
         });
     });
-    
+  });
+  describe('Get data:', () => {
+    it('GET /api/group/1/messages should get all messages in a group', (done) => {
+      chai.request(app)
+        .get('/api/group/1/messages')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.length.should.equal(1);
+          res.body.should.be.a('array');
+          done();
+        });
+    });
   });
 });
