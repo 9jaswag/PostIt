@@ -23,8 +23,8 @@ module.exports = (app) => {
   app.post('/api/group/:group_id/user', groupController.addUser);
 
   // API for logged in users to post messages to a group
-  app.post('/api/group/:id/message', messageController.send); // not working
+  app.post('/api/group/:group_id/message', groupController.postMessage);
 
   // API for logged in users to retrieve messages in their group
-  app.get('/api/group/:id/messages', messageController.fetch); // not working.
+  app.get('/api/group/:group_id/messages', groupController.fetchMessage);
 };
