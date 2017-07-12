@@ -13,10 +13,14 @@ const salt = bcrypt.genSaltSync(saltRounds);
 module.exports = {
   signup(req, res) {
     if (!req.body.username) {
-      return res.status(400)
+      return res.status(401)
         .send({ status: false, message: 'Please choose a username' });
-    } else if (!req.body.password) {
+    } else if (req.body.password.length < 6) {
       return res.status(400)
+        .send({ status: false,
+          message: 'Password length must be more than 6 characters' });
+    } else if (!req.body.password) {
+      return res.status(401)
         .send({ status: false, message: 'Please choose a password' });
     } else if (!req.body.email) {
       return res.status(400)
@@ -63,7 +67,14 @@ module.exports = {
   allUsers(req, res) {
     return User
       .all()
-      .then(user => res.status(200).json(user))
+      // .then(user => res.status(200).json(user))
+      .then((user) => {
+        if (user.length === 0) {
+          return res.status(200)
+            .send({ status: true, message: 'No users found' });
+        }
+        return res.status(200).json(user);
+      })
       .catch(error => res.status(400).json(error));
   }
 };
