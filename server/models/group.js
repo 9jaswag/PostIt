@@ -1,20 +1,4 @@
 
-
-/* module.exports = (sequelize, DataTypes) => {
-  const Group = sequelize.define('Group', {
-    name: DataTypes.STRING,
-    owner: DataTypes.STRING,
-    description: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-      }
-    }
-  });
-  return Group;
-};*/
-
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     name: {
@@ -52,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
   Group.associate = (models) => {
     // associations can be defined here
     Group.hasMany(models.Message, { foreignKey: 'groupId' });
-    // Group.belongsToMany(models.User);
+    Group.belongsToMany(models.User,
+      { through: 'UserGroup', foreignKey: 'groupId' });
   };
   return Group;
 };

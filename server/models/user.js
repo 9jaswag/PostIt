@@ -1,20 +1,5 @@
 'use strict';
 
-/* module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
-    username: DataTypes.STRING,
-    password: DataTypes.STRING,
-    email: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-      }
-    }
-  });
-  return User;
-};*/
-
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: {
@@ -56,7 +41,9 @@ module.exports = (sequelize, DataTypes) => {
 
   User.associate = (models) => {
     // associations can be defined here
-    // User.belongsToMany(models.Group);
+    User.belongsToMany(models.Group,
+      { through: 'UserGroup', foreignKey: 'userId' });
+    User.hasMany(models.Message, { foreignKey: 'userId' });
   };
   return User;
 };

@@ -1,20 +1,5 @@
 'use strict';
 
-/* module.exports = (sequelize, DataTypes) => {
-  const Message = sequelize.define('Message', {
-    message: DataTypes.STRING,
-    priority: DataTypes.STRING,
-    author: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-      }
-    }
-  });
-  return Message;
-};*/
-
 module.exports = (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
     message: {
@@ -38,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   Message.associate = (models) => {
     // associations can be defined here
     Message.belongsTo(models.User, { foreignKey: 'userId' });
+    Message.belongsTo(models.Group, { foreignKey: 'groupId' });
   };
   return Message;
 };

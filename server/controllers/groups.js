@@ -20,7 +20,7 @@ module.exports = {
   },
   // Method to add a user to a group
   addUser(req, res) {
-    if (!req.body.user_id) {
+    if (!req.body.userId) {
       return res.status(400)
         .send({ status: false, message: 'a User ID is required' });
     } else if (!req.params.group_id) {
@@ -30,8 +30,8 @@ module.exports = {
     return UserGroup
       .findOne({
         where: {
-          user_id: req.body.user_id,
-          group_id: req.params.group_id
+          userId: req.body.userId,
+          groupId: req.params.group_id
         }
       })
       .then((user) => {
@@ -40,11 +40,11 @@ module.exports = {
             message: 'User already belongs to this group' });
         }
         UserGroup.create({
-          user_id: req.body.user_id,
-          group_id: req.params.group_id
+          userId: req.body.userId,
+          groupId: req.params.group_id
         }).then(usergroup => res.status(201).send({
           status: true,
-          message: 'user successfully added to group',
+          message: 'User successfully added to group',
           usergroup
         }))
           .catch(error => res.status(400).send(error.message));
