@@ -16,11 +16,11 @@
 
 module.exports = (sequelize, DataTypes) => {
   const UserGroup = sequelize.define('UserGroup', {
-    user_id: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    group_id: {
+    groupId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     }
@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
 
   UserGroup.associate = (models) => {
     // associations can be defined here
+    UserGroup.hasMany(models.User, { foreignKey: 'userId' });
+    UserGroup.hasMany(models.group, { foreignKey: 'groupId' });
   };
   return UserGroup;
 };

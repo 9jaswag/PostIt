@@ -38,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   Message.associate = (models) => {
     // associations can be defined here
     Message.belongsTo(models.User, { foreignKey: 'userId' });
+    Message.belongsTo(models.Group, { foreignKey: 'groupId' });
   };
   return Message;
 };
