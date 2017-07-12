@@ -42,13 +42,11 @@ module.exports = {
         password: bcrypt.hashSync(req.body.password, salt),
         email: req.body.email
       })
-      .then(user => res.status(201).send({
-        success: true,
-        message: 'User successfully created',
-        username: user.username,
-        email: user.email,
-        password: 'Chosen password'
-      }))
+      .then((user) => {
+        const token = jwt
+          .sign({ data: user }, process.env.TOKEN_SECRET, { expiresIn: 1500 });
+        res.status(201).send({ success: true, message: 'Sign up succesful.', token });
+      })
       .catch(error => res.status(400).send(error.message));
   },
   login(req, res) {
