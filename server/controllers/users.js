@@ -44,8 +44,9 @@ module.exports = {
       })
       .then((user) => {
         const token = jwt
-          .sign({ data: user }, process.env.TOKEN_SECRET, { expiresIn: 1500 });
-        res.status(201).send({ success: true, message: 'Sign up succesful.', token });
+          .sign({ data: user }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+        res.status(201)
+          .send({ success: true, message: 'Sign up succesful.', token });
       })
       .catch(error => res.status(400).send(error.message));
   },
@@ -66,16 +67,17 @@ module.exports = {
         if (!user) {
           return res.status(401)
             .send({ success: false, message: 'User does not exist' });
-        }
-        if (user) {
+        } else if (user) {
           const passwordHash = user.password;
           if (!(bcrypt.compareSync(req.body.password, passwordHash))) {
             return res.status(401)
               .send({ success: false, message: 'Incorrect password!' });
           }
         }
-        return res.status(200)
-          .send({ success: true, message: "You're signed in" });
+        // generate token
+        const token = jwt.sign({ data: user }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+        res.status(200)
+          .send({ success: true, message: "You've been signed in", token });
       })
       .catch(error => res.status(400).send(error.message));
   },
