@@ -4,11 +4,6 @@
  */
 import models from '../models';
 
-
-// const Group = require('../models').Group;
-// const UserGroup = require('../models').UserGroup;
-// const Message = require('../models').Message;
-
 module.exports = {
   // Method to create a group
   create(req, res) {

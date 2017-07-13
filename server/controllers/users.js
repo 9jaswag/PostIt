@@ -3,9 +3,12 @@
  * handles every user related task
  */
 
-const User = require('../models').User;
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+// const User = require('../models').User;
+// const bcrypt = require('bcrypt');
+// const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import models from '../models';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -26,7 +29,7 @@ module.exports = {
       return res.status(400)
         .send({ status: false, message: 'Please enter an email address' });
     }
-    User.findOne({
+    models.User.findOne({
       where: {
         email: req.body.email,
       }
@@ -36,7 +39,7 @@ module.exports = {
           .send({ status: false, message: 'Email address already exists' });
       }
     });
-    return User
+    return models.User
       .create({
         username: req.body.username,
         password: bcrypt.hashSync(req.body.password, salt),
@@ -58,7 +61,7 @@ module.exports = {
       return res.status(401)
         .send({ status: false, message: 'Please enter a password' });
     }
-    return User
+    return models.User
       .findOne({
         where: {
           username: req.body.username,
@@ -82,7 +85,7 @@ module.exports = {
       .catch(error => res.status(400).send(error.message));
   },
   allUsers(req, res) {
-    return User
+    return models.User
       .all()
       .then((user) => {
         if (user.length === 0) {

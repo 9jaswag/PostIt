@@ -2,6 +2,6 @@
  * Message controller
  * handles every message related task
  */
-// const Message = require('../models').Message;
+// import models from '../models';
 
 // module.exports = {};
