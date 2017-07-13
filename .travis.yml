@@ -1,13 +1,11 @@
+
+sudo: required
+dist: trusty
 language: node_js
-node_js:
-    - "6.11.0"
-install:
-    - npm install
-before_script:
-  - createuser chuks -s -U postgres
-  - createdb postit_dev --username=chuks
-  - sequelize db:migrate
+node_js: "8"
 script:
-    - npm test
+  - npm test
 services:
   - postgresql
+before_script:
+  - psql -c 'CREATE DATABASE travis;' -U postgres
