@@ -1,7 +1,4 @@
-// const express = require('express');
-// const logger = require('morgan');
-// const bodyParser = require('body-parser');
-// require('dotenv').config();
+
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
