@@ -33,10 +33,10 @@ module.exports = (app) => {
   // API to create new group
   app.post('/api/group', controllers.groups.create);
   // API route for users to add other users to groups:
-  app.post('/api/group/:group_id/user', controllers.groups.addUser);
+  // app.post('/api/group/:group_id/user', controllers.groups.addUser);
 
-  // API for logged in users to post messages to a group
-  app.post('/api/group/:group_id/message', controllers.groups.postMessage);
-  // API for logged in users to retrieve messages in their group
-  app.get('/api/group/:group_id/messages', controllers.groups.fetchMessage);
+  // // API for logged in users to post messages to a group
+  // app.post('/api/group/:group_id/message', controllers.groups.postMessage);
+  // // API for logged in users to retrieve messages in their group
+  // app.get('/api/group/:group_id/messages', controllers.groups.fetchMessage);
 };
