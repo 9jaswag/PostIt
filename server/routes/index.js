@@ -18,25 +18,15 @@ module.exports = (app) => {
   let token;
   app.use((req, res, next) => {
     token = req.body.token || req.query.token || req.headers['x-access-token'];
-    // decode token
-    if (token) {
-      jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-          return res
-            .json({ success: false, message: 'Failed to authenticate token.' });
-        } else {
-        // if everything is good, save to request for use in other routes
-          req.decoded = decoded;
-          next();
-        }
-      });
-    } else {
-      // return an error
-      return res.status(403).send({
-        success: false,
-        message: 'No token provided.'
-      });
-    }
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+      if (err) {
+        return res
+          .json({ success: false, message: 'Failed to authenticate token.' });
+      }
+      // if everything is good, save to request for use in other routes
+      req.decoded = decoded;
+      next();
+    });
   });
 
   // API to create new group
