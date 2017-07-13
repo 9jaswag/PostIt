@@ -2,14 +2,17 @@
  * Group controller
  * handles all group related tasks
  */
-const Group = require('../models').Group;
-const UserGroup = require('../models').UserGroup;
-const Message = require('../models').Message;
+import models from '../models';
+
+
+// const Group = require('../models').Group;
+// const UserGroup = require('../models').UserGroup;
+// const Message = require('../models').Message;
 
 module.exports = {
   // Method to create a group
   create(req, res) {
-    return Group
+    return models.Group
       .create({
         name: req.body.name,
         owner: req.body.owner,
@@ -19,7 +22,7 @@ module.exports = {
         res.status(201).send(group);
         /* let msg = { success: true,
           'initial message': 'Group created', };
-        return UserGroup
+        return models.UserGroup
           .create({
             userId: res.decoded.data.id,
             groupId: group.id
@@ -45,7 +48,7 @@ module.exports = {
       return res.status(400)
         .send({ status: false, message: 'a Group ID is required' });
     }
-    return UserGroup
+    return models.UserGroup
       .findOne({
         where: {
           userId: req.body.userId,
@@ -57,7 +60,7 @@ module.exports = {
           return res.status(400).send({ success: false,
             message: 'User already belongs to this group' });
         }
-        UserGroup.create({
+        models.UserGroup.create({
           userId: req.body.userId,
           groupId: req.params.group_id
         }).then(usergroup => res.status(201).send({
@@ -85,7 +88,7 @@ module.exports = {
         message: 'Message must have a User ID' });
     }
 
-    return Message
+    return models.Message
       .create({
         message: req.body.message,
         priority: req.body.priority,
@@ -102,7 +105,7 @@ module.exports = {
   },
   // Method to retrieve messages based on groups
   fetchMessage(req, res) {
-    return Message
+    return models.Message
       .findAll({
         where: {
           groupId: req.params.group_id
