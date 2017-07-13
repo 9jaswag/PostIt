@@ -15,22 +15,17 @@ module.exports = {
       })
       .then((group) => {
         res.status(201).send(group);
-        /* let msg = { success: true,
-          'initial message': 'Group created', };
         return models.UserGroup
           .create({
-            userId: res.decoded.data.id,
+            userId: req.decoded.userId,
             groupId: group.id
           })
           .then(usergroup => res.status(201).send({
-            action: msg,
-            postAction: {
-              success: true,
-              message: 'You have been added to your newly created group',
-              usergroup
-            }
+            success: true,
+            message: 'Your group has been created and you have been added to the group',
+            usergroup
           }))
-          .catch(error => res.status(400).send(error.message)); */
+          .catch(error => res.status(400).send(error.message));
       })
       .catch(error => res.status(400).send(error.message));
   },
