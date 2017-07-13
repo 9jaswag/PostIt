@@ -15,10 +15,10 @@ module.exports = (app) => {
   app.get('/api/users', controllers.users.findAll);
 
   // Middleware
-  /* let token;
+  let token;
   app.use((req, res, next) => {
     token = req.body.token || req.query.token || req.headers['x-access-token'];
-    jwt.verify(token, 'Armageddon', (err, decoded) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).send({
           message: 'user not authenticated. Failed to authenticate token.'
@@ -28,15 +28,15 @@ module.exports = (app) => {
       req.decoded = decoded;
       next();
     });
-  }); */
+  });
 
   // API to create new group
   app.post('/api/group', controllers.groups.create);
   // API route for users to add other users to groups:
-  // app.post('/api/group/:group_id/user', controllers.groups.addUser);
+  app.post('/api/group/:group_id/user', controllers.groups.addUser);
 
-  // // API for logged in users to post messages to a group
-  // app.post('/api/group/:group_id/message', controllers.groups.postMessage);
+  // API for logged in users to post messages to a group
+  app.post('/api/group/:group_id/message', controllers.groups.postMessage);
   // // API for logged in users to retrieve messages in their group
   // app.get('/api/group/:group_id/messages', controllers.groups.fetchMessage);
 };
