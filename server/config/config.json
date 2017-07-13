@@ -1,5 +1,5 @@
 {
-  "development": {
+  "production": {
     "use_env_variable": "DATABASE_URL"
   },
   "test": {
@@ -10,7 +10,7 @@
     "port": 5432,
     "dialect": "postgres"
   },
-  "production": {
+  "development": {
     "username": "chuks",
     "password": "fgsltw@postgres",
     "database": "postit-dev",
