@@ -3,9 +3,6 @@
  * handles every user related task
  */
 
-// const User = require('../models').User;
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
