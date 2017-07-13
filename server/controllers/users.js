@@ -10,7 +10,7 @@ import models from '../models';
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 
-module.exports = {
+export default {
   signup(req, res) {
     if (!req.body.username) {
       return res.status(401)
@@ -52,7 +52,10 @@ module.exports = {
         res.status(201)
           .send({ success: true, message: 'Sign up succesful.', token });
       })
-      .catch(error => res.status(400).send(error.message));
+      .catch(error => res.status(400).send({
+        status: false,
+        message: error.message
+      }));
   },
   login(req, res) {
     if (!req.body.username) {
@@ -62,34 +65,36 @@ module.exports = {
       return res.status(401)
         .send({ status: false, message: 'Please enter a password' });
     }
-    return models.User
-      .findOne({
-        where: {
-          username: req.body.username,
-        }
-      }).then((user) => {
-        if (!user) {
+    return models.User.findOne({
+      where: {
+        username: req.body.username,
+      }
+    }).then((user) => {
+      if (!user) {
+        return res.status(401)
+          .send({ success: false, message: 'User does not exist' });
+      } else if (user) {
+        const passwordHash = user.password;
+        if (!(bcrypt.compareSync(req.body.password, passwordHash))) {
           return res.status(401)
-            .send({ success: false, message: 'User does not exist' });
-        } else if (user) {
-          const passwordHash = user.password;
-          if (!(bcrypt.compareSync(req.body.password, passwordHash))) {
-            return res.status(401)
-              .send({ success: false, message: 'Incorrect password!' });
-          }
+            .send({ success: false, message: 'Incorrect password!' });
         }
-        // generate token
-        const token = jwt.sign({
-          userId: user.id,
-          userEmail: user.email,
-          userUsername: user.username,
-        }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
-        res.status(200)
-          .send({ success: true, message: "You've been signed in", token });
-      })
-      .catch(error => res.status(400).send(error.message));
+      }
+      // generate token
+      const token = jwt.sign({
+        userId: user.id,
+        userEmail: user.email,
+        userUsername: user.username,
+      }, process.env.TOKEN_SECRET, { expiresIn: '2h' });
+      res.status(200)
+        .send({ success: true, message: "You've been signed in", token });
+    })
+      .catch(error => res.status(400).send({
+        status: false,
+        message: error.message
+      }));
   },
-  allUsers(req, res) {
+  findAll(req, res) {
     return models.User
       .all()
       .then((user) => {
@@ -99,6 +104,9 @@ module.exports = {
         }
         return res.status(200).json(user);
       })
-      .catch(error => res.status(400).json(error));
+      .catch(error => res.status(400).send({
+        status: false,
+        message: error.message
+      }));
   }
 };
