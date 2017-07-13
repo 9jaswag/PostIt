@@ -65,6 +65,7 @@ describe('PostIT Tests:', () => {
     it('POST /api/group creates a new group', (done) => {
       chai.request(app)
         .post('/api/group')
+        .set('x-access-token', token)
         .type('form')
         .send({
           name: 'Andela Group',
