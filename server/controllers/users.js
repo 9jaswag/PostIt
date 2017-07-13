@@ -44,7 +44,11 @@ module.exports = {
       })
       .then((user) => {
         const token = jwt
-          .sign({ data: user }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+          .sign({
+            userId: user.id,
+            userEmail: user.email,
+            userUsername: user.username,
+          }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
         res.status(201)
           .send({ success: true, message: 'Sign up succesful.', token });
       })
