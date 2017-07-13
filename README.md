@@ -1,5 +1,6 @@
 # PostIt
 PostIt is a simple application that allows friends and colleagues create groups for notifications.
+Check out the live app [here](https://postiit.herokuapp.com/).
 # Structure
 PostIt has an API that allows do the following.
 * Sign up and log into their accounts
