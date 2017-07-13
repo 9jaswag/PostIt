@@ -9,13 +9,13 @@ module.exports = (app) => {
 
   // API route to handle user sign up
   app.post('/api/user/signup', controllers.users.signup);
-  // // API route to handle user sign in
-  // app.post('/api/user/login', controllers.users.login);
+  // API route to handle user sign in
+  app.post('/api/user/login', controllers.users.login);
   // // API to get all users
-  // app.get('/api/users', controllers.users.allUsers);
+  app.get('/api/users', controllers.users.findAll);
 
   // Middleware
-  let token;
+  /* let token;
   app.use((req, res, next) => {
     token = req.body.token || req.query.token || req.headers['x-access-token'];
     jwt.verify(token, 'Armageddon', (err, decoded) => {
@@ -28,7 +28,7 @@ module.exports = (app) => {
       req.decoded = decoded;
       next();
     });
-  });
+  }); */
 
   // API to create new group
   app.post('/api/group', controllers.groups.create);
