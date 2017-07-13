@@ -21,7 +21,7 @@ module.exports = (app) => {
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).send({
-          message: 'user not authenticated. Failed to authenticate token.'
+          message: 'User not authenticated. Failed to authenticate token.'
         });
       }
       // if everything is good, save to request for use in other routes
@@ -37,6 +37,6 @@ module.exports = (app) => {
 
   // API for logged in users to post messages to a group
   app.post('/api/group/:group_id/message', controllers.groups.postMessage);
-  // // API for logged in users to retrieve messages in their group
-  // app.get('/api/group/:group_id/messages', controllers.groups.fetchMessage);
+  // API for logged in users to retrieve messages in their group
+  app.get('/api/group/:group_id/messages', controllers.groups.fetchMessage);
 };

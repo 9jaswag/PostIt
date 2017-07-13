@@ -139,7 +139,6 @@ export default {
       return res.status(400).send({ success: false,
         message: 'Message must have a User ID' });
     }
-    
     models.Group.findOne({
       where: {
         id: req.params.group_id
@@ -172,6 +171,30 @@ export default {
         status: false,
         message: error.message
       }));
+  },
+  fetchMessage(req, res) {
+    models.Group.findOne({
+      where: {
+        id: req.params.group_id
+      }
+    }).then((group) => {
+      if (!group) {
+        return res.status(404).send({ success: false,
+          message: 'Group does not exist' });
+      } else {
+        return models.Message
+          .findAll({
+            where: {
+              groupId: req.params.group_id
+            }
+          })
+          .then(message => res.status(200).send(message))
+          .catch(error => res.status(400).send({
+            status: false,
+            message: error.message
+          }));
+      }
+    });
   }
 };
 
