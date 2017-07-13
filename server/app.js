@@ -8,6 +8,8 @@ const app = express();
 // Log requests to the console.
 app.use(logger('dev'));
 
+require('dotenv').config();
+
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

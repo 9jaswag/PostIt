@@ -1,25 +1,13 @@
-'use strict';
-/*module.exports = (sequelize, DataTypes) => {
-  const Group = sequelize.define('Group', {
-    name: DataTypes.STRING,
-    owner: DataTypes.STRING,
-    description: DataTypes.STRING
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-      }
-    }
-  });
-  return Group;
-};*/
 
 module.exports = (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     name: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      unique: {
+        args: true,
+        msg: 'Group already exists'
+      },
       validate: {
         notEmpty: {
           msg: 'Group name can not be empty'
@@ -27,11 +15,16 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     owner: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Group must have an owner'
+        }
+      }
     },
     description: {
-      type:DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: {
@@ -40,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   });
-  
   Group.associate = (models) => {
     // associations can be defined here
-    Group.hasMany(models.Message);
-    // Group.belongsToMany(models.User);
+    Group.hasMany(models.Message, { foreignKey: 'groupId' });
+    Group.belongsToMany(models.User,
+      { through: 'UserGroup', foreignKey: 'groupId' });
   };
   return Group;
 };
