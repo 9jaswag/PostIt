@@ -8,7 +8,7 @@ module.exports = (app) => {
   }));
 
   // API route to handle user sign up
-  // app.post('/api/user/signup', controllers.users.signup);
+  app.post('/api/user/signup', controllers.users.signup);
   // // API route to handle user sign in
   // app.post('/api/user/login', controllers.users.login);
   // // API to get all users
@@ -18,10 +18,11 @@ module.exports = (app) => {
   let token;
   app.use((req, res, next) => {
     token = req.body.token || req.query.token || req.headers['x-access-token'];
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+    jwt.verify(token, 'Armageddon', (err, decoded) => {
       if (err) {
-        return res
-          .json({ success: false, message: 'Failed to authenticate token.' });
+        return res.status(401).send({
+          message: 'user not authenticated. Failed to authenticate token.'
+        });
       }
       // if everything is good, save to request for use in other routes
       req.decoded = decoded;
