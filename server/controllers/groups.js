@@ -78,7 +78,7 @@ module.exports = {
     } else if (!req.body.author) {
       return res.status(400).send({ success: false,
         message: 'Message must have an author' });
-    } else if (!req.body.userId) {
+    } else if (!req.decoded.userId) {
       return res.status(400).send({ success: false,
         message: 'Message must have a User ID' });
     }
@@ -89,7 +89,7 @@ module.exports = {
         priority: req.body.priority,
         author: req.body.author,
         groupId: req.params.group_id,
-        userId: req.body.userId
+        userId: req.decoded.userId
       })
       .then(message => res.status(201).send({
         success: true,
