@@ -1,1 +1,1 @@
-web: node run start:dev
+web: node run start:prod
