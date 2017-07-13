@@ -30,12 +30,6 @@ module.exports = (app) => {
           next();
         }
       });
-    } else {
-      // return an error
-      return res.status(403).send({
-        success: false,
-        message: 'No token provided.'
-      });
     }
   });
 
