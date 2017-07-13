@@ -48,6 +48,7 @@
     "jsonwebtoken": "^7.4.1",
     "mocha": "^3.4.2",
     "morgan": "^1.8.2",
+    "nodemon": "^1.11.0",
     "pg": "^6.4.0",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.2.1",
@@ -55,7 +56,6 @@
   },
   "devDependencies": {
     "eslint-plugin-import": "^2.7.0",
-    "node-sass": "^4.5.3",
-    "nodemon": "^1.11.0"
+    "node-sass": "^4.5.3"
   }
 }
