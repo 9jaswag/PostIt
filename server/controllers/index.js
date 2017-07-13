@@ -1,9 +1,12 @@
-const users = require('./users');
-const messages = require('./messages');
-const groups = require('./groups');
 
-module.exports = {
-  users,
+import groups from './groups';
+import messages from './messages';
+import users from './users';
+
+const controllers = {
+  groups,
   messages,
-  groups
-}
+  users
+};
+
+export default controllers;
