@@ -55,11 +55,14 @@ describe('PostIT Tests:', () => {
         .post('/api/user/login')
         .type('form')
         .send({
-          username: 'andela',
-          password: 'bootcamp'
+          username: 'bootcamp',
+          password: 'testpass'
         })
         .end((err, res) => {
+          res.should.have.status(202);
           res.body.token.should.not.equals(null);
+          res.decode.username.should.equals('andela');
+          done();
         });
     }); */
     it('POST /api/group creates a new group', (done) => {
@@ -78,22 +81,22 @@ describe('PostIT Tests:', () => {
           done();
         });
     });
-    // it('POST /api/group/:group_id/message should add a new group message', (done) => {
-    //   chai.request(app)
-    //     .post('/api/group/1/message')
-    //     .type('form')
-    //     .send({
-    //       message: 'The call to step up',
-    //       priority: 'urgent',
-    //       author: 'chuks',
-    //       user_id: 1
-    //     })
-    //     .end((err, res) => {
-    //       res.status.should.equal(201);
-    //       res.body.message.message.should.equal('The call to step up');
-    //       done();
-    //     });
-    // });
+    it('POST /api/group/:group_id/message should add a new group message', (done) => {
+      chai.request(app)
+        .post('/api/group/1/message')
+        .type('form')
+        .send({
+          message: 'The call to step up',
+          priority: 'urgent',
+          author: 'chuks',
+          user_id: 1
+        })
+        .end((err, res) => {
+          res.status.should.equal(201);
+          res.body.message.message.should.equal('The call to step up');
+          done();
+        });
+    });
     // it('POST /api/group/1/user adds a user to a group', (done) => {
     //   chai.request(app)
     //     .post('/api/group/1/user')

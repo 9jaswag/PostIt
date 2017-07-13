@@ -79,7 +79,11 @@ module.exports = {
           }
         }
         // generate token
-        const token = jwt.sign({ data: user }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({
+          userId: user.id,
+          userEmail: user.email,
+          userUsername: user.username,
+        }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
         res.status(200)
           .send({ success: true, message: "You've been signed in", token });
       })
