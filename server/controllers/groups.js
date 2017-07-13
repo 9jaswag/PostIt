@@ -15,7 +15,25 @@ module.exports = {
         owner: req.body.owner,
         description: req.body.description
       })
-      .then(group => res.status(201).send(group))
+      .then((group) => {
+        res.status(201).send(group);
+        /* let msg = { success: true,
+          'initial message': 'Group created', };
+        return UserGroup
+          .create({
+            userId: res.decoded.data.id,
+            groupId: group.id
+          })
+          .then(usergroup => res.status(201).send({
+            action: msg,
+            postAction: {
+              success: true,
+              message: 'You have been added to your newly created group',
+              usergroup
+            }
+          }))
+          .catch(error => res.status(400).send(error.message)); */
+      })
       .catch(error => res.status(400).send(error.message));
   },
   // Method to add a user to a group
@@ -62,7 +80,7 @@ module.exports = {
     } else if (!req.body.author) {
       return res.status(400).send({ success: false,
         message: 'Message must have an author' });
-    } else if (!req.body.user_id) {
+    } else if (!req.body.userId) {
       return res.status(400).send({ success: false,
         message: 'Message must have a User ID' });
     }
@@ -73,7 +91,7 @@ module.exports = {
         priority: req.body.priority,
         author: req.body.author,
         groupId: req.params.group_id,
-        userId: req.body.user_id // not done
+        userId: req.body.userId
       })
       .then(message => res.status(201).send({
         success: true,
@@ -90,7 +108,7 @@ module.exports = {
           groupId: req.params.group_id
         }
       })
-      .then(message => res.status(201).send(message))
+      .then(message => res.status(200).send(message))
       .catch(error => res.status(400).send(error));
   }
 };
