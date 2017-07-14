@@ -79,23 +79,24 @@ describe('PostIT Tests:', () => {
           done();
         });
     });
-    it('POST /api/group/:group_id/message should add a new group message', (done) => {
-      chai.request(app)
-        .post('/api/group/1/message')
-        .type('form')
-        .send({
-          message: 'The call to step up',
-          priority: 'urgent',
-          author: 'chuks',
-          user_id: 1,
-          token
-        })
-        .end((err, res) => {
-          res.status.should.equal(201);
-          res.body.message.message.should.equal('The call to step up');
-          done();
-        });
-    });
+    it(`POST /api/group/:group_id/message 
+    should add a new group message`, (done) => {
+        chai.request(app)
+          .post('/api/group/1/message')
+          .type('form')
+          .send({
+            message: 'The call to step up',
+            priority: 'urgent',
+            author: 'chuks',
+            user_id: 1,
+            token
+          })
+          .end((err, res) => {
+            res.status.should.equal(201);
+            res.body.message.message.should.equal('The call to step up');
+            done();
+          });
+      });
     it('POST /api/groups/:id/user should add a user to group', (done) => {
       chai.request(app)
         .post('/api/groups/1/user')
@@ -122,15 +123,16 @@ describe('PostIT Tests:', () => {
           done();
         });
     });
-    it('GET /api/groups/:group_id/messages/ does get all messages in a group', (done) => {
-      chai.request(app)
-        .get(`/api/groups/1/messages/?token=${token}`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          done();
-        });
-    });
+    it(`GET /api/groups/:group_id/messages/ 
+    does get all messages in a group`, (done) => {
+        chai.request(app)
+          .get(`/api/groups/1/messages/?token=${token}`)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            done();
+          });
+      });
     it('GET /api/users/ should get all registered users', (done) => {
       chai.request(app)
         .get(`/api/users/?token=${token}`)
@@ -190,12 +192,11 @@ describe('PostIT Tests:', () => {
       chai.request(app)
         .post('/api/use')
         .type('form')
-        .send({
-          
-        })
+        .send({})
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.message.should.equal('User not authenticated. Failed to authenticate token.');
+          res.body.message.should.equal(`User not authenticated. 
+          Failed to authenticate token.`);
           done();
         });
     });

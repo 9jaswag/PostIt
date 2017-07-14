@@ -14,7 +14,8 @@ export default {
         .send({ status: false, message: 'Please enter a group owner' });
     } else if (!req.body.description) {
       return res.status(401)
-        .send({ status: false, message: 'Please enter a description of the group' });
+        .send({ status: false,
+          message: 'Please enter a description of the group' });
     }
     models.Group.findOne({
       where: {
@@ -40,7 +41,8 @@ export default {
           })
           .then(usergroup => res.status(201).send({
             success: true,
-            message: 'Your group has been created and you have been added to the group',
+            message: `Your group has been created 
+            and you have been added to the group`,
             usergroup
           }))
           .catch(error => res.status(400).send({
