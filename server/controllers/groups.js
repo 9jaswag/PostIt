@@ -29,11 +29,10 @@ export default {
     return models.Group
       .create({
         name: req.body.name,
-        owner: req.body.owner,
+        owner: req.decoded.userUsername,
         description: req.body.description
       })
       .then((group) => {
-        res.status(201).send(group);
         return models.UserGroup
           .create({
             userId: req.decoded.userId,
