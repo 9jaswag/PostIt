@@ -7,6 +7,7 @@
     "start:dev": "nodemon --exec babel-node ./server/bin/www",
     "start": "babel-node ./server/bin/www",
     "test": "mocha --compilers js:babel-core/register server/test --timeout 10000",
+    "test:prod": "NODE_ENV=test && sequelize db:migrate && mocha server/tests/*.test.js && nyc report --reporter=text --slow 5000",
     "lint": "esw server --color",
     "build-css": "node-sass --include-path scss ./template/styles/main.scss ./template/styles/style.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\""
