@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/9jaswag/PostIt.svg?branch=master)](https://travis-ci.org/9jaswag/PostIt)
+[![Code Climate](https://codeclimate.com/github/9jaswag/PostIt/badges/gpa.svg)](https://codeclimate.com/github/9jaswag/PostIt)
 
 # PostIt
 PostIt is a simple application that allows friends and colleagues create groups for notifications.

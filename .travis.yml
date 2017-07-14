@@ -9,3 +9,5 @@ services:
   - postgresql
 before_script:
   - psql -c 'CREATE DATABASE travis;' -U postgres
+after_success: 
+ - npm run coverage
