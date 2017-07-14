@@ -1,4 +1,4 @@
-[![Build Status](hhttps://travis-ci.org/9jaswag/PostIt.svg?branch=master)](https://travis-ci.org/9jaswag/PostIt)
+[![Build Status](https://travis-ci.org/9jaswag/PostIt.svg?branch=master)](https://travis-ci.org/9jaswag/PostIt)
 
 # PostIt
 PostIt is a simple application that allows friends and colleagues create groups for notifications.
