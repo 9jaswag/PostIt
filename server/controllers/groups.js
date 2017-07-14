@@ -118,20 +118,7 @@ export default {
     } else if (!req.body.priority) {
       return res.status(400).send({ success: false,
         message: 'Choose a message priority' });
-    } else if (!req.body.author) {
-      return res.status(400).send({ success: false,
-        message: 'Message must have an author' });
-    } else if (!req.decoded.userId) {
-      return res.status(400).send({ success: false,
-        message: 'Message must have a User ID' });
-    }
-    if (!req.body.message) {
-      return res.status(400).send({ success: false,
-        message: 'Message can not be empty' });
-    } else if (!req.body.priority) {
-      return res.status(400).send({ success: false,
-        message: 'Choose a message priority' });
-    } else if (!req.body.author) {
+    } else if (!req.decoded.userUsername) {
       return res.status(400).send({ success: false,
         message: 'Message must have an author' });
     } else if (!req.decoded.userId) {
@@ -151,7 +138,7 @@ export default {
           .create({
             message: req.body.message,
             priority: req.body.priority,
-            author: req.body.author,
+            author: req.decoded.userUsername,
             groupId: req.params.group_id,
             userId: req.decoded.userId
           })

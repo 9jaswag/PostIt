@@ -36,8 +36,12 @@ The **client** directory houses the front-end implementation in ReactJS (Redux)
   ```Username & Password```
 ## Create New Group
 ```POST: api/group```
+  #### Parameters
+  ```name & description```
 ## Add Users To Group
 ```POST: api/group/<group id>/user```
+  #### Parameters
+  ```userId and groupId```
 ## Post Message To Group
 ```POST /api/group/<group id>/message```
 ## Retrieve Message From Group
