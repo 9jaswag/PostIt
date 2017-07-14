@@ -9,7 +9,7 @@ export default {
     if (!req.body.name) {
       return res.status(401)
         .send({ status: false, message: 'Please choose a group name' });
-    } else if (!req.body.owner) {
+    } else if (!req.decoded.userUsername) {
       return res.status(401)
         .send({ status: false, message: 'Please enter a group owner' });
     } else if (!req.body.description) {
