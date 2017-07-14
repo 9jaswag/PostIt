@@ -48,9 +48,9 @@ describe('PostIT Tests:', () => {
           done();
         });
     });
-    it('POST /api/user/login logs in a new user', (done) => {
+    it('POST /api/user/signin logs in a new user', (done) => {
       chai.request(app)
-        .post('/api/user/login')
+        .post('/api/user/signin')
         .type('form')
         .send({
           username: 'bootcamp',
@@ -186,6 +186,19 @@ describe('PostIT Tests:', () => {
           done();
         });
     });
+    it('Non existing route returns error', (done) => {
+      chai.request(app)
+        .post('/api/use')
+        .type('form')
+        .send({
+          
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.message.should.equal('User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
   });
   describe('Input Validation', () => {
     it('POST /api/user/signup', (done) => {
@@ -199,11 +212,11 @@ describe('PostIT Tests:', () => {
           res.should.have.status(401);
           res.body.message.should.equal('Please choose a username');
           done();
-        })
+        });
     });
-    it('POST /api/user/login', (done) => {
+    it('POST /api/user/signin', (done) => {
       chai.request(app)
-        .post('/api/user/login')
+        .post('/api/user/signin')
         .type('form')
         .send({
           username: ''
@@ -212,7 +225,7 @@ describe('PostIT Tests:', () => {
           res.should.have.status(401);
           res.body.message.should.equal('Please enter a username');
           done();
-        })
+        });
     });
     it('POST /api/group', (done) => {
       chai.request(app)
