@@ -9,7 +9,7 @@ export default {
     if (!req.body.name) {
       return res.status(401)
         .send({ status: false, message: 'Please choose a group name' });
-    } else if (!req.body.owner) {
+    } else if (!req.decoded.userUsername) {
       return res.status(401)
         .send({ status: false, message: 'Please enter a group owner' });
     } else if (!req.body.description) {
@@ -29,11 +29,10 @@ export default {
     return models.Group
       .create({
         name: req.body.name,
-        owner: req.body.owner,
+        owner: req.decoded.userUsername,
         description: req.body.description
       })
       .then((group) => {
-        res.status(201).send(group);
         return models.UserGroup
           .create({
             userId: req.decoded.userId,
@@ -119,20 +118,7 @@ export default {
     } else if (!req.body.priority) {
       return res.status(400).send({ success: false,
         message: 'Choose a message priority' });
-    } else if (!req.body.author) {
-      return res.status(400).send({ success: false,
-        message: 'Message must have an author' });
-    } else if (!req.decoded.userId) {
-      return res.status(400).send({ success: false,
-        message: 'Message must have a User ID' });
-    }
-    if (!req.body.message) {
-      return res.status(400).send({ success: false,
-        message: 'Message can not be empty' });
-    } else if (!req.body.priority) {
-      return res.status(400).send({ success: false,
-        message: 'Choose a message priority' });
-    } else if (!req.body.author) {
+    } else if (!req.decoded.userUsername) {
       return res.status(400).send({ success: false,
         message: 'Message must have an author' });
     } else if (!req.decoded.userId) {
@@ -152,7 +138,7 @@ export default {
           .create({
             message: req.body.message,
             priority: req.body.priority,
-            author: req.body.author,
+            author: req.decoded.userUsername,
             groupId: req.params.group_id,
             userId: req.decoded.userId
           })
