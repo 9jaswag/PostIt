@@ -23,7 +23,7 @@ export default (sequelize, DataTypes) => {
         },
         notEmpty: {
           args: true,
-          msg: 'Password can npt be empty'
+          msg: 'Password can not be empty'
         }
       }
     },
