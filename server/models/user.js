@@ -36,6 +36,14 @@ export default (sequelize, DataTypes) => {
           msg: 'Enter a valid email address'
         }
       }
+    },
+    phone: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        not: ['[a-z]', 'i'],
+        notEmpty: true
+      }
     }
   });
 

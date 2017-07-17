@@ -19,6 +19,14 @@ module.exports = {
         type: Sequelize.STRING,
         isEmail: true
       },
+      phone: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          not: ['[a-z]', 'i'],
+          notEmpty: true
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
