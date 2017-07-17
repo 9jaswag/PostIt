@@ -19,7 +19,7 @@ module.exports = (app) => {
   // Middleware
   let token;
   app.use((req, res, next) => {
-    token = req.body.token || req.query.token || req.headers['x-access-token'];
+    token = req.headers['x-access-token'];
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).send({
