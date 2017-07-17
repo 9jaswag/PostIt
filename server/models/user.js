@@ -20,6 +20,10 @@ export default (sequelize, DataTypes) => {
         len: {
           args: [6, 500],
           msg: 'Password length must be more than 6 characters'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Password can npt be empty'
         }
       }
     },
