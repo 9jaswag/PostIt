@@ -11,15 +11,11 @@ module.exports = (app) => {
   app.post('/api/user/signup', controllers.users.signup);
   // API route to handle user sign in
   app.post('/api/user/signin', controllers.users.login);
-  // // API to get all users
-  app.get('/api/users', controllers.users.findAll);
-  // API for logged in users to retrieve messages in their group
-  app.get('/api/group/:group_id/messages', controllers.groups.fetchMessage);
 
   // Middleware
   let token;
   app.use((req, res, next) => {
-    token = req.headers['x-access-token'];
+    token = req.body.token || req.query.token || req.headers['x-access-token'];
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).send({
@@ -36,7 +32,11 @@ module.exports = (app) => {
   app.post('/api/group', controllers.groups.create);
   // API route for users to add other users to groups:
   app.post('/api/group/:group_id/user', controllers.groups.addUser);
+  // API to get all users
+  app.get('/api/users', controllers.users.findAll);
 
   // API for logged in users to post messages to a group
   app.post('/api/group/:group_id/message', controllers.groups.postMessage);
+  // API for logged in users to retrieve messages in their group
+  app.get('/api/group/:group_id/messages', controllers.groups.fetchMessage);
 };
