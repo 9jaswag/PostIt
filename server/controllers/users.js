@@ -174,7 +174,12 @@ export default {
           return res.status(200)
             .send({ status: true, message: 'No users found' });
         }
-        return res.status(200).json({ data: user });
+        return res.status(200).json({ data: {
+          // id: user.id,
+          // email: user.email,
+          // phone: user.phone
+          user
+        } });
       })
       .catch(error => res.status(400).send({
         status: false,

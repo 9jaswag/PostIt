@@ -11,6 +11,7 @@ module.exports = (app) => {
   app.post('/api/user/signup', controllers.users.signup);
   // API route to handle user sign in
   app.post('/api/user/signin', controllers.users.login);
+  app.get('/api/users', controllers.users.findAll);
 
   // Middleware
   let token;
@@ -33,7 +34,7 @@ module.exports = (app) => {
   // API route for users to add other users to groups:
   app.post('/api/group/:group_id/user', controllers.groups.addUser);
   // API to get all users
-  app.get('/api/users', controllers.users.findAll);
+  // app.get('/api/users', controllers.users.findAll);
 
   // API for logged in users to post messages to a group
   app.post('/api/group/:group_id/message', controllers.groups.postMessage);
