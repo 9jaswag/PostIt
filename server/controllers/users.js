@@ -17,41 +17,39 @@ export default {
     if (!req.body.username || req.body.username.trim() === '') {
       return res.status(400)
         .send({
-          error: {
-            status: false, message: 'Username field cannot be empty'
-          },
+          status: false,
+          error: { message: 'Username field cannot be empty' },
           data: req.body
         });
     } else if (!req.body.password || req.body.password.trim() === '') {
       return res.status(400)
         .send({
-          error: {
-            status: false, message: 'Password field cannot be empty'
-          },
+          status: false,
+          error: { message: 'Password field cannot be empty' },
           data: req.body
         });
     } else if (req.body.password.length < 6) {
       return res.status(400)
         .send({
-          error: {
-            status: false,
-            message: 'Password length must be more than 6 characters'
-          },
+          status: false,
+          error: { message: 'Password length must be more than 6 characters' },
           data: req.body
         });
     } else if (!req.body.email || req.body.email.trim() === '') {
       return res.status(400)
         .send({
+          status: false,
           error: {
-            status: false, message: 'Email address field cannot be empty'
+            message: 'Email address field cannot be empty'
           },
           data: req.body
         });
     } else if (!req.body.phone || req.body.phone.trim() === '') {
       return res.status(400)
         .send({
+          status: false,
           error: {
-            status: false, message: 'Phone field cannot be empty'
+            message: 'Phone field cannot be empty'
           },
           data: req.body
         });
@@ -65,7 +63,8 @@ export default {
       if (user) {
         return res.status(400)
           .send({
-            error: { status: false, message: 'Email address already exists' },
+            status: false,
+            error: { message: 'Email address already exists' },
             data: req.body
           });
       }
@@ -111,10 +110,22 @@ export default {
   login(req, res) {
     if (!req.body.username) {
       return res.status(401)
-        .send({ status: false, message: 'Please enter a username' });
+        .send({
+          status: false,
+          error: {
+            message: 'Username field cannot be empty'
+          },
+          data: req.body
+        });
     } else if (!req.body.password) {
       return res.status(401)
-        .send({ status: false, message: 'Please enter a password' });
+        .send({
+          status: false,
+          error: {
+            message: 'Password field cannot be empty'
+          },
+          data: req.body
+        });
     }
     return models.User.findOne({
       where: {
@@ -123,12 +134,22 @@ export default {
     }).then((user) => {
       if (!user) {
         return res.status(401)
-          .send({ success: false, message: 'User does not exist' });
+          .send({
+            status: false,
+            error: {
+              message: 'User does not exist'
+            }
+          });
       } else if (user) {
         const passwordHash = user.password;
         if (!(bcrypt.compareSync(req.body.password, passwordHash))) {
           return res.status(401)
-            .send({ success: false, message: 'Incorrect password!' });
+            .send({
+              status: false,
+              error: {
+                message: 'Incorrect password!'
+              }
+            });
         }
       }
       // generate token
@@ -138,11 +159,11 @@ export default {
         userUsername: user.username,
       }, process.env.TOKEN_SECRET, { expiresIn: '2h' });
       res.status(200)
-        .send({ success: true, message: "You've been signed in", token });
+        .send({ success: true, message: 'Sign in successful', data: { token } });
     })
       .catch(error => res.status(400).send({
         status: false,
-        message: error.message
+        error: { message: error.message }
       }));
   },
   findAll(req, res) {
@@ -153,11 +174,11 @@ export default {
           return res.status(200)
             .send({ status: true, message: 'No users found' });
         }
-        return res.status(200).json(user);
+        return res.status(200).json({ data: user });
       })
       .catch(error => res.status(400).send({
         status: false,
-        message: error.message
+        error: { message: error.message }
       }));
   }
 };
