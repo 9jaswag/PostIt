@@ -20,7 +20,8 @@ module.exports = {
       },
       email: {
         type: Sequelize.STRING,
-        isEmail: true
+        isEmail: true,
+        unique: true,
       },
       phone: {
         allowNull: false,
