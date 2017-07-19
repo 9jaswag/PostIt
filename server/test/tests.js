@@ -62,7 +62,7 @@ describe('PostIT API Tests:', () => {
           done();
         });
     });
-    it('Returns 400 error with no username parameter', (done) => {
+    it('Returns 400 error and error message with no username parameter', (done) => {
       chai.request(app)
         .post('/api/user/signup')
         .type('form')
@@ -73,6 +73,68 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+          res.body.error.message.should.equals('Username field cannot be empty');
+          done();
+        });
+    });
+    it('Returns 400 error and error message with no email parameter', (done) => {
+      chai.request(app)
+        .post('/api/user/signup')
+        .type('form')
+        .send({
+          username: 'chuks',
+          password: 'chukspass',
+          phone: '07033130448'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.message.should.equals('Email address field cannot be empty');
+          done();
+        });
+    });
+    it('Returns 400 error and error message with no password parameter', (done) => {
+      chai.request(app)
+        .post('/api/user/signup')
+        .type('form')
+        .send({
+          username: 'chuks',
+          email: 'chuks@andela.com',
+          phone: '07033130448'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.message.should.equals('Password field cannot be empty');
+          done();
+        });
+    });
+    it('Returns 400 error and error message with no phone parameter', (done) => {
+      chai.request(app)
+        .post('/api/user/signup')
+        .type('form')
+        .send({
+          username: 'chuks',
+          email: 'chuks@andela.com',
+          password: 'chukspass'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.message.should.equals('Phone field cannot be empty');
+          done();
+        });
+    });
+    it('Returns 400 error and error message with a duplicate', (done) => {
+      chai.request(app)
+        .post('/api/user/signup')
+        .type('form')
+        .send({
+          username: 'chuks',
+          email: 'chuks@andela.com',
+          password: 'chukspass',
+          phone: '07033130448'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.message.should.equals('Email address already exists');
           done();
         });
     });
