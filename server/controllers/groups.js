@@ -6,16 +6,18 @@ import models from '../models';
 
 export default {
   create(req, res) {
-    if (!req.body.name) {
-      return res.status(401)
-        .send({ status: false, message: 'Please choose a group name' });
-    } else if (!req.decoded.userUsername) {
-      return res.status(401)
-        .send({ status: false, message: 'Please enter a group owner' });
-    } else if (!req.body.description) {
-      return res.status(401)
+    if (!req.body.name || req.body.name.trim() === '') {
+      return res.status(400)
         .send({ status: false,
-          message: 'Please enter a description of the group' });
+          error: { message: 'Please choose a group name' } });
+    } else if (!req.decoded.userUsername) {
+      return res.status(400)
+        .send({ status: false,
+          error: { message: 'Please enter a group owner' } });
+    } else if (!req.body.description || req.body.description.trim() === '') {
+      return res.status(400)
+        .send({ status: false,
+          error: { message: 'Please enter a description of the group' } });
     }
     models.Group.findOne({
       where: {
@@ -24,7 +26,8 @@ export default {
     }).then((group) => {
       if (group) {
         return res.status(400)
-          .send({ status: false, message: 'Group name already exists' });
+          .send({ status: false,
+            error: { message: 'Group name already exists' } });
       }
     });
     return models.Group
@@ -41,18 +44,17 @@ export default {
           })
           .then(usergroup => res.status(201).send({
             success: true,
-            message: `Your group has been created 
-            and you have been added to the group`,
-            usergroup
+            message: 'Your group has been created and you have been added to the group',
+            data: { group, usergroup }
           }))
           .catch(error => res.status(400).send({
             status: false,
-            message: error.message
+            error: { message: error.message }
           }));
       })
       .catch(error => res.status(400).send({
         status: false,
-        message: error.message
+        error: { message: error.message }
       }));
   },
   addUser(req, res) {

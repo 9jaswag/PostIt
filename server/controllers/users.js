@@ -159,7 +159,9 @@ export default {
         userUsername: user.username,
       }, process.env.TOKEN_SECRET, { expiresIn: '2h' });
       res.status(200)
-        .send({ success: true, message: 'Sign in successful', data: { token } });
+        .send({ success: true,
+          message: 'Sign in successful',
+          data: { token } });
     })
       .catch(error => res.status(400).send({
         status: false,
@@ -174,12 +176,7 @@ export default {
           return res.status(200)
             .send({ status: true, message: 'No users found' });
         }
-        return res.status(200).json({ data: {
-          // id: user.id,
-          // email: user.email,
-          // phone: user.phone
-          user
-        } });
+        return res.status(200).json({ data: { user } });
       })
       .catch(error => res.status(400).send({
         status: false,
