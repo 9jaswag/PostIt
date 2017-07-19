@@ -54,6 +54,34 @@
       </div>
     </div>
   </div>
+  <!--create group modal-->
+  <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="loginModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="container-fluid padding2">
+          <!-- Login Form -->
+          <div class="tab-pane fade in active" id="">
+            <h4 class="">Create Group</h4>
+            <form action="">
+              <label for="group-name"></label>
+              <input type="text" name="" id="group-name" class="login-input" placeholder="Enter group name">
+              <label for="description"></label>
+              <input type="text" id="description" class="login-input" placeholder="Enter group description">
+              <label for="add-users"></label>
+              <input class="login-input" type="search" name="" id="add-users" placeholder="Add users to this group">
+              <section class="user-list padding-top">
+                <li class="inline-block">Opia Chuks</li>
+                <li class="inline-block">Opia Chuks</li>
+                <li class="inline-block">Opia Chuks</li>
+                <li class="inline-block">Opia Chuks</li>
+              </section>
+              <input class="login-input btn btn-primary" type="submit" value="Create Group">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--page header-->
   <header class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -87,7 +115,7 @@
         <!--sidebar-->
         <div class="col-md-2 col-sm-3 col-xs-12 bkg-green full-height scroll-y sidebar">
           <a href="./dashboard.html" class="btn btn-primary btn-block sidebar-btn">My Groups</a>
-          <a href="" class="btn btn-primary btn-block sidebar-btn">Create Group</a>
+          <button type="button" data-toggle="modal" data-target="#createGroupModal" class="btn btn-primary btn-block sidebar-btn">Create New Group</button>
           <a href="" class="btn btn-primary btn-block sidebar-btn">Logout</a>
         </div>
         <!-- main page -->
