@@ -93,6 +93,9 @@ export default {
         if (error.errors[0].message === 'Validation is on username failed') {
           sequelizeErrors.error = 'Username cannot contain numbers';
         }
+        if (error.errors[0].message === 'Username already exists') {
+          sequelizeErrors.error = 'Username already exists';
+        }
         if (error.errors[0].message === 'Email can not be empty') {
           sequelizeErrors.error = 'Email field can not be empty';
         }
@@ -105,6 +108,7 @@ export default {
         sequelizeErrors.data = req.body;
         res.status(400).send({ status: false, errors: sequelizeErrors });
       }
+      // error => res.status(400).send(error)
       );
   },
   login(req, res) {
