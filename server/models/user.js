@@ -20,12 +20,17 @@ export default (sequelize, DataTypes) => {
         len: {
           args: [6, 500],
           msg: 'Password length must be more than 6 characters'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'Password can not be empty'
         }
       }
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: {
           args: true,
@@ -35,6 +40,14 @@ export default (sequelize, DataTypes) => {
           args: true,
           msg: 'Enter a valid email address'
         }
+      }
+    },
+    phone: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        not: ['[a-z]', 'i'],
+        notEmpty: true
       }
     }
   });

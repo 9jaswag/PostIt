@@ -2,39 +2,108 @@
 $green: #18bc9c;
 $white: #ffffff;
 $darkBlue: #2c3e50;
+$red: #e74c3c;
 
 // add margin to body to accommodate fixed header
 body { 
   margin-top: 6rem;
 }
-
+.fixed {
+  position: fixed;
+}
 .display-none {
   display: none;
 }
-
 .display-block {
   display: block;
 }
-
 .inline-block {
   display: inline-block;
 }
-
 .default-radius {
   border-radius: 4px;
+}
+.pointer {
+  cursor: pointer;
 }
 
 /*color class*/
 .text-green {
     color: $green;
 }
-
 .bkg-green {
     background-color: $green;
 }
-
 .text-white {
     color: $white;
+}
+
+// position classes
+.absolute-center, .absolute-h-middle, .absolute-v-middle,
+.absolute, .absolute-top, .absolute-top-left, .absolute-top-right,
+.absolute-bottom-middle, .absolute-bottom-left, .absolute-bottom-right {
+  position: absolute
+}
+.absolute-center {
+  top: 50%
+}
+.absolute-center {
+  left: 50%
+}
+.absolute-center {
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%)
+}
+.absolute-top {
+  top: 0%
+}
+.absolute-top-left {
+  top: 0
+}
+.absolute-top-left {
+  left: 0
+}
+.absolute-top-right {
+  top: 0
+}
+.absolute-top-right {
+  right: 0
+}
+ .absolute-bottom-middle {
+  bottom: 0
+}
+.absolute-bottom-middle {
+  left: 50%
+}
+.absolute-bottom-middle {
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+.absolute-bottom-left {
+  bottom: 0
+}
+.absolute-bottom-left {
+  left: 0
+}
+.absolute-bottom-right {
+  bottom: 0
+}
+.absolute-bottom-right {
+  right: 0
+}
+.absolute-h-middle {
+  left: 50%
+}
+.absolute-h-middle {
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+.absolute-v-middle {
+  top: 50%
+}
+.absolute-v-middle {
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%)
 }
 
 /*icon classes*/
@@ -212,4 +281,12 @@ input[type='submit'].login-input {
 }
 .group-stats {
   padding-right: 0;
+}
+
+.sidebar-btn {
+  border-radius: 0px;
+}
+
+.notification-badge {
+  background: $red;
 }

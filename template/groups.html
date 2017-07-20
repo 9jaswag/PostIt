@@ -86,59 +86,46 @@
       <div class="col-md-12 col-sm-12 col-xs-12 no-padding">
         <!--sidebar-->
         <div class="col-md-2 col-sm-3 col-xs-12 bkg-green full-height scroll-y sidebar">
-          <ul class="padding-top padding-bottom group-list">
-            <li class="group">Group One</li>
-            <li class="group">Group Two</li>
-            <li class="group">Group Three</li>
-          </ul>
+          <a href="./dashboard.html" class="btn btn-primary btn-block sidebar-btn">My Groups</a>
+          <a href="" class="btn btn-primary btn-block sidebar-btn">Create Group</a>
+          <a href="" class="btn btn-primary btn-block sidebar-btn">Logout</a>
         </div>
+        <!-- Main page -->
         <div class="col-md-10 col-sm-9 col-xs-12 no-padding">
           <div class="col-md-9 col-sm-12 col-xs-12">
-            <h3 class="uppercase text-center margin-v4">Group One message board</h3>
+            <h3 class="uppercase text-center margin-v4">Andela Bootcamp Message Board</h3>
             <!--message cards-->
-            <div class="col-md-6 col-sm-6 col-xs-12">
               <section class="message-card col-md-12 col-sm-12 col-xs-12 default-radius">
-                <h4 class="uppercase">Message Title</h4>
+                <h5 class="uppercase inline-block">@troy34 <small class="padding">2:15pm</small></h5>
+                <span class="label label-danger">critical</span>
+                <span class="absolute-top-right absolute-v-middle margin-h pointer glyphicon glyphicon-trash text-danger"></span>
                 <p class="message-body">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
                   Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
                 </p>
-                <button class="btn btn-primary btn-sm">View Message</button>
               </section>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
               <section class="message-card col-md-12 col-sm-12 col-xs-12 default-radius">
-                <h4 class="uppercase">Message Title</h4>
+                <h5 class="uppercase inline-block">@philnewman <small class="padding">2:15pm</small></h5>
+                <span class="label label-warning">urgent</span>
+                <span class="absolute-top-right absolute-v-middle margin-h pointer glyphicon glyphicon-trash text-danger"></span>
                 <p class="message-body">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
                   Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
                 </p>
-                <button class="btn btn-primary btn-sm">View Message</button>
               </section>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
               <section class="message-card col-md-12 col-sm-12 col-xs-12 default-radius">
-                <h4 class="uppercase">Message Title</h4>
+                <h5 class="uppercase inline-block">@louisdante9 <small class="padding">2:15pm</small></h5>
+                <span class="label label-info">normal</span>
+                <span class="absolute-top-right absolute-v-middle margin-h pointer glyphicon glyphicon-trash text-danger"></span>
                 <p class="message-body">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
                   Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
                 </p>
-                <button class="btn btn-primary btn-sm">View Message</button>
               </section>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-              <section class="message-card col-md-12 col-sm-12 col-xs-12 default-radius">
-                <h4 class="uppercase">Message Title</h4>
-                <p class="message-body">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor quis voluptas reprehenderit voluptate, quia perferendis!
-                  Sed veritatis velit vel tempore nihil quas, quam. Dolorum, deserunt, sapiente. Totam distinctio, unde facilis.
-                </p>
-                <button class="btn btn-primary btn-sm">View Message</button>
-              </section>
-            </div>
             <!--message cards end-->
           </div>
           <div class="col-md-3 col-sm-12 col-xs-12 margin-v4">
+            <!-- Group Statistics -->
             <section class="group-stat bkg-green col-md-12 col-sm-12 col-xs-12 text-center">
               <h4 class="uppercase padding-top padding-bottom2">Group Statistics</h4>
               <section class="col-md-6 col-sm-6 col-xs-6 stat-group">
@@ -152,20 +139,42 @@
                 <p class="">15</p>
               </section>
             </section>
-            <section class="col-md-12 col-sm-12 col-xs-12 message-card margin-v2 display-none add-user-form">
-              <h4 class="text-center">Search for a user and add them to the group</h4>
-              <form action="">
-                <label for="search-name"></label>
-                <input type="text" name="" id="search-name" class="login-input" placeholder="Enter user's username">
-                <div class="text-center margin-v">
-                  <input type="submit" value="Add To Group" class="btn btn-primary">
-                  <input type="reset" value="Cancel" class="btn btn-default cancel-add-user" onclick="addUser()">
-                </div>
-              </form>
-            </section>
+            <!-- Add new user -->
             <section class="text-center">
-              <button class="btn btn-primary margin-v2 add-user-trigger" onclick="addUser()">Add New Users To Group</button>          
-              <a href='./post.html' class="btn btn-primary margin-v2" >Send A Broadcast Message</a>          
+              <div class="col-md-12 col-sm-12 col-xs-12 message-card margin-v2 display-none add-user-form">
+                <h4 class="text-center">Search for a user and add them to this group</h4>
+                <form action="">
+                  <label for="search-name"></label>
+                  <input type="text" name="" id="search-name" class="login-input" placeholder="Enter user's username">
+                  <div class="text-center margin-v">
+                    <input type="submit" value="Add To Group" class="btn btn-primary">
+                    <input type="reset" value="Cancel" class="btn btn-default cancel-add-user" onclick="addUser()">
+                  </div>
+                </form>
+              </div>
+              <button class="btn btn-primary margin-v2 add-user-trigger login-input" onclick="addUser()">Add New Users To Group</button>              
+            </section>
+            <!-- Post new message -->
+            <section class="text-center">
+              <div class="col-md-12 col-sm-12 col-xs-12 padding-top post-message display-none">
+                <h4 class="uppercase text-center">Post a new message</h4>
+                <section class="">
+                  <form action="">
+                    <label for="message-title"></label>
+                    <input class="login-input" type="text" name="" id="message-title" placeholder="Message Title">
+                    <label for="message-body"></label>
+                    <textarea class="login-input form-control" name="" id="" placeholder="Message body"></textarea>
+                    <label for="priority"></label>
+                    <select class="login-input form-control" name="" id="priority">
+                      <option value="normal">Normal</option>
+                      <option value="urgent">Urgent</option>
+                      <option value="normal">Critical</option>
+                    </select>
+                    <input class="login-input btn btn-primary" type="submit" value="Send">
+                  </form>
+                </section>
+              </div>
+              <button class="btn btn-primary margin-v2 login-input post-message-toggle" onclick="postMessage()">Send A Broadcast Message</button>          
             </section>
           </div>
         </div>

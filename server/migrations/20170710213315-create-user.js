@@ -13,11 +13,23 @@ module.exports = {
         unique: true
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
       },
       email: {
         type: Sequelize.STRING,
-        isEmail: true
+        isEmail: true,
+        unique: true,
+      },
+      phone: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        validate: {
+          not: ['[a-z]', 'i'],
+          notEmpty: true
+        }
       },
       createdAt: {
         allowNull: false,
