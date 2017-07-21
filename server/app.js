@@ -29,4 +29,4 @@ require('./routes')(app);
 // apply the routes to our application
 app.use('/', router);
 
-export default app;
+module.exports = app;
