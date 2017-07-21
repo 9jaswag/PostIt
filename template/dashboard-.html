@@ -9,23 +9,103 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/css/materialize.min.css">
 </head>
 <body>
+  <!-- Sign Up Modal Structure -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <h4>Sign Up</h4>
+      <form action="" class="col s12">
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="password" type="text" class="validate" required>
+            <label for="password">Username</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="password" type="password" class="validate" required>
+            <label for="password">Password</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="email" type="email" class="validate" required>
+            <label for="email" data-error="Invalid Format">Email</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="password" type="tel" class="validate" required>
+            <label for="password">Phone Number</label>
+          </div>
+        </div>
+        <div class="row right-align">
+          <div class="input-field col s12">
+            <input class="btn" type="submit" value="Sign Up">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sign In Modal Structure -->
+  <div id="signinModal" class="modal">
+    <div class="modal-content">
+      <h4>Sign In</h4>
+      <form action="" class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="text" class="validate" required>
+            <label for="password">Username</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate" required>
+            <label for="password">Password</label>
+          </div>
+        </div>
+        <div class="row right-align">
+          <div class="input-field col s12">
+            <input class="btn" type="submit" value="Sign In">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
   
   <!-- Navbar -->
-  <div class="navbar-fixed">
-    <nav>
+  <!-- <div class="navbar-fixed"> -->
+    <nav class="teal accent-4">
       <div class="nav-wrapper container">
         <a href="/" class="brand-logo">PostIT</a>
-        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">&#9776;</i></a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a class="waves-effect waves-light btn" href="sass.html">Register</a></li>
-          <li><a class="waves-effect waves-light btn" href="badges.html">Login</a></li>
+          <li><a class="waves-effect waves-light btn modal-trigger" href="#signupModal">Sign Up</a></li>
+          <li><a class="waves-effect waves-light btn modal-trigger" href="#signinModal">Sign In</a></li>
         </ul>
         <ul class="side-nav" id="mobile-demo">
-          <li><a class="waves-effect waves-light btn" href="sass.html">Register</a></li>
-          <li><a class="waves-effect waves-light btn" href="badges.html">Login</a></li>
+          <li><a class="waves-effect waves-light btn modal-trigger" href="#signupModal">Sign Up</a></li>
+          <li><a class="waves-effect waves-light btn modal-trigger" href="#signinModal">Sign In</a></li>
         </ul>
       </div>
     </nav>
+  <!-- </div> -->
+
+  <div class="">
+    <div class="row">
+      <!-- sidebar -->
+      <div class="col s12 m3 l2 teal accent-4">
+        <a href="./dashboard.html" class="waves-effect waves-light btn">My Groups</a>
+        <a href="#createGroupModal" class="waves-effect waves-light btn">Create New Group</a>
+        <a href="" class="waves-effect waves-light btn">Logout</a>
+      </div>
+      <!-- Main page -->
+      <div class="col s12 m9 l10">
+        <div class="col s12 m9 l10">
+        <div class="col s12 m9 l10"></div>
+          <div class="card-panel hoverable"> Hoverable Card Panel</div>          
+        </div>
+        <div class="col s12 m3 l2 teal accent-4">
+          lorem
+        </div>
+      </div>
+    </div>
   </div>
   
   <!--Import jQuery before materialize.js-->
@@ -35,6 +115,8 @@
   <script>
     $( document ).ready(function(){
       $(".button-collapse").sideNav();
+      // Signup modal
+      $('.modal').modal();
     })
   </script>
 </body>

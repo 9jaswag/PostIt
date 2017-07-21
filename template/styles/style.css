@@ -249,3 +249,8 @@ input[type='submit'].login-input {
 
 .notification-badge {
   background: #e74c3c; }
+
+.fh {
+  position: relative;
+  overflow: hidden;
+  height: 100%; }
