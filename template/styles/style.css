@@ -1,6 +1,3 @@
-body {
-  margin-top: 6rem; }
-
 .fixed {
   position: fixed; }
 
@@ -18,6 +15,9 @@ body {
 
 .pointer {
   cursor: pointer; }
+
+.one-whole {
+  width: 100%; }
 
 /*color class*/
 .text-green {
@@ -128,16 +128,19 @@ body {
 
 /*padding class*/
 .no-padding {
-  padding: 0; }
+  padding: 0 !important; }
+
+.padding05 {
+  padding: 1rem !important; }
 
 .padding {
-  padding: 2rem; }
+  padding: 2rem !important; }
 
 .padding2 {
-  padding: 4rem; }
+  padding: 4rem !important; }
 
 .padding-top {
-  padding-top: 2rem; }
+  padding-top: 2rem !important; }
 
 .padding-bottom {
   padding-bottom: 2rem; }
@@ -254,3 +257,6 @@ input[type='submit'].login-input {
   position: relative;
   overflow: hidden;
   height: 100%; }
+
+.overflow-y-scroll {
+  overflow-y: scroll; }

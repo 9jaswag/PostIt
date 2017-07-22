@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/css/materialize.min.css">
   <!-- Import Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
@@ -25,7 +26,7 @@
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="password" type="text" class="validate" required>
+            <input id="password" type="text" class="validate" data-length="80" required>
             <label for="password">Group Description</label>
           </div>
         </div>
@@ -47,22 +48,22 @@
   <div class="">
     <div class="row">
       <!-- sidebar -->
-      <div class="col s12 m3 l2 teal accent-4"  style="padding-top: 2rem;">
-        <a href="./dashboard.html" class="waves-effect waves-light btn" style="margin-bottom: 1rem;">Groups</a>
-        <a class="waves-effect waves-light btn modal-trigger" href="#createGroupModal" style="margin-bottom: 1rem;">Create New Group</a>        
-        <a href="" class="waves-effect waves-light btn" style="margin-bottom: 1rem;">Logout</a>
+      <div class="col s12 m3 l2 teal accent-4 full-height padding-top">
+        <a href="./dashboard.html" class="waves-effect waves-light btn margin-v">Groups</a>
+        <a class="waves-effect waves-light btn modal-trigger" href="#createGroupModal">Create New Group</a>        
+        <a href="" class="waves-effect waves-light btn margin-v">Logout</a>
       </div>
       <!-- Main page -->
       <div class="col s12 m9 l10">
         <div class="col s12 m12 l9" style="margin-top: 2rem;">
-          <h5 class="center-align">ANDELA BOOTCAMP MESSAGE BOARD</h5>
-          <div class="row">
+          <h5 class="center-align uppercase">Andela Bootcamp Message Board</h5>
+          <div class="row full-height overflow-y-scroll">
             <!-- message cards -->
             <div class="col s12">
               <div class="card teal darken-1 hoverable">
                 <div class="card-content white-text">
-                  <h6 class="" style="display: inline-block;">@troy34 <small style="padding-left: 1rem;">2:15pm</small></h6>
-                  <span class="red darken-3" style="padding: .1rem .4rem; border-radius:4px; margin-left: 1rem;">critical</span>
+                  <h6 class="inline-block">@troy34 <small class="padding-left">2:15pm</small></h6>
+                  <span class="red darken-3 margin-h default-radius" style="padding: .1rem .4rem;">critical</span>
                   <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
                 </div>
                 <div class="card-action right-align">
@@ -71,8 +72,8 @@
               </div>
               <div class="card teal darken-1 hoverable">
                 <div class="card-content white-text">
-                  <h6 class="" style="display: inline-block;">@troy34 <small style="padding-left: 1rem;">2:15pm</small></h6>
-                  <span class="amber accent-4" style="padding: .1rem .4rem; border-radius:4px; margin-left: 1rem;">urgent</span>
+                  <h6 class="inline-block">@troy34 <small class="padding-left">2:15pm</small></h6>
+                  <span class="amber accent-4 margin-h default-radius" style="padding: .1rem .4rem;">urgent</span>
                   <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
                 </div>
                 <div class="card-action right-align">
@@ -81,8 +82,38 @@
               </div>
               <div class="card teal darken-1 hoverable">
                 <div class="card-content white-text">
-                  <h6 class="" style="display: inline-block;">@troy34 <small style="padding-left: 1rem;">2:15pm</small></h6>
-                  <span class="light-blue darken-3" style="padding: .1rem .4rem; border-radius:4px; margin-left: 1rem;">normal</span>
+                  <h6 class="inline-block">@troy34 <small class="padding-left">2:15pm</small></h6>
+                  <span class="light-blue darken-3 margin-h default-radius" style="padding: .1rem .4rem;">normal</span>
+                  <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action right-align">
+                  <i class="material-icons" style="cursor: pointer;">delete</i>
+                </div>
+              </div>
+              <div class="card teal darken-1 hoverable">
+                <div class="card-content white-text">
+                  <h6 class="inline-block">@troy34 <small class="padding-left">2:15pm</small></h6>
+                  <span class="light-blue darken-3 margin-h default-radius" style="padding: .1rem .4rem;">normal</span>
+                  <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action right-align">
+                  <i class="material-icons" style="cursor: pointer;">delete</i>
+                </div>
+              </div>
+              <div class="card teal darken-1 hoverable">
+                <div class="card-content white-text">
+                  <h6 class="inline-block">@troy34 <small class="padding-left">2:15pm</small></h6>
+                  <span class="light-blue darken-3 margin-h default-radius" style="padding: .1rem .4rem;">normal</span>
+                  <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action right-align">
+                  <i class="material-icons" style="cursor: pointer;">delete</i>
+                </div>
+              </div>
+              <div class="card teal darken-1 hoverable">
+                <div class="card-content white-text">
+                  <h6 class="inline-block">@troy34 <small class="padding-left">2:15pm</small></h6>
+                  <span class="light-blue darken-3 margin-h default-radius" style="padding: .1rem .4rem;">normal</span>
                   <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
                 </div>
                 <div class="card-action right-align">
@@ -94,7 +125,7 @@
         </div>
         <div class="col s12 m12 l3">
           <div class="row">
-            <div class="col s12 m12 l12 teal accent-4" style="padding: 1rem;">
+            <div class="col s12 m12 l12 teal accent-4 padding05">
               <h6 class="white-text center-align" style="margin-bottom: 2rem;">GROUP STATISTICS</h6>
               <div class="col s6 m6 l6 center-align">
                 <i class="material-icons white-text large">group</i>
@@ -106,26 +137,57 @@
               </div>
             </div>
             <!-- post message div -->
-            <div class="col s12 m12 l12">
-              <div class="hide post-message">
-                <h5 class="uppercase text-center">Post a new message</h5>
-                <section class="">
-                  <form action="">
-                    <label for="message-title"></label>
-                    <input class="login-input" type="text" name="" id="message-title" placeholder="Message Title">
-                    <label for="message-body"></label>
-                    <textarea class="login-input form-control" name="" id="" placeholder="Message body"></textarea>
-                    <label for="priority"></label>
-                    <select class="login-input form-control" name="" id="priority">
-                      <option value="normal">Normal</option>
-                      <option value="urgent">Urgent</option>
-                      <option value="normal">Critical</option>
-                    </select>
-                    <input class="btn" type="submit" value="Send">
+            <div class="col s12 m12 l12 no-padding">
+              <section class="post-message margin-v2 hide">
+                <h6 class="uppercase center-align">Post a new message</h6>
+                  <form class="col s12" action="">
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <textarea id="textarea1" class="materialize-textarea" required></textarea>
+                        <label for="textarea1">Message</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <select>
+                          <option value="normal" selected>Normal</option>
+                          <option value="urgent">Urgent</option>
+                          <option value="critical">Critical</option>
+                        </select>
+                        <label>Message Priority</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <input class="btn one-whole" type="submit" value="Send Message">
+                        <input class="btn one-whole post-message-cancel" type="reset" value="Cancel" style="margin-top: .5rem;">
+                      </div>
+                    </div>
                   </form>
-                </section>
-              </div>
-              <button class="btn margin-v2 post-message-toggle" onclick="postMessage()">Send A Broadcast Message</button> 
+              </section>
+              <button class="btn margin-v2 post-message-toggle one-whole" onclick="postMessage()">Send A Message</button> 
+            </div>
+            <hr>
+            <!-- add user div -->
+            <div class="col s12 m12 l12 no-padding">
+              <section class="add-user-form hide">
+                <h6 class="center-align uppercase">Search for a user and add them to this group</h6>
+                <form class="col s12" action="">
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input id="username" type="text" class="validate" required>
+                      <label for="first_name">Enter username</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-field col s12">
+                      <input class="btn one-whole" type="submit" value="Add User">
+                      <input class="btn one-whole adduser-cancel" type="reset" value="Cancel" style="margin-top: .5rem;">
+                    </div>
+                  </div>
+                </form>
+              </section>
+              <button class="btn margin-v2 add-user-trigger one-whole" onclick="addUser()">Add New Users To Group</button>
             </div>
           </div>
         </div>
@@ -144,6 +206,8 @@
       $(".button-collapse").sideNav();
       // Create group modal
       $('.modal').modal();
+      // initialize select
+      $('select').material_select();
     })
   </script>
 </body>

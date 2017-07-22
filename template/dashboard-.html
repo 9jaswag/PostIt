@@ -7,6 +7,7 @@
   <title>Dashboard</title>
   <!-- Import materialize.css -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/css/materialize.min.css">
+  <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
@@ -23,7 +24,7 @@
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="password" type="text" class="validate" required>
+            <input id="password" type="text" class="validate" data-length="80" required>
             <label for="password">Group Description</label>
           </div>
         </div>
@@ -45,15 +46,15 @@
   <div class="">
     <div class="row">
       <!-- sidebar -->
-      <div class="col s12 m3 l2 teal accent-4 full-height"  style="padding-top: 2rem;">
-        <a href="./dashboard.html" class="waves-effect waves-light btn" style="margin-bottom: 1rem;">Groups</a>
-        <a class="waves-effect waves-light btn modal-trigger" href="#createGroupModal" style="margin-bottom: 1rem;">Create New Group</a>        
-        <a href="" class="waves-effect waves-light btn" style="margin-bottom: 1rem;">Logout</a>
+      <div class="col s12 m3 l2 teal accent-4 full-height padding-top">
+        <a href="./dashboard.html" class="waves-effect waves-light btn margin-v">Groups</a>
+        <a class="waves-effect waves-light btn modal-trigger" href="#createGroupModal">Create New Group</a>        
+        <a href="" class="waves-effect waves-light btn margin-v">Logout</a>
       </div>
       <!-- Main page -->
       <div class="col s12 m9 l10" style="margin-top: 2rem;">
         <div class="col s12 m12 l12">
-          <h5 class="center-align">MY GROUPS</h5>
+          <h5 class="center-align uppercase">My Groups</h5>
           <!-- group cards -->
           <a href="" class="tooltipped"  data-position="right" data-delay="50" data-tooltip="This is a short group description of a maximum of about 70 chars.">
             <div class="col s12 m6 l4">
