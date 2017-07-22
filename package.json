@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "babel-plugin-react-display-name": "^2.0.0",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-react-hmre": "^1.1.1",
     "css-loader": "^0.28.4",
     "enzyme": "^2.9.1",
