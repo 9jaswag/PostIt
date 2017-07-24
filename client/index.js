@@ -3,9 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 // import appRoutes from './components/appRoutes';
-// import App from './components/App';
-import HomePage from './components/home/HomePage';
+import App from './components/App';
 import './styles/main.scss';
 
 
-ReactDOM.render(<HomePage />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
