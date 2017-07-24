@@ -1,48 +1,31 @@
 import React, { Component } from 'react';
+import Sidebar from '../sidebar/Sidebar';
 
 class GroupPage extends Component {
+
+  constructor(props) {
+    super(props)
+  }
+  postMessage() {
+    const addUserForm = document.querySelector('.add-user-form');
+    const addUserTrigger = document.querySelector('.add-user-trigger');
+    const addUserCancel = document.querySelector('.adduser-cancel');
+    const postMessageForm = document.querySelector('.post-message');
+    const postMessageTrigger = document.querySelector('.post-message-toggle');
+    const postMessageCancel = document.querySelector('.post-message-cancel');
+    console.log(postMessageForm);
+  }
+  addUser() {
+    console.log(addUserForm);
+  }
+
   render() {
     return(
       <div>
-        { /* Create Group Modal Structure */}
-        <div id="createGroupModal" className="modal">
-          <div className="modal-content">
-            <h4>Create New Group</h4>
-            <form action="" className="col s12">
-              <div className="row">
-                <div className="input-field col s12">
-                  <input type="text" name="" id="groupname" className="validate" required />
-                  <label htmlFor="groupname">Group Name</label>
-                </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input type="text" name="" id="groupdesc" className="validate" data-length="80" required/>
-                  <label htmlFor="groupdesc">Group Description</label>
-                </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input type="text" name="" id="adduser"/>
-                  <label htmlFor="adduser">Add Users</label>
-                </div>
-              </div>
-              <div className="row right-align">
-                <div className="input-field col s12">
-                  <input className="btn" type="submit" value="Create Group"/>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
         { /*Main Page*/ }
         <div className="row">
           { /*Sidebar*/ }
-          <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
-            <a href="./dashboard.html" className="waves-effect waves-light btn margin-v">Groups</a>
-            <a href="#createGroupModal" className="waves-effect waves-light btn modal-trigger">Create New Group</a>
-            <a href="" className="waves-effect waves-light btn margin-v">Logout</a>
-          </div>
+          <Sidebar />
           { /*Main Page*/ }
           <div className="col s12 m9 l10">
             <div className="col s12 m12 l9" style={{ marginTop: '2rem' }}>
@@ -127,7 +110,29 @@ class GroupPage extends Component {
                       </div>
                     </form>
                   </section>
-                  <button className="btn margin-v2 post-message-toggle one-whole" onClick={}>Send A Message</button>
+                  <button className="btn margin-v2 post-message-toggle one-whole" onClick={ this.postMessage }>Send A Message</button>
+                </div>
+                <hr/>
+                { /*Add new user div*/ }
+                <div className="col s12 m12 l12 no-padding">
+                  <section className="add-user-form hide">
+                    <h6 className="center-align uppercase">Search for a user and add them to this group</h6>
+                    <form action="" className="col s12">
+                      <div className="row">
+                        <div className="input-field col s12">
+                          <input id="username" type="text" className="validate" required/>
+                          <label htmlFor="first_name">Enter username</label>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="input-field col s12">
+                          <input className="btn one-whole" type="submit" value="Add User"/>
+                          <input className="btn one-whole adduser-cancel" type="reset" value="Cancel" style={{ marginTop: '.5rem' }}/>
+                        </div>
+                      </div>
+                    </form>
+                  </section>
+                  <button className="btn margin-v2 add-user-trigger one-whole" onClick={ this.addUser }>Add New Users To Group</button>
                 </div>
               </div>
             </div>
