@@ -4,19 +4,34 @@ import Sidebar from '../sidebar/Sidebar';
 class GroupPage extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      showMessageDiv: false,
+      showAddUserDiv: false
+    };
+
+    this.postMessage = this.postMessage.bind(this);
+    this.addUser = this.addUser.bind(this);
   }
   postMessage() {
-    const addUserForm = document.querySelector('.add-user-form');
-    const addUserTrigger = document.querySelector('.add-user-trigger');
-    const addUserCancel = document.querySelector('.adduser-cancel');
-    const postMessageForm = document.querySelector('.post-message');
-    const postMessageTrigger = document.querySelector('.post-message-toggle');
-    const postMessageCancel = document.querySelector('.post-message-cancel');
-    console.log(postMessageForm);
+    if (this.state.showAddUserDiv) {
+      this.setState(prevState => ({
+        showAddUserDiv: !prevState.showAddUserDiv
+      }));
+    }
+    this.setState(prevState => ({
+      showMessageDiv: !prevState.showMessageDiv
+    }));
   }
   addUser() {
-    console.log(addUserForm);
+    if (this.state.showMessageDiv) {
+      this.setState(prevState => ({
+        showMessageDiv: !prevState.showMessageDiv
+      })); 
+    }
+    this.setState(prevState => ({
+      showAddUserDiv: !prevState.showAddUserDiv
+    }));
   }
 
   render() {
@@ -83,55 +98,13 @@ class GroupPage extends Component {
                 </div>
                 { /*Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
-                  <section className="post-message margin-v2 hide">
-                    <h6 className="uppercase center-align">Post a new message</h6>
-                    <form action="" className="col s12">
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <textarea cols="30" rows="10" id="message" className="materialize-textarea" required></textarea>
-                          <label htmlFor="message">Message</label>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <select name="" id="priority">
-                            <option value="normal" defaultValue>Normal</option>
-                            <option value="urgent">Urgent</option>
-                            <option value="critical">Critical</option>
-                          </select>
-                          <label htmlFor="priority">>Message Priority</label>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <input className="btn one-whole" type="submit" value="Send Message"/>
-                          <input className="btn one-whole post-message-cancel" type="reset" value="Cancel" style={{ marginTop: '.5rem' }}/>
-                        </div>
-                      </div>
-                    </form>
-                  </section>
+                  { this.state.showMessageDiv ? <MessageDiv onClick={ this.postMessage } /> : null }
                   <button className="btn margin-v2 post-message-toggle one-whole" onClick={ this.postMessage }>Send A Message</button>
                 </div>
                 <hr/>
                 { /*Add new user div*/ }
                 <div className="col s12 m12 l12 no-padding">
-                  <section className="add-user-form hide">
-                    <h6 className="center-align uppercase">Search for a user and add them to this group</h6>
-                    <form action="" className="col s12">
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <input id="username" type="text" className="validate" required/>
-                          <label htmlFor="first_name">Enter username</label>
-                        </div>
-                      </div>
-                      <div className="row">
-                        <div className="input-field col s12">
-                          <input className="btn one-whole" type="submit" value="Add User"/>
-                          <input className="btn one-whole adduser-cancel" type="reset" value="Cancel" style={{ marginTop: '.5rem' }}/>
-                        </div>
-                      </div>
-                    </form>
-                  </section>
+                  { this.state.showAddUserDiv ? <AddUserdiv onClick={ this.addUser }/> : null }
                   <button className="btn margin-v2 add-user-trigger one-whole" onClick={ this.addUser }>Add New Users To Group</button>
                 </div>
               </div>
@@ -141,6 +114,60 @@ class GroupPage extends Component {
       </div>
     );
   }
+}
+
+const MessageDiv = (props) => {
+  return(
+    <section className="post-message margin-v2">
+      <h6 className="uppercase center-align">Post a new message</h6>
+      <form action="" className="col s12">
+        <div className="row">
+          <div className="input-field col s12">
+            <textarea cols="30" rows="10" id="message" className="materialize-textarea" required></textarea>
+            <label htmlFor="message">Message</label>
+          </div>
+        </div>
+        <div className="row">
+          <div className="input-field col s12">
+            <select name="" id="priority">
+              <option value="normal" defaultValue>Normal</option>
+              <option value="urgent">Urgent</option>
+              <option value="critical">Critical</option>
+            </select>
+            <label htmlFor="priority">Message Priority</label>
+          </div>
+        </div>
+        <div className="row">
+          <div className="input-field col s12">
+            <input className="btn one-whole" type="submit" value="Send Message"/>
+            <input onClick={ props.onClick } className="btn one-whole post-message-cancel" type="reset" value="Cancel" style={{ marginTop: '.5rem' }}/>
+          </div>
+        </div>
+      </form>
+    </section>
+  );
+}
+
+const AddUserdiv = (props) => {
+  return(
+    <section className="add-user-form">
+      <h6 className="center-align uppercase">Search for a user and add them to this group</h6>
+      <form action="" className="col s12">
+        <div className="row">
+          <div className="input-field col s12">
+            <input id="username" type="text" className="validate" required/>
+            <label htmlFor="first_name">Enter username</label>
+          </div>
+        </div>
+        <div className="row">
+          <div className="input-field col s12">
+            <input className="btn one-whole" type="submit" value="Add User"/>
+            <input onClick={ props.onClick } className="btn one-whole adduser-cancel" type="reset" value="Cancel" style={{ marginTop: '.5rem' }}/>
+          </div>
+        </div>
+      </form>
+    </section>
+  );
 }
 
 export default GroupPage;
