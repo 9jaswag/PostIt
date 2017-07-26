@@ -37,12 +37,12 @@ const Sidebar = (props) => {
       </div>
       { /*Sidebar*/ }
         <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
-          {/* <a href="./dashboard.html" className="waves-effect waves-light btn margin-v">Groups</a>
+           <a href="/dashboard" className="waves-effect waves-light btn margin-v">Dashboard</a>
+          <a href="#createGroupModal" className="waves-effect waves-light btn modal-trigger">Create New Group</a>
+          <a href="" className="waves-effect waves-light btn margin-v">Logout</a> 
+          {/* <Link to="/dashboard" className="waves-effect waves-light btn margin-v">Dashboard</Link>
           <a href="#createGroupModal" className="waves-effect waves-light btn modal-trigger">Create New Group</a>
           <a href="" className="waves-effect waves-light btn margin-v">Logout</a> */}
-          <Link to="/dashboard" className="waves-effect waves-light btn margin-v">Dashboard</Link>
-          <a href="#createGroupModal" className="waves-effect waves-light btn modal-trigger">Create New Group</a>
-          <a href="" className="waves-effect waves-light btn margin-v">Logout</a>
         </div>
     </div>
   );
