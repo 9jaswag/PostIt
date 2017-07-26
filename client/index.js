@@ -1,8 +1,7 @@
 import 'babel-polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, browserHistory } from 'react-router';
-// import appRoutes from './components/appRoutes';
+import { Router } from 'react-router-dom';
 import App from './components/App';
 import './styles/main.scss';
 
