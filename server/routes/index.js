@@ -10,7 +10,8 @@ module.exports = (app) => {
     message: 'Welcome to the Post IT API!',
   }));
 
-  app.get('/', (req, res) => {
+  // PathLocationStrategy for all GET requests
+  app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../../client/index.html'));
   });
 

@@ -1,0 +1,305 @@
+// sass variables
+$green: #18bc9c;
+$white: #ffffff;
+$darkBlue: #2c3e50;
+$red: #e74c3c;
+
+.fixed {
+  position: fixed;
+}
+.display-none {
+  display: none;
+}
+.display-block {
+  display: block;
+}
+.inline-block {
+  display: inline-block;
+}
+.default-radius {
+  border-radius: 4px;
+}
+.pointer {
+  cursor: pointer;
+}
+
+// width class
+.one-whole {
+  width: 100%;
+}
+
+/*color class*/
+.text-green {
+    color: $green;
+}
+.bkg-green {
+    background-color: $green;
+}
+.text-white {
+    color: $white;
+}
+
+// position classes
+.absolute-center, .absolute-h-middle, .absolute-v-middle,
+.absolute, .absolute-top, .absolute-top-left, .absolute-top-right,
+.absolute-bottom-middle, .absolute-bottom-left, .absolute-bottom-right {
+  position: absolute
+}
+.absolute-center {
+  top: 50%
+}
+.absolute-center {
+  left: 50%
+}
+.absolute-center {
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%)
+}
+.absolute-top {
+  top: 0%
+}
+.absolute-top-left {
+  top: 0
+}
+.absolute-top-left {
+  left: 0
+}
+.absolute-top-right {
+  top: 0
+}
+.absolute-top-right {
+  right: 0
+}
+ .absolute-bottom-middle {
+  bottom: 0
+}
+.absolute-bottom-middle {
+  left: 50%
+}
+.absolute-bottom-middle {
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+.absolute-bottom-left {
+  bottom: 0
+}
+.absolute-bottom-left {
+  left: 0
+}
+.absolute-bottom-right {
+  bottom: 0
+}
+.absolute-bottom-right {
+  right: 0
+}
+.absolute-h-middle {
+  left: 50%
+}
+.absolute-h-middle {
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%)
+}
+.absolute-v-middle {
+  top: 50%
+}
+.absolute-v-middle {
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%)
+}
+
+/*icon classes*/
+
+.icon-2x {
+    font-size: 2em;
+}
+
+.icon-3x {
+    font-size: 3em;
+}
+
+/*margin classes*/
+.margin-none {
+    margin: 0;
+}
+
+.margin-v {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.margin-v2 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.margin-v4 {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+.margin-h {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.margin-h2 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+/*padding class*/
+.no-padding{
+  padding: 0 !important;
+}
+.padding05 {
+  padding: 1rem !important;
+}
+.padding {
+    padding: 2rem !important;
+}
+.padding2 {
+    padding: 4rem !important;
+}
+.padding-top {
+    padding-top: 2rem !important;
+}
+.padding-bottom {
+    padding-bottom: 2rem;
+}
+.padding-left {
+    padding-left: 2rem;
+}
+.padding-right {
+    padding-right: 2rem;
+}
+.padding-top2 {
+    padding-top: 4rem;
+}
+.padding-bottom2 {
+    padding-bottom: 4rem;
+}
+.padding-left2 {
+    padding-left: 4rem;
+}
+.padding-right2 {
+    padding-right: 4rem;
+}
+
+/*class for login input fields*/
+.login-input {
+  border-radius: 3px;
+  padding: 1rem 0rem 1rem 1rem;
+  width: 100%;
+  border: 1px solid $darkBlue;
+}
+
+input[type='submit'].login-input {
+  margin-top: 2rem;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/*classes for the message board page*/
+.message-card {
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  margin-bottom: 1rem;
+}
+.message-card-group-name {
+  border-radius: 4px;
+  padding: .5rem;
+  color: $white;
+}
+.group-stat {
+  padding: 1rem 2rem;
+  color: $white;
+}
+
+/*classes for message statistics*/
+.stat-group {
+  /*border: 1px solid #1a242f;*/
+  padding: 2rem;
+}
+
+/*create group page styles*/
+.user-list li {
+  margin-right: 0.3rem;
+}
+.user-list li:before {
+  font-family: 'FontAwesome';
+  content: '\f058';
+  color: $green;
+  margin-right: .2rem;
+}
+
+/*styles for password reset form*/
+.reset-form.flex-center {
+  margin-top: 15rem;
+}
+
+// using css flex box to center items
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+// scroll classes
+.scroll-x {
+  overflow-x: scroll;
+}
+
+.scroll-y {
+  overflow-y: scroll;
+}
+
+// height classes
+.full-height {
+  height: 100vh;
+}
+
+// styles for group sidebar
+.sidebar {
+  padding-left: 0;
+}
+.group-list {
+  padding-left: 0;
+}
+
+.group {
+  background: $white;
+  padding: 0.8rem 1rem;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  list-style-type: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.group:before {
+  font-family: 'FontAwesome';
+  content: '\f013';
+  color: $green;
+  margin-right: 1rem;
+}
+.group-stats {
+  padding-right: 0;
+}
+
+.sidebar-btn {
+  border-radius: 0px;
+}
+
+.notification-badge {
+  background: $red;
+}
+// new styles
+.fh {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
