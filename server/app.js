@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import webpack from 'webpack';
+import path from 'path';
 import config from '../webpack.config';
 
 require('dotenv').config();
@@ -29,11 +30,12 @@ const router = express.Router();
 
 // Require routes
 require('./routes')(app);
-// Setup a default catch-all route 
-// that sends back a welcome message in JSON format.
-// router.get('*', (req, res) => res.status(200).send({
-//   message: 'Welcome to the beginning of nothingness. 404 Not Found',
-// }));
+// Setup a default catch
+
+// PathLocationStrategy for all GET requests
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/index.html'));
+});
 
 // apply the routes to our application
 app.use('/', router);
