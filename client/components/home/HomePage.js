@@ -1,39 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import SignupForm from '../signup/signupForm'
+import { userSignupRequest } from '../actions/signupActions';
 
-const HomePage = (props) => {
-  return (
+class HomePage extends Component {
+  render() {
+    const { userSignupRequest } = this.props;
+    return (
     <div>
       {/* Sign Up Modal */}
       <div id="signupModal" className="modal">
         <div className="modal-content">
           <h4>Sign Up</h4>
-          <form action="" className="col s12">
-            <div className="row">
-              <div className="input-field col s6">
-                <input id="username" type="text" className="validate" required />
-                <label htmlFor="username">Username</label>
-              </div>
-              <div className="input-field col s6">
-                <input id="username" type="text" className="validate" required />
-                <label htmlFor="username">Username</label>
-              </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s6">
-                <input id="email" type="email" className="validate" required />
-                <label htmlFor="email" data-error="Invalid Format">Email</label>
-              </div>
-              <div className="input-field col s6">
-                <input id="phone" type="tel" className="validate" required />
-                <label htmlFor="phone">Phone Number</label>
-              </div>
-            </div>
-            <div className="row right-align">
-              <div className="input-field col s12">
-                <input type="submit" className="btn" value="Sign Up"/>
-              </div>
-            </div>
-          </form>
+          <SignupForm userSignupRequest= { userSignupRequest } />
         </div>
       </div>
       {/* Sign In Modal */}
@@ -87,6 +66,11 @@ const HomePage = (props) => {
       </div>
     </div>
   );
-};
+  }
+}
 
-export default HomePage;
+HomePage.propTypes = {
+  userSignupRequest: React.PropTypes.func.isRequired
+}
+
+export default connect((state) => { return {} }, { userSignupRequest }) (HomePage);
