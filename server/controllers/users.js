@@ -121,7 +121,7 @@ export default {
     }
     return models.User.findOne({
       where: {
-        username: req.body.username,
+        username: req.body.username.toLowerCase(),
       }
     }).then((user) => {
       if (!user) {
