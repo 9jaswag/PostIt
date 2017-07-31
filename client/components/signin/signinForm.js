@@ -24,7 +24,7 @@ class SigninForm extends Component {
     this.setState({ errors: {}, isLoading: true })
     this.props.Login(this.state).then(
       (res) => {
-        location.href="/dashboard"
+        // location.href="/dashboard"
       },
       ({response}) => this.setState({ errors: { message: 'Incorrect Username/Password' }, isLoading: false })
     );
