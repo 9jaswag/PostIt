@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SignupForm from '../signup/signupForm'
-import { userSignupRequest } from '../actions/signupActions';
+import SignupForm from '../signup/signupForm';
+import SigninForm from '../signin/signinForm';
+import userSignupRequest from '../actions/signupActions';
 
 class HomePage extends Component {
   render() {
@@ -19,25 +20,7 @@ class HomePage extends Component {
       <div id="signinModal" className="modal">
         <div className="modal-content">
           <h4>Sign In</h4>
-          <form action="" className="col s12">
-            <div className="row">
-              <div className="input-field col s12">
-                <input id="username" type="text" className="validate" required />
-                <label htmlFor="username">Username</label>
-              </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s12">
-                <input id="password" type="text" className="validate" required />
-                <label htmlFor="password">Password</label>
-              </div>
-            </div>
-            <div className="row right-align">
-              <div className="input-field col s12">
-                <input type="submit" className="btn" value="Sign In"/>
-              </div>
-            </div>
-          </form>
+          <SigninForm />
         </div>
       </div>
       { /* Page Content */}
