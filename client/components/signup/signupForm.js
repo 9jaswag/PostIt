@@ -30,7 +30,7 @@ class SignupForm extends Component {
           type: 'success',
           text: 'Sign up successful. Welcome!'
         })
-        // location.href="/dashboard"
+        location.href="/dashboard"
       },
       ({response}) => this.setState({ errors: response.data.errors, isLoading: false })
     );
