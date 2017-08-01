@@ -38,7 +38,7 @@ describe('PostIT API Tests:', () => {
   describe('Base API', () => {
     it('Displays welcome message', (done) => {
       chai.request(app)
-        .get('/')
+        .get('/api')
         .type('form')
         .end((err, res) => {
           res.body.message.should.equals('Welcome to the Post IT API!');
@@ -73,7 +73,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Username field cannot be empty');
+          res.body.errors.username.should.equals('Username field cannot be empty');
           done();
         });
     });
@@ -88,7 +88,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Email address field cannot be empty');
+          res.body.errors.email.should.equals('Email address field cannot be empty');
           done();
         });
     });
@@ -103,7 +103,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Password field cannot be empty');
+          res.body.errors.password.should.equals('Password field cannot be empty');
           done();
         });
     });
@@ -118,7 +118,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Phone field cannot be empty');
+          res.body.errors.phone.should.equals('Phone field cannot be empty');
           done();
         });
     });
@@ -134,7 +134,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.errors.error.should.equals('Username already exists');
+          res.body.errors.username.should.equals('Username already exists');
           done();
         });
     });
@@ -150,7 +150,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Email address already exists');
+          res.body.errors.email.should.equals('Email address already exists');
           done();
         });
     });
@@ -166,7 +166,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.errors.error.should.equals('Email address is invalid');
+          res.body.errors.email.should.equals('Email address is invalid');
           done();
         });
     });
@@ -182,7 +182,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Username field cannot be empty');
+          res.body.errors.username.should.equals('Username field cannot be empty');
           done();
         });
     });
@@ -198,7 +198,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Email address field cannot be empty');
+          res.body.errors.email.should.equals('Email address field cannot be empty');
           done();
         });
     });
@@ -214,7 +214,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Password field cannot be empty');
+          res.body.errors.password.should.equals('Password field cannot be empty');
           done();
         });
     });
@@ -230,7 +230,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Phone field cannot be empty');
+          res.body.errors.phone.should.equals('Phone field cannot be empty');
           done();
         });
     });
