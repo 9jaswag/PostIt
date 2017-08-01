@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Login from '../actions/signinAction';
+import Login from '../../actions/signinAction';
 
 class SigninForm extends Component {
   constructor(props){
@@ -24,7 +24,7 @@ class SigninForm extends Component {
     this.setState({ errors: {}, isLoading: true })
     this.props.Login(this.state).then(
       (res) => {
-        // location.href="/dashboard"
+        location.href="/dashboard"
       },
       ({response}) => this.setState({ errors: { message: 'Incorrect Username/Password' }, isLoading: false })
     );
