@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addFlashMessage } from '../actions/flashMessages';
 
-export default function(component) {
+export default function(ComposedComponent) {
   class Authenticate extends Component{
 
     componentWillMount() {
@@ -23,7 +23,7 @@ export default function(component) {
 
     render() {
       return(
-        <component { ...this.props } />
+        <ComposedComponent { ...this.props } />
       );
     }
   }
