@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 import setAuthToken from '../../utilities/setAuthToken';
 
 const Login = userData =>
