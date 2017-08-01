@@ -8,6 +8,19 @@ import { addFlashMessage } from '../../actions/flashMessages';
 class HomePage extends Component {
   render() {
     const { userSignupRequest, addFlashMessage } = this.props;
+    const { isAuthenticated } = this.props.auth;
+    const userLinks = (
+      <div>
+        <a href="/dashboard" className="waves-effect waves-light btn modal-trigger">Dashboard</a>
+      </div>
+    );
+    const guestLinks = (
+      <div>
+        <a href="#signupModal" className="waves-effect waves-light btn modal-trigger">Sign Up</a>
+        <a href="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h">Sign In</a>
+      </div>
+    );
+
     return (
     <div>
       {/* Sign Up Modal */}
@@ -34,15 +47,13 @@ class HomePage extends Component {
                 <h5 className="center-align text-white">Prompt Messages, Prompt Delivery</h5>
                 { /* Modal Buttons for mobile only*/ }
                 <div className="show-on-small hide-on-med-and-up center-align margin-v2">
-                  <a href="#signupModal" className="waves-effect waves-light btn modal-trigger">Sign Up</a>
-                  <a href="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h">Sign In</a>
+                  { isAuthenticated ? userLinks : guestLinks } 
                 </div>
               </div> 
             </div>
             <div className="col s12 m6 l6 valign-wrapper full-height hide-on-small-only">
               <div className="center-align" style={{ display: 'block', margin: 'auto' }}>
-                <a className="waves-effect waves-light btn modal-trigger" href="#signupModal">Sign Up</a>
-                <a className="waves-effect waves-light btn modal-trigger margin-h" href="#signinModal">Sign In</a>
+                { isAuthenticated ? userLinks : guestLinks }
               </div>
             </div>
           </div>
@@ -53,9 +64,16 @@ class HomePage extends Component {
   }
 }
 
-HomePage.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired,
-  addFlashMessage: React.PropTypes.func.isRequired
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
 }
 
-export default connect((state) => { return {} }, { userSignupRequest, addFlashMessage }) (HomePage);
+HomePage.propTypes = {
+  userSignupRequest: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired,
+  auth: React.PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps, { userSignupRequest, addFlashMessage }) (HomePage);
