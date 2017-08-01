@@ -14,9 +14,10 @@ export default (req, res, next) => {
       return res.status(401).send({
         message: 'User not authenticated. Failed to authenticate token.'
       });
+    } else {
+      // if everything is good, save to request for use in other routes
+      req.decoded = decoded;
+      next();
     }
-    // if everything is good, save to request for use in other routes
-    req.decoded = decoded;
-    next();
   });
 };
