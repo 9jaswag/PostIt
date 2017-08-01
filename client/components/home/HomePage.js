@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SignupForm from '../signup/signupForm';
 import SigninForm from '../signin/signinForm';
-import userSignupRequest from '../actions/signupActions';
+import userSignupRequest from '../../actions/signupActions';
+import { addFlashMessage } from '../../actions/flashMessages';
 
 class HomePage extends Component {
   render() {
-    const { userSignupRequest } = this.props;
+    const { userSignupRequest, addFlashMessage } = this.props;
     return (
     <div>
       {/* Sign Up Modal */}
       <div id="signupModal" className="modal">
         <div className="modal-content">
           <h4>Sign Up</h4>
-          <SignupForm userSignupRequest= { userSignupRequest } />
+          <SignupForm userSignupRequest= { userSignupRequest } addFlashMessage= { addFlashMessage } />
         </div>
       </div>
       {/* Sign In Modal */}
@@ -53,7 +54,8 @@ class HomePage extends Component {
 }
 
 HomePage.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired
+  userSignupRequest: React.PropTypes.func.isRequired,
+  addFlashMessage: React.PropTypes.func.isRequired
 }
 
-export default connect((state) => { return {} }, { userSignupRequest }) (HomePage);
+export default connect((state) => { return {} }, { userSignupRequest, addFlashMessage }) (HomePage);
