@@ -26,6 +26,7 @@ module.exports = {
       phone: {
         allowNull: false,
         type: Sequelize.STRING,
+        unique: true,
         validate: {
           not: ['[a-z]', 'i'],
           notEmpty: true

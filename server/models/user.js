@@ -9,9 +9,6 @@ export default (sequelize, DataTypes) => {
         args: true,
         msg: 'Username already exists'
       },
-      validate: {
-        is: /^[a-z]+$/i,
-      }
     },
     password: {
       type: DataTypes.STRING,
@@ -45,8 +42,19 @@ export default (sequelize, DataTypes) => {
     phone: {
       allowNull: false,
       type: DataTypes.STRING,
+      unique: {
+        args: true,
+        msg: 'Phone number already exists'
+      },
       validate: {
-        not: ['[a-z]', 'i'],
+        not: {
+          args: ['[a-z]', 'i'],
+          msg: 'Only numeric characters are allowed as phone numbers'
+        },
+        len: {
+          args: [11, 11],
+          msg: 'Phone number must have 11 characters'
+        },
         notEmpty: true
       }
     }

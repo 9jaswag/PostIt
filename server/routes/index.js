@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import controllers from '../controllers';
-import path from 'path';
 import auth from '../middlewares/auth';
 
 
@@ -9,10 +8,6 @@ module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the Post IT API!',
   }));
-
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../client/index.html'));
-  });
 
   // API route to handle user sign up
   app.post('/api/user/signup', controllers.users.signup);
