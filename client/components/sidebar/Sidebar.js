@@ -1,40 +1,70 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/signinAction';
+import createGroup from '../../actions/createGroup';
 
 class Sidebar extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      name: '',
+      description: '',
+      errors: {},
+      isLoading: false
+    }
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
   logout(e){
     e.preventDefault();
     this.props.logout();
   }
 
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    this.setState({ errors: {}, isLoading: true })
+    this.props.createGroup(this.state).then(
+      (res) => {
+        location.href="/dashboard"
+      },
+      ({response}) => this.setState({ errors: response.data.errors , isLoading: false })
+    );
+  }
+
   render() {
     const { isAuthenticated } = this.props.auth;
+    const { errors } = this.state;
     return(
       <div>
         { /* Create Group Modal Structure */}
         <div id="createGroupModal" className="modal">
           <div className="modal-content">
             <h4>Create New Group</h4>
-            <form action="" className="col s12">
+            <form action="" className="col s12" onSubmit={ this.onSubmit }>
               <div className="row">
                 <div className="input-field col s12">
-                  <input type="text" name="" id="groupname" className="validate" required />
-                  <label htmlFor="groupname">Group Name</label>
+                  <input type="text" name="name" id="name" className="validate" onChange={ this.onChange } value={ this.state.name } required />
+                  <label htmlFor="name">Group Name</label>
+                  { errors.group && <span className="red-text">{ errors.group }</span>} 
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
-                  <input type="text" name="" id="groupdesc" className="validate" data-length="80" required/>
-                  <label htmlFor="groupdesc">Group Description</label>
+                  <input type="text" name="description" id="description" className="validate" onChange={ this.onChange } value={ this.state.description } data-length="80" required/>
+                  <label htmlFor="description">Group Description</label>
                 </div>
               </div>
-              <div className="row">
+              {/* <div className="row">
                 <div className="input-field col s12">
                   <input type="text" name="" id="adduser"/>
                   <label htmlFor="adduser">Add Users</label>
                 </div>
-              </div>
+              </div> */}
               <div className="row right-align">
                 <div className="input-field col s12">
                   <input className="btn" type="submit" value="Create Group"/>
@@ -56,7 +86,8 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   auth: React.PropTypes.object.isRequired,
-  logout: React.PropTypes.func.isRequired
+  logout: React.PropTypes.func.isRequired,
+  createGroup: React.PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -65,4 +96,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { logout }) (Sidebar);
+export default connect(mapStateToProps, { logout, createGroup }) (Sidebar);
