@@ -185,7 +185,7 @@ export default {
         include: [{
           model: models.Group,
           required: false,
-          attributes: ['id', 'name'],
+          attributes: ['id', 'name', 'description'],
           through: { attributes: [] }
         }],
         where: { username },

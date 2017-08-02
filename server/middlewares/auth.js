@@ -17,7 +17,7 @@ export default (req, res, next) => {
     } else {
       // if everything is good, save to request for use in other routes
       req.decoded = decoded;
-      const username = req.decoded.username;
+      const username = req.decoded.userUsername;
       models.User.findOne({
         where: {
           username
