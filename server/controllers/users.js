@@ -107,36 +107,29 @@ export default {
       );
   },
   login(req, res) {
+    const errors = { };
+    let hasError = false;
     if (!req.body.username) {
-      return res.status(401)
-        .send({
-          success: false,
-          error: {
-            message: 'Username field cannot be empty'
-          },
-          data: req.body
-        });
+      hasError = true;
+      errors.username = 'Username field cannot be empty';
     } else if (!req.body.password) {
-      return res.status(401)
-        .send({
-          success: false,
-          error: {
-            message: 'Password field cannot be empty'
-          },
-          data: req.body
-        });
+      hasError = true;
+      errors.password = 'Password field cannot be empty';
+    }
+    if (hasError) {
+      return res.status(400).send({ success: false, errors });
     }
     return models.User.findOne({
       where: {
-        username: req.body.username,
+        username: req.body.username.toLowerCase(),
       }
     }).then((user) => {
       if (!user) {
         return res.status(401)
           .send({
             success: false,
-            error: {
-              message: 'User does not exist'
+            errors: {
+              username: 'User does not exist'
             }
           });
       } else if (user) {
@@ -145,8 +138,8 @@ export default {
           return res.status(401)
             .send({
               success: false,
-              error: {
-                message: 'Incorrect password!'
+              errors: {
+                password: 'Incorrect password!'
               }
             });
         }
@@ -164,7 +157,7 @@ export default {
     })
       .catch(error => res.status(400).send({
         success: false,
-        error: { message: error.message }
+        errors: { message: error.message }
       }));
   },
   findAll(req, res) {

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import HomePage from './home/HomePage';
 import DashboardPage from './dashboard/DashboardPage'
 import GroupPage from './group/GroupPage';
+import requireAuth from '../utilities/requireAuth';
 
 class App extends Component {
   render() {
@@ -10,8 +11,8 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/dashboard" component={DashboardPage} />
-          <Route exact path="/group" component={GroupPage} />
+          <Route exact path="/dashboard" component={ requireAuth(DashboardPage) } />
+          <Route exact path="/group" component={ requireAuth(GroupPage) } />
           <Route render={() => {
             return <p>404 Not Found!</p>;
           }} />

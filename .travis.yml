@@ -1,18 +1,17 @@
-
-sudo: required
-dist: trusty
 language: node_js
-node_js: "8"
+node_js:
+  - "8.0.0"
+install:
+  - npm install
+services:
+  - postgresql
+
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
 script:
   - npm test
-# services:
-#   - postgresql
-# before_script:
-#   - createuser chuks -s U postgres
-#   - createdb postit-dev --username=chuks
-#   - sequelize db:migrate
-# after_success: 
-#   - npm run coverage
-#   - npm run coveralls
-# notifications:
-#   - webhooks: https://coveralls.io/webhook?repo_token: yEvDWmpY7RvxsiiRUxGYcb85eNoYYwTac
+branches:
+  only:
+  - feature-react
+env:
+  -TOKEN_SECRET
