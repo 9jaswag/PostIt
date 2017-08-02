@@ -13,8 +13,10 @@ module.exports = (app) => {
   app.post('/api/user/signup', controllers.users.signup);
   // API route to handle user sign in
   app.post('/api/user/signin', controllers.users.login);
-  // // API to get all users
+  // API to get all users
   app.get('/api/users', auth, controllers.users.findAll);
+  // API route to get a user and group details
+  app.get('/api/users/one', auth, controllers.users.findOne);
   // API for logged in users to retrieve messages in their group
   app.get('/api/group/:group_id/messages', auth, controllers.groups.fetchMessage);
 

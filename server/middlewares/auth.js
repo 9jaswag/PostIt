@@ -3,7 +3,6 @@
  */
 
 import jwt from 'jsonwebtoken';
-import controllers from '../controllers';
 
 // Middleware
 let token;
