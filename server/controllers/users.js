@@ -162,7 +162,9 @@ export default {
   },
   findAll(req, res) {
     return models.User
-      .all()
+      .findAll({
+        attributes: ['id', 'username', 'email', 'phone']
+      })
       .then((user) => {
         if (user.length === 0) {
           return res.status(200)
@@ -170,7 +172,7 @@ export default {
         }
         return res.status(200).send({ data: { user } });
       })
-      .catch(error => res.status(400).send({
+      .catch(error => res.send({
         success: false,
         error: { message: error.message }
       }));
