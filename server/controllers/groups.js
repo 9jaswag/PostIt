@@ -29,7 +29,7 @@ export default {
       if (group) {
         return res.status(400)
           .send({ success: false,
-            errors: { group: 'Group name already exists' } });
+            errors: { group: 'Group already exists' } });
       }
     });
     return models.Group
