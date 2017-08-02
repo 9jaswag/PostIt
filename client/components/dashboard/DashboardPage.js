@@ -27,6 +27,13 @@ class DashboardPage extends Component {
 
   render() {
     const { groups } = this.state;
+    const groupCards = groups.map( group => 
+      <a href="/group" className="tooltipped pointer" data-position="right" data-delay="50" data-tooltip={ group.description }  key={group.id}>
+      <div className="col s12 m6 l4">
+        <div className="card-panel hoverable">{ group.name }<span className="new badge">4</span></div>
+      </div>
+    </a>
+    );
     return(
       <div>
         <div className="row">
@@ -37,18 +44,7 @@ class DashboardPage extends Component {
             <div className="col s12 m12 l12">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>My Groups</h5>
               { /*Group cards*/ }
-              {/* <a href="/group" className="tooltipped pointer"  data-position="right" data-delay="50" data-tooltip="This is a short group description of a maximum of about 70 chars.">
-                <div className="col s12 m6 l4">
-                  <div className="card-panel hoverable">Andela Bootcamp <span className="new badge">4</span></div>
-                </div>
-              </a> */}
-              { groups.map( group => 
-                <a href="/group" className="tooltipped pointer" data-position="right" data-delay="50" data-tooltip={ group.description }  key={group.id}>
-                <div className="col s12 m6 l4">
-                  <div className="card-panel hoverable">{ group.name }<span className="new badge">4</span></div>
-                </div>
-              </a>
-              )}
+              { (groups.length > 0 ) ? groupCards : <h4 className="center-align">No Groups Available. Create one from the left sidebar</h4> }
             </div>
           </div>
         </div>
