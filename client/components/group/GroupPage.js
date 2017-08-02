@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Sidebar from '../sidebar/Sidebar';
 
 class GroupPage extends Component {
@@ -35,6 +36,7 @@ class GroupPage extends Component {
   }
 
   render() {
+    const { groupId } = this.props.groupId;
     return(
       <div>
         { /*Main Page*/ }
@@ -170,4 +172,14 @@ const AddUserdiv = (props) => {
   );
 }
 
-export default GroupPage;
+GroupPage.propTypes = {
+  groupId: React.PropTypes.number.isRequired
+}
+
+function mapStateToProps(state){
+  return {
+    groupId: state.groupId
+  }
+}
+
+export default connect(mapStateToProps) (GroupPage);
