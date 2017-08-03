@@ -52,7 +52,7 @@ class DashboardPage extends Component {
             <div className="col s12 m12 l12">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>My Groups</h5>
               { /*Group cards*/ }
-              { (groups.length > 0 ) ? groupCards : <h4 className="center-align">No Groups Available. Create one from the left sidebar</h4> }
+              { (groups.length > 0 ) ? groupCards : <h5 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h5> }
             </div>
           </div>
         </div>

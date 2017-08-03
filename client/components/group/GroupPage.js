@@ -41,7 +41,6 @@ class GroupPage extends Component {
     this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
       (res) => {
         this.setState({messages: res.data.data})
-        // console.log(res);
       },
       () => {}
     );
@@ -75,7 +74,7 @@ class GroupPage extends Component {
               <div className="row full-height overflow-y-scroll">
                 { /*Message Cards*/ }
                 <div className="col s12">
-                  { (messages.length > 0) ? messageCards : <h4 className="center-align">No Messages Available. Create one from the right sidebar</h4> }
+                  { (messages.length > 0) ? messageCards : <h5 className="center-align margin-v2">No Messages Available. Create one from the right sidebar</h5> }
                 </div>
               </div>
             </div>
@@ -127,7 +126,7 @@ const MessageDiv = (props) => {
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <select name="" id="priority">
+            <select name="priority" id="priority">
               <option value="normal" defaultValue>Normal</option>
               <option value="urgent">Urgent</option>
               <option value="critical">Critical</option>
