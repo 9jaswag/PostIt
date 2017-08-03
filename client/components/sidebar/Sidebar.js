@@ -75,9 +75,9 @@ class Sidebar extends Component {
         </div>
         { /*Sidebar*/ }
           <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
-            <a href="/dashboard" className="waves-effect waves-light btn margin-v">Dashboard</a>
-            <a href="#createGroupModal" className="waves-effect waves-light btn modal-trigger">Create New Group</a>
-            <a href="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn margin-v">Logout</a>
+            <a href="/dashboard" className="waves-effect waves-light btn one-whole margin-v">Dashboard</a>
+            <a href="#createGroupModal" className="waves-effect waves-light btn one-whole modal-trigger">Create New Group</a>
+            <a href="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole margin-v">Logout</a>
           </div>
       </div>
     );
