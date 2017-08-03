@@ -53,14 +53,14 @@ class GroupPage extends Component {
   render() {
     const { messages } = this.state;
     const messageCards = messages.map( message =>
-                    <div className="card teal darken-1 hoverable">
-                      <div className="card-content white-text">
-                        <h6 className="inline-block">@{message.author} <small className="padding-left">2:15pm</small></h6>
-                        <span className="red darken-3 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
-                        <p>{ message.message }</p>
-                      </div>
-                    </div>
-                  )
+      <div className="card teal darken-1 hoverable" key={message.id}>
+        <div className="card-content white-text">
+          <h6 className="inline-block">@{message.author} <small className="padding-left">2:15pm</small></h6>
+          <span className="red darken-3 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
+          <p>{ message.message }</p>
+        </div>
+      </div>
+    )
     return(
       <div>
         { /*Main Page*/ }
@@ -83,7 +83,7 @@ class GroupPage extends Component {
                       </div>
                     </div>
                   )} */}
-                  { messageCards }
+                  { (messages.length > 0) ? messageCards : <h4 className="center-align">No Messages Available. Create one from the right sidebar</h4> }
                 </div>
               </div>
             </div>
