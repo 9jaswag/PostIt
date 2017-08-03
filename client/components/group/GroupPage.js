@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Sidebar from '../sidebar/Sidebar';
+import PostMessageForm from '../postMessage/PostMessageForm';
+import AddUserForm from '../addUser/AddUserForm';
 import getMessages from '../../actions/getMessages';
 
 class GroupPage extends Component {
@@ -73,14 +75,14 @@ class GroupPage extends Component {
                 </div>
                 { /*Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
-                  <MessageDiv />
-                  <button className="btn margin-v2 post-message-toggle one-whole" onClick={ this.postMessage }>Send A Message</button>
+                  <PostMessageForm id={this.props.groupDetails.split(' ')[0]} />
+                  <a href="#postMessageModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Send A Message</a>
                 </div>
                 <hr/>
                 { /*Add new user div*/ }
                 <div className="col s12 m12 l12 no-padding">
-                  <AddUserdiv />
-                  <button className="btn margin-v2 add-user-trigger one-whole" onClick={ this.addUser }>Add New Users To Group</button>
+                  <AddUserForm id={this.props.groupDetails.split(' ')[0]} />
+                  <a href="#addUserModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Add New Users To Group</a>
                 </div>
               </div>
             </div>
