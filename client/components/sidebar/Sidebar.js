@@ -39,6 +39,7 @@ class Sidebar extends Component {
   render() {
     const { isAuthenticated } = this.props.auth;
     const { errors } = this.state;
+    const loggedInUser = this.props.auth.user.userUsername;
     return(
       <div>
         { /* Create Group Modal Structure */}
@@ -69,6 +70,7 @@ class Sidebar extends Component {
         </div>
         { /*Sidebar*/ }
           <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
+            <div className="chip">Welcome { loggedInUser ? loggedInUser : null }</div>
             <a href="/dashboard" className="waves-effect waves-light btn one-whole margin-v">Dashboard</a>
             <a href="#createGroupModal" className="waves-effect waves-light btn one-whole modal-trigger">Create New Group</a>
             <a href="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole margin-v">Logout</a>
