@@ -59,12 +59,6 @@ class Sidebar extends Component {
                   <label htmlFor="description">Group Description</label>
                 </div>
               </div>
-              {/* <div className="row">
-                <div className="input-field col s12">
-                  <input type="text" name="" id="adduser"/>
-                  <label htmlFor="adduser">Add Users</label>
-                </div>
-              </div> */}
               <div className="row right-align">
                 <div className="input-field col s12">
                   <input className="btn" type="submit" value="Create Group"/>
