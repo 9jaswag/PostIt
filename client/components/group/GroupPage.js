@@ -33,6 +33,7 @@ class GroupPage extends Component {
 
   render() {
     const { messages } = this.state;
+    const groupName = this.props.groupDetails.split(' ')[1];
     const messageCards = messages.map( message =>
       <div className="card teal darken-1 hoverable" key={message.id}>
         <div className="card-content white-text">
@@ -55,7 +56,7 @@ class GroupPage extends Component {
           { /*Main Page*/ }
           <div className="col s12 m9 l10">
             <div className="col s12 m12 l9" style={{ marginTop: '2rem' }}>
-              <h5 className="center-align uppercase">{ this.props.groupDetails.split(' ')[1] } Message Board</h5>
+              <h5 className="center-align uppercase">{ groupName ? `${groupName} Message Board` : null } </h5>
               <div className="row full-height overflow-y-scroll">
                 { /*Message Cards*/ }
                 <div className="col s12">
