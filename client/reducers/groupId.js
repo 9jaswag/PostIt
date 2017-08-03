@@ -6,8 +6,8 @@ export default (state = initialState, action = {}) => {
   switch(action.type) {
     case SET_GROUP_ID:
       return {
-        groupId: action.id
+        groupId: Number.parseInt(action.id, 10)
       };
     default: return state;
   }
-}
+};

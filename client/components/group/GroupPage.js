@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Sidebar from '../sidebar/Sidebar';
+import getMessages from '../../actions/getMessages';
 
 class GroupPage extends Component {
 
@@ -8,11 +9,13 @@ class GroupPage extends Component {
     super(props);
     this.state = {
       showMessageDiv: false,
-      showAddUserDiv: false
+      showAddUserDiv: false,
+      messages: []
     };
 
     this.postMessage = this.postMessage.bind(this);
     this.addUser = this.addUser.bind(this);
+    this.onLoad = this.onLoad.bind(this);
   }
   postMessage() {
     if (this.state.showAddUserDiv) {
@@ -34,9 +37,30 @@ class GroupPage extends Component {
       showAddUserDiv: !prevState.showAddUserDiv
     }));
   }
+  onLoad() {
+    this.props.getMessages(this.props.groupId).then(
+      (res) => {
+        this.setState({messages: res.data.data})
+      },
+      () => {}
+    );
+  }
+
+  componentDidMount() {
+    this.onLoad();
+  }
 
   render() {
-    const { groupId } = this.props.groupId;
+    const { messages } = this.state;
+    const messageCards = messages.map( message =>
+                    <div className="card teal darken-1 hoverable">
+                      <div className="card-content white-text">
+                        <h6 className="inline-block">@{message.author} <small className="padding-left">2:15pm</small></h6>
+                        <span className="red darken-3 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
+                        <p>{ message.message }</p>
+                      </div>
+                    </div>
+                  )
     return(
       <div>
         { /*Main Page*/ }
@@ -50,36 +74,16 @@ class GroupPage extends Component {
               <div className="row full-height overflow-y-scroll">
                 { /*Message Cards*/ }
                 <div className="col s12">
-                  <div className="card teal darken-1 hoverable">
-                    <div className="card-content white-text">
-                      <h6 className="inline-block">@troy34 <small className="padding-left">2:15pm</small></h6>
-                      <span className="red darken-3 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>critical</span>
-                      <p>I am a very simple card. I am good at containing small bits of information.</p>
+                  {/* { messages.map( message =>
+                    <div className="card teal darken-1 hoverable">
+                      <div className="card-content white-text">
+                        <h6 className="inline-block">@{message.author} <small className="padding-left">2:15pm</small></h6>
+                        <span className="red darken-3 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
+                        <p>{ message.message }</p>
+                      </div>
                     </div>
-                    <div className="card-action right-align">
-                      <i className="material-icons" style={{cursor: 'pointer'}}>delete</i>
-                    </div>
-                  </div>
-                  <div className="card teal darken-1 hoverable">
-                    <div className="card-content white-text">
-                      <h6 className="inline-block">@troy34 <small className="padding-left">2:15pm</small></h6>
-                      <span className="amber accent-4 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>urgent</span>
-                      <p>I am a very simple card. I am good at containing small bits of information.</p>
-                    </div>
-                    <div className="card-action right-align">
-                      <i className="material-icons" style={{cursor: 'pointer'}}>delete</i>
-                    </div>
-                  </div>
-                  <div className="card teal darken-1 hoverable">
-                    <div className="card-content white-text">
-                      <h6 className="inline-block">@troy34 <small className="padding-left">2:15pm</small></h6>
-                      <span className="light-blue darken-3 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>normal</span>
-                      <p>I am a very simple card. I am good at containing small bits of information.</p>
-                    </div>
-                    <div className="card-action right-align">
-                      <i className="material-icons" style={{cursor: 'pointer'}}>delete</i>
-                    </div>
-                  </div>
+                  )} */}
+                  { messageCards }
                 </div>
               </div>
             </div>
@@ -173,13 +177,14 @@ const AddUserdiv = (props) => {
 }
 
 GroupPage.propTypes = {
-  groupId: React.PropTypes.number.isRequired
+  groupId: React.PropTypes.number.isRequired,
+  getMessages: React.PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state){
   return {
-    groupId: state.groupId
+    groupId: state.groupId.groupId
   }
 }
 
-export default connect(mapStateToProps) (GroupPage);
+export default connect(mapStateToProps, { getMessages }) (GroupPage);

@@ -25,8 +25,8 @@ class DashboardPage extends Component {
   }
 
   onClick(e) {
-    e.preventDefault();
     this.props.setGroupId(e.target.dataset.id);
+    sessionStorage.setItem('id', e.target.dataset.id);
   }
   
   componentDidMount() {

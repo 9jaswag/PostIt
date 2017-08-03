@@ -11,6 +11,7 @@ import rootReducer from './rootReducer';
 import App from './components/App';
 import FlashMessagesList from './components/flash/FlashMessagesList'
 import { setCurrentUser } from './actions/signinAction';
+import setGroupId from './actions/groupIdAction';
 import './styles/main.scss';
 
 const store = createStore(
@@ -24,6 +25,9 @@ const store = createStore(
 if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
+}
+if (sessionStorage.id){
+  store.dispatch(setGroupId(sessionStorage.id));
 }
 
 ReactDOM.render(
