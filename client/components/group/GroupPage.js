@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import Sidebar from '../sidebar/Sidebar';
 import PostMessageForm from '../postMessage/PostMessageForm';
 import AddUserForm from '../addUser/AddUserForm';
@@ -35,8 +36,12 @@ class GroupPage extends Component {
     const messageCards = messages.map( message =>
       <div className="card teal darken-1 hoverable" key={message.id}>
         <div className="card-content white-text">
-          <h6 className="inline-block">@{message.author} <small className="padding-left">2:15pm</small></h6>
-          <span className="red darken-3 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
+          <h6 className="inline-block">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></h6>
+          <span className={ classnames('margin-h default-radius', {
+            'red darken-3': message.priority === 'critical',
+            'amber accent-4': message.priority === 'urgent',
+            'light-blue darken-3': message.priority === 'normal',
+          }) } style={{ padding: '.1rem .4rem', fontWeight: '200' }}>{ message.priority }</span>
           <p>{ message.message }</p>
         </div>
       </div>
