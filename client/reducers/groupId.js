@@ -1,12 +1,13 @@
-import { SET_GROUP_ID } from '../actions/types';
+import { SET_GROUP_DETAILS } from '../actions/types';
+
 const initialState = {
-  groupId: null
+  details: ''
 };
 export default (state = initialState, action = {}) => {
   switch(action.type) {
-    case SET_GROUP_ID:
+    case SET_GROUP_DETAILS:
       return {
-        groupId: Number.parseInt(action.id, 10)
+        details: action.data
       };
     default: return state;
   }

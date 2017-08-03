@@ -25,8 +25,8 @@ class DashboardPage extends Component {
   }
 
   onClick(e) {
-    this.props.setGroupId(e.target.dataset.id);
-    sessionStorage.setItem('id', e.target.dataset.id);
+    this.props.setGroupId(e.target.dataset.id + ' ' + e.target.dataset.name );
+    sessionStorage.setItem('groupDetails', e.target.dataset.id + ' ' + e.target.dataset.name );
   }
   
   componentDidMount() {
@@ -38,7 +38,7 @@ class DashboardPage extends Component {
     const groupCards = groups.map( group =>
       <a onClick= { this.onClick } href="/group" className="tooltipped pointer" data-position="right" data-delay="50" data-tooltip={ group.description }  key={group.id}>
       <div className="col s12 m6 l4">
-        <div data-id={group.id} className="card-panel hoverable">{ group.name }<span className="new badge">4</span></div>
+        <div data-id={group.id} data-name={group.name} className="card-panel hoverable">{ group.name }<span className="new badge">4</span></div>
       </div>
     </a>
     );

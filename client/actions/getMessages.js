@@ -1,3 +1,7 @@
+/**
+ * Action to get the messages belonging to a group
+ */
+
 import axios from 'axios';
 
 const getMessages = id =>

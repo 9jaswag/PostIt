@@ -38,9 +38,10 @@ class GroupPage extends Component {
     }));
   }
   onLoad() {
-    this.props.getMessages(this.props.groupId).then(
+    this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
       (res) => {
         this.setState({messages: res.data.data})
+        // console.log(res);
       },
       () => {}
     );
@@ -70,19 +71,10 @@ class GroupPage extends Component {
           { /*Main Page*/ }
           <div className="col s12 m9 l10">
             <div className="col s12 m12 l9" style={{ marginTop: '2rem' }}>
-              <h5 className="center-align uppercase">Andela Bootcamp Message Board</h5>
+              <h5 className="center-align uppercase">{ this.props.groupDetails.split(' ')[1] } Message Board</h5>
               <div className="row full-height overflow-y-scroll">
                 { /*Message Cards*/ }
                 <div className="col s12">
-                  {/* { messages.map( message =>
-                    <div className="card teal darken-1 hoverable">
-                      <div className="card-content white-text">
-                        <h6 className="inline-block">@{message.author} <small className="padding-left">2:15pm</small></h6>
-                        <span className="red darken-3 margin-h default-radius" style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
-                        <p>{ message.message }</p>
-                      </div>
-                    </div>
-                  )} */}
                   { (messages.length > 0) ? messageCards : <h4 className="center-align">No Messages Available. Create one from the right sidebar</h4> }
                 </div>
               </div>
@@ -177,13 +169,13 @@ const AddUserdiv = (props) => {
 }
 
 GroupPage.propTypes = {
-  groupId: React.PropTypes.number.isRequired,
+  groupDetails: React.PropTypes.string.isRequired,
   getMessages: React.PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state){
   return {
-    groupId: state.groupId.groupId
+    groupDetails: state.groupDetails.details
   }
 }
 
