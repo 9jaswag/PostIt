@@ -26,8 +26,8 @@ if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
-if (sessionStorage.id){
-  store.dispatch(setGroupId(sessionStorage.id));
+if (sessionStorage.groupDetails){
+  store.dispatch(setGroupId(sessionStorage.groupDetails));
 }
 
 ReactDOM.render(
