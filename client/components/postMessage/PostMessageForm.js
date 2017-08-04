@@ -20,7 +20,7 @@ class PostMessageForm extends Component {
 
   onSubmit(e){
     e.preventDefault();;
-    this.props.postMessage(this.props.id, this.state).then(
+    this.props.postMessage(this.props.groupId, this.state).then(
       (res) => {
         location.href='/group'
       },
