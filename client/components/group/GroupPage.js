@@ -70,13 +70,9 @@ class GroupPage extends Component {
                 { /*Group Stats*/ }
                 <div className="col s12 m12 l12 teal accent-4 padding05">
                   <h6 className="white-text center-align" style={{ marginBottom: '2rem' }}>GROUP STATISTICS</h6>
-                  <div className="col s6 m6 l6 center-align">
+                  <div className="col s12 m12 l12 center-align">
                     <i className="material-icons white-text large">group</i>
-                    <h5 className="white-text">15</h5>
-                  </div>
-                  <div className="col s6 m6 l6 center-align">
-                    <i className="material-icons white-text large">message</i>
-                    <h5 className="white-text">30</h5>
+                    <h5 className="white-text">15 Members</h5>
                   </div>
                 </div>
                 { /*Send A Message div*/ }
