@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Sidebar from '../sidebar/Sidebar';
 import getGroups from '../../actions/getGroups';
+import setGroupId from '../../actions/groupIdAction';
 
 class DashboardPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groups: []
+      groups: [],
+      currGroupId: null
     }
     this.onLoad = this.onLoad.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   onLoad() {
@@ -20,6 +23,11 @@ class DashboardPage extends Component {
       () => {}
     );
   }
+
+  onClick(e) {
+    this.props.setGroupId(e.target.dataset.id + ' ' + e.target.dataset.name );
+    sessionStorage.setItem('groupDetails', e.target.dataset.id + ' ' + e.target.dataset.name );
+  }
   
   componentDidMount() {
     this.onLoad();
@@ -27,6 +35,13 @@ class DashboardPage extends Component {
 
   render() {
     const { groups } = this.state;
+    const groupCards = groups.map( group =>
+      <a onClick= { this.onClick } href="/group" className="tooltipped pointer" data-position="right" data-delay="50" data-tooltip={ group.description }  key={group.id}>
+      <div className="col s12 m6 l4">
+        <div data-id={group.id} data-name={group.name} className="card-panel hoverable">{ group.name }<span className="new badge">4</span></div>
+      </div>
+    </a>
+    );
     return(
       <div>
         <div className="row">
@@ -37,18 +52,7 @@ class DashboardPage extends Component {
             <div className="col s12 m12 l12">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>My Groups</h5>
               { /*Group cards*/ }
-              {/* <a href="/group" className="tooltipped pointer"  data-position="right" data-delay="50" data-tooltip="This is a short group description of a maximum of about 70 chars.">
-                <div className="col s12 m6 l4">
-                  <div className="card-panel hoverable">Andela Bootcamp <span className="new badge">4</span></div>
-                </div>
-              </a> */}
-              { groups.map( group => 
-                <a href="/group" className="tooltipped pointer" data-position="right" data-delay="50" data-tooltip={ group.description }  key={group.id}>
-                <div className="col s12 m6 l4">
-                  <div className="card-panel hoverable">{ group.name }<span className="new badge">4</span></div>
-                </div>
-              </a>
-              )}
+              { (groups.length > 0 ) ? groupCards : <h5 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h5> }
             </div>
           </div>
         </div>
@@ -58,7 +62,8 @@ class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes= {
-  getGroups: React.PropTypes.func.isRequired
+  getGroups: React.PropTypes.func.isRequired,
+  setGroupId: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { getGroups }) (DashboardPage);
+export default connect(null, { getGroups, setGroupId }) (DashboardPage);

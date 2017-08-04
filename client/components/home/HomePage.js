@@ -26,14 +26,18 @@ class HomePage extends Component {
       {/* Sign Up Modal */}
       <div id="signupModal" className="modal">
         <div className="modal-content">
-          <h4>Sign Up</h4>
+          <div className="row">
+            <h5>Sign Up</h5>
+          </div>
           <SignupForm userSignupRequest= { userSignupRequest } addFlashMessage= { addFlashMessage } />
         </div>
       </div>
       {/* Sign In Modal */}
       <div id="signinModal" className="modal">
         <div className="modal-content">
-          <h4>Sign In</h4>
+          <div className="row">
+            <h5>Sign In</h5>
+          </div>
           <SigninForm />
         </div>
       </div>

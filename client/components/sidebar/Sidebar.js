@@ -39,12 +39,18 @@ class Sidebar extends Component {
   render() {
     const { isAuthenticated } = this.props.auth;
     const { errors } = this.state;
+    const loggedInUser = this.props.auth.user.userUsername;
+    const welcomeChip = <div className="chip">{ `Welcome ${loggedInUser}` }</div>
     return(
       <div>
         { /* Create Group Modal Structure */}
         <div id="createGroupModal" className="modal">
           <div className="modal-content">
-            <h4>Create New Group</h4>
+             <div className="row">
+              <div className="col s12">
+                <h5>Create New Group</h5>
+              </div>
+            </div>
             <form action="" className="col s12" onSubmit={ this.onSubmit }>
               <div className="row">
                 <div className="input-field col s12">
@@ -59,15 +65,9 @@ class Sidebar extends Component {
                   <label htmlFor="description">Group Description</label>
                 </div>
               </div>
-              {/* <div className="row">
+              <div className="row">
                 <div className="input-field col s12">
-                  <input type="text" name="" id="adduser"/>
-                  <label htmlFor="adduser">Add Users</label>
-                </div>
-              </div> */}
-              <div className="row right-align">
-                <div className="input-field col s12">
-                  <input className="btn" type="submit" value="Create Group"/>
+                  <input className="btn one-whole" type="submit" value="Create Group"/>
                 </div>
               </div>
             </form>
@@ -75,9 +75,10 @@ class Sidebar extends Component {
         </div>
         { /*Sidebar*/ }
           <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
-            <a href="/dashboard" className="waves-effect waves-light btn margin-v">Dashboard</a>
-            <a href="#createGroupModal" className="waves-effect waves-light btn modal-trigger">Create New Group</a>
-            <a href="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn margin-v">Logout</a>
+            { loggedInUser ? welcomeChip : null }
+            <a href="/dashboard" className="waves-effect waves-light btn one-whole margin-v">Dashboard</a>
+            <a href="#createGroupModal" className="waves-effect waves-light btn one-whole modal-trigger">Create New Group</a>
+            <a href="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole margin-v">Logout</a>
           </div>
       </div>
     );

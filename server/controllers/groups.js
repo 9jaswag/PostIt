@@ -60,7 +60,7 @@ export default {
       }));
   },
   addUser(req, res) {
-    if (!req.body.userId || req.body.userId.trim() === '') {
+    if (!req.body.userId) {
       return res.status(400)
         .send({ success: false, error: { message: 'a User ID is required' } });
     } else if (!req.params.group_id || req.params.group_id.trim() === '') {
@@ -124,10 +124,10 @@ export default {
     } else if (!req.body.priority || req.body.priority.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Choose a message priority' } });
-    } else if (!req.decoded.userUsername || req.body.priority.trim() === '') {
+    } else if (!req.decoded.userUsername) {
       return res.status(400).send({ success: false,
         error: { message: 'Message must have an author' } });
-    } else if (!req.decoded.userId || req.body.priority.trim() === '') {
+    } else if (!req.decoded.userId) {
       return res.status(400).send({ success: false,
         error: { message: 'Message must have a User ID' } });
     }
