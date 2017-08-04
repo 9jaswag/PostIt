@@ -6,18 +6,20 @@ import models from '../models';
 
 export default {
   create(req, res) {
+    const errors = { };
+    let hasError = false;
     if (!req.body.name || req.body.name.trim() === '') {
-      return res.status(400)
-        .send({ status: false,
-          error: { message: 'Please choose a group name' } });
-    } else if (!req.decoded.userUsername) {
-      return res.status(400)
-        .send({ status: false,
-          error: { message: 'Please enter a group owner' } });
-    } else if (!req.body.description || req.body.description.trim() === '') {
-      return res.status(400)
-        .send({ status: false,
-          error: { message: 'Please enter a description of the group' } });
+      hasError = true;
+      errors.name = 'Please choose a group name';
+    } if (!req.decoded.userUsername) {
+      hasError = true;
+      errors.userUsername = 'Please enter a group owner';
+    } if (!req.body.description || req.body.description.trim() === '') {
+      hasError = true;
+      errors.description = 'Please enter a description of the group';
+    }
+    if (hasError) {
+      return res.status(400).send({ success: false, errors });
     }
     models.Group.findOne({
       where: {
@@ -26,8 +28,8 @@ export default {
     }).then((group) => {
       if (group) {
         return res.status(400)
-          .send({ status: false,
-            error: { message: 'Group name already exists' } });
+          .send({ success: false,
+            errors: { group: 'Group already exists' } });
       }
     });
     return models.Group
@@ -43,27 +45,27 @@ export default {
             groupId: group.id
           })
           .then(usergroup => res.status(201).send({
-            status: true,
+            success: true,
             message: 'Your group has been created and you have been added to the group',
             data: { group, usergroup }
           }))
           .catch(error => res.status(400).send({
-            status: false,
-            error: { message: error.message }
+            success: false,
+            errors: { message: error.message }
           }));
       })
       .catch(error => res.status(400).send({
-        status: false,
-        error: { message: error.message }
+        success: false,
+        errors: { message: error.message }
       }));
   },
   addUser(req, res) {
-    if (!req.body.userId || req.body.userId.trim() === '') {
+    if (!req.body.userId) {
       return res.status(400)
-        .send({ status: false, error: { message: 'a User ID is required' } });
+        .send({ success: false, error: { message: 'a User ID is required' } });
     } else if (!req.params.group_id || req.params.group_id.trim() === '') {
       return res.status(400)
-        .send({ status: false, message: 'a Group ID is required' });
+        .send({ success: false, message: 'a Group ID is required' });
     }
     models.Group.findOne({
       where: {
@@ -72,7 +74,7 @@ export default {
     }).then((group) => {
       if (!group) {
         return res.status(401)
-          .send({ status: false, error: { message: 'Group does not exist' } });
+          .send({ success: false, error: { message: 'Group does not exist' } });
       }
       models.User.findOne({
         where: {
@@ -81,7 +83,7 @@ export default {
       }).then((user) => {
         if (!user) {
           return res.status(401)
-            .send({ status: false, error: { message: 'User does not exist' } });
+            .send({ success: false, error: { message: 'User does not exist' } });
         }
       });
       return models.UserGroup
@@ -93,40 +95,40 @@ export default {
         })
         .then((user) => {
           if (user) {
-            return res.status(400).send({ status: false,
+            return res.status(400).send({ success: false,
               error: { message: 'User already belongs to this group' } });
           }
           models.UserGroup.create({
             userId: req.body.userId,
             groupId: req.params.group_id
           }).then(usergroup => res.status(201).send({
-            status: true,
+            success: true,
             message: 'User successfully added to group',
             data: { usergroup }
           }))
             .catch(error => res.status(400).send({
-              status: false,
+              success: false,
               error: { message: error.message }
             }));
         })
         .catch(error => res.status(400).send({
-          status: false,
+          success: false,
           error: { message: error.message }
         }));
     });
   },
   postMessage(req, res) {
     if (!req.body.message || req.body.message.trim() === '') {
-      return res.status(400).send({ status: false,
+      return res.status(400).send({ success: false,
         error: { message: 'Message can not be empty' } });
     } else if (!req.body.priority || req.body.priority.trim() === '') {
-      return res.status(400).send({ status: false,
+      return res.status(400).send({ success: false,
         error: { message: 'Choose a message priority' } });
-    } else if (!req.decoded.userUsername || req.body.priority.trim() === '') {
-      return res.status(400).send({ status: false,
+    } else if (!req.decoded.userUsername) {
+      return res.status(400).send({ success: false,
         error: { message: 'Message must have an author' } });
-    } else if (!req.decoded.userId || req.body.priority.trim() === '') {
-      return res.status(400).send({ status: false,
+    } else if (!req.decoded.userId) {
+      return res.status(400).send({ success: false,
         error: { message: 'Message must have a User ID' } });
     }
     models.Group.findOne({
@@ -135,7 +137,7 @@ export default {
       }
     }).then((group) => {
       if (!group) {
-        return res.status(401).send({ status: false,
+        return res.status(401).send({ success: false,
           error: { message: 'That group does not exist' } });
       } else {
         return models.Message
@@ -147,18 +149,18 @@ export default {
             userId: req.decoded.userId
           })
           .then(message => res.status(201).send({
-            status: true,
+            success: true,
             message: 'Message sent',
             data: { message }
           }))
           .catch(error => res.status(400).send({
-            status: false,
+            success: false,
             error: { message: error.message }
           }));
       }
     })
       .catch(error => res.status(400).send({
-        status: false,
+        success: false,
         message: error.message
       }));
   },
@@ -169,7 +171,7 @@ export default {
       }
     }).then((group) => {
       if (!group) {
-        return res.status(404).send({ status: false,
+        return res.status(404).send({ success: false,
           error: { message: 'Group does not exist' } });
       } else {
         return models.Message
@@ -180,7 +182,7 @@ export default {
           })
           .then(message => res.status(200).send({ data: message }))
           .catch(error => res.status(400).send({
-            status: false,
+            success: false,
             error: { message: error.message }
           }));
       }

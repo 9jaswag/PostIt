@@ -3,7 +3,7 @@
  */
 
 import jwt from 'jsonwebtoken';
-import controllers from '../controllers';
+import models from '../models';
 
 // Middleware
 let token;
@@ -17,7 +17,19 @@ export default (req, res, next) => {
     } else {
       // if everything is good, save to request for use in other routes
       req.decoded = decoded;
-      next();
+      const username = req.decoded.userUsername;
+      models.User.findOne({
+        where: {
+          username
+        }
+      })
+        .then((user) => {
+          if (!user) {
+            return res.status(404).send({ sucess: false, error: 'User does not exist' });
+          }
+          next();
+        });
+      // next();
     }
   });
 };

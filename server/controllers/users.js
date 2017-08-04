@@ -67,7 +67,7 @@ export default {
             userEmail: user.email,
             userUsername: user.username,
             userPhone: user.phone
-          }, process.env.TOKEN_SECRET, { expiresIn: '2h' });
+          }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
         res.status(201)
           .send({ success: true,
             message: 'Sign up succesful.',
@@ -149,7 +149,7 @@ export default {
         userId: user.id,
         userEmail: user.email,
         userUsername: user.username,
-      }, process.env.TOKEN_SECRET, { expiresIn: '2h' });
+      }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
       res.status(200)
         .send({ success: true,
           message: 'Sign in successful',
@@ -162,17 +162,44 @@ export default {
   },
   findAll(req, res) {
     return models.User
-      .all()
+      .findAll({
+        attributes: ['id', 'username', 'email', 'phone']
+      })
       .then((user) => {
         if (user.length === 0) {
           return res.status(200)
             .send({ success: true, message: 'No users found' });
         }
-        return res.status(200).send({ data: { user } });
+        return res.status(200)
+          .send({ details: req.userGroupInfo, data: { user } });
       })
-      .catch(error => res.status(400).send({
+      .catch(error => res.send({
         success: false,
         error: { message: error.message }
       }));
+  },
+  findOne(req, res) {
+    const username = req.decoded.userUsername;
+    models.User
+      .find({
+        include: [{
+          model: models.Group,
+          required: false,
+          attributes: ['id', 'name', 'description'],
+          through: { attributes: [] }
+        }],
+        where: { username },
+        attributes: ['id', 'username', 'email', 'phone']
+      })
+      .then((user) => {
+        if (!user) {
+          return res.status(404).send({
+            success: false,
+            errors: 'User does not exist'
+          });
+        }
+        return res.status(200).send({ data: user });
+      })
+      .catch(error => res.status(400).send({ errors: error.message }));
   }
 };
