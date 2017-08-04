@@ -14,7 +14,7 @@ class AddUserForm extends Component {
       // users: [], for adding multiple users
       username: '',
       fetchedUsers: [],
-      userToAdd: [],
+      userToAdd: {},
       error: ''
     }
     this.onChange = this.onChange.bind(this);
@@ -24,52 +24,56 @@ class AddUserForm extends Component {
   }
 
   resetState(){
-    this.setState({ username: '', fetchedUsers: [], userToAdd: [] });
+    this.setState({ username: '', fetchedUsers: [], userToAdd: {} });
   }
 
   filterUser(username, usersArray){
     usersArray.filter( user => {
-      if (user.username === username) {
-        console.log(`match found: ${username}`)
-        this.setState({ userToAdd: [ user.id, user.username ] });
+      if ((user.username === username)) {
+        // return this.setState({ error: 'That user does not exist'} );
+        this.setState({ userToAdd: { userId: user.id, username: user.username } });
       }
     });
   }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    this.setState({ error: '' })
-    setTimeout(() => {
-      this.props.findUser().then(
-        (res) => {
-          this.setState({ fetchedUsers: res.data.data.user });
-          this.filterUser(this.state.username, this.state.fetchedUsers);
-          //reset username state after adding user to users array
-        },
-        (err) => {
-          console.log(err)
-        }
-      );
-    }, 3000);
+    this.setState({ error: '', userToAdd: {} })
+    if (this.state.username.length > 0) {
+      setTimeout(() => {
+        this.props.findUser().then(
+          (res) => {
+            this.setState({ fetchedUsers: res.data.data.user });
+            this.filterUser(this.state.username.toLowerCase(), this.state.fetchedUsers);
+            //reset username state after adding user to users array
+          },
+          (err) => {}
+        );
+      }, 2000);
+    }
   }
 
   onSubmit(e){
     e.preventDefault();
     this.setState({ error: '' })
-    const userDetails = { userId: this.state.userToAdd[0] }
-    this.props.addUser( this.props.groupId, userDetails ).then(
-      (res) => {
-        location.href='/group'
-      },
-      (err) => {
-        this.setState({ error: err.response.data.error.message });
-      }
-    );
+    // const userDetails = { userId: this.state.userToAdd[0] }
+    if (this.state.userToAdd.userId) {
+      this.props.addUser( this.props.groupId, this.state.userToAdd ).then(
+        (res) => {
+          location.href='/group'
+        },
+        (err) => {
+          this.setState({ error: err.response.data.error.message });
+        }
+      );
+    } else {
+       this.setState({ error: 'That user does not exist'} );
+    }
     this.resetState();
   }
 
   render() {
-    const userChip = <div className="chip">{ this.state.userToAdd[1] }
+    const userChip = <div className="chip">{ this.state.userToAdd.username }
       <i className="close material-icons" onClick={ this.resetState }>close</i>
     </div>
     return(
@@ -77,13 +81,17 @@ class AddUserForm extends Component {
         { /* Add User Modal Structure */}
         <div id="addUserModal" className="modal">
           <div className="modal-content">
-            <h4>Add New User To Group</h4>
+            <div className="row">
+              <div className="col s12">
+                <h5>Add New User To Group</h5>
+              </div>
+            </div>
             <form action="" className="col s12" onSubmit={ this.onSubmit }>
               <div className="row">
                 <div className="input-field col s12">
                   <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
                   <label htmlFor="username">Enter username</label>
-                  { (this.state.userToAdd.length === 2 ) ? userChip : null }
+                  { (this.state.userToAdd.userId ) ? userChip : null }
                   { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
                 </div>
               </div>

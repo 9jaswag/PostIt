@@ -38,7 +38,11 @@ class PostMessageForm extends Component {
         { /* Post Message Modal Structure */}
         <div id="postMessageModal" className="modal">
           <div className="modal-content">
-            <h4>Post New Broadcast Message</h4>
+            <div className="row">
+              <div className="col s12">
+                <h5>Post New Broadcast Message</h5>
+              </div>
+            </div>
             <form action="" className="col s12" onSubmit= { this.onSubmit }>
               <div className="row">
                 <div className="input-field col s12">
