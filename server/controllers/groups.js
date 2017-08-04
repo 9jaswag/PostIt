@@ -60,7 +60,7 @@ export default {
       }));
   },
   addUser(req, res) {
-    if (!req.body.userId || req.body.userId.trim() === '') {
+    if (!req.body.userId) {
       return res.status(400)
         .send({ success: false, error: { message: 'a User ID is required' } });
     } else if (!req.params.group_id || req.params.group_id.trim() === '') {

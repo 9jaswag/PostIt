@@ -46,7 +46,11 @@ class Sidebar extends Component {
         { /* Create Group Modal Structure */}
         <div id="createGroupModal" className="modal">
           <div className="modal-content">
-            <h4>Create New Group</h4>
+             <div className="row">
+              <div className="col s12">
+                <h5>Create New Group</h5>
+              </div>
+            </div>
             <form action="" className="col s12" onSubmit={ this.onSubmit }>
               <div className="row">
                 <div className="input-field col s12">
@@ -61,9 +65,9 @@ class Sidebar extends Component {
                   <label htmlFor="description">Group Description</label>
                 </div>
               </div>
-              <div className="row right-align">
+              <div className="row">
                 <div className="input-field col s12">
-                  <input className="btn" type="submit" value="Create Group"/>
+                  <input className="btn one-whole" type="submit" value="Create Group"/>
                 </div>
               </div>
             </form>

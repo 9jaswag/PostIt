@@ -33,6 +33,7 @@ class GroupPage extends Component {
 
   render() {
     const { messages } = this.state;
+    const groupName = this.props.groupDetails.split(' ')[1];
     const messageCards = messages.map( message =>
       <div className="card teal darken-1 hoverable" key={message.id}>
         <div className="card-content white-text">
@@ -55,7 +56,7 @@ class GroupPage extends Component {
           { /*Main Page*/ }
           <div className="col s12 m9 l10">
             <div className="col s12 m12 l9" style={{ marginTop: '2rem' }}>
-              <h5 className="center-align uppercase">{ this.props.groupDetails.split(' ')[1] } Message Board</h5>
+              <h5 className="center-align uppercase">{ groupName ? `${groupName} Message Board` : null } </h5>
               <div className="row full-height overflow-y-scroll">
                 { /*Message Cards*/ }
                 <div className="col s12">
@@ -69,24 +70,20 @@ class GroupPage extends Component {
                 { /*Group Stats*/ }
                 <div className="col s12 m12 l12 teal accent-4 padding05">
                   <h6 className="white-text center-align" style={{ marginBottom: '2rem' }}>GROUP STATISTICS</h6>
-                  <div className="col s6 m6 l6 center-align">
+                  <div className="col s12 m12 l12 center-align">
                     <i className="material-icons white-text large">group</i>
-                    <h5 className="white-text">15</h5>
-                  </div>
-                  <div className="col s6 m6 l6 center-align">
-                    <i className="material-icons white-text large">message</i>
-                    <h5 className="white-text">30</h5>
+                    <h5 className="white-text">15 Members</h5>
                   </div>
                 </div>
                 { /*Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
-                  <PostMessageForm id={this.props.groupDetails.split(' ')[0]} />
+                  <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />
                   <a href="#postMessageModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Send A Message</a>
                 </div>
                 <hr/>
                 { /*Add new user div*/ }
                 <div className="col s12 m12 l12 no-padding">
-                  <AddUserForm id={this.props.groupDetails.split(' ')[0]} />
+                  <AddUserForm groupId={this.props.groupDetails.split(' ')[0]} />
                   <a href="#addUserModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Add New Users To Group</a>
                 </div>
               </div>
