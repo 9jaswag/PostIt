@@ -15,6 +15,8 @@ module.exports = (app) => {
   app.post('/api/user/signin', controllers.users.login);
   // API to get all users
   app.get('/api/users', auth, controllers.users.findAll);
+  // API route to search users
+  app.get('/api/user/:username/find', auth, controllers.users.findUser);
   // API route to get a user and group details
   app.get('/api/users/one', auth, controllers.users.findOne);
   // API for logged in users to retrieve messages in their group
