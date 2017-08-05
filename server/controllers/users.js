@@ -214,8 +214,15 @@ export default {
       return res.status(400).send({ success: false, errors });
     }
     return models.User.findAll({
+      include: [{
+        model: models.Group,
+        required: false,
+        attributes: ['id', 'name', 'description'],
+        through: { attributes: [] }
+      }],
       where: { username: { $like: `%${req.params.username}%` } },
-      attributes: ['id', 'username', 'email', 'phone']
+      attributes: ['id', 'username', 'email', 'phone'],
+      limit: 2,
     })
       .then((user) => {
         res.status(200).send({ success: true, data: user });
