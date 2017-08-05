@@ -208,7 +208,7 @@ export default {
     // validation check
     if (!req.params.username || req.params.username.trim() === '') {
       hasError = true;
-      errors.searchTerm = 'Search term cannot be empty';
+      errors.username = 'Username cannot be empty';
     }
     if (hasError) {
       return res.status(400).send({ success: false, errors });
@@ -218,7 +218,7 @@ export default {
       attributes: ['id', 'username', 'email', 'phone']
     })
       .then((user) => {
-        res.status(400).send({ success: true, data: user });
+        res.status(200).send({ success: true, data: user });
       })
       .catch((error) => {
         res.status(400).send({ success: false, errors: error.message });
