@@ -56,7 +56,17 @@ class SearchPage extends Component {
       return(
         <div className="col s12" key={ index }>
           <div className="card-panel hoverable">
-            { user.username }
+            <div className="row">
+              <div className="col s12">
+                <span className="bold">Username:</span><span className="bold">@{ user.username }</span>
+              </div>
+              <div className="col s6">
+                <span className="bold">Email:</span><span className="italics">{ user.email }</span>
+              </div>
+              <div className="col s6">
+                <span className="bold">Groups:</span><span className="italics">{ user.Groups.length }</span>
+              </div>
+            </div>
           </div>
         </div>
       );
@@ -69,7 +79,7 @@ class SearchPage extends Component {
     const renderPageNumbers = pageNumbers.map(number => {
       return (
         <li key={ number } onClick={ this.handlePagination }>
-          <a href="#!" id={ number }>{ number }</a>
+          <a href="#" id={ number }>{ number }</a>
         </li>
       );
     });
@@ -86,7 +96,7 @@ class SearchPage extends Component {
                 <form action="" onSubmit={ this.onSubmit }>
                   <div className="row">
                     <div className="input-field col s12">
-                      <input placeholder="Enter a username and press enter" id="username" name="username" type="text" value={ this.state.username } onChange={ this.onChange } className="validate" style={{ display: 'inline-block', width: '80%', marginRight: '.3rem' }}/>
+                      <input placeholder="Enter a username and press enter" id="username" name="username" type="text" value={ this.state.username } onChange={ this.onChange } className="validate"/>
                       <label htmlFor="username">Search</label>
                     </div>
                     <div className="col l12">{ this.state.errors && <span className="red-text">{ this.state.errors }</span>}</div>
