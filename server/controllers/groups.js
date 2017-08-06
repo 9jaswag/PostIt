@@ -120,7 +120,7 @@ export default {
   postMessage(req, res) {
     if (!req.body.title || req.body.title.trim() === '') {
       return res.status(400).send({ success: false,
-        error: { message: 'Message can not be empty' } });
+        error: { message: 'Message title can not be empty' } });
     } else if (!req.body.message || req.body.message.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Message can not be empty' } });
@@ -129,7 +129,7 @@ export default {
         error: { message: 'Choose a message priority' } });
     } else if (!req.body.readby || req.body.readby.trim() === '') {
       return res.status(400).send({ success: false,
-        error: { message: 'Choose a message priority' } });
+        error: { message: 'Readby cannot be empty' } });
     } else if (!req.decoded.userUsername) {
       return res.status(400).send({ success: false,
         error: { message: 'Message must have an author' } });
@@ -148,6 +148,7 @@ export default {
       } else {
         return models.Message
           .create({
+            title: req.body.title,
             message: req.body.message,
             priority: req.body.priority,
             author: req.decoded.userUsername,
@@ -164,6 +165,7 @@ export default {
             success: false,
             error: { message: error.message }
           }));
+        // @todo handle these errors "notNull Violation: title cannot be null"
       }
     })
       .catch(error => res.status(400).send({
