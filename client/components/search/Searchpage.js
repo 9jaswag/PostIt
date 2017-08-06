@@ -15,7 +15,7 @@ class SearchPage extends Component {
       users: [],
       errors: '',
       currentPage: 1,
-      usersPerPage: 3
+      usersPerPage: 2
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
