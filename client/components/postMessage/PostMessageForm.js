@@ -11,7 +11,9 @@ class PostMessageForm extends Component {
     super(props);
     this.state = {
       message: '',
-      priority: 'normal'
+      priority: 'normal',
+      title: '',
+      readby: `${this.props.userDetails.userUsername},`
     }
     
     this.onSubmit = this.onSubmit.bind(this);
@@ -46,6 +48,12 @@ class PostMessageForm extends Component {
             <form action="" className="col s12" onSubmit= { this.onSubmit }>
               <div className="row">
                 <div className="input-field col s12">
+                  <input type="text" cols="30" rows="10" id="title" name="title" value={ this.state.title } onChange= { this.onChange } className="validate" required/>
+                  <label htmlFor="title">Message Title</label>
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
                   <textarea cols="30" rows="10" id="message" name="message" value={ this.state.message } onChange= { this.onChange } className="materialize-textarea" required></textarea>
                   <label htmlFor="message">Message</label>
                 </div>
@@ -77,4 +85,10 @@ PostMessageForm.propTypes = {
   postMessage: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { postMessage }) (PostMessageForm);
+function mapStateToProps(state) {
+  return {
+    userDetails: state.auth.user
+  }
+}
+
+export default connect(mapStateToProps, { postMessage }) (PostMessageForm);
