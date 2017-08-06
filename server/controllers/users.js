@@ -201,5 +201,33 @@ export default {
         return res.status(200).send({ data: user });
       })
       .catch(error => res.status(400).send({ errors: error.message }));
+  },
+  findUser(req, res) {
+    const errors = { };
+    let hasError = false;
+    // validation check
+    if (!req.params.username || req.params.username.trim() === '') {
+      hasError = true;
+      errors.username = 'Username cannot be empty';
+    }
+    if (hasError) {
+      return res.status(400).send({ success: false, errors });
+    }
+    return models.User.findAll({
+      include: [{
+        model: models.Group,
+        required: false,
+        attributes: ['id', 'name', 'description'],
+        through: { attributes: [] }
+      }],
+      where: { username: { $like: `%${req.params.username}%` } },
+      attributes: ['id', 'username', 'email', 'phone'],
+    })
+      .then((user) => {
+        res.status(200).send({ success: true, data: user });
+      })
+      .catch((error) => {
+        res.status(400).send({ success: false, errors: error.message });
+      });
   }
 };

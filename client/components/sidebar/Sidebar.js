@@ -78,7 +78,8 @@ class Sidebar extends Component {
             { loggedInUser ? welcomeChip : null }
             <a href="/dashboard" className="waves-effect waves-light btn one-whole margin-v">Dashboard</a>
             <a href="#createGroupModal" className="waves-effect waves-light btn one-whole modal-trigger">Create New Group</a>
-            <a href="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole margin-v">Logout</a>
+            <a href="/search" className="waves-effect waves-light btn one-whole margin-v">Search User</a>            
+            <a href="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole">Logout</a>
           </div>
       </div>
     );

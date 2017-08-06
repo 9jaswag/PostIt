@@ -39,6 +39,21 @@ $red: #e74c3c;
     color: $white;
 }
 
+// font weight
+
+.slim {
+  font-weight: 200;
+}
+.normal {
+  font-weight: 400;
+}
+.bold {
+  font-weight: 700;
+}
+.italics {
+  font-style: italic;
+}
+
 // position classes
 .absolute-center, .absolute-h-middle, .absolute-v-middle,
 .absolute, .absolute-top, .absolute-top-left, .absolute-top-right,
