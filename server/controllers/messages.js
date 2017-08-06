@@ -15,7 +15,7 @@ export default {
     }
     if (!req.body.readby) {
       hasError = true;
-      errors.id = 'Read By not supplied';
+      errors.readby = 'Read By not supplied';
     }
     if (hasError) {
       return res.status(400).send({ success: false, errors });
