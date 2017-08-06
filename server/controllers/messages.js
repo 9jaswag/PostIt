@@ -38,8 +38,8 @@ export default {
         }, {
           where: { id: req.body.id }
         })
-          .then((msg) => {
-            res.status(301).send({ success: true, msg });
+          .then(() => {
+            res.status(201).send({ success: true, message });
           })
           .catch((error) => {
             res.status(400).send({ success: false, errors: error.message });
