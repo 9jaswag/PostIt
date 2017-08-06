@@ -5,6 +5,7 @@ import Sidebar from '../sidebar/Sidebar';
 import PostMessageForm from '../postMessage/PostMessageForm';
 import AddUserForm from '../addUser/AddUserForm';
 import getMessages from '../../actions/getMessages';
+import passMessage from '../../actions/passMessageAction';
 
 class GroupPage extends Component {
 
@@ -17,6 +18,7 @@ class GroupPage extends Component {
     };
     
     this.onLoad = this.onLoad.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
   onLoad() {
     this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
@@ -25,6 +27,11 @@ class GroupPage extends Component {
       },
       () => {}
     );
+  }
+  onClick(e) {
+    sessionStorage.setItem('message', e.target.dataset.fullmessage );
+    // get message readby, update readby and redirect to message
+    location.href="/message"
   }
 
   componentDidMount() {
@@ -35,16 +42,18 @@ class GroupPage extends Component {
     const { messages } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
     const messageCards = messages.map( message =>
-      <div className="card teal darken-1 hoverable" key={message.id}>
+      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click to view message">
         <div className="card-content white-text">
-          <h5>{ message.title }</h5>
+          <h5 className="pointer" onClick={ this.onClick } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
           <h6 className="inline-block">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></h6>
           <span className={ classnames('margin-h default-radius slim', {
             'red darken-3': message.priority === 'critical',
             'amber accent-4': message.priority === 'urgent',
             'light-blue darken-3': message.priority === 'normal',
           }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
-          <p>{ message.message }</p>
+        </div>
+        <div className="card-action">
+          <span className="white-text">Read By: @{ message.readby }</span>
         </div>
       </div>
     )
@@ -99,6 +108,7 @@ class GroupPage extends Component {
 GroupPage.propTypes = {
   groupDetails: React.PropTypes.string.isRequired,
   getMessages: React.PropTypes.func.isRequired,
+  passMessage: React.PropTypes.func.isRequired
 }
 
 function mapStateToProps(state){
@@ -107,4 +117,4 @@ function mapStateToProps(state){
   }
 }
 
-export default connect(mapStateToProps, { getMessages }) (GroupPage);
+export default connect(mapStateToProps, { getMessages, passMessage }) (GroupPage);

@@ -12,6 +12,7 @@ import App from './components/App';
 import FlashMessagesList from './components/flash/FlashMessagesList'
 import { setCurrentUser } from './actions/signinAction';
 import setGroupId from './actions/groupIdAction';
+import passMessage from './actions/passMessageAction';
 import './styles/main.scss';
 
 const store = createStore(
@@ -28,6 +29,9 @@ if (localStorage.jwtToken) {
 }
 if (sessionStorage.groupDetails){
   store.dispatch(setGroupId(sessionStorage.groupDetails));
+}
+if (sessionStorage.message){
+  store.dispatch(passMessage(sessionStorage.message));
 }
 
 ReactDOM.render(

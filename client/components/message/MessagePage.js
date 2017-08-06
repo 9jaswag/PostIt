@@ -8,7 +8,21 @@ import Sidebar from '../sidebar/Sidebar';
  * for displayng individual messages
  */
 class MessagePage extends Component {
+  constructor(props){
+    super(props);
+    this.goBack = this.goBack.bind(this);
+  }
+  
+  goBack(){
+    window.history.back()
+  }
+
+  componentWillMount(){
+    console.log('yh')
+  }
+
   render() {
+    const message = this.props.message;
     return(
       <div>
         { /*Main Page*/ }
@@ -18,10 +32,25 @@ class MessagePage extends Component {
           { /*Main Page*/ }
           <div className="col s12 m9 l10">
             <div className="col s12" style={{ marginTop: '2rem' }}>
-              <h5 className="center-align uppercase"> Message Title </h5>
-              <div className="row full-height overflow-y-scroll">
-                { /*Message Cards*/ }
-                Message
+              <div className="row">
+                <button onClick={ this.goBack } className="btn waves-effect waves-light">Go Back</button>
+              </div>
+              <div className="container">
+                <div className="row full-height overflow-y-scroll margin-v2">
+                  { /*Message Cards*/ }
+                  <div className="card teal darken-1 hoverable">
+                    <div className="card-content white-text">
+                      <h5>{ message.title }</h5>
+                      <h6 className="inline-block">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></h6>
+                      <span className={ classnames('margin-h default-radius slim', {
+                        'red darken-3': message.priority === 'critical',
+                        'amber accent-4': message.priority === 'urgent',
+                        'light-blue darken-3': message.priority === 'normal',
+                      }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
+                      <p className="flow-text margin-v2">{ message.message }</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -31,4 +60,10 @@ class MessagePage extends Component {
   }
 }
 
-export default connect(null) (MessagePage);
+function mapStateToProps(state){
+  return {
+    message: JSON.parse(state.message.message)
+  }
+}
+
+export default connect(mapStateToProps) (MessagePage);
