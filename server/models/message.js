@@ -2,6 +2,10 @@
 
 export default (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     message: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -16,6 +20,10 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     author: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    readby: {
       type: DataTypes.STRING,
       allowNull: false,
     }

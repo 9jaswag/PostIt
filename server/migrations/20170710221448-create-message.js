@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      title: {
+        type: Sequelize.STRING
+      },
       message: {
         type: Sequelize.STRING
       },
@@ -15,6 +18,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       author: {
+        type: Sequelize.STRING
+      },
+      readby: {
         type: Sequelize.STRING
       },
       createdAt: {

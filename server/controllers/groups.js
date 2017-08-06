@@ -118,10 +118,16 @@ export default {
     });
   },
   postMessage(req, res) {
-    if (!req.body.message || req.body.message.trim() === '') {
+    if (!req.body.title || req.body.title.trim() === '') {
+      return res.status(400).send({ success: false,
+        error: { message: 'Message can not be empty' } });
+    } else if (!req.body.message || req.body.message.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Message can not be empty' } });
     } else if (!req.body.priority || req.body.priority.trim() === '') {
+      return res.status(400).send({ success: false,
+        error: { message: 'Choose a message priority' } });
+    } else if (!req.body.readby || req.body.readby.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Choose a message priority' } });
     } else if (!req.decoded.userUsername) {
@@ -145,6 +151,7 @@ export default {
             message: req.body.message,
             priority: req.body.priority,
             author: req.decoded.userUsername,
+            readby: req.body.readby,
             groupId: req.params.group_id,
             userId: req.decoded.userId
           })
