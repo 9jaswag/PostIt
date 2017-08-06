@@ -12,15 +12,18 @@ class SearchPage extends Component {
     this.state = {
       username: '',
       users: [],
-      errors: ''
+      errors: '',
+      currentPage: 1,
+      usersPerPage: 3
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handlePagination = this.handlePagination.bind(this);
   }
 
   onChange(e){
     this.setState({ [e.target.name]: e.target.value });
-    this.setState({ errors: '' });
+    this.setState({ errors: '', users: [] });
   }
   onSubmit(e){
     e.preventDefault();
@@ -29,6 +32,7 @@ class SearchPage extends Component {
     }else {
       this.props.searchUserAction(this.state.username.toLowerCase()).then(
         (res) => {
+          console.log(res.data.data);
           this.setState({ users: res.data.data });
         },
         (err) => {
@@ -37,22 +41,45 @@ class SearchPage extends Component {
       );
     }
   }
+  handlePagination(e){
+    this.setState({ currentPage: Number(e.target.id) })
+  }
 
   render() {
-    const { users, currentPage, userPerPage } = this.state;
-    const userCards = users.map(user =>
-      <div className="col s12"> <div className="card-panel hoverable">@{ user.username }
-      <span className="margin-h2">Email: { user.email }</span>
-      <span className="margin-h2">Phone: { user.phone }</span> 
-      <span className="margin-h2">Number of groups: { user.Groups.length }</span> </div></div>
-    )
+    const { users, currentPage, usersPerPage } = this.state;
+    // pagination logic
+    const lastUserIndex = currentPage * usersPerPage;
+    const firstUserIndex = lastUserIndex - usersPerPage;
+    const currentUsers = users.slice(firstUserIndex, lastUserIndex);
+    // render users
+    const renderUsers = currentUsers.map((user, index) => {
+      return(
+        <div className="col s12" key={ index }>
+          <div className="card-panel hoverable">
+            { user.username }
+          </div>
+        </div>
+      );
+    });
+    // render page numbers
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(users.length / usersPerPage); i++) {
+      pageNumbers.push(i);
+    }
+    const renderPageNumbers = pageNumbers.map(number => {
+      return (
+        <li key={ number } onClick={ this.handlePagination }>
+          <a href="#!" id={ number }>{ number }</a>
+        </li>
+      );
+    });
     return(
       <div className="row">
         { /*Sidebar*/ }
         <Sidebar />
         { /*Main page*/ }
         <div className="col s12 m9 l10" style={{ marginTop: '2rem' }}>
-          <div className="col s12 m12 l12">
+          <div className="col s12">
             <div className="container">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>Search Users</h5>
               <div className="row">
@@ -67,16 +94,14 @@ class SearchPage extends Component {
                 </form>
               </div>
               <div className="row">
-                { (this.state.users.length > 0) ? userCards : null }
-                <ul className="pagination center-align">
-                  <li className="disabled"><a href="#!"><i className="material-icons">chevron_left</i></a></li>
-                  <li className="active"><a href="#!">1</a></li>
-                  <li className="waves-effect"><a href="#!">2</a></li>
-                  <li className="waves-effect"><a href="#!">3</a></li>
-                  <li className="waves-effect"><a href="#!">4</a></li>
-                  <li className="waves-effect"><a href="#!">5</a></li>
-                  <li className="waves-effect"><a href="#!"><i className="material-icons">chevron_right</i></a></li>
-                </ul>
+                <div className="col s12">
+                  { renderUsers }
+                </div>
+                <div className="col s12">
+                  <ul className="pagination center-align">
+                    { renderPageNumbers }
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
