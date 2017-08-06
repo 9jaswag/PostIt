@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import Sidebar from '../sidebar/Sidebar';
 import { connect } from 'react-redux';
 import searchUserAction from '../../actions/searchUserAction';
@@ -66,6 +67,9 @@ class SearchPage extends Component {
               <div className="col s6">
                 <span className="bold">Groups:</span><span className="italics">{ user.Groups.length }</span>
               </div>
+              <div className="col s12">
+                <span className="bold">Phone:</span><span className="italics">{ user.phone }</span>
+              </div>
             </div>
           </div>
         </div>
@@ -78,7 +82,9 @@ class SearchPage extends Component {
     }
     const renderPageNumbers = pageNumbers.map(number => {
       return (
-        <li key={ number } onClick={ this.handlePagination }>
+        <li className={ classnames({
+          'active teal darken-1': currentPage === number
+        })} key={ number } onClick={ this.handlePagination }>
           <a href="#" id={ number }>{ number }</a>
         </li>
       );
