@@ -13,7 +13,7 @@ class PostMessageForm extends Component {
       message: '',
       priority: 'normal',
       title: '',
-      readby: `${this.props.userDetails.userUsername},`
+      readby: `${this.props.userDetails.userUsername}`
     }
     
     this.onSubmit = this.onSubmit.bind(this);
