@@ -32,11 +32,10 @@ class GroupPage extends Component {
   onClick(e) {
     sessionStorage.setItem('message', e.target.dataset.fullmessage );
     const data = { id: Number(e.target.dataset.id), readby: `${e.target.dataset.readby}${this.props.user.userUsername},` };
-    console.log(data);
     //check if user is already in readby before adding
     this.props.updateReadBy(data);
     // get message readby, update readby and redirect to message
-    // location.href="/message"
+    location.href="/message"
   }
 
   componentDidMount() {
@@ -58,7 +57,7 @@ class GroupPage extends Component {
           }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
         </div>
         <div className="card-action">
-          <span className="white-text">Read By: @{ message.readby }</span>
+          <span className="white-text">Read By: { message.readby }</span>
         </div>
       </div>
     )
