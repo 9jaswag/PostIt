@@ -8,23 +8,30 @@ import getMessages from '../../actions/getMessages';
 import passMessage from '../../actions/passMessageAction';
 import updateReadBy from '../../actions/readbyAction';
 
+/**
+ * Group page component
+ */
 class GroupPage extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       messages: [],
+      displayedMessage: [],
       message: '',
-      priority: ''
+      priority: '',
+      displayState: 'unread'
     };
     
     this.onLoad = this.onLoad.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.filterMessages = this.filterMessages.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
   onLoad() {
     this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
       (res) => {
-        this.setState({messages: res.data.data})
+        this.filterMessages(res.data.data);
       },
       () => {}
     );
@@ -37,15 +44,34 @@ class GroupPage extends Component {
     // get message readby, update readby and redirect to message
     location.href="/message"
   }
+  filterMessages(messages){
+    let unreadMessages = [];
+    messages.map(message => {
+      if (this.state.displayState === 'unread') {
+        if (!message.readby.split(',').includes(this.props.user.userUsername)) {
+          unreadMessages.push(message);
+        }
+      } else {
+        if (message.readby.split(',').includes(this.props.user.userUsername)) {
+          unreadMessages.push(message);
+        }
+      }
+    });
+    this.setState({ displayedMessage: unreadMessages });
+  }
+  onChange(e) {
+    this.setState({ displayState: e.target.value });
+    // console.log(e.target)
+  }
 
   componentDidMount() {
     this.onLoad();
   }
 
   render() {
-    const { messages } = this.state;
+    const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
-    const messageCards = messages.map( message =>
+    const messageCards = displayedMessage.map( message =>
       <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click to view message">
         <div className="card-content white-text">
           <h5 className="pointer" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
@@ -59,7 +85,7 @@ class GroupPage extends Component {
         <div className="card-action">
           <span className="white-text">Read By:</span> {
             message.readby.split(',').map((user, index) => {
-              return <span key={index} className="white-text">@{ user } </span>
+              return <span key={index} className=" chip">@{ user } </span>
             })
           }
         </div>
@@ -78,7 +104,14 @@ class GroupPage extends Component {
               <div className="row full-height overflow-y-scroll">
                 { /*Message Cards*/ }
                 <div className="col s12">
-                  { (messages.length > 0) ? messageCards : <h5 className="center-align margin-v2">No Messages Available. Create one from the right sidebar</h5> }
+                  <label htmlFor="filter-message">Filter Messages</label>
+                  <select className="browser-default" name="filter-message" id="filter-message" value={ this.state.displayState } onChange={ this.onChange }>
+                    <option value="unread">Unread</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                </div>
+                <div className="col s12">
+                  { (displayedMessage.length > 0) ? messageCards : <h6 className="center-align margin-v2">No Messages Available. Create one from the right sidebar</h6> }
                 </div>
               </div>
             </div>

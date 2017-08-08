@@ -14,11 +14,13 @@ class MessagePage extends Component {
   }
   
   goBack(){
-    window.history.back()
+    // window.history.back()
+    location.href="/group"
   }
 
   componentWillMount(){
     console.log('yh')
+    // deal with no message in storage
   }
 
   render() {
