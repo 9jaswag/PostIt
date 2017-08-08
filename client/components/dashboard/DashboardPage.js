@@ -9,36 +9,49 @@ class DashboardPage extends Component {
     super(props);
     this.state = {
       groups: [],
-      currGroupId: null
+      currGroupId: null,
+      notificationCount: 0
     }
     this.onLoad = this.onLoad.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.getNotifications = this.getNotifications.bind(this);
   }
 
   onLoad() {
     this.props.getGroups().then(
       (res) => {
-        this.setState({groups: res.data.data.Groups})
+        this.setState({groups: res.data.user.Groups});
+        this.setState({notificationCount: this.getNotifications(res.data.messages[0])});
+        console.log(res.data.messages[0]);
+        this.getNotifications(res.data.messages[0]);
       },
       () => {}
     );
   }
-
   onClick(e) {
     this.props.setGroupId(e.target.dataset.id + ' ' + e.target.dataset.name );
     sessionStorage.setItem('groupDetails', e.target.dataset.id + ' ' + e.target.dataset.name );
   }
-  
   componentDidMount() {
     this.onLoad();
+  }
+  getNotifications(messageArray){
+    let count = 0;
+    messageArray.map((message) => {
+      if (!message.readby.split(',').includes(this.props.user.userUsername)) {
+        count++;
+      }
+    });
+    return count;
   }
 
   render() {
     const { groups } = this.state;
+    const unreadCount = <span className="new badge">{ this.state.notificationCount }</span>;
     const groupCards = groups.map( group =>
       <a onClick= { this.onClick } href="/group" className="tooltipped pointer" data-position="right" data-delay="50" data-tooltip={ group.description }  key={group.id}>
       <div className="col s12 m6 l4">
-        <div data-id={group.id} data-name={group.name} className="card-panel hoverable">{ group.name }<span className="new badge">4</span></div>
+        <div data-id={group.id} data-name={group.name} className="card-panel hoverable">{ group.name }{ (this.state.notificationCount > 0) ? unreadCount : null}</div>
       </div>
     </a>
     );
@@ -66,4 +79,10 @@ DashboardPage.propTypes= {
   setGroupId: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { getGroups, setGroupId }) (DashboardPage);
+function mapStateToProps(state){
+  return {
+    user: state.auth.user
+  }
+}
+
+export default connect(mapStateToProps, { getGroups, setGroupId }) (DashboardPage);
