@@ -46,7 +46,6 @@ class GroupPage extends Component {
     location.href="/message"
   }
   filterMessages(messages){
-    console.log('filtering=======>');
     let unreadMessages = [];
     messages.map(message => {
       if (this.state.displayState === 'unread') {
@@ -61,7 +60,6 @@ class GroupPage extends Component {
       }
     });
     this.setState({ displayedMessage: unreadMessages });
-    console.log(this.state.displayedMessage);
   }
   onChange(e) {
     this.setState({ displayState: e.target.value });
