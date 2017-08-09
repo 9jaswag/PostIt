@@ -198,25 +198,7 @@ export default {
             errors: 'User does not exist'
           });
         }
-        // return res.status(200).send({ data: user });
-        const messages = [];
-        user.Groups.map((usr) => {
-          return models.Message.findAll({
-            where: {
-              groupId: usr.id
-            }
-          })
-            .then((msg) => {
-              if (!msg) {
-                return res.status(400).send({ success: false, errors: 'Message not found!' });
-              }
-              messages.push(msg);
-              res.status(200).send({ success: true, user, messages });
-            })
-            .catch((err) => {
-              return res.status(400).send({ success: false, errors: err.message });
-            });
-        });
+        return res.status(200).send({ data: user });
       })
       .catch(error => res.status(400).send({ errors: error.message }));
   },
