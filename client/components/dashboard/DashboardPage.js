@@ -13,7 +13,6 @@ class DashboardPage extends Component {
     }
     this.onLoad = this.onLoad.bind(this);
     this.onClick = this.onClick.bind(this);
-    // this.getNotifications = this.getNotifications.bind(this);
   }
 
   onLoad() {
@@ -26,13 +25,11 @@ class DashboardPage extends Component {
               // map returned message array
               let count = 0;
               res.data.data.map(message => {
-                console.log(group.name, this.props.user.userUsername);
                 if (!message.readby.split(',').includes(this.props.user.userUsername)) {
                   count ++;
                 }
               })
               groupsWithNotification.push({id: group.id, name: group.name, count});
-              console.log(groupsWithNotification);
               this.setState({ groups: groupsWithNotification })
             },
             (err) => {}
@@ -41,7 +38,6 @@ class DashboardPage extends Component {
       },
       (err) => {}
     );
-    // console.log('groupsWithNotification');
   }
   onClick(e) {
     this.props.setGroupId(e.target.dataset.id + ' ' + e.target.dataset.name );
@@ -70,8 +66,8 @@ class DashboardPage extends Component {
             <div className="col s12 m12 l12">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>My Groups</h5>
               { /*Group cards*/ }
-              {/* { (groups.length > 0 ) ? groupCards : <h5 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h5> } */}
-              { groupCards }
+               { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h6> } 
+              {/* { groupCards } */}
             </div>
           </div>
         </div>
