@@ -31,6 +31,7 @@ class GroupPage extends Component {
   onLoad() {
     this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
       (res) => {
+        this.setState({ messages: res.data.data});
         this.filterMessages(res.data.data);
       },
       () => {}
@@ -45,30 +46,33 @@ class GroupPage extends Component {
     location.href="/message"
   }
   filterMessages(messages){
+    console.log('filtering=======>');
     let unreadMessages = [];
     messages.map(message => {
       if (this.state.displayState === 'unread') {
         if (!message.readby.split(',').includes(this.props.user.userUsername)) {
           unreadMessages.push(message);
         }
-      } else {
+      }
+      if (this.state.displayState === 'archived') {
         if (message.readby.split(',').includes(this.props.user.userUsername)) {
           unreadMessages.push(message);
         }
       }
     });
     this.setState({ displayedMessage: unreadMessages });
+    console.log(this.state.displayedMessage);
   }
   onChange(e) {
     this.setState({ displayState: e.target.value });
-    // console.log(e.target)
+    this.onLoad();
   }
 
   componentDidMount() {
     this.onLoad();
   }
 
-  render() {
+  render(){
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
     const messageCards = displayedMessage.map( message =>
@@ -93,11 +97,11 @@ class GroupPage extends Component {
     )
     return(
       <div>
-        { /*Main Page*/ }
+        {/* Main Page */}
         <div className="row">
-          { /*Sidebar*/ }
+          {/* Sidebar */}
           <Sidebar />
-          { /*Main Page*/ }
+          {/* Main Page */}
           <div className="col s12 m9 l10">
             <div className="col s12 m12 l9" style={{ marginTop: '2rem' }}>
               <h5 className="center-align uppercase">{ groupName ? `${groupName} Message Board` : null } </h5>
