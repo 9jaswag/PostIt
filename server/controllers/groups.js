@@ -38,8 +38,8 @@ function sendEmailNotification(email, message, priority) {
     service: 'gmail', // secure:true for port 465, secure:false for port 587
     port: 465,
     auth: {
-      user: 'chuks24ng@gmail.com',
-      pass: 'fgsltw@gmail.com'
+      user: process.env.EMAIL_ADDRESS,
+      pass: process.env.PASSWORD
     }
   });
 
@@ -48,16 +48,20 @@ function sendEmailNotification(email, message, priority) {
     from: 'chuks2ng@gmail.com',
     to: email,
     subject: `${priority} message on PostIT`,
-    text: message
+    text: `
+          You have a new ${priority} message on PostIT. Login to check it now
+          ${message}
+    `
   };
 
   // send email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
+      return error;
     }
+    console.log('sent===>' + info.response);
+    return `Email sent: ${info.response}`;
   });
 }
 
