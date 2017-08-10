@@ -21,6 +21,8 @@ module.exports = (app) => {
   app.get('/api/users/one', auth, controllers.users.findOne);
   // API for logged in users to retrieve messages in their group
   app.get('/api/group/:group_id/messages', auth, controllers.groups.fetchMessage);
+  // API route to update message readby
+  app.patch('/api/message/readby', auth, controllers.messages.updateReadBy);
 
   // API to create new group
   app.post('/api/group', auth, controllers.groups.create);
