@@ -2,7 +2,29 @@
  * Group controller
  * handles all group related tasks
  */
+import nodemailer from 'nodemailer';
 import models from '../models';
+
+/**
+ * @return {promise} an array of users and their email addresses.
+ * @param {*} groupId 
+ */
+function getUserEmails(groupId) {
+  return new Promise((resolve) => {
+    models.Group.findOne({
+      where: {
+        id: groupId
+      },
+      attributes: ['id']
+    })
+      .then((group) => {
+        group.getUsers({ attributes: ['id', 'username', 'email'] })
+          .then((users) => {
+            resolve(users);
+          });
+      });
+  });
+}
 
 export default {
   create(req, res) {
