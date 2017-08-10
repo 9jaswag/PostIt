@@ -26,6 +26,41 @@ function getUserEmails(groupId) {
   });
 }
 
+/**
+ * @return void
+ * @param {*} email 
+ * @param {*} message 
+ * @param {*} priority 
+ */
+function sendEmailNotification(email, message, priority) {
+  // create reusable transporter object using the default SMTP transport
+  const transporter = nodemailer.createTransport({
+    service: 'gmail', // secure:true for port 465, secure:false for port 587
+    port: 465,
+    auth: {
+      user: 'chuks24ng@gmail.com',
+      pass: 'fgsltw@gmail.com'
+    }
+  });
+
+  // setup email data 
+  const mailOptions = {
+    from: 'chuks2ng@gmail.com',
+    to: email,
+    subject: `${priority} message on PostIT`,
+    text: message
+  };
+
+  // send email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
+}
+
 export default {
   create(req, res) {
     const errors = { };
@@ -178,11 +213,32 @@ export default {
             groupId: req.params.group_id,
             userId: req.decoded.userId
           })
-          .then(message => res.status(201).send({
-            success: true,
-            message: 'Message sent',
-            data: { message }
-          }))
+          .then((message) => {
+            // send response to client before attempting to send notification            
+            res.status(201).send({
+              success: true,
+              message: 'Message sent',
+              data: { message }
+            });
+
+            // send Email notification
+            if (req.body.priority.toLowerCase() === 'urgent') {
+              // console.log('send email');
+              getUserEmails(req.params.group_id).then((users) => {
+                users.map((user) => {
+                  sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  return user;
+                });
+              });
+            }
+            // send sms Notification
+            if (req.body.priority.toLowerCase() === 'critical') {
+              // console.log('send sms');
+              getUserEmails(req.params.group_id).then((user) => {
+                console.log(user);
+              });
+            }
+          })
           .catch(error => res.status(400).send({
             success: false,
             error: { message: error.message }
