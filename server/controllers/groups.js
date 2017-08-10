@@ -146,27 +146,26 @@ export default {
         return res.status(401).send({ success: false,
           error: { message: 'That group does not exist' } });
       } else {
-        group.getUsers({ attributes: ['id', 'username', 'email'] }).then((groupUsersInfo) => {
-          return models.Message
-            .create({
-              title: req.body.title,
-              message: req.body.message,
-              priority: req.body.priority,
-              author: req.decoded.userUsername,
-              readby: req.decoded.userUsername,
-              groupId: req.params.group_id,
-              userId: req.decoded.userId
-            })
-            .then(message => res.status(201).send({
-              success: true,
-              message: 'Message sent',
-              data: { message, groupUsersInfo }
-            }))
-            .catch(error => res.status(400).send({
-              success: false,
-              error: { message: error.message }
-            }));
-        });
+        return models.Message
+          .create({
+            title: req.body.title,
+            message: req.body.message,
+            priority: req.body.priority,
+            author: req.decoded.userUsername,
+            readby: req.decoded.userUsername,
+            groupId: req.params.group_id,
+            userId: req.decoded.userId
+          })
+          .then(message => res.status(201).send({
+            success: true,
+            message: 'Message sent',
+            data: { message }
+          }))
+          .catch(error => res.status(400).send({
+            success: false,
+            error: { message: error.message }
+          }));
+        // @todo handle these errors "notNull Violation: title cannot be null"
       }
     })
       .catch(error => res.status(400).send({
