@@ -127,7 +127,7 @@ export default {
     } else if (!req.body.priority || req.body.priority.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Choose a message priority' } });
-    } else if (!req.body.readby || req.body.readby.trim() === '') {
+    } else if (!req.decoded.userUsername || req.decoded.userUsername.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Readby cannot be empty' } });
     } else if (!req.decoded.userUsername) {
@@ -152,7 +152,7 @@ export default {
             message: req.body.message,
             priority: req.body.priority,
             author: req.decoded.userUsername,
-            readby: req.body.readby,
+            readby: req.decoded.userUsername,
             groupId: req.params.group_id,
             userId: req.decoded.userId
           })
