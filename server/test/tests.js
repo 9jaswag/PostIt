@@ -460,7 +460,6 @@ describe('PostIT API Tests:', () => {
         .end((err, res) => {
           done();
         });
-      console.log('=====::::::==>');
     });
     it('returns error if no token is provided', (done) => {
       chai.request(app)
@@ -537,6 +536,92 @@ describe('PostIT API Tests:', () => {
           res.should.have.status(201);
           res.body.data.usergroup.userId.should.equals(4);
           res.body.data.usergroup.groupId.should.equals(1);
+          done();
+        });
+    });
+  });
+  describe('API route for posting message to a particular group', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .post('/api/group/1/message')
+        .type('form')
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns error message if message title is not provided', (done) => {
+      chai.request(app)
+        .post('/api/group/1/message')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.message.should.equals('Message title can not be empty');
+          done();
+        });
+    });
+    it('returns error message if message body is not provided', (done) => {
+      chai.request(app)
+        .post('/api/group/1/message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.message.should.equals('Message can not be empty');
+          done();
+        });
+    });
+    it('returns error message if group id provided does not exist', (done) => {
+      chai.request(app)
+        .post('/api/group/44/message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body'
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('That group does not exist');
+          done();
+        });
+    });
+    it('sets message priority to normal if it is not provided', (done) => {
+      chai.request(app)
+        .post('/api/group/1/message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.data.message.priority.should.equals('normal');
+          done();
+        });
+    });
+    it('sends message if all parameters are provided', (done) => {
+      chai.request(app)
+        .post('/api/group/1/message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'critical'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.data.message.priority.should.equals('critical');
+          res.body.data.message.title.should.equals('A message title');
+          res.body.data.message.message.should.equals('a message body');
+          res.body.data.message.author.should.equals('chuks');
           done();
         });
     });
