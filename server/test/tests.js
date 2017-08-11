@@ -46,8 +46,8 @@ describe('PostIT API Tests:', () => {
         });
     });
   });
-  describe('Register a new user', () => {
-    it('Registers a new user with complete parameters', (done) => {
+  describe('Signup API route', () => {
+    it('Registers a new user when complete parameters are provided', (done) => {
       chai.request(app)
         .post('/api/user/signup')
         .type('form')
@@ -231,6 +231,84 @@ describe('PostIT API Tests:', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.errors.phone.should.equals('Phone field cannot be empty');
+          done();
+        });
+    });
+  });
+  describe('Signin API route', () => {
+    it('Successful signin should return 200 status code', (done) => {
+      chai.request(app)
+        .post('/api/user/signin')
+        .type('form')
+        .send({
+          username: 'chuks',
+          password: 'chukspass',
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+    it('Successful signin should return a token', (done) => {
+      chai.request(app)
+        .post('/api/user/signin')
+        .type('form')
+        .send({
+          username: 'chuks',
+          password: 'chukspass',
+        })
+        .end((err, res) => {
+          res.body.data.should.have.property('token');
+          done();
+        });
+    });
+    it('Returns error message when no username is provided', (done) => {
+      chai.request(app)
+        .post('/api/user/signin')
+        .type('form')
+        .send({
+          password: 'chukspass',
+        })
+        .end((err, res) => {
+          res.body.errors.username.should.equals('Username field cannot be empty');
+          done();
+        });
+    });
+    it('Returns error message when no password is provided', (done) => {
+      chai.request(app)
+        .post('/api/user/signin')
+        .type('form')
+        .send({
+          username: 'chuks',
+        })
+        .end((err, res) => {
+          res.body.errors.password.should.equals('Password field cannot be empty');
+          done();
+        });
+    });
+    it('Returns error message when none existing username is provided', (done) => {
+      chai.request(app)
+        .post('/api/user/signin')
+        .type('form')
+        .send({
+          username: 'chukss',
+          password: 'chukspass'
+        })
+        .end((err, res) => {
+          res.body.errors.username.should.equals('User does not exist');
+          done();
+        });
+    });
+    it('Returns error message when wrong password is provided', (done) => {
+      chai.request(app)
+        .post('/api/user/signin')
+        .type('form')
+        .send({
+          username: 'chuks',
+          password: 'chukspasss'
+        })
+        .end((err, res) => {
+          res.body.errors.password.should.equals('Incorrect password!');
           done();
         });
     });
