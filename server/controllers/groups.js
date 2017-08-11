@@ -3,6 +3,7 @@
  * handles all group related tasks
  */
 import nodemailer from 'nodemailer';
+import Nexmo from 'nexmo';
 import models from '../models';
 
 /**
@@ -18,7 +19,7 @@ function getUserEmails(groupId) {
       attributes: ['id']
     })
       .then((group) => {
-        group.getUsers({ attributes: ['id', 'username', 'email'] })
+        group.getUsers({ attributes: ['id', 'username', 'email', 'phone'] })
           .then((users) => {
             resolve(users);
           });
@@ -48,19 +49,17 @@ function sendEmailNotification(email, message, priority) {
     from: 'chuks2ng@gmail.com',
     to: email,
     subject: `${priority} message on PostIT`,
-    text: `
-          You have a new ${priority} message on PostIT. Login to check it now
-          ${message}
-    `
+    text: `You have a new ${priority} message on PostIT. Login to check it now
+          Message: ${message}`
   };
 
   // send email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
+      console.log('====> err ', error);
       return error;
     }
-    console.log('sent===>' + info.response);
+    console.log(`sent===> ${info.response}`);
     return `Email sent: ${info.response}`;
   });
 }
@@ -227,7 +226,7 @@ export default {
 
             // send Email notification
             if (req.body.priority.toLowerCase() === 'urgent') {
-              // console.log('send email');
+              // get users email and send message
               getUserEmails(req.params.group_id).then((users) => {
                 users.map((user) => {
                   sendEmailNotification(user.email, req.body.message, req.body.priority);
@@ -235,11 +234,30 @@ export default {
                 });
               });
             }
+
+            const nexmo = new Nexmo({
+              apiKey: process.env.API_KEY,
+              apiSecret: process.env.API_SECRET,
+            });
+
             // send sms Notification
             if (req.body.priority.toLowerCase() === 'critical') {
-              // console.log('send sms');
-              getUserEmails(req.params.group_id).then((user) => {
-                console.log(user);
+              // get user email and phone details
+              getUserEmails(req.params.group_id).then((users) => {
+                users.map((user) => {
+                  // send email
+                  sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  // send sms
+                  // nexmo.message.sendSms(sender, recipient, message, options, callback);
+                  nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log(res);
+                    }
+                  });
+                  return user;
+                });
               });
             }
           })
