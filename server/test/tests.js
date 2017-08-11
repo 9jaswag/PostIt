@@ -315,12 +315,13 @@ describe('PostIT API Tests:', () => {
         });
     });
   });
-  describe('Find All Users API route', () => {
+  describe('API route find all Users', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
         .get('/api/users')
         .type('form')
         .end((err, res) => {
+          res.should.have.status(403);
           res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
           done();
         });
@@ -331,8 +332,211 @@ describe('PostIT API Tests:', () => {
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
+          res.should.have.status(200);
           res.body.data.user.should.be.an('array');
           res.body.data.user[0].should.be.an('object');
+          done();
+        });
+    });
+  });
+  describe('API route to fetch logged in user details with group info', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .get('/api/users/one')
+        .type('form')
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns logged in user object with group info when token is valid', (done) => {
+      chai.request(app)
+        .get('/api/users/one')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.an('object');
+          res.body.data.Groups.should.be.an('array');
+          done();
+        });
+    });
+  });
+  describe('Search user API route', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .get('/api/user/chuks/find')
+        .type('form')
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns logged in user object with group info when token is valid', (done) => {
+      chai.request(app)
+        .get('/api/user/chuks/find')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.an('array');
+          res.body.data[0].should.be.an('object');
+          done();
+        });
+    });
+  });
+  describe('Create group API route', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .post('/api/group')
+        .type('form')
+        .send({
+          name: 'Andela Bootcamp',
+          description: 'A little group description'
+        })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns error if no parameter is provided', (done) => {
+      chai.request(app)
+        .post('/api/group')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.errors.name.should.equals('Please choose a group name');
+          res.body.errors.description.should.equals('Please enter a description of the group');
+          done();
+        });
+    });
+    it('creates a group if all parameters are provided', (done) => {
+      chai.request(app)
+        .post('/api/group')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          name: 'Andela Bootcamp',
+          description: 'A little group description'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.data.group.name.should.equals('Andela Bootcamp');
+          res.body.data.group.description.should.equals('A little group description');
+          done();
+        });
+    });
+    it('returns error if provided group name already exists', (done) => {
+      chai.request(app)
+        .post('/api/group')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          name: 'Andela Bootcamp',
+          description: 'A little group description'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.errors.group.should.equals('Group already exists');
+          done();
+        });
+    });
+  });
+  describe('API route for adding users to a group', () => {
+    before((done) => {
+      chai.request(app)
+        .post('/api/user/signup')
+        .type('form')
+        .send({
+          username: 'dave',
+          email: 'dave@andela.com',
+          password: 'davepass',
+          phone: '77033130448'
+        })
+        .end((err, res) => {
+          done();
+        });
+      console.log('=====::::::==>');
+    });
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .post('/api/group/1/user')
+        .type('form')
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns error if no user id is provided', (done) => {
+      chai.request(app)
+        .post('/api/group/1/user')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.message.should.equals('a User ID is required');
+          done();
+        });
+    });
+    it('returns error if user id is provided does not exist', (done) => {
+      chai.request(app)
+        .post('/api/group/1/user')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 8
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('User does not exist');
+          done();
+        });
+    });
+    it('returns error if group id is provided does not exist', (done) => {
+      chai.request(app)
+        .post('/api/group/7/user')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 2
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('Group does not exist');
+          done();
+        });
+    });
+    it('returns error if user id is provided already belongs to the group', (done) => {
+      chai.request(app)
+        .post('/api/group/1/user')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.message.should.equals('User already belongs to this group');
+          done();
+        });
+    });
+    it('adds the user to the group', (done) => {
+      chai.request(app)
+        .post('/api/group/1/user')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 4
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.data.usergroup.userId.should.equals(4);
+          res.body.data.usergroup.groupId.should.equals(1);
           done();
         });
     });
