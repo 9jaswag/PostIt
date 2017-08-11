@@ -35,6 +35,7 @@ models.UserGroup.destroy({
 });
 
 describe('PostIT API Tests:', () => {
+
   describe('Base API', () => {
     it('Displays welcome message', (done) => {
       chai.request(app)
@@ -259,6 +260,7 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.body.data.should.have.property('token');
+          token = res.body.data.token;
           done();
         });
     });
@@ -309,6 +311,28 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.body.errors.password.should.equals('Incorrect password!');
+          done();
+        });
+    });
+  });
+  describe('Find All Users API route', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .get('/api/users')
+        .type('form')
+        .end((err, res) => {
+          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns an array of user objects when token is valid', (done) => {
+      chai.request(app)
+        .get('/api/users/')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.body.data.user.should.be.an('array');
+          res.body.data.user[0].should.be.an('object');
           done();
         });
     });
