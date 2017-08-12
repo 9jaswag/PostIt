@@ -626,4 +626,39 @@ describe('PostIT API Tests:', () => {
         });
     });
   });
+  describe('API route for feching messages', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .get('/api/group/1/messages')
+        .type('form')
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns error message if group id provided does not exist', (done) => {
+      chai.request(app)
+        .get('/api/group/44/messages')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('Group does not exist');
+          done();
+        });
+    });
+    it('returns an array of messages if all parameters are correct', (done) => {
+      chai.request(app)
+        .get('/api/group/1/messages')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.data.should.be.an('array');
+          res.body.data[0].should.be.an('object');
+          done();
+        });
+    });
+  });
 });
