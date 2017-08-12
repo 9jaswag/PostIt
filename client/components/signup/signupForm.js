@@ -18,9 +18,22 @@ class SignupForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * @typedef {object} KeyboardEvent
+   */
+
+  /**
+   * @return void
+   * @param {KeyboardEvent} e 
+   */
   onChange(e){
     this.setState({ [e.target.name]: e.target.value });
   }
+
+  /**
+   * @return void
+   * @param {KeyboardEvent} e 
+   */
   onSubmit(e){
     e.preventDefault();
     this.setState({ errors: {}, isLoading: true })

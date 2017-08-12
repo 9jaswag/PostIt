@@ -1,3 +1,7 @@
+/**
+ * App parent component
+ */
+
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import HomePage from './home/HomePage';
@@ -7,6 +11,9 @@ import SearchPage from './search/Searchpage';
 import MessagePage from './message/MessagePage';
 import requireAuth from '../utilities/requireAuth';
 
+/**
+ * App component class
+ */
 class App extends Component {
   render() {
     return(
