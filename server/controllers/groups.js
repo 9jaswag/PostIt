@@ -277,7 +277,7 @@ export default {
       }
     }).then((group) => {
       if (!group) {
-        return res.status(404).send({ success: false,
+        return res.status(401).send({ success: false,
           error: { message: 'Group does not exist' } });
       } else {
         return models.Message
@@ -286,7 +286,7 @@ export default {
               groupId: req.params.group_id
             }
           })
-          .then(message => res.status(200).send({ data: message }))
+          .then(message => res.status(200).send({ success: true, data: message }))
           .catch(error => res.status(400).send({
             success: false,
             error: { message: error.message }
