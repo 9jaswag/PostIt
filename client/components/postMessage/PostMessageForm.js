@@ -13,7 +13,6 @@ class PostMessageForm extends Component {
       message: '',
       priority: 'normal',
       title: '',
-      readby: `${this.props.userDetails.userUsername}`
     }
     
     this.onSubmit = this.onSubmit.bind(this);
@@ -65,7 +64,7 @@ class PostMessageForm extends Component {
                     <option value="urgent">Urgent</option>
                     <option value="critical">Critical</option>
                   </select>
-                  {/* <label htmlFor="priority">Message Priority</label> */}
+                   <label htmlFor="priority" className="active">Message Priority</label> 
                 </div>
               </div>
               <div className="row">

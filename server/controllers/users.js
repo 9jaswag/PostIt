@@ -68,7 +68,7 @@ export default {
             userUsername: user.username,
             userPhone: user.phone
           }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-        res.status(201)
+        return res.status(201)
           .send({ success: true,
             message: 'Sign up succesful.',
             data: { token } });
@@ -102,7 +102,7 @@ export default {
           hasError = true;
           errors.phone = 'Only numeric characters are allowed as phone numbers';
         }
-        res.status(400).send({ success: false, errors });
+        return res.status(400).send({ success: false, errors });
       }
       );
   },

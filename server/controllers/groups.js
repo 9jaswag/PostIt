@@ -2,7 +2,67 @@
  * Group controller
  * handles all group related tasks
  */
+import nodemailer from 'nodemailer';
+import Nexmo from 'nexmo';
 import models from '../models';
+
+/**
+ * @return {promise} an array of users and their email addresses.
+ * @param {*} groupId 
+ */
+function getUserEmails(groupId) {
+  return new Promise((resolve) => {
+    models.Group.findOne({
+      where: {
+        id: groupId
+      },
+      attributes: ['id']
+    })
+      .then((group) => {
+        group.getUsers({ attributes: ['id', 'username', 'email', 'phone'] })
+          .then((users) => {
+            resolve(users);
+          });
+      });
+  });
+}
+
+/**
+ * @return void
+ * @param {*} email 
+ * @param {*} message 
+ * @param {*} priority 
+ */
+function sendEmailNotification(email, message, priority) {
+  // create reusable transporter object using the default SMTP transport
+  const transporter = nodemailer.createTransport({
+    service: 'gmail', // secure:true for port 465, secure:false for port 587
+    port: 465,
+    auth: {
+      user: process.env.EMAIL_ADDRESS,
+      pass: process.env.PASSWORD
+    }
+  });
+
+  // setup email data 
+  const mailOptions = {
+    from: 'chuks2ng@gmail.com',
+    to: email,
+    subject: `${priority} message on PostIT`,
+    text: `You have a new ${priority} message on PostIT. Login to check it now
+          Message: ${message}`
+  };
+
+  // send email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log('====> err ', error);
+      return error;
+    }
+    console.log(`sent===> ${info.response}`);
+    return `Email sent: ${info.response}`;
+  });
+}
 
 export default {
   create(req, res) {
@@ -124,10 +184,7 @@ export default {
     } else if (!req.body.message || req.body.message.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Message can not be empty' } });
-    } else if (!req.body.priority || req.body.priority.trim() === '') {
-      return res.status(400).send({ success: false,
-        error: { message: 'Choose a message priority' } });
-    } else if (!req.body.readby || req.body.readby.trim() === '') {
+    } else if (!req.decoded.userUsername || req.decoded.userUsername.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Readby cannot be empty' } });
     } else if (!req.decoded.userUsername) {
@@ -150,17 +207,57 @@ export default {
           .create({
             title: req.body.title,
             message: req.body.message,
-            priority: req.body.priority,
+            priority: req.body.priority || 'normal',
             author: req.decoded.userUsername,
-            readby: req.body.readby,
+            readby: req.decoded.userUsername,
             groupId: req.params.group_id,
             userId: req.decoded.userId
           })
-          .then(message => res.status(201).send({
-            success: true,
-            message: 'Message sent',
-            data: { message }
-          }))
+          .then((message) => {
+            // send response to client before attempting to send notification            
+            res.status(201).send({
+              success: true,
+              message: 'Message sent',
+              data: { message }
+            });
+
+            // send Email notification
+            if (req.body.priority.toLowerCase() === 'urgent') {
+              // get users email and send message
+              getUserEmails(req.params.group_id).then((users) => {
+                users.map((user) => {
+                  sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  return user;
+                });
+              });
+            }
+
+            const nexmo = new Nexmo({
+              apiKey: process.env.API_KEY,
+              apiSecret: process.env.API_SECRET,
+            });
+
+            // send sms Notification
+            if (req.body.priority.toLowerCase() === 'critical') {
+              // get user email and phone details
+              getUserEmails(req.params.group_id).then((users) => {
+                users.map((user) => {
+                  // send email
+                  sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  // send sms
+                  // nexmo.message.sendSms(sender, recipient, message, options, callback);
+                  nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log(res);
+                    }
+                  });
+                  return user;
+                });
+              });
+            }
+          })
           .catch(error => res.status(400).send({
             success: false,
             error: { message: error.message }
@@ -180,7 +277,7 @@ export default {
       }
     }).then((group) => {
       if (!group) {
-        return res.status(404).send({ success: false,
+        return res.status(401).send({ success: false,
           error: { message: 'Group does not exist' } });
       } else {
         return models.Message
@@ -189,7 +286,7 @@ export default {
               groupId: req.params.group_id
             }
           })
-          .then(message => res.status(200).send({ data: message }))
+          .then(message => res.status(200).send({ success: true, data: message }))
           .catch(error => res.status(400).send({
             success: false,
             error: { message: error.message }
