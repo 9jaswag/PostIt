@@ -4,6 +4,10 @@
 
 import axios from 'axios';
 
+/**
+ * @return {promise} returns an array of messages
+ * @param {number} id 
+ */
 const getMessages = id =>
   (dispatch) => axios.get(`/api/group/${id}/messages`);
 
