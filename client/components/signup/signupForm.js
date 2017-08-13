@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 
+
+/**
+ * Function for formatting user's phone number into Nigerian international format
+ * @param {number} number phone number to be formatted
+ */
+const formatPhoneNumber = (number) => `234${number.slice(1)}`;
+
 /**
  * Signup form component
  */
@@ -36,8 +43,16 @@ class SignupForm extends Component {
    */
   onSubmit(e){
     e.preventDefault();
-    this.setState({ errors: {}, isLoading: true })
-    this.props.userSignupRequest(this.state).then(
+    this.setState({ errors: {}, isLoading: true });
+    // validation checks
+    if(this.state.password.length < 6) {
+      return this.setState({ errors: { password: 'Password must be 6 characters or more' }, isLoading: false });
+    } if (this.state.phone.length !== 11){
+      return this.setState({ errors: { phone: 'Phone number must be 11 characters long' }, isLoading: false });
+    }
+    const { username, email, password, phone } = this.state;
+    const userData = { username, email, password, phone: formatPhoneNumber(phone) };
+    this.props.userSignupRequest(userData).then(
       () => {
         this.props.addFlashMessage({
           type: 'success',
