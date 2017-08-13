@@ -20,7 +20,7 @@ class GroupPage extends Component {
       displayedMessage: [],
       message: '',
       priority: '',
-      displayState: 'unread'
+      displayState: 'all'
     };
     
     this.onLoad = this.onLoad.bind(this);
@@ -39,27 +39,31 @@ class GroupPage extends Component {
   }
   onClick(e) {
     sessionStorage.setItem('message', e.target.dataset.fullmessage );
-    const data = { id: Number(e.target.dataset.id), readby: `${e.target.dataset.readby},${this.props.user.userUsername}` };
-    //check if user is already in readby before adding
-    this.props.updateReadBy(data);
     // get message readby, update readby and redirect to message
+    if (!e.target.dataset.readby.split(',').includes(this.props.user.userUsername)) {
+      const data = { id: Number(e.target.dataset.id), readby: `${e.target.dataset.readby},${this.props.user.userUsername}` };
+      this.props.updateReadBy(data);
+    }
     location.href="/message"
   }
   filterMessages(messages){
-    let unreadMessages = [];
+    let displayedMessage = [];
     messages.map(message => {
+      if (this.state.displayState === 'all') {
+        displayedMessage.push(message);
+      }
       if (this.state.displayState === 'unread') {
         if (!message.readby.split(',').includes(this.props.user.userUsername)) {
-          unreadMessages.push(message);
+          displayedMessage.push(message);
         }
       }
       if (this.state.displayState === 'archived') {
         if (message.readby.split(',').includes(this.props.user.userUsername)) {
-          unreadMessages.push(message);
+          displayedMessage.push(message);
         }
       }
     });
-    this.setState({ displayedMessage: unreadMessages });
+    this.setState({ displayedMessage: displayedMessage });
   }
   onChange(e) {
     this.setState({ displayState: e.target.value });
@@ -76,8 +80,8 @@ class GroupPage extends Component {
     const messageCards = displayedMessage.map( message =>
       <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click to view message">
         <div className="card-content white-text">
-          <h5 className="pointer" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
-          <h6 className="inline-block">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></h6>
+          <h5 className="pointer slim" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
+          <span className="inline-block slim">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></span>
           <span className={ classnames('margin-h default-radius slim', {
             'red darken-3': message.priority === 'critical',
             'amber accent-4': message.priority === 'urgent',
@@ -85,9 +89,9 @@ class GroupPage extends Component {
           }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
         </div>
         <div className="card-action">
-          <span className="white-text">Read By:</span> {
+          <span className="white-text slim">Read By:</span> {
             message.readby.split(',').map((user, index) => {
-              return <span key={index} className=" chip">@{ user } </span>
+              return <span key={index} className="normal chip">@{ user } </span>
             })
           }
         </div>
@@ -108,6 +112,7 @@ class GroupPage extends Component {
                 <div className="col s12">
                   <label htmlFor="filter-message">Filter Messages</label>
                   <select className="browser-default" name="filter-message" id="filter-message" value={ this.state.displayState } onChange={ this.onChange }>
+                    <option value="all">All</option>
                     <option value="unread">Unread</option>
                     <option value="archived">Archived</option>
                   </select>
