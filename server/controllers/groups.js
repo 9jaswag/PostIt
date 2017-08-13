@@ -276,13 +276,6 @@ export default {
                       }
                     });
                   }
-                  // nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
-                  //   if (err) {
-                  //     console.log(err);
-                  //   } else {
-                  //     console.log(res);
-                  //   }
-                  // });
                   return user;
                 });
               });
@@ -318,6 +311,7 @@ export default {
       } else {
         return models.Message
           .findAll({
+            order: [['createdAt', 'DESC']],
             where: {
               groupId: req.params.group_id
             }

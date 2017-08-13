@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import SignupForm from '../signup/signupForm';
-import SigninForm from '../signin/signinForm';
+import SignupForm from '../signup/SignupForm';
+import SigninForm from '../signin/SigninForm';
 import userSignupRequest from '../../actions/signupActions';
 import { addFlashMessage } from '../../actions/flashMessages';
 

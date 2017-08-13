@@ -208,6 +208,7 @@ export default {
       .find({
         include: [{
           model: models.Group,
+          order: [['createdAt', 'DESC']],
           required: false,
           attributes: ['id', 'name', 'description'],
           through: { attributes: [] }
