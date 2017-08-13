@@ -243,7 +243,9 @@ export default {
               // get users email and send message
               getUserEmails(req.params.group_id).then((users) => {
                 users.map((user) => {
-                  sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  if (user.email !== req.decoded.userEmail) {
+                    sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  }
                   return user;
                 });
               });
@@ -260,16 +262,27 @@ export default {
               getUserEmails(req.params.group_id).then((users) => {
                 users.map((user) => {
                   // send email
-                  sendEmailNotification(user.email, req.body.message, req.body.priority);
-                  // send sms
+                  if (user.email !== req.decoded.userEmail) {
+                    sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  }
+                  // send sms 
                   // nexmo.message.sendSms(sender, recipient, message, options, callback);
-                  nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log(res);
-                    }
-                  });
+                  if (user.phone !== req.decoded.userPhone) {
+                    nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
+                      if (err) {
+                        console.log(err);
+                      } else {
+                        console.log(res);
+                      }
+                    });
+                  }
+                  // nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
+                  //   if (err) {
+                  //     console.log(err);
+                  //   } else {
+                  //     console.log(res);
+                  //   }
+                  // });
                   return user;
                 });
               });
