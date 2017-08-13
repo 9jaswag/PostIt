@@ -233,16 +233,6 @@ export default {
    * @return {object} returns an object containing an array of user objects
    */
   searchUsers(req, res) {
-    const errors = { };
-    let hasError = false;
-    // validation check
-    if (!req.params.username || req.params.username.trim() === '') {
-      hasError = true;
-      errors.username = 'Username cannot be empty';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
     return models.User.findAll({
       include: [{
         model: models.Group,
