@@ -101,9 +101,9 @@ export default {
           hasError = true;
           errors.phone = 'Phone number already exists';
         }
-        if (error.errors[0].message === 'Phone number must have 11 characters') {
+        if (error.errors[0].message === 'Formatted phone number must have 13 characters') {
           hasError = true;
-          errors.phone = 'Phone number must have 11 characters';
+          errors.phone = 'Formatted phone number must have 13 characters';
         }
         if (error.errors[0].message === 'Only numeric characters are allowed as phone numbers') {
           hasError = true;

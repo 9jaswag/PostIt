@@ -54,8 +54,8 @@ export default (sequelize, DataTypes) => {
           msg: 'Only numeric characters are allowed as phone numbers'
         },
         len: {
-          args: [11, 11],
-          msg: 'Phone number must have 11 characters'
+          args: [13, 13],
+          msg: 'Formatted phone number must have 13 characters'
         },
         notEmpty: true
       }
