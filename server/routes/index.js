@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import controllers from '../controllers';
 import auth from '../middlewares/auth';
 
@@ -16,9 +15,9 @@ module.exports = (app) => {
   // API to get all users
   app.get('/api/users', auth, controllers.users.findAll);
   // API route to search users
-  app.get('/api/user/:username/find', auth, controllers.users.findUser);
+  app.get('/api/user/:username/find', auth, controllers.users.searchUsers);
   // API route to get a user and group details
-  app.get('/api/users/one', auth, controllers.users.findOne);
+  app.get('/api/users/one', auth, controllers.users.findCurrentUser);
   // API for logged in users to retrieve messages in their group
   app.get('/api/group/:group_id/messages', auth, controllers.groups.fetchMessage);
   // API route to update message readby

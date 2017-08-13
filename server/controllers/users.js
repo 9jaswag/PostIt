@@ -10,7 +10,14 @@ import models from '../models';
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 
+
 export default {
+  /**
+   * Method to sign up users
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing user token
+   */
   signup(req, res) {
     const errors = { };
     let hasError = false;
@@ -106,6 +113,12 @@ export default {
       }
       );
   },
+  /**
+   * Method to sign in users
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing user token
+   */
   login(req, res) {
     const errors = { };
     let hasError = false;
@@ -160,6 +173,12 @@ export default {
         errors: { message: error.message }
       }));
   },
+  /**
+   * Method to get a list all users
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of users
+   */
   findAll(req, res) {
     return models.User
       .findAll({
@@ -178,7 +197,12 @@ export default {
         error: { message: error.message }
       }));
   },
-  findOne(req, res) {
+  /** Method to get the details of current logged in user
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of user objects
+   */
+  findCurrentUser(req, res) {
     const username = req.decoded.userUsername;
     models.User
       .find({
@@ -202,7 +226,13 @@ export default {
       })
       .catch(error => res.status(400).send({ errors: error.message }));
   },
-  findUser(req, res) {
+  /**
+   * Method to search for users
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of user objects
+   */
+  searchUsers(req, res) {
     const errors = { };
     let hasError = false;
     // validation check

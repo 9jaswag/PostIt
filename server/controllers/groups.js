@@ -7,8 +7,9 @@ import Nexmo from 'nexmo';
 import models from '../models';
 
 /**
+ * Function to get the emails of the users in a group
+ * @param {number} groupId id of the group
  * @return {promise} an array of users and their email addresses.
- * @param {*} groupId 
  */
 function getUserEmails(groupId) {
   return new Promise((resolve) => {
@@ -28,10 +29,10 @@ function getUserEmails(groupId) {
 }
 
 /**
- * @return void
  * @param {*} email 
  * @param {*} message 
  * @param {*} priority 
+ * @return void
  */
 function sendEmailNotification(email, message, priority) {
   // create reusable transporter object using the default SMTP transport
@@ -56,10 +57,8 @@ function sendEmailNotification(email, message, priority) {
   // send email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log('====> err ', error);
       return error;
     }
-    console.log(`sent===> ${info.response}`);
     return `Email sent: ${info.response}`;
   });
 }

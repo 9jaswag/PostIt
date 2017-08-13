@@ -7,6 +7,13 @@ import models from '../models';
 
 // Middleware
 let token;
+
+/**
+ * @param {object} req request object
+ * @param {object} res response object
+ * @param {function} next next middleware function
+ * @return
+ */
 export default (req, res, next) => {
   token = req.body.token || req.query.token || req.headers['x-access-token'];
   jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
@@ -21,15 +28,15 @@ export default (req, res, next) => {
       models.User.findOne({
         where: {
           username
-        }
+        },
+        attributes: ['id', 'username', 'email']
       })
         .then((user) => {
           if (!user) {
-            return res.status(404).send({ sucess: false, error: 'User does not exist' });
+            return res.status(403).send({ sucess: false, error: 'User does not exist' });
           }
           next();
         });
-      // next();
     }
   });
 };
