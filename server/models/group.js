@@ -1,4 +1,6 @@
 
+// Group model
+
 export default (sequelize, DataTypes) => {
   const Group = sequelize.define('Group', {
     name: {

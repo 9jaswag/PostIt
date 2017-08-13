@@ -1,5 +1,7 @@
 'use strict';
 
+// User model
+
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: {

@@ -12,7 +12,7 @@ let token;
  * @param {object} req request object
  * @param {object} res response object
  * @param {function} next next middleware function
- * @return
+ * @return {void}
  */
 export default (req, res, next) => {
   token = req.body.token || req.query.token || req.headers['x-access-token'];

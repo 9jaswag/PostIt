@@ -5,6 +5,12 @@
 import models from '../models';
 
 export default {
+  /**
+   * Method to update a message's readby
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing details of the message that was updated
+   */
   updateReadBy(req, res) {
     const errors = { };
     let hasError = false;

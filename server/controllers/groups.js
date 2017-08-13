@@ -11,8 +11,8 @@ import models from '../models';
  * @param {number} groupId id of the group
  * @return {promise} an array of users and their email addresses.
  */
-function getUserEmails(groupId) {
-  return new Promise((resolve) => {
+const getUserEmails = groupId =>
+  new Promise((resolve) => {
     models.Group.findOne({
       where: {
         id: groupId
@@ -26,15 +26,15 @@ function getUserEmails(groupId) {
           });
       });
   });
-}
 
 /**
- * @param {*} email 
- * @param {*} message 
- * @param {*} priority 
- * @return void
+ * Function for sending email notification to users
+ * @param {string} email user's email
+ * @param {string} message message to be sent
+ * @param {string} priority message's priority
+ * @return {void}
  */
-function sendEmailNotification(email, message, priority) {
+const sendEmailNotification = (email, message, priority) => {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
     service: 'gmail', // secure:true for port 465, secure:false for port 587
@@ -51,7 +51,7 @@ function sendEmailNotification(email, message, priority) {
     to: email,
     subject: `${priority} message on PostIT`,
     text: `You have a new ${priority} message on PostIT. Login to check it now
-          Message: ${message}`
+           Message: ${message}`
   };
 
   // send email
@@ -61,9 +61,15 @@ function sendEmailNotification(email, message, priority) {
     }
     return `Email sent: ${info.response}`;
   });
-}
+};
 
 export default {
+  /**
+   * Method to create a new group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing details of the newly created group
+   */
   create(req, res) {
     const errors = { };
     let hasError = false;
@@ -118,6 +124,12 @@ export default {
         errors: { message: error.message }
       }));
   },
+  /**
+   * Method to add a user to a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object confirming user has been added to group
+   */
   addUser(req, res) {
     if (!req.body.userId) {
       return res.status(400)
@@ -176,6 +188,12 @@ export default {
         }));
     });
   },
+  /**
+   * Method to post a message to a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing details of the posted message
+   */
   postMessage(req, res) {
     if (!req.body.title || req.body.title.trim() === '') {
       return res.status(400).send({ success: false,
@@ -269,6 +287,12 @@ export default {
         message: error.message
       }));
   },
+  /**
+   * Method to get messages belonging to a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of messages
+   */
   fetchMessage(req, res) {
     models.Group.findOne({
       where: {

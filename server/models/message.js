@@ -1,5 +1,7 @@
 'use strict';
 
+// Message model
+
 export default (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
     title: {

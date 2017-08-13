@@ -1,8 +1,9 @@
 import controllers from '../controllers';
 import auth from '../middlewares/auth';
 
+// API routes
 
-module.exports = (app) => {
+export default (app) => {
   // base API
   app.get('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the Post IT API!',
