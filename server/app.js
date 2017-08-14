@@ -3,7 +3,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import webpack from 'webpack';
 import path from 'path';
-import config from '../webpack.config';
+import config from '../webpack.config.prod';
 import apiRoutes from './routes';
 
 require('dotenv').config();
@@ -20,6 +20,7 @@ app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath
 }));
 app.use(require('webpack-hot-middleware')(compiler));
+app.use(express.static('dist'));
 
 // Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
