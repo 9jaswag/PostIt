@@ -60,7 +60,6 @@ describe('PostIT API Tests:', () => {
           phone: '2347033130448'
         })
         .end((err, res) => {
-          console.log('=========================================> res body', res.body)
           res.should.have.status(201);
           done();
         });
@@ -261,7 +260,6 @@ describe('PostIT API Tests:', () => {
           password: 'chukspass',
         })
         .end((err, res) => {
-          console.log('=========================================> token res body', res.body)
           res.body.data.should.have.property('token');
           token = res.body.data.token;
           done();
@@ -461,7 +459,6 @@ describe('PostIT API Tests:', () => {
           phone: '2347033130449'
         })
         .end((err, res) => {
-          console.log('========================================>', res)
           done();
         });
     });
