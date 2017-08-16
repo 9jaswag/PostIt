@@ -7,11 +7,11 @@ script:
 services:
   - postgresql
 before_script:
-  - createuser chuks -s U postgres
+  - createuser chuks -s -U postgres
   - createdb postit-dev --username=chuks
   - sequelize db:migrate
 after_success: 
   - npm run coverage
   - npm run coveralls
 notifications:
-  - webhooks: https://coveralls.io/webhook?repo_token: yEvDWmpY7RvxsiiRUxGYcb85eNoYYwTac
+  - webhooks: https://coveralls.io/webhook?repo_token=yEvDWmpY7RvxsiiRUxGYcb85eNoYYwTac
