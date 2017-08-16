@@ -318,7 +318,7 @@ describe('PostIT API Tests:', () => {
         });
     });
   });
-  describe('API route find all Users', () => {
+  describe('API route to find all Users', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
         .get('/api/users')
@@ -458,9 +458,10 @@ describe('PostIT API Tests:', () => {
           username: 'dave',
           email: 'dave@andela.com',
           password: 'davepass',
-          phone: '77033130448'
+          phone: '2347033130449'
         })
         .end((err, res) => {
+          console.log('========================================>', res)
           done();
         });
     });
