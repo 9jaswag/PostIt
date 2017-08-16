@@ -57,9 +57,10 @@ describe('PostIT API Tests:', () => {
           username: 'chuks',
           email: 'chuks@andela.com',
           password: 'chukspass',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
+          console.log('=========================================> res body', res.body)
           res.should.have.status(201);
           done();
         });
@@ -71,7 +72,7 @@ describe('PostIT API Tests:', () => {
         .send({
           email: 'chuks@andela.com',
           password: 'chukspass',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -86,7 +87,7 @@ describe('PostIT API Tests:', () => {
         .send({
           username: 'chuks',
           password: 'chukspass',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -101,7 +102,7 @@ describe('PostIT API Tests:', () => {
         .send({
           username: 'chuks',
           email: 'chuks@andela.com',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -132,7 +133,7 @@ describe('PostIT API Tests:', () => {
           username: 'chuks',
           email: 'chukss@andela.com',
           password: 'chukspass',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -148,7 +149,7 @@ describe('PostIT API Tests:', () => {
           username: 'dave',
           email: 'chuks@andela.com',
           password: 'chukspass',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -164,7 +165,7 @@ describe('PostIT API Tests:', () => {
           username: 'funsho',
           email: 'funshoandela.com',
           password: 'funshopass',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -180,7 +181,7 @@ describe('PostIT API Tests:', () => {
           username: '  ',
           email: 'dave@andela.com',
           password: 'davepass',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -196,7 +197,7 @@ describe('PostIT API Tests:', () => {
           username: 'dave',
           email: '   ',
           password: 'davepass',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -212,7 +213,7 @@ describe('PostIT API Tests:', () => {
           username: 'dave',
           email: 'dave@andela.com',
           password: '   ',
-          phone: '07033130448'
+          phone: '2347033130448'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -260,6 +261,7 @@ describe('PostIT API Tests:', () => {
           password: 'chukspass',
         })
         .end((err, res) => {
+          console.log('=========================================> token res body', res.body)
           res.body.data.should.have.property('token');
           token = res.body.data.token;
           done();
