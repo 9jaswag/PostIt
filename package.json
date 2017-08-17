@@ -27,6 +27,12 @@
     "url": "https://github.com/9jaswag/PostIt/issues"
   },
   "homepage": "https://github.com/9jaswag/PostIt#readme",
+  "jest": {
+    "moduleFileExtensions": [
+        "js",
+        "jsx"
+    ]
+  },
   "dependencies": {
     "axios": "^0.16.2",
     "babel-cli": "^6.24.1",
