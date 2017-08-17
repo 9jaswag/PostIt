@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
+import { connect } from 'react-redux';
+import resetPassword from '../../actions/resetPasswordAction';
 
 /**
  * Reset Password component
  */
-class ResetPasswoord extends Component {
+class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,8 +30,18 @@ class ResetPasswoord extends Component {
   submitRequest(e) {
     this.setState({ error: '' });
     e.preventDefault();
-    console.log(this.state);
-    // sens email and save token and time
+    const payload = {
+      email: this.state.email,
+      type: 'request'
+    }
+    this.props.resetPassword(payload).then(
+      (res) => {
+        console.log(res.response);
+      },
+      (err) => {
+        console.log(err.response);
+      }
+    );
   }
 
   submitReset(e) {
@@ -38,7 +50,23 @@ class ResetPasswoord extends Component {
     if (this.state.password !== this.state.confirmPassword ) {
       return this.setState({ error: 'Passwords do not match' });
     }
-    // reset password and delete token
+    if (this.state.password.length < 6) {
+      return this.setState({ error: 'Password must be 6 characters or more' });
+    }
+    const payload = {
+      token: queryString.parse(location.search).token,
+      email: queryString.parse(location.search).email,
+      password: this.state.password,
+      type: 'reset'
+    }
+    this.props.resetPassword(payload).then(
+      (res) => {
+        console.log(res.response);
+      },
+      (err) => {
+        console.log(err.response);
+      }
+    );
   }
 
   componentWillMount(){
@@ -103,5 +131,8 @@ class ResetPasswoord extends Component {
   }
 }
 
+ResetPassword.propTypes = {
+  resetPassword: React.PropTypes.func.isRequired
+}
 
-export default ResetPasswoord;
+export default connect(null, { resetPassword }) (ResetPassword);
