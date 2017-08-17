@@ -45,7 +45,7 @@ export default {
           where: { id: req.body.id }
         })
           .then(() => {
-            res.status(201).send({ success: true, message });
+            res.status(200).send({ success: true, message });
           })
           .catch((error) => {
             res.status(400).send({ success: false, errors: error.message });

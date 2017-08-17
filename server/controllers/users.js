@@ -253,11 +253,10 @@ export default {
       });
   },
   resetUserPassword(req, res){
-    if (!(req.body.email) || !(req.body.token)) {
-      return res.status(400).send({ status: false, error: 'Email address and token must be provided' });
+    if (!(req.body.email)) {
+      return res.status(400).send({ status: false, error: 'No email address provided' });
     }
     const email = req.body.email;
-    const token = req.body.token;
     models.User.findOne({
       where: {
         email
@@ -266,13 +265,12 @@ export default {
     })
       .then((user) => {
         if (!user) {
-          return res.status(400).send({ status: false, error: 'Email address does not exist' });
+          return res.status(400).send({ status: false, error: 'No user with this email address' });
         }
         if (req.body.type === 'request') {
-          const resetToken = jwt.sign({ user }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+          const stringToHash = `${Math.random().toString()}`;
+          const resetToken = bcrypt.hashSync(stringToHash, salt);
           const resetTime = Date.now();
-          console.log('token==============>', resetToken);
-          console.log('time==============>', resetTime);
           // update table
           models.User.update({
             resetToken,
@@ -284,21 +282,46 @@ export default {
           })
             .then(() => {
               // setup email data 
+              console.log('about to send email ===============>');
               const mailOptions = {
                 from: 'PostIT',
                 to: email,
                 subject: 'Password Request on PostIT',
-                text: `You have requested  message on PostIT.\n Please click on the following link, or paste this into your browser to complete the process:
-                \n\n ${`http://${req.headers.host}/recoverpassword/?token=${resetToken}`}
-                If you did not request this, please ignore this email.\n`
+                text: `You have requested a password reset on your PostIT account.\n Please click on the following link, or paste this into your browser to complete the process:
+                \n ${`http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}`}\n If you did not request this, please ignore this email.\n`
               };
               // send email
               sendEmailNotification(mailOptions);
+              console.log('done sending email ===============>');
+              res.status(200).send({ status: true, message: 'Email sent' });
             })
             .catch(error => res.status(400).send({ status: false, error: error.message }));
         }
         if (req.body.type === 'reset') {
+          const receivedToken = req.body.token;
+          const currentTime = Date.now();
+          const password = req.body.password;
+          if (user.resetToken !== receivedToken) {
+            return res.status(400).send({ status: false, error: 'Invalid token' });
+          }
+          if (currentTime - user.resetTime > 3600000) {
+            return res.status(400).send({ status: false, error: 'Token has expired. Please request for another password reset.' });
+          }
           // reset user password and delete token and resetTime
+          // password: bcrypt.hashSync(req.body.password, salt),
+          models.User.update({
+            password: bcrypt.hashSync(req.body.password, salt),
+            resetToken: null,
+            resetTime: null
+          }, {
+            where: {
+              email
+            }
+          })
+            .then(() => {
+              res.status(200).send({ status: true, message: 'Password reset successful' });
+            })
+            .catch(error => res.status(400).send({ status: false, error: error.message }));
         }
       })
       .catch(error => res.status(400).send({ status: false, error: error.message }));
