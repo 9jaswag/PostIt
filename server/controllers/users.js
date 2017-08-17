@@ -252,7 +252,7 @@ export default {
         res.status(400).send({ success: false, errors: error.message });
       });
   },
-  resetUserPassword(req, res){
+  resetUserPassword(req, res) {
     if (!(req.body.email)) {
       return res.status(400).send({ status: false, error: 'No email address provided' });
     }
