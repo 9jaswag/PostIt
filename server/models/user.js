@@ -59,6 +59,14 @@ export default (sequelize, DataTypes) => {
         },
         notEmpty: true
       }
+    },
+    resetToken: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    resetTime: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   });
 
