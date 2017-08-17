@@ -55,7 +55,7 @@ class SigninForm extends Component {
           </div>
         </div>
         <div className="row">
-          <a href="/forgotpassword">Forgot Password</a>
+          <a href="/resetpassword">Forgot Password</a>
         </div>
       </form>
     );
