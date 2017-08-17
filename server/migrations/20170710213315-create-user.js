@@ -38,7 +38,7 @@ module.exports = {
       },
       resetTime: {
         allowNull: true,
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
