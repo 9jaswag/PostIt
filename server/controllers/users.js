@@ -6,6 +6,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
+import sendEmailNotification from '../../helpers/sendEmailNotification';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -250,5 +251,56 @@ export default {
       .catch((error) => {
         res.status(400).send({ success: false, errors: error.message });
       });
+  },
+  resetUserPassword(req, res){
+    if (!(req.body.email) || !(req.body.token)) {
+      return res.status(400).send({ status: false, error: 'Email address and token must be provided' });
+    }
+    const email = req.body.email;
+    const token = req.body.token;
+    models.User.findOne({
+      where: {
+        email
+      },
+      attributes: ['id', 'email', 'resetToken', 'resetTime']
+    })
+      .then((user) => {
+        if (!user) {
+          return res.status(400).send({ status: false, error: 'Email address does not exist' });
+        }
+        if (req.body.type === 'request') {
+          const resetToken = jwt.sign({ user }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+          const resetTime = Date.now();
+          console.log('token==============>', resetToken);
+          console.log('time==============>', resetTime);
+          // update table
+          models.User.update({
+            resetToken,
+            resetTime
+          }, {
+            where: {
+              email
+            }
+          })
+            .then(() => {
+              // setup email data 
+              const mailOptions = {
+                from: 'PostIT',
+                to: email,
+                subject: 'Password Request on PostIT',
+                text: `You have requested  message on PostIT.\n Please click on the following link, or paste this into your browser to complete the process:
+                \n\n ${`http://${req.headers.host}/recoverpassword/?token=${resetToken}`}
+                If you did not request this, please ignore this email.\n`
+              };
+              // send email
+              sendEmailNotification(mailOptions);
+            })
+            .catch(error => res.status(400).send({ status: false, error: error.message }));
+        }
+        if (req.body.type === 'reset') {
+          // reset user password and delete token and resetTime
+        }
+      })
+      .catch(error => res.status(400).send({ status: false, error: error.message }));
   }
 };

@@ -65,7 +65,7 @@ export default (sequelize, DataTypes) => {
       allowNull: true
     },
     resetTime: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: true
     }
   });
