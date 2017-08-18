@@ -4,17 +4,17 @@ import { Provider } from 'react-redux';
 import { mount, shallow } from 'enzyme';
 import TestUtils from 'react-addons-test-utils';
 import configureStore from 'redux-mock-store'
-import { HomePage } from '../../components/home/HomePage';
+import { DashboardPage } from '../../components/dashboard/DashboardPage';
 
 
 describe('Homepage Component', () => {
   it('should render without crashing', () => {
     const props = {
-      userSignupRequest: jest.fn(),
-      addFlashMessage: jest.fn(),
-      auth: {}
+      getGroups: jest.fn(),
+      setGroupId: jest.fn(),
+      getMessages: jest.fn()
     }
-    const component = shallow(<HomePage {...props}/>);
+    const component = shallow(<DashboardPage {...props}/>);
     expect(component.node.type).toEqual('div');
   });
 });
