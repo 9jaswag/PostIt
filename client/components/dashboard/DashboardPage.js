@@ -5,7 +5,7 @@ import getGroups from '../../actions/getGroups';
 import setGroupId from '../../actions/groupIdAction';
 import getMessages from '../../actions/getMessages';
 
-class DashboardPage extends Component {
+export class DashboardPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
