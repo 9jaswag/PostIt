@@ -34,7 +34,8 @@
         "js",
         "jsx"
     ],
-    "unmockedModulePathPatterns": [ "react" ]
+    "unmockedModulePathPatterns": [ "react" ],
+    "collectCoverage": true
   },
   "dependencies": {
     "axios": "^0.16.2",
