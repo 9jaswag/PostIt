@@ -10,6 +10,7 @@
     "lint": "esw server --color",
     "build-css": "node-sass --include-path scss ./template/styles/main.scss ./template/styles/style.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "test:client": "jest"
   },
   "repository": {
@@ -31,7 +32,8 @@
     "moduleFileExtensions": [
         "js",
         "jsx"
-    ]
+    ],
+    "unmockedModulePathPatterns": [ "react" ]
   },
   "dependencies": {
     "axios": "^0.16.2",
