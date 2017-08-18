@@ -31,10 +31,12 @@
   "homepage": "https://github.com/9jaswag/PostIt#readme",
   "jest": {
     "moduleFileExtensions": [
-        "js",
-        "jsx"
+      "js",
+      "jsx"
     ],
-    "unmockedModulePathPatterns": [ "react" ],
+    "unmockedModulePathPatterns": [
+      "react"
+    ],
     "collectCoverage": true
   },
   "dependencies": {
@@ -106,6 +108,7 @@
     "file-loader": "^0.11.2",
     "jest": "^20.0.4",
     "jsdom": "^11.1.0",
+    "nock": "^9.0.14",
     "node-sass": "^4.5.3",
     "npm-run-all": "^4.0.2",
     "nyc": "^11.0.3",
