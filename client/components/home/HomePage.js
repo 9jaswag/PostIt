@@ -5,7 +5,7 @@ import SigninForm from '../signin/SigninForm';
 import userSignupRequest from '../../actions/signupActions';
 import { addFlashMessage } from '../../actions/flashMessages';
 
-class HomePage extends Component {
+export class HomePage extends Component {
   render() {
     const { userSignupRequest, addFlashMessage } = this.props;
     const { isAuthenticated } = this.props.auth;
