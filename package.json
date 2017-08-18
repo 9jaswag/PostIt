@@ -11,6 +11,7 @@
     "build-css": "node-sass --include-path scss ./template/styles/main.scss ./template/styles/style.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "test:client": "jest"
   },
   "repository": {
