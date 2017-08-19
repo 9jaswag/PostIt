@@ -18,10 +18,10 @@ export class MessagePage extends Component {
     location.href="/group"
   }
 
-  componentWillMount(){
-    console.log('yh')
-    // deal with no message in storage
-  }
+  // componentWillMount(){
+  //   console.log('yh')
+  //   deal with no message in storage
+  // }
 
   render() {
     const message = this.props.message;
