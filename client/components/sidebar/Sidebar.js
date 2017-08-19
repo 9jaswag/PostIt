@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { logout } from '../../actions/signinAction';
 import createGroup from '../../actions/createGroup';
 
-class Sidebar extends Component {
+export class Sidebar extends Component {
   constructor(props){
     super(props);
     this.state = {
