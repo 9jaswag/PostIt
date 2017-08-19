@@ -6,7 +6,7 @@ import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store'
 import { GroupPage } from '../../components/group/GroupPage';
 import { Sidebar } from '../../components/sidebar/Sidebar';
-import mockSessionStorage from '../mocks/mockSessionStorage';
+import mockSessionStorage from '../../__mocks__/mockSessionStorage';
 
 Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
 
@@ -41,19 +41,18 @@ describe('Group page Component', () => {
       "userId": 1
     }];
     const component = shallow(<GroupPage {...props}/>);
-    const filterMessages = jest.spyOn(component.instance(), 'filterMessages');
+    const filterMessagesSpy = jest.spyOn(component.instance(), 'filterMessages');
     component.instance().filterMessages(messages);
-    expect(filterMessages).toHaveBeenCalledTimes(1);
+    expect(filterMessagesSpy).toHaveBeenCalledTimes(1);
   });
   it('should contain the method onChange', () => {
     const component = shallow(<GroupPage {...props}/>);
-    const onChange = jest.spyOn(component.instance(), 'onChange');
+    const onChangeSpy = jest.spyOn(component.instance(), 'onChange');
     component.instance().onChange({
       target: {
         value: 'unread', name: 'filter-message'
       }
     });
-    // expect(component.state('displayState').toEqual('unread'));
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
 });
