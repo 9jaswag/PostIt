@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { findUser } from '../../actions/addUserAction';
 import addUser from '../../actions/addUserAction';
 
-class AddUserForm extends Component {
+export class AddUserForm extends Component {
   constructor(props){
     super(props);
     this.state = {
