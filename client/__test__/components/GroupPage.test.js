@@ -45,4 +45,15 @@ describe('Group page Component', () => {
     component.instance().filterMessages(messages);
     expect(filterMessages).toHaveBeenCalledTimes(1);
   });
+  it('should contain the method onChange', () => {
+    const component = shallow(<GroupPage {...props}/>);
+    const onChange = jest.spyOn(component.instance(), 'onChange');
+    component.instance().onChange({
+      target: {
+        value: 'unread', name: 'filter-message'
+      }
+    });
+    // expect(component.state('displayState').toEqual('unread'));
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
 });
