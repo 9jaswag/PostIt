@@ -42,7 +42,7 @@ class Sidebar extends Component {
     const loggedInUser = this.props.auth.user.userUsername;
     const welcomeChip = <div className="chip">{ `Welcome ${loggedInUser}` }</div>
     return(
-      <section>
+      <section className="left-sidebar">
         { /* Create Group Modal Structure */}
         <div id="createGroupModal" className="modal">
           <div className="modal-content">
