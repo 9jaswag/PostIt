@@ -7,7 +7,7 @@ import Sidebar from '../sidebar/Sidebar';
  * Message component
  * for displayng individual messages
  */
-class MessagePage extends Component {
+export class MessagePage extends Component {
   constructor(props){
     super(props);
     this.goBack = this.goBack.bind(this);
