@@ -11,7 +11,7 @@ import updateReadBy from '../../actions/readbyAction';
 /**
  * Group page component
  */
-class GroupPage extends Component {
+export class GroupPage extends Component {
 
   constructor(props) {
     super(props);
@@ -126,13 +126,13 @@ class GroupPage extends Component {
             <div className="col s12 m12 l3">
               <div className="row">
                 { /*Group Stats*/ }
-                <div className="col s12 m12 l12 teal accent-4 padding05">
+                {/* <div className="col s12 m12 l12 teal accent-4 padding05">
                   <h6 className="white-text center-align" style={{ marginBottom: '2rem' }}>GROUP STATISTICS</h6>
                   <div className="col s12 m12 l12 center-align">
                     <i className="material-icons white-text large">group</i>
                     <h5 className="white-text">15 Members</h5>
                   </div>
-                </div>
+                </div> */}
                 { /*Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />
