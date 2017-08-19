@@ -42,7 +42,7 @@ class Sidebar extends Component {
     const loggedInUser = this.props.auth.user.userUsername;
     const welcomeChip = <div className="chip">{ `Welcome ${loggedInUser}` }</div>
     return(
-      <div>
+      <section>
         { /* Create Group Modal Structure */}
         <div id="createGroupModal" className="modal">
           <div className="modal-content">
@@ -81,7 +81,7 @@ class Sidebar extends Component {
             <a href="/search" className="waves-effect waves-light btn one-whole margin-v">Search User</a>            
             <a href="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole">Logout</a>
           </div>
-      </div>
+      </section>
     );
   }
 }
