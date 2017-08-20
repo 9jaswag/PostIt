@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import configureStore from 'redux-mock-store'
+import configureStore from 'redux-mock-store';
 import { ResetPassword } from '../../components/resetPassword/ResetPassword';
 
 describe('Reset Password component', () => {
