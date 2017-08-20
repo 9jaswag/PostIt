@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import postMessage from '../../actions/postMessageAction';
 
-class PostMessageForm extends Component {
+export class PostMessageForm extends Component {
   constructor(props){
     super(props);
     this.state = {
