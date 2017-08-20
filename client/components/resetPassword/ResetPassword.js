@@ -6,7 +6,7 @@ import resetPassword from '../../actions/resetPasswordAction';
 /**
  * Reset Password component
  */
-class ResetPassword extends Component {
+export class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
