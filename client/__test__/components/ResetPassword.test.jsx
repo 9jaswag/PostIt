@@ -40,7 +40,7 @@ describe('Reset Password component', () => {
     expect(submitResetSpy).toHaveBeenCalledTimes(1);
   });
   it('should contain the method componentWillMount', () => {
-    const component = shallow(<DashboardPage {...props}/>);
+    const component = shallow(<ResetPassword {...props}/>);
     const componentWillMountSpy = jest.spyOn(component.instance(), 'componentWillMount');
     component.instance().componentWillMount();
     expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
