@@ -10,7 +10,7 @@ const formatPhoneNumber = (number) => `234${number.slice(1)}`;
 /**
  * Signup form component
  */
-class SignupForm extends Component {
+export class SignupForm extends Component {
   constructor(props){
     super(props);
     this.state = {
