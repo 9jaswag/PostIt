@@ -2,7 +2,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
-import userSignupRequest from '../../actions/signupActions';
+import Login from '../../actions/signinAction.js';
 import * as types from '../../actions/types';
 import mockLocalStorage from '../../__mocks__/mockLocalStorage';
 
@@ -10,7 +10,7 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 window.localStorage = mockLocalStorage;
 
-describe('Sign up action', () => {
+describe('Sign in action', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
@@ -19,7 +19,7 @@ describe('Sign up action', () => {
       status: 201,
       response: {
         success: true,
-        message: 'Sign up succesful.',
+        message: 'Sign in succesful.',
         data: {
           token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsInVzZXJFbWFpbCI6ImNodWtzLm9waWFAYW5kZWxhLmNvbW0iLCJ1c2VyVXNlcm5hbWUiOiJjaHVrc3MiLCJ1c2VyUGhvbmUiOiIyMzQ3MDMzMTMwNDQwIiwiaWF0IjoxNTAzMDc1MDgwLCJleHAiOjE1MDMxNjE0ODB9.0SX6NVMqqQpgdUebW3iRBJz8oerTtfzYUm4ADESM7fk'
         }
@@ -36,14 +36,12 @@ describe('Sign up action', () => {
     };
     const userData = {
       username: 'chuks',
-      email: 'chuks@andela.com',
-      password: 'password',
-      phone: '2347033130448'
+      password: 'password'
     };
     const expectedActions = [
-      { type: types.FETCH_TODOS_REQUEST, user: auth.user }
+      { type: types.SET_CURRENT_USER, user: auth.user }
     ];
-    store.dispatch(userSignupRequest(userData)).then(() => {
+    store.dispatch(Login(userData)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
     done();
