@@ -30,6 +30,9 @@
   },
   "homepage": "https://github.com/9jaswag/PostIt#readme",
   "jest": {
+    "transform": {
+      ".*": "<rootDir>/node_modules/babel-jest"
+    },
     "moduleFileExtensions": [
       "js",
       "jsx"
