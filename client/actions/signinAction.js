@@ -28,6 +28,7 @@ export const logout = () => {
     sessionStorage.clear();
     setAuthToken(false);
     dispatch(setCurrentUser({}));
+    Materialize.toast('You\'ve logged out successfully', 2000);
     location.href = '/';
   };
 };

@@ -24,6 +24,7 @@ export class SigninForm extends Component {
     this.setState({ errors: {}, isLoading: true })
     this.props.Login(this.state).then(
       (res) => {
+        Materialize.toast('Sign in successful', 2000);
         location.href="/dashboard"
       },
       ({response}) => this.setState({ errors: { message: 'Incorrect Username/Password' }, isLoading: false })

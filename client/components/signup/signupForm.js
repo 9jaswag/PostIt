@@ -58,6 +58,7 @@ export class SignupForm extends Component {
           type: 'success',
           text: 'Sign up successful. Welcome!'
         })
+        Materialize.toast('Sign up successful. Welcome!', 2000);
         location.href="/dashboard"
       },
       ({response}) => this.setState({ errors: response.data.errors, isLoading: false })
