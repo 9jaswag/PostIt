@@ -16,31 +16,31 @@ export class DashboardPage extends Component {
   }
 
   onLoad() {
-    const groupsWithNotification = [];
-    this.props.getGroups().then(
-      (res) => {
-        res.data.data.Groups.map(group => {
-          this.props.getMessages(group.id).then(
-            (res) => {
-              // map returned message array
-              let count = 0;
-              res.data.data.map(message => {
-                if (!message.readby.split(',').includes(this.props.user.userUsername)) {
-                  count ++;
-                }
-              })
-              groupsWithNotification.push({id: group.id, name: group.name, count});
-              this.setState({ groups: groupsWithNotification })
-            },
-            (err) => {}
-          );
-        });
-      },
-      (err) => {}
-    );
+    const getGroup = new Promise ((resolve) => {
+      resolve(this.props.getGroups());
+    });
+    getGroup.then(() => {
+      const groupsWithNotification = [];
+      this.props.groups.map(group => {
+        this.props.getMessages(group.id).then(
+          (res) => {
+            // map returned message array
+            let count = 0;
+            res.data.data.map(message => {
+              if (!message.readby.split(',').includes(this.props.user.userUsername)) {
+                count ++;
+              }
+            })
+            groupsWithNotification.push({id: group.id, name: group.name, count});
+            this.setState({ groups: groupsWithNotification })
+          },
+          (err) => {}
+        );
+      });
+    });
   }
+
   onClick(e) {
-    this.props.setGroupId(e.target.dataset.id + ' ' + e.target.dataset.name );
     sessionStorage.setItem('groupDetails', e.target.dataset.id + ' ' + e.target.dataset.name );
   }
   componentDidMount() {
@@ -84,7 +84,8 @@ DashboardPage.propTypes= {
 
 function mapStateToProps(state){
   return {
-    user: state.auth.user
+    user: state.auth.user,
+    groups: state.groups
   }
 }
 
