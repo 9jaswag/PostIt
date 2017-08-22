@@ -3,7 +3,7 @@ import logger from 'morgan';
 import bodyParser from 'body-parser';
 import webpack from 'webpack';
 import path from 'path';
-import config from '../webpack.config.prod';
+import config from '../webpack.config'; // change to prod later
 import apiRoutes from './routes';
 
 require('dotenv').config();
