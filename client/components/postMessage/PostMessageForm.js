@@ -23,7 +23,8 @@ export class PostMessageForm extends Component {
     e.preventDefault();;
     this.props.postMessage(this.props.groupId, this.state).then(
       (res) => {
-        location.href='/group'
+        location.href='/group';
+        Materialize.toast('Message posted', 2000);
       },
       (err) => {}
     );

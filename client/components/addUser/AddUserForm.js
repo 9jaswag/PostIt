@@ -60,7 +60,8 @@ export class AddUserForm extends Component {
     if (this.state.userToAdd.userId) {
       this.props.addUser( this.props.groupId, this.state.userToAdd ).then(
         (res) => {
-          location.href='/group'
+          location.href='/group';
+          Materialize.toast('User added successfully', 2000);
         },
         (err) => {
           this.setState({ error: err.response.data.error.message });

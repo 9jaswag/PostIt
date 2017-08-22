@@ -31,6 +31,7 @@ export class Sidebar extends Component {
     this.props.createGroup(this.state).then(
       (res) => {
         location.href="/dashboard"
+        Materialize.toast('Group created successfully', 2000);
       },
       ({response}) => this.setState({ errors: response.data.errors , isLoading: false })
     );
