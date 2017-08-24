@@ -78,7 +78,7 @@ export class GroupPage extends Component {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
     const messageCards = displayedMessage.map( message =>
-      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click to view message">
+      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click message title to view message">
         <div className="card-content white-text">
           <h5 className="pointer slim" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
           <span className="inline-block slim">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></span>
