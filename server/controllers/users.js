@@ -236,7 +236,7 @@ export default {
             // groupsWithCount.push(message);
             let unreadCount = 0;
             messages.map((message) => {
-              if (!message.readby.split(',').includes(username)) {
+              if (!message.readby.includes(username)) {
                 unreadCount += 1;
               }
             });
