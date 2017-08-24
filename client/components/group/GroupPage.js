@@ -40,8 +40,8 @@ export class GroupPage extends Component {
   onClick(e) {
     sessionStorage.setItem('message', e.target.dataset.fullmessage );
     // get message readby, update readby and redirect to message
-    if (!e.target.dataset.readby.split(',').includes(this.props.user.userUsername)) {
-      const data = { id: Number(e.target.dataset.id), readby: `${e.target.dataset.readby},${this.props.user.userUsername}` };
+    if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
+      const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
       this.props.updateReadBy(data);
     }
     location.href="/message"
@@ -53,12 +53,12 @@ export class GroupPage extends Component {
         displayedMessage.push(message);
       }
       if (this.state.displayState === 'unread') {
-        if (!message.readby.split(',').includes(this.props.user.userUsername)) {
+        if (!message.readby.includes(this.props.user.userUsername)) {
           displayedMessage.push(message);
         }
       }
       if (this.state.displayState === 'archived') {
-        if (message.readby.split(',').includes(this.props.user.userUsername)) {
+        if (message.readby.includes(this.props.user.userUsername)) {
           displayedMessage.push(message);
         }
       }
@@ -90,7 +90,7 @@ export class GroupPage extends Component {
         </div>
         <div className="card-action">
           <span className="white-text slim">Read By:</span> {
-            message.readby.split(',').map((user, index) => {
+            message.readby.map((user, index) => {
               return <span key={index} className="normal chip">@{ user } </span>
             })
           }
