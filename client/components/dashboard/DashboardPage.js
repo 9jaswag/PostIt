@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Sidebar from '../sidebar/Sidebar';
 import getGroups from '../../actions/getGroups';
-import setGroupId from '../../actions/groupIdAction';
 import getMessages from '../../actions/getMessages';
 
 export class DashboardPage extends Component {
@@ -47,7 +46,6 @@ export class DashboardPage extends Component {
 
 DashboardPage.propTypes= {
   getGroups: React.PropTypes.func.isRequired,
-  setGroupId: React.PropTypes.func.isRequired,
   getMessages: React.PropTypes.func.isRequired,
 }
 
@@ -58,4 +56,4 @@ function mapStateToProps(state){
   }
 }
 
-export default connect(mapStateToProps, { getGroups, setGroupId, getMessages }) (DashboardPage);
+export default connect(mapStateToProps, { getGroups, getMessages }) (DashboardPage);
