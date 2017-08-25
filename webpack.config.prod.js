@@ -13,8 +13,6 @@ export default {
     extensions: ['.js', '.jsx']
   },
   entry: [
-    'eventsource-polyfill', // necessary for hot reloading with IE
-    'webpack-hot-middleware/client?reload=true', // note that it reloads the page if hot module reloading fails.
     path.resolve(__dirname, 'client/index.js')
   ],
   target: 'web',
@@ -36,6 +34,11 @@ export default {
   ],
   module: {
     loaders: [
+      { test: /\.jsx$/,
+        loader: 'babel-loader?sourceMap',
+        query: {
+          presets: ['es2015', 'react', 'stage-2']
+        } },
       { test: /\.js$/, include: path.join(__dirname, 'client'), loaders: ['react-hot-loader', 'babel-loader'] },
       { test: /\.scss$/, loader: 'style-loader!css-loader?url=false!sass-loader' },
       { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] },
