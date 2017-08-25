@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Sidebar from '../sidebar/Sidebar';
+import Sidebar from '../sidebar/Sidebar.jsx';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
 
