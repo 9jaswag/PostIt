@@ -12,7 +12,9 @@
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
-    "test:client": "jest"
+    "test:client": "jest",
+    "build": "webpack --config webpack.config.prod.js",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
