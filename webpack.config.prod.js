@@ -2,13 +2,13 @@
  * Webpack config
  */
 
-import webpack from 'webpack';
-import path from 'path';
+// import webpack from 'webpack';
+// import path from 'path';
+const webpack = require('webpack');
+const path = require('path');
 
-export default {
-  // debug: true,
+module.exports = {
   devtool: 'source-map',
-  // noInfo: false,
   resolve: {
     extensions: ['.js', '.jsx']
   },
@@ -17,7 +17,7 @@ export default {
   ],
   target: 'web',
   output: {
-    path: path.resolve(__dirname, '/dist'), // Note: Physical files are only output by the production build task `npm run build`.
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'bundle.js'
   },
