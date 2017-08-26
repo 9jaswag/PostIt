@@ -16,7 +16,8 @@ module.exports = {
   entry: './client/index.js',
   target: 'web',
   output: {
-    path: path.resolve(__dirname, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
+    // path: path.resolve(__dirname, 'dist'),
+    path: `${__dirname}/client/dist/`,
     publicPath: '/',
     filename: 'bundle.js'
   },
