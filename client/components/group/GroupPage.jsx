@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import Sidebar from '../sidebar/Sidebar.jsx';
-import PostMessageForm from '../postMessage/PostMessageForm.jsx';
-import AddUserForm from '../addUser/AddUserForm.jsx';
+import Sidebar from '../sidebar/Sidebar';
+import PostMessageForm from '../postMessage/PostMessageForm';
+import AddUserForm from '../addUser/AddUserForm';
 import getMessages from '../../actions/getMessages';
 import passMessage from '../../actions/passMessageAction';
 import updateReadBy from '../../actions/readbyAction';

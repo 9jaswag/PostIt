@@ -17,7 +17,7 @@ module.exports = {
   ],
   target: 'web',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '/dist'),
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -25,8 +25,6 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'client')
   },
   plugins: [
-    // Eliminate duplicate plugins
-    new webpack.optimize.DedupePlugin(),
     // Minify Js
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
