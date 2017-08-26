@@ -20,6 +20,12 @@ module.exports = {
     publicPath: '/',
     filename: 'bundle.js'
   },
+  stats: {
+    colors: true,
+    modules: true,
+    reasons: true,
+    errorDetails: true
+  },
   plugins: [
     // Minify Js
     new webpack.optimize.UglifyJsPlugin(),
