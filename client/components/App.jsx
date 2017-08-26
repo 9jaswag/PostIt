@@ -7,7 +7,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import HomePage from './home/HomePage.jsx';
 import DashboardPage from './dashboard/DashboardPage.jsx'
 import GroupPage from './group/GroupPage.jsx';
-import SearchPage from './search/SearchPage.jsx';
+// import SearchPage from './search/SearchPage.jsx';
+import SearchPage from '../../client/components/search/Searchpage.jsx';
 import MessagePage from './message/MessagePage.jsx';
 import ResetPassword from './resetPassword/ResetPassword.jsx';
 import requireAuth from '../utilities/requireAuth.jsx';
