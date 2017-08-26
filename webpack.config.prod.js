@@ -12,9 +12,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
-  entry: [
-    path.resolve(__dirname, 'client/index.js')
-  ],
+  entry: './client/index.js',
   target: 'web',
   output: {
     path: path.resolve(__dirname, 'dist'),
