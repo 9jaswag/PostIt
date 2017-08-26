@@ -8,6 +8,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
+  // debug: true,
   devtool: 'source-map',
   resolve: {
     extensions: ['.js', '.jsx']
@@ -15,12 +16,9 @@ module.exports = {
   entry: './client/index.js',
   target: 'web',
   output: {
-    path: path.resolve(__dirname, '/dist'),
+    path: path.resolve(__dirname, 'dist'), // Note: Physical files are only output by the production build task `npm run build`.
     publicPath: '/',
     filename: 'bundle.js'
-  },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'client')
   },
   plugins: [
     // Eliminate duplicate plugins
@@ -32,12 +30,19 @@ module.exports = {
   ],
   module: {
     loaders: [
+      { test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: '/node_modules/',
+        query: {
+          presets: ['es2015', 'stage-2']
+        }
+      },
       { test: /\.jsx$/,
         loader: 'babel-loader?sourceMap',
         query: {
           presets: ['es2015', 'react', 'stage-2']
-        } },
-      { test: /\.js$/, include: path.join(__dirname, 'client'), loaders: ['react-hot-loader', 'babel-loader'] },
+        }
+      },
       { test: /\.scss$/, loader: 'style-loader!css-loader?url=false!sass-loader' },
       { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
