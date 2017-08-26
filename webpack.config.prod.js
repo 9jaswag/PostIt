@@ -21,8 +21,6 @@ module.exports = {
     filename: 'bundle.js'
   },
   plugins: [
-    // Eliminate duplicate plugins
-    new webpack.optimize.DedupePlugin(),
     // Minify Js
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
