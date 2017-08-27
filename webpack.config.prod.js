@@ -13,7 +13,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx']
   },
-  entry: './client/index.jsx',
+  entry: path.resolve(__dirname, 'client/index'),
   target: 'web',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -34,19 +34,7 @@ module.exports = {
   ],
   module: {
     loaders: [
-      { test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: '/node_modules/',
-        query: {
-          presets: ['es2015', 'stage-2']
-        }
-      },
-      { test: /\.jsx$/,
-        loader: 'babel-loader?sourceMap',
-        query: {
-          presets: ['es2015', 'react', 'stage-2']
-        }
-      },
+      { test: /\.(js|jsx)$/, include: path.join(__dirname, 'client'), loader: 'babel-loader', query: { presets: ['es2015', 'react'] } },
       { test: /\.scss$/, loader: 'style-loader!css-loader?url=false!sass-loader' },
       { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
