@@ -11,7 +11,17 @@ describe('Dashboard page Component', () => {
   const props = {
     getGroups: jest.fn(() => Promise.resolve()),
     setGroupId: jest.fn(),
-    getMessages: jest.fn(() => Promise.resolve())
+    getMessages: jest.fn(() => Promise.resolve()),
+    groups: [
+      {
+        "group": {
+            "id": 2,
+            "name": "HNG",
+            "description": "A group for HNG's Factory product"
+        },
+        "unreadCount": 0
+    }
+    ]
   }
   it('should render without crashing', () => {
     const component = shallow(<DashboardPage {...props}/>);
@@ -32,11 +42,5 @@ describe('Dashboard page Component', () => {
       }
     });
     expect(onClickSpy).toHaveBeenCalledTimes(1);
-  });
-  it('should contain the method onLoad', () => {
-    const component = shallow(<DashboardPage {...props}/>);
-    const onLoadSpy = jest.spyOn(component.instance(), 'onLoad');
-    component.instance().onLoad();
-    expect(onLoadSpy).toHaveBeenCalledTimes(1);
   });
 });

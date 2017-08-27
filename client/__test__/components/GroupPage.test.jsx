@@ -31,15 +31,17 @@ describe('Group page Component', () => {
   });
   it('should contain the method filterMessages', () => {
     const messages = [{
-      "id": 3,
-      "title": "message",
-      "message": "body",
-      "priority": "normal",
+      "id": 9,
+      "title": "true love",
+      "message": "true lovers",
+      "priority": "urgent",
       "author": "chuks",
-      "readby": "chuks",
-      "groupId": 3,
+      "readby": ["chuks"],
+      "createdAt": "2017-08-27T19:49:14.760Z",
+      "updatedAt": "2017-08-27T19:49:14.760Z",
+      "groupId": 1,
       "userId": 1
-    }];
+  }];
     const component = shallow(<GroupPage {...props}/>);
     const filterMessagesSpy = jest.spyOn(component.instance(), 'filterMessages');
     component.instance().filterMessages(messages);
