@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import Sidebar from '../sidebar/Sidebar.jsx';
+import Sidebar from '../sidebar/Sidebar';
 import { connect } from 'react-redux';
 import searchUserAction from '../../actions/searchUserAction';
 
