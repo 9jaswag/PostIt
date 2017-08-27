@@ -224,7 +224,30 @@ export default {
             errors: 'User does not exist'
           });
         }
-        return res.status(200).send({ data: user });
+        // return res.status(200).send({ data: user });
+        let mapCounter = 0;
+        const groupsWithCount = [];
+        user.Groups.map((group) => {
+          // get messages that belong to each group
+          models.Message.findAll({
+            where: { groupId: group.id },
+            attributes: ['readby']
+          }).then((messages) => {
+            // groupsWithCount.push(message);
+            let unreadCount = 0;
+            messages.map((message) => {
+              if (!message.readby.includes(username)) {
+                unreadCount += 1;
+              }
+            });
+            groupsWithCount.push({ group, unreadCount });
+            mapCounter += 1;
+            if (mapCounter === user.Groups.length) {
+              // send response
+              res.status(200).send({ data: groupsWithCount });
+            }
+          });
+        });
       })
       .catch(error => res.status(400).send({ errors: error.message }));
   },

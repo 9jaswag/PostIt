@@ -11,7 +11,7 @@ import updateReadBy from '../../actions/readbyAction';
 /**
  * Group page component
  */
-class GroupPage extends Component {
+export class GroupPage extends Component {
 
   constructor(props) {
     super(props);
@@ -40,8 +40,8 @@ class GroupPage extends Component {
   onClick(e) {
     sessionStorage.setItem('message', e.target.dataset.fullmessage );
     // get message readby, update readby and redirect to message
-    if (!e.target.dataset.readby.split(',').includes(this.props.user.userUsername)) {
-      const data = { id: Number(e.target.dataset.id), readby: `${e.target.dataset.readby},${this.props.user.userUsername}` };
+    if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
+      const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
       this.props.updateReadBy(data);
     }
     location.href="/message"
@@ -53,12 +53,12 @@ class GroupPage extends Component {
         displayedMessage.push(message);
       }
       if (this.state.displayState === 'unread') {
-        if (!message.readby.split(',').includes(this.props.user.userUsername)) {
+        if (!message.readby.includes(this.props.user.userUsername)) {
           displayedMessage.push(message);
         }
       }
       if (this.state.displayState === 'archived') {
-        if (message.readby.split(',').includes(this.props.user.userUsername)) {
+        if (message.readby.includes(this.props.user.userUsername)) {
           displayedMessage.push(message);
         }
       }
@@ -78,7 +78,7 @@ class GroupPage extends Component {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
     const messageCards = displayedMessage.map( message =>
-      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click to view message">
+      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click message title to view message">
         <div className="card-content white-text">
           <h5 className="pointer slim" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
           <span className="inline-block slim">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></span>
@@ -90,7 +90,7 @@ class GroupPage extends Component {
         </div>
         <div className="card-action">
           <span className="white-text slim">Read By:</span> {
-            message.readby.split(',').map((user, index) => {
+            message.readby.map((user, index) => {
               return <span key={index} className="normal chip">@{ user } </span>
             })
           }
@@ -126,13 +126,13 @@ class GroupPage extends Component {
             <div className="col s12 m12 l3">
               <div className="row">
                 { /*Group Stats*/ }
-                <div className="col s12 m12 l12 teal accent-4 padding05">
+                {/* <div className="col s12 m12 l12 teal accent-4 padding05">
                   <h6 className="white-text center-align" style={{ marginBottom: '2rem' }}>GROUP STATISTICS</h6>
                   <div className="col s12 m12 l12 center-align">
                     <i className="material-icons white-text large">group</i>
                     <h5 className="white-text">15 Members</h5>
                   </div>
-                </div>
+                </div> */}
                 { /*Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />

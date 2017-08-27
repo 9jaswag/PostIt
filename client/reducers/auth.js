@@ -16,7 +16,7 @@ const initialState = {
  * @param {object} action object containing action to be carried out
  */
 export default (state = initialState, action = {}) => {
-  switch(action.type) {
+  switch (action.type) {
     case SET_CURRENT_USER:
       return {
         isAuthenticated: !isEmpty(action.user),

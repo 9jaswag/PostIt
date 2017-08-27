@@ -2,30 +2,31 @@
  * Webpack config
  */
 
-import webpack from 'webpack';
-import path from 'path';
+// import webpack from 'webpack';
+// import path from 'path';
+const webpack = require('webpack');
+const path = require('path');
 
-export default {
+module.exports = {
   // debug: true,
   devtool: 'source-map',
-  // noInfo: false,
-  entry: [
-    'eventsource-polyfill', // necessary for hot reloading with IE
-    'webpack-hot-middleware/client?reload=true', // note that it reloads the page if hot module reloading fails.
-    path.resolve(__dirname, 'client/index.js')
-  ],
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
+  entry: path.resolve(__dirname, 'client/index'),
   target: 'web',
   output: {
-    path: path.resolve(__dirname, '/dist'), // Note: Physical files are only output by the production build task `npm run build`.
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'bundle.js'
   },
-  devServer: {
-    contentBase: path.resolve(__dirname, 'client')
+  stats: {
+    colors: true,
+    modules: true,
+    reasons: true,
+    errorDetails: true
   },
   plugins: [
-    // Eliminate duplicate plugins
-    new webpack.optimize.DedupePlugin(),
     // Minify Js
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -33,7 +34,7 @@ export default {
   ],
   module: {
     loaders: [
-      { test: /\.js$/, include: path.join(__dirname, 'client'), loaders: ['react-hot-loader', 'babel-loader'] },
+      { test: /\.(js|jsx)$/, include: path.join(__dirname, 'client'), loader: 'babel-loader', query: { presets: ['es2015', 'react'] } },
       { test: /\.scss$/, loader: 'style-loader!css-loader?url=false!sass-loader' },
       { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
