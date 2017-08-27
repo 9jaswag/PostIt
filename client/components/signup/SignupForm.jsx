@@ -54,10 +54,6 @@ export class SignupForm extends Component {
     const userData = { username, email, password, phone: formatPhoneNumber(phone) };
     this.props.userSignupRequest(userData).then(
       () => {
-        this.props.addFlashMessage({
-          type: 'success',
-          text: 'Sign up successful. Welcome!'
-        })
         Materialize.toast('Sign up successful. Welcome!', 2000);
         location.href="/dashboard"
       },
@@ -104,7 +100,6 @@ export class SignupForm extends Component {
 
 SignupForm.propTypes = {
   userSignupRequest: React.PropTypes.func.isRequired,
-  addFlashMessage: React.PropTypes.func.isRequired
 }
 
 SignupForm.contextTypes = {}

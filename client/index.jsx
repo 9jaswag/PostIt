@@ -9,7 +9,6 @@ import jwt from 'jsonwebtoken';
 import setAuthToken from './utilities/setAuthToken';
 import rootReducer from './rootReducer';
 import App from './components/App';
-import FlashMessagesList from './components/flash/FlashMessagesList'
 import { setCurrentUser } from './actions/signinAction';
 import setGroupId from './actions/groupIdAction';
 import passMessage from './actions/passMessageAction';
@@ -37,7 +36,6 @@ if (sessionStorage.message){
 ReactDOM.render(
   <Provider store={ store }>
     <div>
-      <FlashMessagesList />
       <App />
     </div>
   </Provider>, document.getElementById('app'));

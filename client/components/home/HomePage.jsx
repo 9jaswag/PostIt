@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import SignupForm from '../signup/SignupForm';
 import SigninForm from '../signin/SigninForm';
 import userSignupRequest from '../../actions/signupActions';
-import { addFlashMessage } from '../../actions/flashMessages';
 
 export class HomePage extends Component {
   render() {
-    const { userSignupRequest, addFlashMessage } = this.props;
+    const { userSignupRequest } = this.props;
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
       <div>
@@ -30,7 +29,7 @@ export class HomePage extends Component {
           <div className="row">
             <h5>Sign Up</h5>
           </div>
-          <SignupForm userSignupRequest= { userSignupRequest } addFlashMessage= { addFlashMessage } />
+          <SignupForm userSignupRequest= { userSignupRequest } />
         </div>
       </div>
       {/* Sign In Modal */}
@@ -77,8 +76,7 @@ function mapStateToProps(state) {
 
 HomePage.propTypes = {
   userSignupRequest: React.PropTypes.func.isRequired,
-  addFlashMessage: React.PropTypes.func.isRequired,
   auth: React.PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps, { userSignupRequest, addFlashMessage }) (HomePage);
+export default connect(mapStateToProps, { userSignupRequest }) (HomePage);
