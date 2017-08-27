@@ -1,8 +1,12 @@
+/**
+ * Component to protect auth required pages
+ */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addFlashMessage } from '../actions/flashMessages';
 
-export default function(ComposedComponent) {
+export default (ComposedComponent) => {
   class Authenticate extends Component{
 
     componentWillMount() {
@@ -33,7 +37,7 @@ export default function(ComposedComponent) {
     addFlashMessage: React.PropTypes.func.isRequired
   }
 
-  function mapStateToProps(state){
+  const mapStateToProps = (state) => {
     return {
       isAuthenticated: state.auth.isAuthenticated
     }

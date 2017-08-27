@@ -1,5 +1,7 @@
 'use strict';
 
+// Message model
+
 export default (sequelize, DataTypes) => {
   const Message = sequelize.define('Message', {
     title: {
@@ -24,8 +26,8 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     readby: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false
     }
   });
   Message.associate = (models) => {

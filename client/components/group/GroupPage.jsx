@@ -11,7 +11,7 @@ import updateReadBy from '../../actions/readbyAction';
 /**
  * Group page component
  */
-class GroupPage extends Component {
+export class GroupPage extends Component {
 
   constructor(props) {
     super(props);
@@ -20,7 +20,7 @@ class GroupPage extends Component {
       displayedMessage: [],
       message: '',
       priority: '',
-      displayState: 'unread'
+      displayState: 'all'
     };
     
     this.onLoad = this.onLoad.bind(this);
@@ -39,27 +39,31 @@ class GroupPage extends Component {
   }
   onClick(e) {
     sessionStorage.setItem('message', e.target.dataset.fullmessage );
-    const data = { id: Number(e.target.dataset.id), readby: `${e.target.dataset.readby},${this.props.user.userUsername}` };
-    //check if user is already in readby before adding
-    this.props.updateReadBy(data);
     // get message readby, update readby and redirect to message
+    if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
+      const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
+      this.props.updateReadBy(data);
+    }
     location.href="/message"
   }
   filterMessages(messages){
-    let unreadMessages = [];
+    let displayedMessage = [];
     messages.map(message => {
+      if (this.state.displayState === 'all') {
+        displayedMessage.push(message);
+      }
       if (this.state.displayState === 'unread') {
-        if (!message.readby.split(',').includes(this.props.user.userUsername)) {
-          unreadMessages.push(message);
+        if (!message.readby.includes(this.props.user.userUsername)) {
+          displayedMessage.push(message);
         }
       }
       if (this.state.displayState === 'archived') {
-        if (message.readby.split(',').includes(this.props.user.userUsername)) {
-          unreadMessages.push(message);
+        if (message.readby.includes(this.props.user.userUsername)) {
+          displayedMessage.push(message);
         }
       }
     });
-    this.setState({ displayedMessage: unreadMessages });
+    this.setState({ displayedMessage: displayedMessage });
   }
   onChange(e) {
     this.setState({ displayState: e.target.value });
@@ -74,10 +78,10 @@ class GroupPage extends Component {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
     const messageCards = displayedMessage.map( message =>
-      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click to view message">
+      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click message title to view message">
         <div className="card-content white-text">
-          <h5 className="pointer" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
-          <h6 className="inline-block">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></h6>
+          <h5 className="pointer slim" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
+          <span className="inline-block slim">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></span>
           <span className={ classnames('margin-h default-radius slim', {
             'red darken-3': message.priority === 'critical',
             'amber accent-4': message.priority === 'urgent',
@@ -85,9 +89,9 @@ class GroupPage extends Component {
           }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
         </div>
         <div className="card-action">
-          <span className="white-text">Read By:</span> {
-            message.readby.split(',').map((user, index) => {
-              return <span key={index} className=" chip">@{ user } </span>
+          <span className="white-text slim">Read By:</span> {
+            message.readby.map((user, index) => {
+              return <span key={index} className="normal chip">@{ user } </span>
             })
           }
         </div>
@@ -108,6 +112,7 @@ class GroupPage extends Component {
                 <div className="col s12">
                   <label htmlFor="filter-message">Filter Messages</label>
                   <select className="browser-default" name="filter-message" id="filter-message" value={ this.state.displayState } onChange={ this.onChange }>
+                    <option value="all">All</option>
                     <option value="unread">Unread</option>
                     <option value="archived">Archived</option>
                   </select>
@@ -121,13 +126,13 @@ class GroupPage extends Component {
             <div className="col s12 m12 l3">
               <div className="row">
                 { /*Group Stats*/ }
-                <div className="col s12 m12 l12 teal accent-4 padding05">
+                {/* <div className="col s12 m12 l12 teal accent-4 padding05">
                   <h6 className="white-text center-align" style={{ marginBottom: '2rem' }}>GROUP STATISTICS</h6>
                   <div className="col s12 m12 l12 center-align">
                     <i className="material-icons white-text large">group</i>
                     <h5 className="white-text">15 Members</h5>
                   </div>
-                </div>
+                </div> */}
                 { /*Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />

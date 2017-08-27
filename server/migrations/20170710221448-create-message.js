@@ -21,7 +21,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       readby: {
-        type: Sequelize.STRING
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

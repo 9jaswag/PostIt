@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 
+
+/**
+ * Function for formatting user's phone number into Nigerian international format
+ * @param {number} number phone number to be formatted
+ */
+const formatPhoneNumber = (number) => `234${number.slice(1)}`;
+
 /**
  * Signup form component
  */
-class SignupForm extends Component {
+export class SignupForm extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -18,18 +25,40 @@ class SignupForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * @typedef {object} KeyboardEvent
+   */
+
+  /**
+   * @return void
+   * @param {KeyboardEvent} e 
+   */
   onChange(e){
     this.setState({ [e.target.name]: e.target.value });
   }
+
+  /**
+   * @return void
+   * @param {KeyboardEvent} e 
+   */
   onSubmit(e){
     e.preventDefault();
-    this.setState({ errors: {}, isLoading: true })
-    this.props.userSignupRequest(this.state).then(
+    this.setState({ errors: {}, isLoading: true });
+    // validation checks
+    if(this.state.password.length < 6) {
+      return this.setState({ errors: { password: 'Password must be 6 characters or more' }, isLoading: false });
+    } if (this.state.phone.length !== 11){
+      return this.setState({ errors: { phone: 'Phone number must be 11 characters long' }, isLoading: false });
+    }
+    const { username, email, password, phone } = this.state;
+    const userData = { username, email, password, phone: formatPhoneNumber(phone) };
+    this.props.userSignupRequest(userData).then(
       () => {
         this.props.addFlashMessage({
           type: 'success',
           text: 'Sign up successful. Welcome!'
         })
+        Materialize.toast('Sign up successful. Welcome!', 2000);
         location.href="/dashboard"
       },
       ({response}) => this.setState({ errors: response.data.errors, isLoading: false })

@@ -1,26 +1,44 @@
+/**
+ * Action to handle sign in/logout
+ */
+
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthToken from '../utilities/setAuthToken';
 import { SET_CURRENT_USER } from './types';
 
-export function setCurrentUser(user) {
+/**
+ * @return {object} returns object containing user's detail and action type
+ * @param {object} user object of currently logged in user
+ */
+export const setCurrentUser = (user) => {
   return {
     type: SET_CURRENT_USER,
     user
   };
-}
+};
 
-export function logout() {
-  return dispatch => {
+/**
+ * @return void
+ * @param void
+ */
+export const logout = () => {
+  return (dispatch) => {
     localStorage.removeItem('jwtToken');
+    sessionStorage.clear();
     setAuthToken(false);
     dispatch(setCurrentUser({}));
-    location.href="/";
+    Materialize.toast('You\'ve logged out successfully', 2000);
+    location.href = '/';
   };
-}
+};
 
+/**
+ * @return {promise} returns server response
+ * @param {object} userData object containing user data to be logged in
+ */
 const Login = userData =>
-  (dispatch) => axios.post('/api/user/signin', userData).then((response) => {
+  dispatch => axios.post('/api/user/signin', userData).then((response) => {
     const token = response.data.data.token;
     localStorage.setItem('jwtToken', token);
     setAuthToken(token);

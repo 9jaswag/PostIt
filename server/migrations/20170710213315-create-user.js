@@ -32,6 +32,14 @@ module.exports = {
           notEmpty: true
         }
       },
+      resetToken: {
+        allowNull: true,
+        type: Sequelize.STRING,
+      },
+      resetTime: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

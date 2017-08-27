@@ -7,11 +7,12 @@ import Nexmo from 'nexmo';
 import models from '../models';
 
 /**
+ * Function to get the emails of the users in a group
+ * @param {number} groupId id of the group
  * @return {promise} an array of users and their email addresses.
- * @param {*} groupId 
  */
-function getUserEmails(groupId) {
-  return new Promise((resolve) => {
+const getUserEmails = groupId =>
+  new Promise((resolve) => {
     models.Group.findOne({
       where: {
         id: groupId
@@ -25,15 +26,15 @@ function getUserEmails(groupId) {
           });
       });
   });
-}
 
 /**
- * @return void
- * @param {*} email 
- * @param {*} message 
- * @param {*} priority 
+ * Function for sending email notification to users
+ * @param {string} email user's email
+ * @param {string} message message to be sent
+ * @param {string} priority message's priority
+ * @return {void}
  */
-function sendEmailNotification(email, message, priority) {
+const sendEmailNotification = (email, message, priority) => {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
     service: 'gmail', // secure:true for port 465, secure:false for port 587
@@ -50,21 +51,25 @@ function sendEmailNotification(email, message, priority) {
     to: email,
     subject: `${priority} message on PostIT`,
     text: `You have a new ${priority} message on PostIT. Login to check it now
-          Message: ${message}`
+           Message: ${message}`
   };
 
   // send email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log('====> err ', error);
       return error;
     }
-    console.log(`sent===> ${info.response}`);
     return `Email sent: ${info.response}`;
   });
-}
+};
 
 export default {
+  /**
+   * Method to create a new group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing details of the newly created group
+   */
   create(req, res) {
     const errors = { };
     let hasError = false;
@@ -119,6 +124,12 @@ export default {
         errors: { message: error.message }
       }));
   },
+  /**
+   * Method to add a user to a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object confirming user has been added to group
+   */
   addUser(req, res) {
     if (!req.body.userId) {
       return res.status(400)
@@ -177,6 +188,12 @@ export default {
         }));
     });
   },
+  /**
+   * Method to post a message to a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing details of the posted message
+   */
   postMessage(req, res) {
     if (!req.body.title || req.body.title.trim() === '') {
       return res.status(400).send({ success: false,
@@ -209,7 +226,7 @@ export default {
             message: req.body.message,
             priority: req.body.priority || 'normal',
             author: req.decoded.userUsername,
-            readby: req.decoded.userUsername,
+            readby: [req.decoded.userUsername],
             groupId: req.params.group_id,
             userId: req.decoded.userId
           })
@@ -226,7 +243,9 @@ export default {
               // get users email and send message
               getUserEmails(req.params.group_id).then((users) => {
                 users.map((user) => {
-                  sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  if (user.email !== req.decoded.userEmail) {
+                    sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  }
                   return user;
                 });
               });
@@ -243,16 +262,20 @@ export default {
               getUserEmails(req.params.group_id).then((users) => {
                 users.map((user) => {
                   // send email
-                  sendEmailNotification(user.email, req.body.message, req.body.priority);
-                  // send sms
+                  if (user.email !== req.decoded.userEmail) {
+                    sendEmailNotification(user.email, req.body.message, req.body.priority);
+                  }
+                  // send sms 
                   // nexmo.message.sendSms(sender, recipient, message, options, callback);
-                  nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log(res);
-                    }
-                  });
+                  if (user.phone !== req.decoded.userPhone) {
+                    nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
+                      if (err) {
+                        console.log(err);
+                      } else {
+                        console.log(res);
+                      }
+                    });
+                  }
                   return user;
                 });
               });
@@ -270,6 +293,12 @@ export default {
         message: error.message
       }));
   },
+  /**
+   * Method to get messages belonging to a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of messages
+   */
   fetchMessage(req, res) {
     models.Group.findOne({
       where: {
@@ -282,6 +311,7 @@ export default {
       } else {
         return models.Message
           .findAll({
+            order: [['createdAt', 'DESC']],
             where: {
               groupId: req.params.group_id
             }

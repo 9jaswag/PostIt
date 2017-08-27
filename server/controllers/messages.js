@@ -5,6 +5,12 @@
 import models from '../models';
 
 export default {
+  /**
+   * Method to update a message's readby
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing details of the message that was updated
+   */
   updateReadBy(req, res) {
     const errors = { };
     let hasError = false;
@@ -39,7 +45,7 @@ export default {
           where: { id: req.body.id }
         })
           .then(() => {
-            res.status(201).send({ success: true, message });
+            res.status(200).send({ success: true, message });
           })
           .catch((error) => {
             res.status(400).send({ success: false, errors: error.message });

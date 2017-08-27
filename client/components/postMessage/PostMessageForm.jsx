@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import postMessage from '../../actions/postMessageAction';
 
-class PostMessageForm extends Component {
+export class PostMessageForm extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -23,7 +23,8 @@ class PostMessageForm extends Component {
     e.preventDefault();;
     this.props.postMessage(this.props.groupId, this.state).then(
       (res) => {
-        location.href='/group'
+        location.href='/group';
+        Materialize.toast('Message posted', 2000);
       },
       (err) => {}
     );

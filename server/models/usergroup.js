@@ -1,4 +1,6 @@
 
+// UserGroup model
+
 export default (sequelize, DataTypes) => {
   const UserGroup = sequelize.define('UserGroup', {
     userId: {
@@ -11,10 +13,5 @@ export default (sequelize, DataTypes) => {
     }
   });
 
-  UserGroup.associate = (models) => {
-    // associations can be defined here
-    // UserGroup.hasMany(models.User, { foreignKey: 'userId' });
-    // UserGroup.hasMany(models.group, { foreignKey: 'groupId' });
-  };
   return UserGroup;
 };
