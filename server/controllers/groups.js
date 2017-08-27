@@ -226,7 +226,7 @@ export default {
             message: req.body.message,
             priority: req.body.priority || 'normal',
             author: req.decoded.userUsername,
-            readby: req.decoded.userUsername,
+            readby: [req.decoded.userUsername],
             groupId: req.params.group_id,
             userId: req.decoded.userId
           })

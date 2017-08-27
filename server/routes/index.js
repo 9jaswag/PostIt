@@ -23,6 +23,8 @@ export default (app) => {
   app.get('/api/group/:group_id/messages', auth, controllers.groups.fetchMessage);
   // API route to update message readby
   app.patch('/api/message/readby', auth, controllers.messages.updateReadBy);
+  // API route to reset user's password
+  app.patch('/api/user/reset', controllers.users.resetUserPassword);
 
   // API to create new group
   app.post('/api/group', auth, controllers.groups.create);

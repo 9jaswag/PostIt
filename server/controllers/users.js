@@ -6,6 +6,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
+import sendEmailNotification from '../../helpers/sendEmailNotification';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -223,7 +224,30 @@ export default {
             errors: 'User does not exist'
           });
         }
-        return res.status(200).send({ data: user });
+        // return res.status(200).send({ data: user });
+        let mapCounter = 0;
+        const groupsWithCount = [];
+        user.Groups.map((group) => {
+          // get messages that belong to each group
+          models.Message.findAll({
+            where: { groupId: group.id },
+            attributes: ['readby']
+          }).then((messages) => {
+            // groupsWithCount.push(message);
+            let unreadCount = 0;
+            messages.map((message) => {
+              if (!message.readby.includes(username)) {
+                unreadCount += 1;
+              }
+            });
+            groupsWithCount.push({ group, unreadCount });
+            mapCounter += 1;
+            if (mapCounter === user.Groups.length) {
+              // send response
+              res.status(200).send({ data: groupsWithCount });
+            }
+          });
+        });
       })
       .catch(error => res.status(400).send({ errors: error.message }));
   },
@@ -250,5 +274,79 @@ export default {
       .catch((error) => {
         res.status(400).send({ success: false, errors: error.message });
       });
+  },
+  resetUserPassword(req, res) {
+    if (!(req.body.email)) {
+      return res.status(400).send({ status: false, error: 'No email address provided' });
+    }
+    const email = req.body.email;
+    models.User.findOne({
+      where: {
+        email
+      },
+      attributes: ['id', 'email', 'resetToken', 'resetTime']
+    })
+      .then((user) => {
+        if (!user) {
+          return res.status(400).send({ status: false, error: 'No user with this email address' });
+        }
+        if (req.body.type === 'request') {
+          const stringToHash = `${Math.random().toString()}`;
+          const resetToken = bcrypt.hashSync(stringToHash, salt);
+          const resetTime = Date.now();
+          // update table
+          models.User.update({
+            resetToken,
+            resetTime
+          }, {
+            where: {
+              email
+            }
+          })
+            .then(() => {
+              // setup email data 
+              console.log('about to send email ===============>');
+              const mailOptions = {
+                from: 'PostIT',
+                to: email,
+                subject: 'Password Request on PostIT',
+                text: `You have requested a password reset on your PostIT account.\n Please click on the following link, or paste this into your browser to complete the process:
+                \n ${`http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}`}\n If you did not request this, please ignore this email.\n`
+              };
+              // send email
+              sendEmailNotification(mailOptions);
+              console.log('done sending email ===============>');
+              res.status(200).send({ status: true, message: 'Email sent' });
+            })
+            .catch(error => res.status(400).send({ status: false, error: error.message }));
+        }
+        if (req.body.type === 'reset') {
+          const receivedToken = req.body.token;
+          const currentTime = Date.now();
+          const password = req.body.password;
+          if (user.resetToken !== receivedToken) {
+            return res.status(400).send({ status: false, error: 'Invalid token' });
+          }
+          if (currentTime - user.resetTime > 3600000) {
+            return res.status(400).send({ status: false, error: 'Token has expired. Please request for another password reset.' });
+          }
+          // reset user password and delete token and resetTime
+          // password: bcrypt.hashSync(req.body.password, salt),
+          models.User.update({
+            password: bcrypt.hashSync(req.body.password, salt),
+            resetToken: null,
+            resetTime: null
+          }, {
+            where: {
+              email
+            }
+          })
+            .then(() => {
+              res.status(200).send({ status: true, message: 'Password reset successful' });
+            })
+            .catch(error => res.status(400).send({ status: false, error: error.message }));
+        }
+      })
+      .catch(error => res.status(400).send({ status: false, error: error.message }));
   }
 };

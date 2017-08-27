@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { findUser } from '../../actions/addUserAction';
 import addUser from '../../actions/addUserAction';
 
-class AddUserForm extends Component {
+export class AddUserForm extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -40,16 +40,14 @@ class AddUserForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
     this.setState({ error: '', userToAdd: {} })
     if (this.state.username.length > 0) {
-      setTimeout(() => {
-        this.props.findUser().then(
-          (res) => {
-            this.setState({ fetchedUsers: res.data.data.user });
-            this.filterUser(this.state.username.toLowerCase(), this.state.fetchedUsers);
-            //reset username state after adding user to users array
-          },
-          (err) => {}
-        );
-      }, 2000);
+      this.props.findUser().then(
+        (res) => {
+          this.setState({ fetchedUsers: res.data.data.user });
+          this.filterUser(this.state.username.toLowerCase(), this.state.fetchedUsers);
+          //reset username state after adding user to users array
+        },
+        (err) => {}
+      );
     }
   }
 
@@ -60,7 +58,8 @@ class AddUserForm extends Component {
     if (this.state.userToAdd.userId) {
       this.props.addUser( this.props.groupId, this.state.userToAdd ).then(
         (res) => {
-          location.href='/group'
+          location.href='/group';
+          Materialize.toast('User added successfully', 2000);
         },
         (err) => {
           this.setState({ error: err.response.data.error.message });

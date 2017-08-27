@@ -10,7 +10,7 @@ const formatPhoneNumber = (number) => `234${number.slice(1)}`;
 /**
  * Signup form component
  */
-class SignupForm extends Component {
+export class SignupForm extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -58,6 +58,7 @@ class SignupForm extends Component {
           type: 'success',
           text: 'Sign up successful. Welcome!'
         })
+        Materialize.toast('Sign up successful. Welcome!', 2000);
         location.href="/dashboard"
       },
       ({response}) => this.setState({ errors: response.data.errors, isLoading: false })

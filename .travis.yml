@@ -8,8 +8,7 @@ services:
   - postgresql
 before_script:
   - createuser chuks -s -U postgres
-  - createdb postit-dev --username=chuks
-  - sequelize db:migrate
+  - createdb postit-test --username=chuks
 after_success: 
   - npm run coverage
   - npm run coveralls
