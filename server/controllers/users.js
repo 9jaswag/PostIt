@@ -305,7 +305,6 @@ export default {
           })
             .then(() => {
               // setup email data 
-              console.log('about to send email ===============>');
               const mailOptions = {
                 from: 'PostIT',
                 to: email,
@@ -315,7 +314,6 @@ export default {
               };
               // send email
               sendEmailNotification(mailOptions);
-              console.log('done sending email ===============>');
               res.status(200).send({ status: true, message: 'Email sent' });
             })
             .catch(error => res.status(400).send({ status: false, error: error.message }));
@@ -333,7 +331,7 @@ export default {
           // reset user password and delete token and resetTime
           // password: bcrypt.hashSync(req.body.password, salt),
           models.User.update({
-            password: bcrypt.hashSync(req.body.password, salt),
+            password: bcrypt.hashSync(password, salt),
             resetToken: null,
             resetTime: null
           }, {

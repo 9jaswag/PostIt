@@ -2,30 +2,10 @@
  * Group controller
  * handles all group related tasks
  */
-import nodemailer from 'nodemailer';
 import Nexmo from 'nexmo';
 import models from '../models';
-
-/**
- * Function to get the emails of the users in a group
- * @param {number} groupId id of the group
- * @return {promise} an array of users and their email addresses.
- */
-const getUserEmails = groupId =>
-  new Promise((resolve) => {
-    models.Group.findOne({
-      where: {
-        id: groupId
-      },
-      attributes: ['id']
-    })
-      .then((group) => {
-        group.getUsers({ attributes: ['id', 'username', 'email', 'phone'] })
-          .then((users) => {
-            resolve(users);
-          });
-      });
-  });
+import sendEmailNotification from '../../helpers/sendEmailNotification';
+import getUserEmails from '../../helpers/getUserEmails';
 
 /**
  * Function for sending email notification to users
@@ -34,34 +14,6 @@ const getUserEmails = groupId =>
  * @param {string} priority message's priority
  * @return {void}
  */
-const sendEmailNotification = (email, message, priority) => {
-  // create reusable transporter object using the default SMTP transport
-  const transporter = nodemailer.createTransport({
-    service: 'gmail', // secure:true for port 465, secure:false for port 587
-    port: 465,
-    auth: {
-      user: process.env.EMAIL_ADDRESS,
-      pass: process.env.PASSWORD
-    }
-  });
-
-  // setup email data 
-  const mailOptions = {
-    from: 'chuks2ng@gmail.com',
-    to: email,
-    subject: `${priority} message on PostIT`,
-    text: `You have a new ${priority} message on PostIT. Login to check it now
-           Message: ${message}`
-  };
-
-  // send email
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return error;
-    }
-    return `Email sent: ${info.response}`;
-  });
-};
 
 export default {
   /**
@@ -244,7 +196,15 @@ export default {
               getUserEmails(req.params.group_id).then((users) => {
                 users.map((user) => {
                   if (user.email !== req.decoded.userEmail) {
-                    sendEmailNotification(user.email, req.body.message, req.body.priority);
+                    // setup email data 
+                    const mailOptions = {
+                      from: 'PostIT',
+                      to: user.email,
+                      subject: `${req.body.priority} message on PostIT`,
+                      text: `You have a new ${req.body.priority} message on PostIT. Login to check it now.\n
+                      Message: ${req.body.message}`
+                    };
+                    sendEmailNotification(mailOptions);
                   }
                   return user;
                 });
@@ -263,7 +223,14 @@ export default {
                 users.map((user) => {
                   // send email
                   if (user.email !== req.decoded.userEmail) {
-                    sendEmailNotification(user.email, req.body.message, req.body.priority);
+                    const mailOptions = {
+                      from: 'PostIT',
+                      to: user.email,
+                      subject: `${req.body.priority} message on PostIT`,
+                      text: `You have a new ${req.body.priority} message on PostIT. Login to check it now.\n
+                      Message: ${req.body.message}`
+                    };
+                    sendEmailNotification(mailOptions);
                   }
                   // send sms 
                   // nexmo.message.sendSms(sender, recipient, message, options, callback);
