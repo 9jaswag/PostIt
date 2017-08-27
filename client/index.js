@@ -8,8 +8,8 @@ import thunk from 'redux-thunk';
 import jwt from 'jsonwebtoken';
 import setAuthToken from './utilities/setAuthToken';
 import rootReducer from './rootReducer';
-import App from './components/App.jsx';
-import FlashMessagesList from './components/flash/FlashMessagesList.jsx'
+import App from './components/App';
+import FlashMessagesList from './components/flash/FlashMessagesList'
 import { setCurrentUser } from './actions/signinAction';
 import setGroupId from './actions/groupIdAction';
 import passMessage from './actions/passMessageAction';
