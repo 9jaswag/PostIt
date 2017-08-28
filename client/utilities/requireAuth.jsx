@@ -10,7 +10,7 @@ export default (ComposedComponent) => {
 
     componentWillMount() {
       if (!this.props.isAuthenticated) {
-        Materialize.toast('Login to use app', 2000);
+        // Materialize.toast('Login to use app', 2000);
         location.href="/";
       }
     }
