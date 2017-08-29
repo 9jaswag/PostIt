@@ -44,5 +44,6 @@ describe('Reset Password component', () => {
     const componentWillMountSpy = jest.spyOn(component.instance(), 'componentWillMount');
     component.instance().componentWillMount();
     expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
+    expect(component.find('h4').text()).toBe('Forgot password?');
   });
 });

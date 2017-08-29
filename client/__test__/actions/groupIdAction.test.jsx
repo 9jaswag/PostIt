@@ -7,7 +7,7 @@ describe('set group id action creator', () => {
     const groupId = 5;
     const expectedAction = {
       type: SET_GROUP_DETAILS,
-      groupId
+      data: groupId
     };
     expect(setGroupId(groupId)).toEqual(expectedAction);
   });

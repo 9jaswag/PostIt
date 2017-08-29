@@ -62,7 +62,6 @@ export class ResetPassword extends Component {
     }
     this.props.resetPassword(payload).then(
       (res) => {
-        // Materialize.toast(res.data.message, 2000);
         Materialize.toast(res.data.message, 2000);
         location.href="/";
       },
