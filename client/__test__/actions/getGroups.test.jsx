@@ -10,7 +10,7 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 window.localStorage = mockLocalStorage;
 
-describe('Sign up action', () => {
+describe('Get groups action', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
