@@ -36,10 +36,11 @@ export class ResetPassword extends Component {
     }
     this.props.resetPassword(payload).then(
       (res) => {
-        console.log(res.response);
+        Materialize.toast(res.data.message, 2000);
+        location.href="/";
       },
       (err) => {
-        console.log(err.response);
+        this.setState({ error: err.response.data.error });
       }
     );
   }
@@ -61,10 +62,12 @@ export class ResetPassword extends Component {
     }
     this.props.resetPassword(payload).then(
       (res) => {
-        console.log(res.response);
+        // Materialize.toast(res.data.message, 2000);
+        Materialize.toast(res.data.message, 2000);
+        location.href="/";
       },
       (err) => {
-        console.log(err.response);
+        this.setState({ error: err.response.data.error });
       }
     );
   }
