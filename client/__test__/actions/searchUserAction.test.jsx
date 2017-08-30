@@ -1,5 +1,5 @@
 import expect from 'expect';
-import addUser, { findUser } from '../../actions/addUserAction.js';
+import addUser, { findUser } from '../../actions/addUserAction';
 
 describe('Search User Action', () => {
   it('should return a function', () => {
