@@ -14,8 +14,8 @@ export class MessagePage extends Component {
   }
   
   goBack(){
-    // window.history.back()
-    location.href="/group"
+    window.history.back()
+    // location.href="/group"
   }
 
   // componentWillMount(){
@@ -34,11 +34,12 @@ export class MessagePage extends Component {
           { /*Main Page*/ }
           <div className="col s12 m9 l10">
             <div className="col s12" style={{ marginTop: '2rem' }}>
-              <div className="row">
+              {/* <div className="row">
                 <button onClick={ this.goBack } className="btn waves-effect waves-light">Go Back</button>
-              </div>
+              </div> */}
               <div className="container">
                 <div className="row full-height overflow-y-scroll margin-v2">
+                  <button onClick={ this.goBack } className="btn waves-effect waves-light">Go Back</button>                  
                   { /*Message Cards*/ }
                   <div className="card teal darken-1 hoverable">
                     <div className="card-content white-text">
@@ -49,7 +50,7 @@ export class MessagePage extends Component {
                         'amber accent-4': message.priority === 'urgent',
                         'light-blue darken-3': message.priority === 'normal',
                       }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
-                      <p className="flow-text margin-v4">{ message.message }</p>
+                      <p className="flow-text" style={{ marginTop: '2rem' }}>{ message.message }</p>
                     </div>
                   </div>
                 </div>
