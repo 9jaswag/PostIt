@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { logout } from '../../actions/signinAction';
 import createGroup from '../../actions/createGroup';
 
@@ -88,9 +89,9 @@ export class Sidebar extends Component {
 }
 
 Sidebar.propTypes = {
-  auth: React.PropTypes.object.isRequired,
-  logout: React.PropTypes.func.isRequired,
-  createGroup: React.PropTypes.func.isRequired
+  auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
+  createGroup: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {

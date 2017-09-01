@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Login from '../../actions/signinAction';
 
 export class SigninForm extends Component {
@@ -64,7 +65,7 @@ export class SigninForm extends Component {
 }
 
 SigninForm.propTypes = {
-  Login: React.PropTypes.func.isRequired
+  Login: PropTypes.func.isRequired
 }
 
 export default connect(null, { Login }) (SigninForm);

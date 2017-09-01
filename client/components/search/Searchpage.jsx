@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import Sidebar from '../sidebar/Sidebar';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import searchUserAction from '../../actions/searchUserAction';
 
 /**
@@ -128,7 +129,7 @@ export class SearchPage extends Component {
 }
 
 SearchPage.propTypes = {
-  searchUserAction: React.PropTypes.func.isRequired
+  searchUserAction: PropTypes.func.isRequired
 }
 
 export default connect(null, { searchUserAction }) (SearchPage);

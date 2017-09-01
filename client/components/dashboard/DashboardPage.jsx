@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/Sidebar';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
@@ -45,8 +46,8 @@ export class DashboardPage extends Component {
 }
 
 DashboardPage.propTypes= {
-  getGroups: React.PropTypes.func.isRequired,
-  getMessages: React.PropTypes.func.isRequired,
+  getGroups: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state){

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 
 /**
@@ -99,7 +100,7 @@ export class SignupForm extends Component {
 }
 
 SignupForm.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired,
+  userSignupRequest: PropTypes.func.isRequired,
 }
 
 SignupForm.contextTypes = {}

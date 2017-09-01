@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 export default (ComposedComponent) => {
   class Authenticate extends Component{
@@ -29,7 +30,7 @@ export default (ComposedComponent) => {
   }
 
   Authenticate.propTypes = {
-    isAuthenticated: React.PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
   }
 
   const mapStateToProps = (state) => {

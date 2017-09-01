@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { findUser } from '../../actions/addUserAction';
 import addUser from '../../actions/addUserAction';
 
@@ -108,8 +109,8 @@ export class AddUserForm extends Component {
 }
 
 AddUserForm.propTypes = {
-  findUser: React.PropTypes.func.isRequired,
-  addUser: React.PropTypes.func.isRequired
+  findUser: PropTypes.func.isRequired,
+  addUser: PropTypes.func.isRequired
 }
 
 export default connect(null, { findUser, addUser }) (AddUserForm);

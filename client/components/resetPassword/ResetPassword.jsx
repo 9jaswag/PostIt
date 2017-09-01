@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import resetPassword from '../../actions/resetPasswordAction';
 
 /**
@@ -134,7 +135,7 @@ export class ResetPassword extends Component {
 }
 
 ResetPassword.propTypes = {
-  resetPassword: React.PropTypes.func.isRequired
+  resetPassword: PropTypes.func.isRequired
 }
 
 export default connect(null, { resetPassword }) (ResetPassword);

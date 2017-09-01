@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/Sidebar';
 import PostMessageForm from '../postMessage/PostMessageForm';
 import AddUserForm from '../addUser/AddUserForm';
@@ -154,10 +155,10 @@ export class GroupPage extends Component {
 }
 
 GroupPage.propTypes = {
-  groupDetails: React.PropTypes.string.isRequired,
-  getMessages: React.PropTypes.func.isRequired,
-  passMessage: React.PropTypes.func.isRequired,
-  updateReadBy: React.PropTypes.func.isRequired
+  groupDetails: PropTypes.string.isRequired,
+  getMessages: PropTypes.func.isRequired,
+  passMessage: PropTypes.func.isRequired,
+  updateReadBy: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state){

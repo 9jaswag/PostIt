@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import postMessage from '../../actions/postMessageAction';
 
 export class PostMessageForm extends Component {
@@ -82,7 +83,7 @@ export class PostMessageForm extends Component {
 }
 
 PostMessageForm.propTypes = {
-  postMessage: React.PropTypes.func.isRequired
+  postMessage: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
