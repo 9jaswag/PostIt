@@ -5,8 +5,7 @@ import { SignupForm } from '../../components/signup/signupForm';
 
 describe('Signup form component test', () => {
   const props = {
-    userSignupRequest: jest.fn(() => Promise.resolve()),
-    addFlashMessage: jest.fn(() => Promise.resolve())
+    userSignupRequest: jest.fn(() => Promise.resolve())
   }
   it('should render without crashing', () => {
     const component = shallow(<SignupForm {...props}/>);

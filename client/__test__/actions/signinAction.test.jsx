@@ -15,7 +15,6 @@ window.sessionStorage = mockSessionStorage;
 describe('Sign in action', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
-  const Materialize = { toast: '' };
 
   it('dispatches an action SET_CURRENT_USER on successful user sign up', (done) => {
     moxios.stubRequest('/api/user/signup', {
