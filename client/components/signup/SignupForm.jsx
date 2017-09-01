@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 /**
  * Function for formatting user's phone number into Nigerian international format
  * @param {number} number phone number to be formatted
+ * @return {number} returns an international formatted phone number
  */
 const formatPhoneNumber = (number) => `234${number.slice(1)}`;
 
