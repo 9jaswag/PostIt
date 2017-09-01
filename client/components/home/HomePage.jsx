@@ -6,7 +6,6 @@ import SigninModal from '../modal/SigninModal';
 
 export class HomePage extends Component {
   render() {
-    const { userSignupRequest } = this.props;
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
       <div>
@@ -49,7 +48,7 @@ export class HomePage extends Component {
           </div>
         </div>
       </div>
-  );
+    );
   }
 }
 
