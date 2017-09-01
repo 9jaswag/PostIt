@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/Sidebar';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
+import GroupCards from '../group/GroupCards';
 
 export class DashboardPage extends Component {
   constructor(props) {
@@ -20,11 +21,9 @@ export class DashboardPage extends Component {
   render() {;
     const groups = this.props.groups;
     const groupCards = groups.map((group) => {
-      return <a className="pointer" href="/group" data-position="right" data-delay="50" data-tooltip={ group.group.description } key={group.group.id} onClick={ this.onClick }>
-        <div className="col s12 m6 l4">
-          <div data-id={group.group.id} data-name={group.group.name} className="card-panel hoverable">{ group.group.name } { (group.unreadCount > 0) ? <span className="new badge">{group.unreadCount}</span> : null}</div>
-        </div>
-      </a>
+      return <div key={ group.group.id }>
+        <GroupCards onClick={ this.onClick } group={ group }/>
+      </div>
     });
     return(
       <div>
