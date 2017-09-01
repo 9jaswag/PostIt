@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/Sidebar';
 import PostMessageForm from '../postMessage/PostMessageForm';
@@ -8,6 +7,7 @@ import AddUserForm from '../addUser/AddUserForm';
 import getMessages from '../../actions/getMessages';
 import passMessage from '../../actions/passMessageAction';
 import updateReadBy from '../../actions/readbyAction';
+import MessageCard from '../message/MessageCard';
 
 /**
  * Group page component
@@ -79,23 +79,8 @@ export class GroupPage extends Component {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
     const messageCards = displayedMessage.map( message =>
-      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click message title to view message">
-        <div className="card-content white-text">
-          <h5 className="pointer slim" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
-          <span className="inline-block slim">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></span>
-          <span className={ classnames('margin-h default-radius slim', {
-            'red darken-3': message.priority === 'critical',
-            'amber accent-4': message.priority === 'urgent',
-            'light-blue darken-3': message.priority === 'normal',
-          }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
-        </div>
-        <div className="card-action">
-          <span className="white-text slim">Read By:</span> {
-            message.readby.map((user, index) => {
-              return <span key={index} className="normal chip">@{ user } </span>
-            })
-          }
-        </div>
+      <div className="margin-v" key={message.id}>
+        <MessageCard onClick={ this.onClick } message={ message }/>
       </div>
     )
     return(
