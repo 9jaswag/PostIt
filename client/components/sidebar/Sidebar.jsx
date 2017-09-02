@@ -9,12 +9,27 @@ const propTypes = {
   logout: PropTypes.func.isRequired
 };
 
+/**
+ * @export
+ * @class Sidebar
+ * @extends {Component}
+ */
 export class Sidebar extends Component {
+  /**
+   * Method for logging out a user
+   * @method logout
+   * @param {object} e 
+   * @return {void}
+   */
   logout(e) {
     e.preventDefault();
     this.props.logout();
   }
 
+  /**
+   * @returns {string} The HTML markup for the Sidebar component
+   * @memberof Sidebar
+   */
   render() {
     const { isAuthenticated } = this.props.auth;
     const loggedInUser = this.props.auth.user.userUsername;

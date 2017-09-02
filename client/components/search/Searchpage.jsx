@@ -10,9 +10,16 @@ const propTypes = {
 };
 
 /**
- * Search page component
+ * @export
+ * @class Searchpage
+ * @extends {Component}
  */
 export class SearchPage extends Component {
+  /**
+   * Creates an instance of Searchpage.
+   * @param {any} props
+   * @memberof Searchpage
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -27,10 +34,21 @@ export class SearchPage extends Component {
     this.handlePagination = this.handlePagination.bind(this);
   }
 
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof Searchpage
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
     this.setState({ errors: '', users: [] });
   }
+  /**
+   * Makes an action call to search for users
+   * @param {object} e
+   * @returns {void}
+   * @memberof Searchpage
+   */
   onSubmit(e) {
     e.preventDefault();
     if (this.state.username.length === 0) {
@@ -46,10 +64,21 @@ export class SearchPage extends Component {
       );
     }
   }
+  /**
+   * Method for handling the pagination of users
+   * @method handlePagination
+   * @param {object} e
+   * @return {void}
+   * @memberof Searchpage
+   */
   handlePagination(e) {
     this.setState({ currentPage: Number(e.target.id) });
   }
 
+  /**
+   * @returns {string} The HTML markup for the Searchpage component
+   * @memberof Searchpage
+   */
   render() {
     const { users, currentPage, usersPerPage } = this.state;
     // pagination logic

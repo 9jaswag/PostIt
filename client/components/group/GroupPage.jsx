@@ -69,7 +69,7 @@ export class GroupPage extends Component {
       const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
       this.props.updateReadBy(data);
     }
-    location.href='/message';
+    location.href = '/message';
   }
   /**
    * Filters the messages based on their read' state

@@ -7,7 +7,17 @@ const propTypes = {
   Login: PropTypes.func.isRequired
 };
 
+/**
+ * @export
+ * @class SigninForm
+ * @extends {Component}
+ */
 export class SigninForm extends Component {
+  /**
+   * Creates an instance of SigninForm.
+   * @param {any} props
+   * @memberof SigninForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -20,10 +30,21 @@ export class SigninForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof SigninForm
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * Makes an action call to sign in a user
+   * @param {object} e
+   * @returns {void}
+   * @memberof SigninForm
+   */
   onSubmit(e) {
     e.preventDefault();
     this.setState({ errors: {}, isLoading: true });
@@ -37,6 +58,10 @@ export class SigninForm extends Component {
     );
   }
 
+  /**
+   * @returns {string} The HTML markup for the SigninForm component
+   * @memberof SigninForm
+   */
   render() {
     const { errors, isLoading } = this.state;
     return (

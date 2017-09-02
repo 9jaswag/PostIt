@@ -9,9 +9,16 @@ const propTypes = {
 };
 
 /**
- * Reset Password component
+ * @export
+ * @class ResetPassword
+ * @extends {Component}
  */
 export class ResetPassword extends Component {
+  /**
+   * Creates an instance of ResetPassword.
+   * @param {any} props
+   * @memberof ResetPassword
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -27,11 +34,22 @@ export class ResetPassword extends Component {
     this.submitReset = this.submitReset.bind(this);
   }
 
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof ResetPassword
+   */
   onChange(e) {
     this.setState({ error: '' });
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * Makes an action call to request for a password reset
+   * @param {object} e
+   * @returns {void}
+   * @memberof ResetPassword
+   */
   submitRequest(e) {
     this.setState({ error: '' });
     e.preventDefault();
@@ -42,7 +60,7 @@ export class ResetPassword extends Component {
     this.props.resetPassword(payload).then(
       (res) => {
         Materialize.toast(res.data.message, 2000);
-        location.href='/';
+        location.href = '/';
       },
       (err) => {
         this.setState({ error: err.response.data.error });
@@ -50,6 +68,12 @@ export class ResetPassword extends Component {
     );
   }
 
+  /**
+   * Makes an action call to update the user's password on the database
+   * @param {object} e
+   * @returns {void}
+   * @memberof ResetPassword
+   */
   submitReset(e) {
     this.setState({ error: '' });
     e.preventDefault();
@@ -60,15 +84,15 @@ export class ResetPassword extends Component {
       return this.setState({ error: 'Password must be 6 characters or more' });
     }
     const payload = {
-      token: queryString.parse(location.search).token,
-      email: queryString.parse(location.search).email,
+      token: queryString.parse(this.props.location.search).token,
+      email: queryString.parse(this.props.location.search).email,
       password: this.state.password,
       type: 'reset'
     };
     this.props.resetPassword(payload).then(
       (res) => {
         Materialize.toast(res.data.message, 2000);
-        location.href='/';
+        this.props.location.pathname = '/';
       },
       (err) => {
         this.setState({ error: err.response.data.error });
@@ -76,14 +100,24 @@ export class ResetPassword extends Component {
     );
   }
 
+  /**
+   * Set state to determine the form to show based on the page's URL
+   * @method componentDidMount
+   * @return {void}
+   * @memberof DashboardPage
+   */
   componentWillMount() {
-    if (queryString.parse(location.search).token) {
+    if (queryString.parse(this.props.location.search).token) {
       this.setState({ initial: false, secondary: true });
     } else {
       this.setState({ initial: true, secondary: false });
     }
   }
 
+  /**
+   * @returns {string} The HTML markup for the ResetPassword component
+   * @memberof ResetPassword
+   */
   render() {
     const requestResetForm = <div>
       <h4 className="center-align">Forgot password?</h4>

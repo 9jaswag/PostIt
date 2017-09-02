@@ -14,9 +14,16 @@ const propTypes = {
 const formatPhoneNumber = number => `234${number.slice(1)}`;
 
 /**
- * Signup form component
+ * @export
+ * @class SignupForm
+ * @extends {Component}
  */
 export class SignupForm extends Component {
+  /**
+   * Creates an instance of SignupForm.
+   * @param {any} props
+   * @memberof SignupForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -67,6 +74,10 @@ export class SignupForm extends Component {
     );
   }
 
+  /**
+   * @returns {string} The HTML markup for the SignupForm component
+   * @memberof SignupForm
+   */
   render() {
     const { errors } = this.state;
     return (

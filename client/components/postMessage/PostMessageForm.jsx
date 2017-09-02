@@ -11,7 +11,17 @@ const propTypes = {
   postMessage: PropTypes.func.isRequired
 };
 
+/**
+ * @export
+ * @class PostMessageForm
+ * @extends {Component}
+ */
 export class PostMessageForm extends Component {
+  /**
+   * Creates an instance of PostMessageForm.
+   * @param {any} props
+   * @memberof PostMessageForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -19,25 +29,39 @@ export class PostMessageForm extends Component {
       priority: 'normal',
       title: '',
     };
-
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
+  /**
+   * Makes an action call to post a message to a group
+   * @param {object} e
+   * @returns {void}
+   * @memberof PostMessageForm
+   */
   onSubmit(e) {
     e.preventDefault();
     this.props.postMessage(this.props.groupId, this.state).then(
       () => {
-        location.href='/group';
+        location.href = '/group';
         Materialize.toast('Message posted', 2000);
       }
     );
   }
 
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof PostMessageForm
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * @returns {string} The HTML markup for the PostMessageForm component
+   * @memberof PostMessageForm
+   */
   render() {
     return (
       <div>

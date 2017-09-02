@@ -40,7 +40,7 @@ export class CreateGroupForm extends Component {
   }
 
   /**
-   * Makes an action call to add a new user to a group
+   * Makes an action call to create a new group
    * @param {object} e
    * @returns {void}
    * @memberof CreateGroupForm
@@ -50,7 +50,7 @@ export class CreateGroupForm extends Component {
     this.setState({ errors: {}, isLoading: true });
     this.props.createGroup(this.state).then(
       () => {
-        location.href= '/dashboard';
+        location.href = '/dashboard';
         Materialize.toast('Group created successfully', 2000);
       },
       ({ response }) => this.setState({ errors: response.data.errors, isLoading: false })

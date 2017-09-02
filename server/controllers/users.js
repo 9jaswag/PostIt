@@ -283,9 +283,9 @@ export default {
     if (!(req.body.type)) {
       return res.status(400).send({ status: false, error: 'Request type must be specified' });
     }
-    if ((req.body.type !== 'request') || (req.body.type !== 'reset')) {
-      return res.status(400).send({ status: false, error: 'Valid request type must be specified' });
-    }
+    // if ((req.body.type !== 'request') || (req.body.type !== 'reset')) {
+    //   return res.status(400).send({ status: false, error: 'Valid request type must be specified' });
+    // }
     const email = req.body.email;
     models.User.findOne({
       where: {
