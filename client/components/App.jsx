@@ -13,22 +13,26 @@ import ResetPassword from './resetPassword/ResetPassword';
 import requireAuth from '../utilities/requireAuth';
 
 /**
- * App component class
+ * @export
+ * @class App
+ * @extends {Component}
  */
 class App extends Component {
+  /**
+   * @returns {component} returns a component that matches a provided path
+   * @memberof App
+   */
   render() {
     return (
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/resetpassword" component={ ResetPassword } /> 
+          <Route exact path="/resetpassword" component={ ResetPassword } />
           <Route exact path="/dashboard" component={ requireAuth(DashboardPage) } />
           <Route exact path="/group" component={ requireAuth(GroupPage) } />
           <Route exact path="/search" component={ requireAuth(SearchPage) } />
           <Route exact path="/message" component={ requireAuth(MessagePage) } />
-          <Route render={() => {
-            return <p>404 Not Found!</p>;
-          }} />
+          <Route render={() => <p>404 Not Found!</p>} />
         </Switch>
       </BrowserRouter>
     );
