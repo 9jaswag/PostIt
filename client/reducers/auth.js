@@ -1,5 +1,5 @@
 /**
- * reducer to add flash message to store
+ * reducer to set current user's details to store
  */
 
 import isEmpty from 'lodash/isEmpty';

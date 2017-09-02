@@ -9,8 +9,8 @@ describe('Sidebar', () => {
       isAuthenticated: true,
       user: {
         userId: 1,
-        userEmail: "chuks.opia@andela.com",
-        userUsername: "chuks"
+        userEmail: 'chuks.opia@andela.com',
+        userUsername: 'chuks'
       }
     },
     logout: jest.fn(),

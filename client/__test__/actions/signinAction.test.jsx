@@ -49,28 +49,6 @@ describe('Sign in action', () => {
     });
     done();
   });
-  // it('sets user token in localStorage on successful user sign up', (done) => {
-  //   moxios.stubRequest('/api/user/signup', {
-  //     status: 201,
-  //     response: {
-  //       success: true,
-  //       message: 'Sign in succesful.',
-  //       data: {
-  //         token: '0SX6NVMqqQpgdUebW3iRBJz8oerTtfzYUm4ADESM7fk'
-  //       }
-  //     }
-  //   });
-  //   const store = mockStore({});
-  //   const userData = {
-  //     username: 'chuks',
-  //     password: 'password'
-  //   };
-  //   store.dispatch(Login(userData)).then(() => {
-  //     // expect(window.localStorage.jwtToken).toEqual(true);
-  //     console.log('========>', store);
-  //   });
-  //   done();
-  // });
   it('dispatches an action SET_CURRENT_USER on successful user logout', () => {
     const store = mockStore({});
     const expectedActions = [

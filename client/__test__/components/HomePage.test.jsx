@@ -11,9 +11,8 @@ describe('Homepage Component', () => {
   it('should render without crashing', () => {
     const props = {
       userSignupRequest: jest.fn(),
-      addFlashMessage: jest.fn(),
       auth: {}
-    }
+    };
     const component = shallow(<HomePage {...props}/>);
     expect(component.node.type).toEqual('div');
   });
