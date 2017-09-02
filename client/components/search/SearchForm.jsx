@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * Search form component
+ * @param {object} param0
+ * @returns {string} The HTML markup for the SearchForm
+ */
 const SearchForm = ({ onSubmit, onChange, state }) => <form action="" onSubmit={ onSubmit }>
   <div className="row">
     <div className="input-field col s12">

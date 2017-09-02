@@ -7,12 +7,12 @@ describe('Create group modal', () => {
     onClick: jest.fn(),
     group: {
       group: {
-        "id": 9,
-        "name": "true love",
-        "description": 'a group description'
+        id: 9,
+        name: 'true love',
+        description: 'a group description'
       }
     }
-  }
+  };
   it('should render without crashing', () => {
     const component = shallow(<GroupCards onClick={ props.onClick } group={ props.group } />);
     expect(component.node.type).toEqual('div');
