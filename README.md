@@ -4,6 +4,9 @@
 # PostIt
 PostIt is a simple application that allows friends and colleagues create groups for notifications.
 Check out the live app [here](https://postiit.herokuapp.com/).
+# Stack
+* Front-end: React/Redux, SASS
+* Back-end: Node/Express, Sequelize/Postgres
 # Structure
 PostIt has an API that allows do the following.
 * Sign up and log into their accounts
