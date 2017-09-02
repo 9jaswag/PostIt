@@ -84,8 +84,8 @@ export class ResetPassword extends Component {
       return this.setState({ error: 'Password must be 6 characters or more' });
     }
     const payload = {
-      token: queryString.parse(this.props.location.search).token,
-      email: queryString.parse(this.props.location.search).email,
+      token: queryString.parse(location.search).token,
+      email: queryString.parse(location.search).email,
       password: this.state.password,
       type: 'reset'
     };
@@ -107,7 +107,7 @@ export class ResetPassword extends Component {
    * @memberof DashboardPage
    */
   componentWillMount() {
-    if (queryString.parse(this.props.location.search).token) {
+    if (queryString.parse(location.search).token) {
       this.setState({ initial: false, secondary: true });
     } else {
       this.setState({ initial: true, secondary: false });
