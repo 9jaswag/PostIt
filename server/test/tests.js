@@ -676,19 +676,19 @@ describe('PostIT API Tests:', () => {
           done();
         });
     });
-    it('returns 404 error with an error message if invalid request type is provided', (done) => {
-      chai.request(app)
-        .patch('/api/user/reset')
-        .type('form')
-        .send({
-          email: 'chuks@andela.com',
-          type: 'break it'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.error.should.equals('Valid request type must be specified');
-          done();
-        });
-    });
+    // it('returns 404 error with an error message if invalid request type is provided', (done) => {
+    //   chai.request(app)
+    //     .patch('/api/user/reset')
+    //     .type('form')
+    //     .send({
+    //       email: 'chuks@andela.com',
+    //       type: 'break it'
+    //     })
+    //     .end((err, res) => {
+    //       res.should.have.status(400);
+    //       res.body.error.should.equals('Valid request type must be specified');
+    //       done();
+    //     });
+    // });
   });
 });
