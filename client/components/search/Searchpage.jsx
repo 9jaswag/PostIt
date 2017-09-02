@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/Sidebar';
+import SearchForm from './SearchForm';
 import searchUserAction from '../../actions/searchUserAction';
 
 const propTypes = {
@@ -128,15 +129,7 @@ export class SearchPage extends Component {
             <div className="container">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>Search Users</h5>
               <div className="row">
-                <form action="" onSubmit={ this.onSubmit }>
-                  <div className="row">
-                    <div className="input-field col s12">
-                      <input placeholder="Enter a username and press enter" id="username" name="username" type="text" value={ this.state.username } onChange={ this.onChange } className="validate"/>
-                      <label htmlFor="username">Search</label>
-                    </div>
-                    <div className="col l12">{ this.state.errors && <span className="red-text">{ this.state.errors }</span>}</div>
-                  </div>
-                </form>
+                <SearchForm onSubmit={ this.onSubmit } onChange={ this.onChange } state={ this.state }/>
               </div>
               <div className="row">
                 <div className="col s12">
