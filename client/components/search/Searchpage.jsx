@@ -99,7 +99,7 @@ export class SearchPage extends Component {
       pageNumbers.push(i);
     }
     const renderPageNumbers = pageNumbers.map(number => (
-      <li className={ classnames({
+      <li className={ classnames({ // move to component
         'active teal darken-1': currentPage === number
       })} key={ number } onClick={ this.handlePagination }>
         <a href="#" id={ number }>{ number }</a>
