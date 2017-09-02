@@ -51,6 +51,7 @@ export class SignupForm extends Component {
   }
 
   /**
+   * Makes an action call to sign up a user
    * @return {void}
    * @param {KeyboardEvent} e 
    */

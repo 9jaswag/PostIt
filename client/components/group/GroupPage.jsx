@@ -43,7 +43,7 @@ export class GroupPage extends Component {
     this.onChange = this.onChange.bind(this);
   }
   /**
-   * Gets the messages belonging to a group on component mount
+   * Gets the messages belonging to a group
    * @method onLoad
    * @return {void}
    * @memberof GroupPage
@@ -72,14 +72,14 @@ export class GroupPage extends Component {
     location.href = '/message';
   }
   /**
-   * Filters the messages based on their read' state
+   * Filters the messages based on their 'read' state
    * @method filterMessages
    * @param {Array} messages an array of messages
    * @return {void}
    */
   filterMessages(messages) {
     const displayedMessage = [];
-    messages.map((message) => {
+    messages.forEach((message) => {
       if (this.state.displayState === 'all') {
         displayedMessage.push(message);
       }
