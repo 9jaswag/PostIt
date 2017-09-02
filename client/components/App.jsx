@@ -17,7 +17,7 @@ import requireAuth from '../utilities/requireAuth';
  */
 class App extends Component {
   render() {
-    return(
+    return (
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={HomePage} />

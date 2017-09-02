@@ -7,27 +7,30 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import postMessage from '../../actions/postMessageAction';
 
+const propTypes = {
+  postMessage: PropTypes.func.isRequired
+};
+
 export class PostMessageForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       message: '',
       priority: 'normal',
       title: '',
-    }
-    
+    };
+
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
-  onSubmit(e){
-    e.preventDefault();;
+  onSubmit(e) {
+    e.preventDefault();
     this.props.postMessage(this.props.groupId, this.state).then(
-      (res) => {
+      () => {
         location.href='/group';
         Materialize.toast('Message posted', 2000);
-      },
-      (err) => {}
+      }
     );
   }
 
@@ -36,7 +39,7 @@ export class PostMessageForm extends Component {
   }
 
   render() {
-    return(
+    return (
       <div>
         { /* Post Message Modal Structure */}
         <div id="postMessageModal" className="modal">
@@ -66,7 +69,7 @@ export class PostMessageForm extends Component {
                     <option value="urgent">Urgent</option>
                     <option value="critical">Critical</option>
                   </select>
-                   <label htmlFor="priority" className="active">Message Priority</label> 
+                  <label htmlFor="priority" className="active">Message Priority</label>
                 </div>
               </div>
               <div className="row">
@@ -82,14 +85,10 @@ export class PostMessageForm extends Component {
   }
 }
 
-PostMessageForm.propTypes = {
-  postMessage: PropTypes.func.isRequired
-}
+PostMessageForm.propTypes = propTypes;
 
-function mapStateToProps(state) {
-  return {
-    userDetails: state.auth.user
-  }
-}
+const mapStateToProps = state => ({
+  userDetails: state.auth.user
+});
 
-export default connect(mapStateToProps, { postMessage }) (PostMessageForm);
+export default connect(mapStateToProps, { postMessage })(PostMessageForm);

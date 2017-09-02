@@ -9,6 +9,6 @@ import axios from 'axios';
  * @param {number} id 
  */
 const getMessages = id =>
-  (dispatch) => axios.get(`/api/group/${id}/messages`);
+  () => axios.get(`/api/group/${id}/messages`);
 
 export default getMessages;

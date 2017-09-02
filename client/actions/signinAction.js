@@ -11,26 +11,21 @@ import { SET_CURRENT_USER } from './types';
  * @return {object} returns object containing user's detail and action type
  * @param {object} user object of currently logged in user
  */
-export const setCurrentUser = (user) => {
-  return {
-    type: SET_CURRENT_USER,
-    user
-  };
-};
+export const setCurrentUser = user => ({
+  type: SET_CURRENT_USER,
+  user
+});
 
 /**
- * @return void
- * @param void
+ * @return {void}
  */
-export const logout = () => {
-  return (dispatch) => {
-    localStorage.removeItem('jwtToken');
-    sessionStorage.clear();
-    setAuthToken(false);
-    dispatch(setCurrentUser({}));
-    Materialize.toast('You\'ve logged out successfully', 2000);
-    location.href = '/';
-  };
+export const logout = () => (dispatch) => {
+  localStorage.removeItem('jwtToken');
+  sessionStorage.clear();
+  setAuthToken(false);
+  dispatch(setCurrentUser({}));
+  Materialize.toast('You\'ve logged out successfully', 2000);
+  location.href = '/';
 };
 
 /**

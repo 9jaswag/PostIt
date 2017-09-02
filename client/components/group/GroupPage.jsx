@@ -9,11 +9,17 @@ import passMessage from '../../actions/passMessageAction';
 import updateReadBy from '../../actions/readbyAction';
 import MessageCard from '../message/MessageCard';
 
+const propTypes = {
+  groupDetails: PropTypes.string.isRequired,
+  getMessages: PropTypes.func.isRequired,
+  passMessage: PropTypes.func.isRequired,
+  updateReadBy: PropTypes.func.isRequired
+};
+
 /**
  * Group page component
  */
 export class GroupPage extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +29,7 @@ export class GroupPage extends Component {
       priority: '',
       displayState: 'all'
     };
-    
+
     this.onLoad = this.onLoad.bind(this);
     this.onClick = this.onClick.bind(this);
     this.filterMessages = this.filterMessages.bind(this);
@@ -32,24 +38,24 @@ export class GroupPage extends Component {
   onLoad() {
     this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
       (res) => {
-        this.setState({ messages: res.data.data});
+        this.setState({ messages: res.data.data });
         this.filterMessages(res.data.data);
       },
       () => {}
     );
   }
   onClick(e) {
-    sessionStorage.setItem('message', e.target.dataset.fullmessage );
+    sessionStorage.setItem('message', e.target.dataset.fullmessage);
     // get message readby, update readby and redirect to message
     if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
       const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
       this.props.updateReadBy(data);
     }
-    location.href="/message"
+    location.href='/message';
   }
-  filterMessages(messages){
-    let displayedMessage = [];
-    messages.map(message => {
+  filterMessages(messages) {
+    const displayedMessage = [];
+    messages.map((message) => {
       if (this.state.displayState === 'all') {
         displayedMessage.push(message);
       }
@@ -64,7 +70,7 @@ export class GroupPage extends Component {
         }
       }
     });
-    this.setState({ displayedMessage: displayedMessage });
+    this.setState({ displayedMessage });
   }
   onChange(e) {
     this.setState({ displayState: e.target.value });
@@ -75,15 +81,15 @@ export class GroupPage extends Component {
     this.onLoad();
   }
 
-  render(){
+  render() {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
-    const messageCards = displayedMessage.map( message =>
+    const messageCards = displayedMessage.map(message =>
       <div className="margin-v" key={message.id}>
         <MessageCard onClick={ this.onClick } message={ message }/>
       </div>
-    )
-    return(
+    );
+    return (
       <div>
         {/* Main Page */}
         <div className="row">
@@ -94,7 +100,7 @@ export class GroupPage extends Component {
             <div className="col s12 m12 l9" style={{ marginTop: '2rem' }}>
               <h5 className="center-align uppercase">{ groupName ? `${groupName} Message Board` : null } </h5>
               <div className="row full-height overflow-y-scroll">
-                { /*Message Cards*/ }
+                { /* Message Cards*/ }
                 <div className="col s12">
                   <label htmlFor="filter-message">Filter Messages</label>
                   <select className="browser-default" name="filter-message" id="filter-message" value={ this.state.displayState } onChange={ this.onChange }>
@@ -108,10 +114,10 @@ export class GroupPage extends Component {
                 </div>
               </div>
             </div>
-            { /*Right Sidebar*/ }
+            { /* Right Sidebar*/ }
             <div className="col s12 m12 l3">
               <div className="row">
-                { /*Group Stats*/ }
+                { /* Group Stats*/ }
                 {/* <div className="col s12 m12 l12 teal accent-4 padding05">
                   <h6 className="white-text center-align" style={{ marginBottom: '2rem' }}>GROUP STATISTICS</h6>
                   <div className="col s12 m12 l12 center-align">
@@ -119,13 +125,13 @@ export class GroupPage extends Component {
                     <h5 className="white-text">15 Members</h5>
                   </div>
                 </div> */}
-                { /*Send A Message div*/ }
+                { /* Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />
                   <a href="#postMessageModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Send A Message</a>
                 </div>
                 <hr/>
-                { /*Add new user div*/ }
+                { /* Add new user div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <AddUserForm groupId={this.props.groupDetails.split(' ')[0]} />
                   <a href="#addUserModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Add New Users To Group</a>
@@ -139,18 +145,11 @@ export class GroupPage extends Component {
   }
 }
 
-GroupPage.propTypes = {
-  groupDetails: PropTypes.string.isRequired,
-  getMessages: PropTypes.func.isRequired,
-  passMessage: PropTypes.func.isRequired,
-  updateReadBy: PropTypes.func.isRequired
-}
+GroupPage.propTypes = propTypes;
 
-function mapStateToProps(state){
-  return {
-    groupDetails: state.groupDetails.details,
-    user: state.auth.user
-  }
-}
+const mapStateToProps = state => ({
+  groupDetails: state.groupDetails.details,
+  user: state.auth.user
+});
 
-export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy }) (GroupPage);
+export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy })(GroupPage);

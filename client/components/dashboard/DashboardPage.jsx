@@ -6,36 +6,39 @@ import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
 import GroupCards from '../group/GroupCards';
 
+const propTypes = {
+  getGroups: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
+};
+
 export class DashboardPage extends Component {
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
   onClick(e) {
-    sessionStorage.setItem('groupDetails', e.target.dataset.id + ' ' + e.target.dataset.name );
+    sessionStorage.setItem('groupDetails', `${e.target.dataset.id} ${e.target.dataset.name}`);
   }
   componentDidMount() {
     this.props.getGroups();
   }
 
-  render() {;
+  render() {
     const groups = this.props.groups;
-    const groupCards = groups.map((group) => {
-      return <div key={ group.group.id }>
-        <GroupCards onClick={ this.onClick } group={ group }/>
-      </div>
-    });
-    return(
+    const groupCards = groups.map(group => <div key={ group.group.id }>
+      <GroupCards onClick={ this.onClick } group={ group }/>
+    </div>);
+    return (
       <div>
         <div className="row">
-          { /*Sidebar*/ }
+          { /* Sidebar*/ }
           <Sidebar />
-          { /*Main page*/ }
+          { /* Main page*/ }
           <div className="col s12 m9 l10" style={{ marginTop: '2rem' }}>
             <div className="col s12 m12 l12">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>My Groups</h5>
-              { /*Group cards*/ }
-              { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h6> } 
+              { /* Group cards*/ }
+              { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h6> }
             </div>
           </div>
         </div>
@@ -44,16 +47,11 @@ export class DashboardPage extends Component {
   }
 }
 
-DashboardPage.propTypes= {
-  getGroups: PropTypes.func.isRequired,
-  getMessages: PropTypes.func.isRequired,
-}
+DashboardPage.propTypes = propTypes;
 
-function mapStateToProps(state){
-  return {
-    user: state.auth.user,
-    groups: state.groups
-  }
-}
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  groups: state.groups
+});
 
-export default connect(mapStateToProps, { getGroups, getMessages }) (DashboardPage);
+export default connect(mapStateToProps, { getGroups, getMessages })(DashboardPage);

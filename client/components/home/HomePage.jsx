@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import SignupModal from '../modal/SignupModal';
 import SigninModal from '../modal/SigninModal';
 
+const propTypes = {
+  auth: PropTypes.object.isRequired
+};
+
 export class HomePage extends Component {
   render() {
     const { isAuthenticated } = this.props.auth;
@@ -52,14 +56,10 @@ export class HomePage extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    auth: state.auth
-  };
-}
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-HomePage.propTypes = {
-  auth: PropTypes.object.isRequired
-}
+HomePage.propTypes = propTypes;
 
-export default connect(mapStateToProps, {}) (HomePage);
+export default connect(mapStateToProps, {})(HomePage);

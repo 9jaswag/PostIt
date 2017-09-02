@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import Sidebar from '../sidebar/Sidebar';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Sidebar from '../sidebar/Sidebar';
 import searchUserAction from '../../actions/searchUserAction';
+
+const propTypes = {
+  searchUserAction: PropTypes.func.isRequired
+};
 
 /**
  * Search page component
  */
 export class SearchPage extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       username: '',
@@ -17,34 +21,33 @@ export class SearchPage extends Component {
       errors: '',
       currentPage: 1,
       usersPerPage: 2
-    }
+    };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
   }
 
-  onChange(e){
+  onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
     this.setState({ errors: '', users: [] });
   }
-  onSubmit(e){
+  onSubmit(e) {
     e.preventDefault();
     if (this.state.username.length === 0) {
       this.setState({ errors: 'Enter a username' });
-    }else {
+    } else {
       this.props.searchUserAction(this.state.username.toLowerCase()).then(
         (res) => {
-          console.log(res.data.data);
+          if (res.data.data.length < 1) {
+            return this.setState({ errors: 'No user found' });
+          }
           this.setState({ users: res.data.data });
-        },
-        (err) => {
-          console.log(err);
         }
       );
     }
   }
-  handlePagination(e){
-    this.setState({ currentPage: Number(e.target.id) })
+  handlePagination(e) {
+    this.setState({ currentPage: Number(e.target.id) });
   }
 
   render() {
@@ -54,47 +57,43 @@ export class SearchPage extends Component {
     const firstUserIndex = lastUserIndex - usersPerPage;
     const currentUsers = users.slice(firstUserIndex, lastUserIndex);
     // render users
-    const renderUsers = currentUsers.map((user, index) => {
-      return(
-        <div className="col s12" key={ index }>
-          <div className="card-panel hoverable">
-            <div className="row">
-              <div className="col s12">
-                <span className="bold">Username:</span><span className="bold margin-h">@{ user.username }</span>
-              </div>
-              <div className="col s6">
-                <span className="bold">Email:</span><span className="italics margin-h">{ user.email }</span>
-              </div>
-              <div className="col s6">
-                <span className="bold">Groups:</span><span className="italics margin-h">{ user.Groups.length }</span>
-              </div>
-              <div className="col s12">
-                <span className="bold">Phone:</span><span className="italics margin-h">{ user.phone }</span>
-              </div>
+    const renderUsers = currentUsers.map((user, index) => (
+      <div className="col s12" key={ index }>
+        <div className="card-panel hoverable">
+          <div className="row">
+            <div className="col s12">
+              <span className="bold">Username:</span><span className="bold margin-h">@{ user.username }</span>
+            </div>
+            <div className="col s6">
+              <span className="bold">Email:</span><span className="italics margin-h">{ user.email }</span>
+            </div>
+            <div className="col s6">
+              <span className="bold">Groups:</span><span className="italics margin-h">{ user.Groups.length }</span>
+            </div>
+            <div className="col s12">
+              <span className="bold">Phone:</span><span className="italics margin-h">{ user.phone }</span>
             </div>
           </div>
         </div>
-      );
-    });
+      </div>
+    ));
     // render page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(users.length / usersPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(users.length / usersPerPage); i += 1) {
       pageNumbers.push(i);
     }
-    const renderPageNumbers = pageNumbers.map(number => {
-      return (
-        <li className={ classnames({
-          'active teal darken-1': currentPage === number
-        })} key={ number } onClick={ this.handlePagination }>
-          <a href="#" id={ number }>{ number }</a>
-        </li>
-      );
-    });
-    return(
+    const renderPageNumbers = pageNumbers.map(number => (
+      <li className={ classnames({
+        'active teal darken-1': currentPage === number
+      })} key={ number } onClick={ this.handlePagination }>
+        <a href="#" id={ number }>{ number }</a>
+      </li>
+    ));
+    return (
       <div className="row">
-        { /*Sidebar*/ }
+        { /* Sidebar*/ }
         <Sidebar />
-        { /*Main page*/ }
+        { /* Main page*/ }
         <div className="col s12 m9 l10" style={{ marginTop: '2rem' }}>
           <div className="col s12">
             <div className="container">
@@ -128,8 +127,6 @@ export class SearchPage extends Component {
   }
 }
 
-SearchPage.propTypes = {
-  searchUserAction: PropTypes.func.isRequired
-}
+SearchPage.propTypes = propTypes;
 
-export default connect(null, { searchUserAction }) (SearchPage);
+export default connect(null, { searchUserAction })(SearchPage);

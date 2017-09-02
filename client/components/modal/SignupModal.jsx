@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import SignupForm from '../signup/SignupForm';
 import userSignupRequest from '../../actions/signupActions';
 
+const propTypes = {
+  userSignupRequest: PropTypes.func.isRequired,
+};
+
 export class SignupModal extends Component {
   render() {
     const { userSignupRequest } = this.props;
@@ -23,8 +27,6 @@ export class SignupModal extends Component {
   }
 }
 
-SignupModal.propTypes = {
-  userSignupRequest: PropTypes.func.isRequired,
-}
+SignupModal.propTypes = propTypes;
 
-export default connect(null, { userSignupRequest }) (SignupModal);
+export default connect(null, { userSignupRequest })(SignupModal);

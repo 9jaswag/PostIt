@@ -3,15 +3,19 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import createGroup from '../../actions/createGroup';
 
+const propTypes = {
+  createGroup: PropTypes.func.isRequired
+};
+
 export class CreateGroupForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       name: '',
       description: '',
       errors: {},
       isLoading: false
-    }
+    };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -22,26 +26,26 @@ export class CreateGroupForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    this.setState({ errors: {}, isLoading: true })
+    this.setState({ errors: {}, isLoading: true });
     this.props.createGroup(this.state).then(
-      (res) => {
-        location.href="/dashboard"
+      () => {
+        location.href= '/dashboard';
         Materialize.toast('Group created successfully', 2000);
       },
-      ({response}) => this.setState({ errors: response.data.errors , isLoading: false })
+      ({ response }) => this.setState({ errors: response.data.errors, isLoading: false })
     );
   }
 
   render() {
     const { errors } = this.state;
-    return(
+    return (
       <div>
         <form action="" className="col s12" onSubmit={ this.onSubmit }>
           <div className="row">
             <div className="input-field col s12">
               <input type="text" name="name" id="name" className="validate" onChange={ this.onChange } value={ this.state.name } required />
               <label htmlFor="name">Group Name</label>
-              { errors.group && <span className="red-text">{ errors.group }</span>} 
+              { errors.group && <span className="red-text">{ errors.group }</span>}
             </div>
           </div>
           <div className="row">
@@ -61,8 +65,6 @@ export class CreateGroupForm extends Component {
   }
 }
 
-CreateGroupForm.propTypes = {
-  createGroup: PropTypes.func.isRequired
-}
+CreateGroupForm.propTypes = propTypes;
 
-export default connect(null, { createGroup }) (CreateGroupForm);
+export default connect(null, { createGroup })(CreateGroupForm);

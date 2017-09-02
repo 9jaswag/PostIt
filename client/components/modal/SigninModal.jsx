@@ -3,7 +3,7 @@ import SigninForm from '../signin/SigninForm';
 
 export class SigninModal extends Component {
   render() {
-    return(
+    return (
       <div>
         {/* Sign In Modal */}
         <div id="signinModal" className="modal">

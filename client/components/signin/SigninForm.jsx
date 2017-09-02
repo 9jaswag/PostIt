@@ -3,41 +3,46 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Login from '../../actions/signinAction';
 
+const propTypes = {
+  Login: PropTypes.func.isRequired
+};
+
 export class SigninForm extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       username: '',
       password: '',
       errors: {},
       isLoading: false
-    }
+    };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange(e){
+  onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  onSubmit(e){
+  onSubmit(e) {
     e.preventDefault();
-    this.setState({ errors: {}, isLoading: true })
+    this.setState({ errors: {}, isLoading: true });
     this.props.Login(this.state).then(
-      (res) => {
+      () => {
         Materialize.toast('Sign in successful', 2000);
-        location.href="/dashboard"
+        location.href='/dashboard';
       },
       ({response}) => this.setState({ errors: { message: 'Incorrect Username/Password' }, isLoading: false })
+      // server error response is not displayed for security reasons
     );
   }
 
   render() {
-    const { errors, username, password, isLoading } = this.state;
-    return(
+    const { errors, isLoading } = this.state;
+    return (
       <form action="" className="col s12" onSubmit= { this.onSubmit }>
-        <div className="row center-align">   
-          { errors.message && <span className="red-text">{ errors.message }</span>}       
+        <div className="row center-align">
+          { errors.message && <span className="red-text">{ errors.message }</span>}
         </div>
         <div className="row">
           <div className="input-field col s12">
@@ -64,8 +69,6 @@ export class SigninForm extends Component {
   }
 }
 
-SigninForm.propTypes = {
-  Login: PropTypes.func.isRequired
-}
+SigninForm.propTypes = propTypes;
 
-export default connect(null, { Login }) (SigninForm);
+export default connect(null, { Login })(SigninForm);

@@ -14,6 +14,7 @@ const initialState = {
 /**
  * @param {object} state object containing initial state
  * @param {object} action object containing action to be carried out
+ * @return {object} state - the new state of the store is returned
  */
 export default (state = initialState, action = {}) => {
   switch (action.type) {
