@@ -12,7 +12,17 @@ const propTypes = {
   addUser: PropTypes.func.isRequired
 };
 
+/**
+ * @export
+ * @class AddUserForm
+ * @extends {Component}
+ */
 export class AddUserForm extends Component {
+  /**
+   * Creates an instance of AddUserForm.
+   * @param {any} props
+   * @memberof AddUserForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -28,19 +38,37 @@ export class AddUserForm extends Component {
     this.resetState = this.resetState.bind(this);
   }
 
+  /**
+   * Resets the state of the component
+   * @method resetState
+   * @return {void}
+   * @memberof AddUserForm
+   */
   resetState() {
     this.setState({ username: '', fetchedUsers: [], userToAdd: {} });
   }
 
+  /**
+   * Filters the provided username from an array of users
+   * @method filterUser
+   * @param {string} username the username to be filtered
+   * @param {Array} usersArray the array of all users
+   * @returns {void}
+   * @memberof AddUserForm
+   */
   filterUser(username, usersArray) {
     usersArray.filter((user) => {
       if ((user.username === username)) {
-        // return this.setState({ error: 'That user does not exist'} );
         this.setState({ userToAdd: { userId: user.id, username: user.username } });
       }
     });
   }
 
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof AddUserForm
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
     this.setState({ error: '', userToAdd: {} });
@@ -50,19 +78,23 @@ export class AddUserForm extends Component {
           this.setState({ fetchedUsers: res.data.data.user });
           this.filterUser(this.state.username.toLowerCase(), this.state.fetchedUsers);
           // reset username state after adding user to users array
-        },
-        (err) => {}
+        }
       );
     }
   }
 
+  /**
+   * Makes an action call to add a new user to a group
+   * @param {object} e
+   * @returns {void}
+   * @memberof AddUserForm
+   */
   onSubmit(e) {
     e.preventDefault();
     this.setState({ error: '' });
-    // const userDetails = { userId: this.state.userToAdd[0] }
     if (this.state.userToAdd.userId) {
       this.props.addUser(this.props.groupId, this.state.userToAdd).then(
-        (res) => {
+        () => {
           location.href = '/group';
           Materialize.toast('User added successfully', 2000);
         },
@@ -76,6 +108,10 @@ export class AddUserForm extends Component {
     this.resetState();
   }
 
+  /**
+   * @returns {string} The HTML markup for the AddUserForm
+   * @memberof AddUserForm
+   */
   render() {
     const userChip = <div className="chip">{ this.state.userToAdd.username }
       <i className="close material-icons" onClick={ this.resetState }>close</i>

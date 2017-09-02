@@ -17,9 +17,16 @@ const propTypes = {
 };
 
 /**
- * Group page component
+ * @export
+ * @class GroupPage
+ * @extends {Component}
  */
 export class GroupPage extends Component {
+  /**
+   * Creates an instance of GroupPage.
+   * @param {any} props
+   * @memberof GroupPage
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -35,6 +42,12 @@ export class GroupPage extends Component {
     this.filterMessages = this.filterMessages.bind(this);
     this.onChange = this.onChange.bind(this);
   }
+  /**
+   * Gets the messages belonging to a group on component mount
+   * @method onLoad
+   * @return {void}
+   * @memberof GroupPage
+   */
   onLoad() {
     this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
       (res) => {
@@ -44,6 +57,11 @@ export class GroupPage extends Component {
       () => {}
     );
   }
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof GroupPage
+   */
   onClick(e) {
     sessionStorage.setItem('message', e.target.dataset.fullmessage);
     // get message readby, update readby and redirect to message
@@ -53,6 +71,12 @@ export class GroupPage extends Component {
     }
     location.href='/message';
   }
+  /**
+   * Filters the messages based on their read' state
+   * @method filterMessages
+   * @param {Array} messages an array of messages
+   * @return {void}
+   */
   filterMessages(messages) {
     const displayedMessage = [];
     messages.map((message) => {
@@ -72,15 +96,28 @@ export class GroupPage extends Component {
     });
     this.setState({ displayedMessage });
   }
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof GroupPage
+   */
   onChange(e) {
     this.setState({ displayState: e.target.value });
     this.onLoad();
   }
-
+  /**
+   * Calls the onLoad method on component mount
+   * @method componentDidMount
+   * @return {void}
+   * @memberof GroupPage
+   */
   componentDidMount() {
     this.onLoad();
   }
-
+  /**
+   * @returns {string} The HTML markup for the GroupPage
+   * @memberof GroupPage
+   */
   render() {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];

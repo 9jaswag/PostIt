@@ -7,7 +7,17 @@ const propTypes = {
   createGroup: PropTypes.func.isRequired
 };
 
+/**
+ * @export
+ * @class CreateGroupForm
+ * @extends {Component}
+ */
 export class CreateGroupForm extends Component {
+  /**
+   * Creates an instance of CreateGroupForm.
+   * @param {any} props
+   * @memberof CreateGroupForm
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -20,10 +30,21 @@ export class CreateGroupForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof CreateGroupForm
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * Makes an action call to add a new user to a group
+   * @param {object} e
+   * @returns {void}
+   * @memberof CreateGroupForm
+   */
   onSubmit(e) {
     e.preventDefault();
     this.setState({ errors: {}, isLoading: true });
@@ -35,7 +56,10 @@ export class CreateGroupForm extends Component {
       ({ response }) => this.setState({ errors: response.data.errors, isLoading: false })
     );
   }
-
+  /**
+   * @returns {string} The HTML markup for the CreateGroupForm
+   * @memberof CreateGroupForm
+   */
   render() {
     const { errors } = this.state;
     return (

@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import CreateGroupForm from '../group/CreateGroupForm';
 
+/**
+ * @export
+ * @class CreateGroupModal
+ * @extends {Component}
+ */
 export class CreateGroupModal extends Component {
+  /**
+   * @returns {string} The HTML markup for the CreateGroupModal
+   * @memberof CreateGroupModal
+   */
   render() {
     return (
       <div>

@@ -1,6 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
 
+/**
+ * MessageCard component.
+ * @returns {string} The HTML markup for the MessageCard component
+ */
 const MessageCard = ({ onClick, message }) => (
   <div className="teal darken-1 hoverable custom-card tooltipped" data-position="top" data-delay="50" data-tooltip="click message title to view message">
     <div className="white-text">

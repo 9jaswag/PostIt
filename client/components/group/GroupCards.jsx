@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * GroupCards component.
+ * @returns {string} The HTML markup for the GroupCards component
+ */
 const GroupCards = ({ onClick, group }) => (
   <div className="tooltipped" data-position="top" data-delay="50" data-tooltip={ group.group.description }>
     <a className="pointer" href="/group" onClick={ onClick }>

@@ -11,18 +11,43 @@ const propTypes = {
   getMessages: PropTypes.func.isRequired,
 };
 
+/**
+ * @export
+ * @class DashboardPage
+ * @extends {Component}
+ */
 export class DashboardPage extends Component {
+  /**
+   * Creates an instance of DashboardPage.
+   * @param {any} props
+   * @memberof DashboardPage
+   */
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof DashboardPage
+   */
   onClick(e) {
     sessionStorage.setItem('groupDetails', `${e.target.dataset.id} ${e.target.dataset.name}`);
   }
+  /**
+   * Gets the user's groups on component mount
+   * @method componentDidMount
+   * @return {void}
+   * @memberof DashboardPage
+   */
   componentDidMount() {
     this.props.getGroups();
   }
 
+  /**
+   * @returns {string} The HTML markup for the DashboardPage
+   * @memberof DashboardPage
+   */
   render() {
     const groups = this.props.groups;
     const groupCards = groups.map(group => <div key={ group.group.id }>

@@ -8,7 +8,16 @@ const propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
 };
 
+/**
+ * @export
+ * @class SignupModal
+ * @extends {Component}
+ */
 export class SignupModal extends Component {
+  /**
+   * @returns {string} The HTML markup for the SignupModal
+   * @memberof SignupModal
+   */
   render() {
     const { userSignupRequest } = this.props;
     return (
