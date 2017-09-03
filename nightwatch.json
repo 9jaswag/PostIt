@@ -8,7 +8,7 @@
   "page_objects_path": "",
   "globals_path": "",
   "selenium": {
-    "start_process": true,
+    "start_process": false,
     "server_path": "node_modules/selenium-standalone/.selenium/selenium-server/",
     "log_path": "./reports",
     "host": "127.0.0.1",
