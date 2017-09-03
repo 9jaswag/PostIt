@@ -15,7 +15,8 @@
     "test:client": "jest",
     "build": "webpack --config webpack.config.prod.js",
     "postinstall": "npm run build",
-    "e2e-setup": "selenium-standalone install"
+    "e2e-setup": "selenium-standalone install",
+    "test:e2e": "nightwatch"
   },
   "repository": {
     "type": "git",

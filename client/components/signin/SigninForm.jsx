@@ -83,7 +83,7 @@ export class SigninForm extends Component {
         </div>
         <div className="row right-align">
           <div className="input-field col s12">
-            <input type="submit" className="btn" disabled= { isLoading } value="Sign In"/>
+            <input type="submit" className="btn signin" disabled= { isLoading } value="Sign In"/>
           </div>
         </div>
         <div className="row">

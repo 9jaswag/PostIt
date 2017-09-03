@@ -109,7 +109,7 @@ export class SignupForm extends Component {
         </div>
         <div className="row right-align">
           <div className="input-field col s12">
-            <input type="submit" disabled={ this.state.isLoading } className="btn" value="Sign Up"/>
+            <input type="submit" disabled={ this.state.isLoading } className="btn signup" value="Sign Up"/>
           </div>
         </div>
       </form>
