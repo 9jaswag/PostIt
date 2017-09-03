@@ -5,12 +5,10 @@ import RenderUser from '../../components/search/RenderUser';
 describe('Create group modal', () => {
   const props = {
     user: {
-      group: {
-        username: 'chuks',
-        email: 'chuks@andela.com',
-        Groups: [],
-        phone: '2347033130449'
-      }
+      username: 'chuks',
+      email: 'chuks@andela.com',
+      phone: '2347033130449',
+      Groups: []
     }
   };
   it('should render without crashing', () => {
