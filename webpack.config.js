@@ -11,12 +11,12 @@ export default {
   // noInfo: false,
   entry: [
     'eventsource-polyfill', // necessary for hot reloading with IE
-    'webpack-hot-middleware/client?reload=true', // note that it reloads the page if hot module reloading fails.
+    'webpack-hot-middleware/client?reload=true', // reloads the page if hot module reloading fails.
     path.resolve(__dirname, 'client/index.js')
   ],
   target: 'web',
   output: {
-    path: __dirname + '/dist', // Note: Physical files are only output by the production build task `npm run build`.
+    path: __dirname + '/dist',
     publicPath: '/',
     filename: 'bundle.js'
   },

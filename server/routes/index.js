@@ -20,7 +20,8 @@ export default (app) => {
   // API route to get a user and group details
   app.get('/api/users/one', auth, controllers.users.findCurrentUser);
   // API for logged in users to retrieve messages in their group
-  app.get('/api/group/:group_id/messages', auth, controllers.groups.fetchMessage);
+  app.get(
+    '/api/group/:group_id/messages', auth, controllers.groups.fetchMessage);
   // API route to update message readby
   app.patch('/api/message/readby', auth, controllers.messages.updateReadBy);
   // API route to reset user's password
@@ -32,5 +33,6 @@ export default (app) => {
   app.post('/api/group/:group_id/user', auth, controllers.groups.addUser);
 
   // API for logged in users to post messages to a group
-  app.post('/api/group/:group_id/message', auth, controllers.groups.postMessage);
+  app.post(
+    '/api/group/:group_id/message', auth, controllers.groups.postMessage);
 };

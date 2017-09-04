@@ -281,7 +281,9 @@ export default {
       return res.status(400).send({ status: false, error: 'No email address provided' });
     }
     if (!(req.body.type)) {
-      return res.status(400).send({ status: false, error: 'Request type must be specified' });
+      return res.status(400).send(
+        { status: false, error: 'Request type must be specified' }
+      );
     }
     // if ((req.body.type !== 'request') || (req.body.type !== 'reset')) {
     //   return res.status(400).send({ status: false, error: 'Valid request type must be specified' });
@@ -295,7 +297,9 @@ export default {
     })
       .then((user) => {
         if (!user) {
-          return res.status(400).send({ status: false, error: 'No user with this email address' });
+          return res.status(400).send(
+            { status: false, error: 'No user with this email address' }
+          );
         }
         if (req.body.type === 'request') {
           const stringToHash = `${Math.random().toString()}`;
@@ -352,6 +356,8 @@ export default {
             .catch(error => res.status(400).send({ status: false, error: error.message }));
         }
       })
-      .catch(error => res.status(400).send({ status: false, error: error.message }));
+      .catch(error => res.status(400).send(
+        { status: false, error: error.message }
+      ));
   }
 };

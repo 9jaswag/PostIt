@@ -20,7 +20,8 @@ export default {
    * Method to create a new group
    * @param {object} req request object
    * @param {object} res response object
-   * @return {object} returns an object containing details of the newly created group
+   * @return {object} returns an object containing details
+   * of the newly created group
    */
   create(req, res) {
     const errors = { };
@@ -55,22 +56,20 @@ export default {
         owner: req.decoded.userUsername,
         description: req.body.description
       })
-      .then((group) => {
-        return models.UserGroup
-          .create({
-            userId: req.decoded.userId,
-            groupId: group.id
-          })
-          .then(usergroup => res.status(201).send({
-            success: true,
-            message: 'Your group has been created and you have been added to the group',
-            data: { group, usergroup }
-          }))
-          .catch(error => res.status(400).send({
-            success: false,
-            errors: { message: error.message }
-          }));
-      })
+      .then(group => models.UserGroup
+        .create({
+          userId: req.decoded.userId,
+          groupId: group.id
+        })
+        .then(usergroup => res.status(201).send({
+          success: true,
+          message: 'Your group has been created and you have been added to the group',
+          data: { group, usergroup }
+        }))
+        .catch(error => res.status(400).send({
+          success: false,
+          errors: { message: error.message }
+        })))
       .catch(error => res.status(400).send({
         success: false,
         errors: { message: error.message }
@@ -106,7 +105,9 @@ export default {
       }).then((user) => {
         if (!user) {
           return res.status(401)
-            .send({ success: false, error: { message: 'User does not exist' } });
+            .send(
+              { success: false, error: { message: 'User does not exist' }
+              });
         }
       });
       return models.UserGroup
@@ -171,89 +172,87 @@ export default {
       if (!group) {
         return res.status(401).send({ success: false,
           error: { message: 'That group does not exist' } });
-      } else {
-        return models.Message
-          .create({
-            title: req.body.title,
-            message: req.body.message,
-            priority: req.body.priority || 'normal',
-            author: req.decoded.userUsername,
-            readby: [req.decoded.userUsername],
-            groupId: req.params.group_id,
-            userId: req.decoded.userId
-          })
-          .then((message) => {
-            // send response to client before attempting to send notification            
-            res.status(201).send({
-              success: true,
-              message: 'Message sent',
-              data: { message }
-            });
+      }
+      return models.Message
+        .create({
+          title: req.body.title,
+          message: req.body.message,
+          priority: req.body.priority || 'normal',
+          author: req.decoded.userUsername,
+          readby: [req.decoded.userUsername],
+          groupId: req.params.group_id,
+          userId: req.decoded.userId
+        })
+        .then((message) => {
+          // send response to client before attempting to send notification
+          res.status(201).send({
+            success: true,
+            message: 'Message sent',
+            data: { message }
+          });
 
-            // send Email notification
-            if (req.body.priority.toLowerCase() === 'urgent') {
-              // get users email and send message
-              getUserEmails(req.params.group_id).then((users) => {
-                users.map((user) => {
-                  if (user.email !== req.decoded.userEmail) {
-                    // setup email data 
-                    const mailOptions = {
-                      from: 'PostIT',
-                      to: user.email,
-                      subject: `${req.body.priority} message on PostIT`,
-                      text: `You have a new ${req.body.priority} message on PostIT. Login to check it now.\n
+          // send Email notification
+          if (req.body.priority.toLowerCase() === 'urgent') {
+            // get users email and send message
+            getUserEmails(req.params.group_id).then((users) => {
+              users.map((user) => {
+                if (user.email !== req.decoded.userEmail) {
+                  // setup email data
+                  const mailOptions = {
+                    from: 'PostIT',
+                    to: user.email,
+                    subject: `${req.body.priority} message on PostIT`,
+                    text: `You have a new ${req.body.priority} message on PostIT. Login to check it now.\n
                       Message: ${req.body.message}`
-                    };
-                    sendEmailNotification(mailOptions);
-                  }
-                  return user;
-                });
+                  };
+                  sendEmailNotification(mailOptions);
+                }
+                return user;
               });
-            }
-
-            const nexmo = new Nexmo({
-              apiKey: process.env.API_KEY,
-              apiSecret: process.env.API_SECRET,
             });
+          }
+
+          const nexmo = new Nexmo({
+            apiKey: process.env.API_KEY,
+            apiSecret: process.env.API_SECRET,
+          });
 
             // send sms Notification
-            if (req.body.priority.toLowerCase() === 'critical') {
-              // get user email and phone details
-              getUserEmails(req.params.group_id).then((users) => {
-                users.map((user) => {
-                  // send email
-                  if (user.email !== req.decoded.userEmail) {
-                    const mailOptions = {
-                      from: 'PostIT',
-                      to: user.email,
-                      subject: `${req.body.priority} message on PostIT`,
-                      text: `You have a new ${req.body.priority} message on PostIT. Login to check it now.\n
+          if (req.body.priority.toLowerCase() === 'critical') {
+            // get user email and phone details
+            getUserEmails(req.params.group_id).then((users) => {
+              users.map((user) => {
+                // send email
+                if (user.email !== req.decoded.userEmail) {
+                  const mailOptions = {
+                    from: 'PostIT',
+                    to: user.email,
+                    subject: `${req.body.priority} message on PostIT`,
+                    text: `You have a new ${req.body.priority} message on PostIT. Login to check it now.\n
                       Message: ${req.body.message}`
-                    };
-                    sendEmailNotification(mailOptions);
-                  }
-                  // send sms 
-                  // nexmo.message.sendSms(sender, recipient, message, options, callback);
-                  if (user.phone !== req.decoded.userPhone) {
-                    nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
-                      if (err) {
-                        console.log(err);
-                      } else {
-                        console.log(res);
-                      }
-                    });
-                  }
-                  return user;
-                });
+                  };
+                  sendEmailNotification(mailOptions);
+                }
+                // send sms
+                if (user.phone !== req.decoded.userPhone) {
+                  nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      console.log(res);
+                    }
+                  });
+                }
+                return user;
               });
-            }
-          })
-          .catch(error => res.status(400).send({
-            success: false,
-            error: { message: error.message }
-          }));
-        // @todo handle these errors "notNull Violation: title cannot be null"
-      }
+            });
+          }
+        })
+        .catch(error => res.status(400).send({
+          success: false,
+          error: { message: error.message }
+        }));
+      // @todo handle these errors "notNull Violation: title cannot be null"
     })
       .catch(error => res.status(400).send({
         success: false,
@@ -275,20 +274,19 @@ export default {
       if (!group) {
         return res.status(401).send({ success: false,
           error: { message: 'Group does not exist' } });
-      } else {
-        return models.Message
-          .findAll({
-            order: [['createdAt', 'DESC']],
-            where: {
-              groupId: req.params.group_id
-            }
-          })
-          .then(message => res.status(200).send({ success: true, data: message }))
-          .catch(error => res.status(400).send({
-            success: false,
-            error: { message: error.message }
-          }));
       }
+      return models.Message
+        .findAll({
+          order: [['createdAt', 'DESC']],
+          where: {
+            groupId: req.params.group_id
+          }
+        })
+        .then(message => res.status(200).send({ success: true, data: message }))
+        .catch(error => res.status(400).send({
+          success: false,
+          error: { message: error.message }
+        }));
     });
   }
 };
