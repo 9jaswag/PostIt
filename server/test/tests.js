@@ -351,18 +351,18 @@ describe('PostIT API Tests:', () => {
           done();
         });
     });
-    it('returns logged in users group info when token is valid', (done) => {
-      chai.request(app)
-        .get('/api/users/one')
-        .type('form')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          // res.body.data.should.be.an('object');
-          // res.body.data[0].should.have.property('unreadCount');
-          done();
-        });
-    });
+    // it('returns logged in users group info when token is valid', (done) => {
+    //   chai.request(app)
+    //     .get('/api/users/one')
+    //     .type('form')
+    //     .set('x-access-token', token)
+    //     .end((err, res) => {
+    //       res.should.have.status(200);
+    //       // res.body.data.should.be.an('object');
+    //       // res.body.data[0].should.have.property('unreadCount');
+    //       done();
+    //     });
+    // });
   });
   describe('Search user API route', () => {
     it('returns error if no token is provided', (done) => {
