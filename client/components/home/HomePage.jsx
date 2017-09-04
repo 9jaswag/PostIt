@@ -22,7 +22,7 @@ export class HomePage extends Component {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
       <div>
-        <a href="/dashboard" className="waves-effect waves-light btn modal-trigger">Dashboard</a>
+        <a href="/dashboard" className="waves-effect waves-light btn modal-trigger dashboard">Dashboard</a>
       </div>
     );
     const guestLinks = (
