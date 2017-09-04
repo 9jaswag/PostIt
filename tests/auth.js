@@ -1,5 +1,5 @@
 module.exports = {
-  'visiting an auth-required page without logging in': (browser) => {
+  'user can\'t visit an auth-required page without logging in': (browser) => {
     browser
       .url('http://localhost:9000/dashboard')
       .waitForElementVisible('body', 5000)
@@ -7,7 +7,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:9000/')
       .end();
   },
-  'user sign up without credentials': (browser) => {
+  'user can\'t sign up without credentials': (browser) => {
     browser
       .url('http://localhost:9000/')
       .waitForElementVisible('body', 5000)
@@ -21,7 +21,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:9000/#signupModal')
       .end();
   },
-  'user sign up successful': (browser) => {
+  'user signs up successfully': (browser) => {
     browser
       .url('http://localhost:9000/')
       .waitForElementVisible('body', 5000)
@@ -37,7 +37,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:9000/dashboard')
       .end();
   },
-  'user sign in with wrong credentials': (browser) => {
+  'user can\'t sign in with wrong credentials': (browser) => {
     browser
       .url('http://localhost:9000/')
       .waitForElementVisible('body', 5000)
@@ -49,7 +49,7 @@ module.exports = {
       .assert.urlEquals('http://localhost:9000/#signinModal')
       .end();
   },
-  'user sign in successful': (browser) => {
+  'user signs in successfully': (browser) => {
     browser
       .url('http://localhost:9000/')
       .waitForElementVisible('body', 5000)
@@ -61,6 +61,22 @@ module.exports = {
       .pause(2000)
       .click('a.waves-effect.waves-light.btn.modal-trigger.dashboard')
       .assert.urlEquals('http://localhost:9000/dashboard')
+      .end();
+  },
+  'user can log out': (browser) => {
+    browser
+      .url('http://localhost:9000/')
+      .waitForElementVisible('body', 5000)
+      .pause(2000)
+      .click('a.waves-effect.waves-light.btn.modal-trigger.margin-h.signin-modal')
+      .setValue('input#username.signin', 'chioma')
+      .setValue('input#password.signin', 'password')
+      .click('input.btn.signin')
+      .pause(2000)
+      .click('a.waves-effect.waves-light.btn.modal-trigger.dashboard')
+      .pause(2000)
+      .click('a.waves-effect.waves-light.btn.one-whole.logout')
+      .assert.urlEquals('http://localhost:9000/')
       .end();
   }
 };
