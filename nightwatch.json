@@ -24,9 +24,13 @@
       "selenium_host": "localhost",
       "silent": true,
       "desiredCapabilities": {
-      "browserName": "chrome",
-      "javascriptEnabled": true,
-      "acceptSslCerts": true
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "screenshots": {
+        "enabled": true,
+        "path": "./results/screenshots"
       }
     }
   }
