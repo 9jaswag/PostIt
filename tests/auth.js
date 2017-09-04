@@ -26,5 +26,17 @@ module.exports = {
       .pause(2000)
       .assert.urlEquals('http://localhost:9000/dashboard');
     client.end();
+  },
+  'user sign in successful': (client) => {
+    client
+      .url('http://localhost:9000/')
+      .waitForElementVisible('body', 5000)
+      .click('a.waves-effect.waves-light.btn.modal-trigger.margin-h.signup-modal')
+      .setValue('input#username', 'chuks')
+      .setValue('input#password', 'password')
+      .click('input.btn.signin')
+      .pause(2000)
+      .assert.urlEquals('http://localhost:9000/dashboard');
+    client.end();
   }
 };
