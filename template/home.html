@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Home | PostIT</title>
+  <!-- Import materialize.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/css/materialize.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body style="margin: 0;">
+  <!-- Sign Up Modal Structure -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <h4>Sign Up</h4>
+      <form action="" class="col s12">
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="password" type="text" class="validate" required>
+            <label for="password">Username</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="password" type="password" class="validate" required>
+            <label for="password">Password</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <input id="email" type="email" class="validate" required>
+            <label for="email" data-error="Invalid Format">Email</label>
+          </div>
+          <div class="input-field col s6">
+            <input id="password" type="tel" class="validate" required>
+            <label for="password">Phone Number</label>
+          </div>
+        </div>
+        <div class="row right-align">
+          <div class="input-field col s12">
+            <input class="btn" type="submit" value="Sign Up">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sign In Modal Structure -->
+  <div id="signinModal" class="modal">
+    <div class="modal-content">
+      <h4>Sign In</h4>
+      <form action="" class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="text" class="validate" required>
+            <label for="password">Username</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate" required>
+            <label for="password">Password</label>
+          </div>
+        </div>
+        <div class="row right-align">
+          <div class="input-field col s12">
+            <input class="btn" type="submit" value="Sign In">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+
+  <div class="">
+     <div class="full-height fh"> 
+      <div class="row">
+        <div class="col s12 m6 l6 teal accent-4 valign-wrapper full-height">
+          <div class="" style="display: block; margin: auto;">
+            <h2 class="center-align text-white">PostIT</h2>
+            <h5 class="center-align text-white">Prompt Messages, Prompt Delivery</h5>
+            <div class="show-on-small hide-on-med-and-up center-align margin-v2">
+              <a class="waves-effect waves-light btn modal-trigger" href="#signupModal">Sign Up</a>
+              <a class="waves-effect waves-light btn modal-trigger" href="#signinModal">Sign In</a>
+            </div>
+          </div>
+        </div>
+        <div class="col s12 m6 l6 valign-wrapper full-height hide-on-small-only">
+          <div class="center-align" style="display: block; margin: auto;">
+            <a class="waves-effect waves-light btn modal-trigger" href="#signupModal">Sign Up</a>
+            <a class="waves-effect waves-light btn modal-trigger" href="#signinModal">Sign In</a>
+          </div>
+        </div>
+      </div>
+     </div> 
+  </div>
+  
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <!-- Compiled and minified JavaScript for Materialize.css -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
+  <script>
+    $( document ).ready(function(){
+      $(".button-collapse").sideNav();
+      // Signup modal
+      $('.modal').modal();
+    })
+  </script>
+</body>
+</html>

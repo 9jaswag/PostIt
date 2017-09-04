@@ -1,0 +1,16 @@
+sudo: required
+dist: trusty
+language: node_js
+node_js: "8"
+script:
+  - npm test
+services:
+  - postgresql
+before_script:
+  - createuser chuks -s -U postgres
+  - createdb postit-test --username=chuks
+after_success: 
+  - npm run coverage
+  - npm run coveralls
+notifications:
+  - webhooks: https://coveralls.io/webhook?repo_token=yEvDWmpY7RvxsiiRUxGYcb85eNoYYwTac
