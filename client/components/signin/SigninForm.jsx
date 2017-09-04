@@ -71,13 +71,13 @@ export class SigninForm extends Component {
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange={ this.onChange } required />
+            <input id="username" name="username" type="text" className="validate signin" value={ this.state.username } onChange={ this.onChange } required />
             <label htmlFor="username">Username</label>
           </div>
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <input id="password" name="password" type="password" className="validate" value={ this.state.password } onChange={ this.onChange } required />
+            <input id="password" name="password" type="password" className="validate signin" value={ this.state.password } onChange={ this.onChange } required />
             <label htmlFor="password">Password</label>
           </div>
         </div>

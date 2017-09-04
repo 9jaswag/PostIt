@@ -27,8 +27,8 @@ export class HomePage extends Component {
     );
     const guestLinks = (
       <div>
-        <a href="#signupModal" className="waves-effect waves-light btn modal-trigger signin-modal">Sign Up</a>
-        <a href="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h signup-modal">Sign In</a>
+        <a href="#signupModal" className="waves-effect waves-light btn modal-trigger signup-modal">Sign Up</a>
+        <a href="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h signin-modal">Sign In</a>
       </div>
     );
 
