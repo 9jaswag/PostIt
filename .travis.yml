@@ -2,13 +2,26 @@ sudo: required
 dist: trusty
 language: node_js
 node_js: "8"
+env:
+  global:
+    - CC_TEST_REPORTER_ID=f43030a36a6fb5a98fe362e99a79e02fc671c0582f790d37a5bd6d11d16c8273
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
+language: ruby
+rvm:
+  - 2.2.0
 script:
   - npm test
+  - bundle exec rspec
 services:
   - postgresql
 before_script:
   - createuser chuks -s -U postgres
   - createdb postit-test --username=chuks
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 after_success: 
   - npm run coverage
   - npm run coveralls
