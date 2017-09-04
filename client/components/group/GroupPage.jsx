@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/Sidebar';
 import PostMessageForm from '../postMessage/PostMessageForm';
 import AddUserForm from '../addUser/AddUserForm';
 import getMessages from '../../actions/getMessages';
 import passMessage from '../../actions/passMessageAction';
 import updateReadBy from '../../actions/readbyAction';
+import MessageCard from '../message/MessageCard';
+
+const propTypes = {
+  groupDetails: PropTypes.string.isRequired,
+  getMessages: PropTypes.func.isRequired,
+  passMessage: PropTypes.func.isRequired,
+  updateReadBy: PropTypes.func.isRequired
+};
 
 /**
- * Group page component
+ * @export
+ * @class GroupPage
+ * @extends {Component}
  */
 export class GroupPage extends Component {
-
+  /**
+   * Creates an instance of GroupPage.
+   * @param {any} props
+   * @memberof GroupPage
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -22,33 +36,50 @@ export class GroupPage extends Component {
       priority: '',
       displayState: 'all'
     };
-    
+
     this.onLoad = this.onLoad.bind(this);
     this.onClick = this.onClick.bind(this);
     this.filterMessages = this.filterMessages.bind(this);
     this.onChange = this.onChange.bind(this);
   }
+  /**
+   * Gets the messages belonging to a group
+   * @method onLoad
+   * @return {void}
+   * @memberof GroupPage
+   */
   onLoad() {
     this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
       (res) => {
-        this.setState({ messages: res.data.data});
+        this.setState({ messages: res.data.data });
         this.filterMessages(res.data.data);
       },
       () => {}
     );
   }
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof GroupPage
+   */
   onClick(e) {
-    sessionStorage.setItem('message', e.target.dataset.fullmessage );
+    sessionStorage.setItem('message', e.target.dataset.fullmessage);
     // get message readby, update readby and redirect to message
     if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
       const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
       this.props.updateReadBy(data);
     }
-    location.href="/message"
+    location.href = '/message';
   }
-  filterMessages(messages){
-    let displayedMessage = [];
-    messages.map(message => {
+  /**
+   * Filters the messages based on their 'read' state
+   * @method filterMessages
+   * @param {Array} messages an array of messages
+   * @return {void}
+   */
+  filterMessages(messages) {
+    const displayedMessage = [];
+    messages.forEach((message) => {
       if (this.state.displayState === 'all') {
         displayedMessage.push(message);
       }
@@ -63,41 +94,39 @@ export class GroupPage extends Component {
         }
       }
     });
-    this.setState({ displayedMessage: displayedMessage });
+    this.setState({ displayedMessage });
   }
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof GroupPage
+   */
   onChange(e) {
     this.setState({ displayState: e.target.value });
     this.onLoad();
   }
-
+  /**
+   * Calls the onLoad method on component mount
+   * @method componentDidMount
+   * @return {void}
+   * @memberof GroupPage
+   */
   componentDidMount() {
     this.onLoad();
   }
-
-  render(){
+  /**
+   * @returns {string} The HTML markup for the GroupPage
+   * @memberof GroupPage
+   */
+  render() {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails.split(' ')[1];
-    const messageCards = displayedMessage.map( message =>
-      <div key={message.id} className="card teal darken-1 hoverable tooltipped" data-position="top" data-delay="50" data-tooltip="click message title to view message">
-        <div className="card-content white-text">
-          <h5 className="pointer slim" onClick={ this.onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
-          <span className="inline-block slim">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({hour12: true}) }</small></span>
-          <span className={ classnames('margin-h default-radius slim', {
-            'red darken-3': message.priority === 'critical',
-            'amber accent-4': message.priority === 'urgent',
-            'light-blue darken-3': message.priority === 'normal',
-          }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
-        </div>
-        <div className="card-action">
-          <span className="white-text slim">Read By:</span> {
-            message.readby.map((user, index) => {
-              return <span key={index} className="normal chip">@{ user } </span>
-            })
-          }
-        </div>
+    const messageCards = displayedMessage.map(message =>
+      <div className="margin-v" key={message.id}>
+        <MessageCard onClick={ this.onClick } message={ message }/>
       </div>
-    )
-    return(
+    );
+    return (
       <div>
         {/* Main Page */}
         <div className="row">
@@ -108,7 +137,7 @@ export class GroupPage extends Component {
             <div className="col s12 m12 l9" style={{ marginTop: '2rem' }}>
               <h5 className="center-align uppercase">{ groupName ? `${groupName} Message Board` : null } </h5>
               <div className="row full-height overflow-y-scroll">
-                { /*Message Cards*/ }
+                { /* Message Cards*/ }
                 <div className="col s12">
                   <label htmlFor="filter-message">Filter Messages</label>
                   <select className="browser-default" name="filter-message" id="filter-message" value={ this.state.displayState } onChange={ this.onChange }>
@@ -122,10 +151,10 @@ export class GroupPage extends Component {
                 </div>
               </div>
             </div>
-            { /*Right Sidebar*/ }
+            { /* Right Sidebar*/ }
             <div className="col s12 m12 l3">
               <div className="row">
-                { /*Group Stats*/ }
+                { /* Group Stats*/ }
                 {/* <div className="col s12 m12 l12 teal accent-4 padding05">
                   <h6 className="white-text center-align" style={{ marginBottom: '2rem' }}>GROUP STATISTICS</h6>
                   <div className="col s12 m12 l12 center-align">
@@ -133,13 +162,13 @@ export class GroupPage extends Component {
                     <h5 className="white-text">15 Members</h5>
                   </div>
                 </div> */}
-                { /*Send A Message div*/ }
+                { /* Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />
                   <a href="#postMessageModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Send A Message</a>
                 </div>
                 <hr/>
-                { /*Add new user div*/ }
+                { /* Add new user div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <AddUserForm groupId={this.props.groupDetails.split(' ')[0]} />
                   <a href="#addUserModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Add New Users To Group</a>
@@ -153,18 +182,11 @@ export class GroupPage extends Component {
   }
 }
 
-GroupPage.propTypes = {
-  groupDetails: React.PropTypes.string.isRequired,
-  getMessages: React.PropTypes.func.isRequired,
-  passMessage: React.PropTypes.func.isRequired,
-  updateReadBy: React.PropTypes.func.isRequired
-}
+GroupPage.propTypes = propTypes;
 
-function mapStateToProps(state){
-  return {
-    groupDetails: state.groupDetails.details,
-    user: state.auth.user
-  }
-}
+const mapStateToProps = state => ({
+  groupDetails: state.groupDetails.details,
+  user: state.auth.user
+});
 
-export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy }) (GroupPage);
+export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy })(GroupPage);

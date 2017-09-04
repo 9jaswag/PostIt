@@ -13,6 +13,7 @@ export const setUserGroups = (groups) => {
 };
 
 /**
+ * @function getGroups
  * @return {promise} returns an array of groups
  */
 const getGroups = () =>

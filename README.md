@@ -4,6 +4,9 @@
 # PostIt
 PostIt is a simple application that allows friends and colleagues create groups for notifications.
 Check out the live app [here](https://postiit.herokuapp.com/).
+# Stack
+* Front-end: React/Redux, SASS, Webpack
+* Back-end: Node/Express, Sequelize/Postgres
 # Structure
 PostIt has an API that allows do the following.
 * Sign up and log into their accounts
@@ -22,9 +25,22 @@ The **client** directory houses the front-end implementation in ReactJS (Redux)
 # Get Started
 1. Clone the repository and run ```npm install``` to install dependencies.
 2. Setup Postgres
-3. Set up your database credentials in ```server/config/config.json```
+3. Set up your database credentials in ```server/config/config.js```
+
+```
+example:
+
+development: {
+  username: 'database_user',
+  password: 'user_password',
+  database: 'database_name',
+  host: '127.0.0.1',
+  port: 5432,
+  dialect: 'postgres'
+}
+```
 4. Run ```$ sequelize db:migrate``` to run database migrations
-5. To start app, navigate to the root directory of the app and run ```node run start:dev```. This is start up the app with ```nodemon``` watching for changes.
+5. To start app, navigate to the root directory of the app and run ```node run start:dev``` in development ( This is start up the app with ```nodemon``` watching for changes )  or ```npm start``` in production.
 
 # End Points
 ## Sign Up

@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
+import customSort from '../../helpers/customSort';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -224,18 +225,17 @@ export default {
             errors: 'User does not exist'
           });
         }
-        // return res.status(200).send({ data: user });
         let mapCounter = 0;
         const groupsWithCount = [];
-        user.Groups.map((group) => {
+        user.Groups.map(group =>
           // get messages that belong to each group
           models.Message.findAll({
             where: { groupId: group.id },
             attributes: ['readby']
           }).then((messages) => {
-            // groupsWithCount.push(message);
             let unreadCount = 0;
-            messages.map((message) => {
+            messages.forEach((message) => {
+              // if message has not been read by user, increment counter
               if (!message.readby.includes(username)) {
                 unreadCount += 1;
               }
@@ -244,10 +244,11 @@ export default {
             mapCounter += 1;
             if (mapCounter === user.Groups.length) {
               // send response
-              res.status(200).send({ data: groupsWithCount });
+              // sort array to return by id
+              res.status(200).send({ data: groupsWithCount.sort(customSort) });
             }
-          });
-        });
+          })
+        );
       })
       .catch(error => res.status(400).send({ errors: error.message }));
   },
@@ -279,6 +280,14 @@ export default {
     if (!(req.body.email)) {
       return res.status(400).send({ status: false, error: 'No email address provided' });
     }
+    if (!(req.body.type)) {
+      return res.status(400).send(
+        { status: false, error: 'Request type must be specified' }
+      );
+    }
+    // if ((req.body.type !== 'request') || (req.body.type !== 'reset')) {
+    //   return res.status(400).send({ status: false, error: 'Valid request type must be specified' });
+    // }
     const email = req.body.email;
     models.User.findOne({
       where: {
@@ -288,7 +297,9 @@ export default {
     })
       .then((user) => {
         if (!user) {
-          return res.status(400).send({ status: false, error: 'No user with this email address' });
+          return res.status(400).send(
+            { status: false, error: 'No user with this email address' }
+          );
         }
         if (req.body.type === 'request') {
           const stringToHash = `${Math.random().toString()}`;
@@ -345,6 +356,8 @@ export default {
             .catch(error => res.status(400).send({ status: false, error: error.message }));
         }
       })
-      .catch(error => res.status(400).send({ status: false, error: error.message }));
+      .catch(error => res.status(400).send(
+        { status: false, error: error.message }
+      ));
   }
 };

@@ -1,41 +1,69 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Sidebar from '../sidebar/Sidebar';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
+import GroupCards from '../group/GroupCards';
 
+const propTypes = {
+  getGroups: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
+};
+
+/**
+ * @export
+ * @class DashboardPage
+ * @extends {Component}
+ */
 export class DashboardPage extends Component {
+  /**
+   * Creates an instance of DashboardPage.
+   * @param {any} props
+   * @memberof DashboardPage
+   */
   constructor(props) {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof DashboardPage
+   */
   onClick(e) {
-    sessionStorage.setItem('groupDetails', e.target.dataset.id + ' ' + e.target.dataset.name );
+    sessionStorage.setItem('groupDetails', `${e.target.dataset.id} ${e.target.dataset.name}`);
   }
+  /**
+   * Gets the user's groups on component mount
+   * @method componentDidMount
+   * @return {void}
+   * @memberof DashboardPage
+   */
   componentDidMount() {
     this.props.getGroups();
   }
 
-  render() {;
+  /**
+   * @returns {string} The HTML markup for the DashboardPage
+   * @memberof DashboardPage
+   */
+  render() {
     const groups = this.props.groups;
-    const groupCards = groups.map((group) => {
-      return <a className="pointer" href="/group" data-position="right" data-delay="50" data-tooltip={ group.group.description } key={group.group.id} onClick={ this.onClick }>
-        <div className="col s12 m6 l4">
-          <div data-id={group.group.id} data-name={group.group.name} className="card-panel hoverable">{ group.group.name } { (group.unreadCount > 0) ? <span className="new badge">{group.unreadCount}</span> : null}</div>
-        </div>
-      </a>
-    });
-    return(
+    const groupCards = groups.map(group => <div key={ group.group.id }>
+      <GroupCards onClick={ this.onClick } group={ group }/>
+    </div>);
+    return (
       <div>
         <div className="row">
-          { /*Sidebar*/ }
+          { /* Sidebar*/ }
           <Sidebar />
-          { /*Main page*/ }
+          { /* Main page*/ }
           <div className="col s12 m9 l10" style={{ marginTop: '2rem' }}>
             <div className="col s12 m12 l12">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>My Groups</h5>
-              { /*Group cards*/ }
-              { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h6> } 
+              { /* Group cards*/ }
+              { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h6> }
             </div>
           </div>
         </div>
@@ -44,16 +72,11 @@ export class DashboardPage extends Component {
   }
 }
 
-DashboardPage.propTypes= {
-  getGroups: React.PropTypes.func.isRequired,
-  getMessages: React.PropTypes.func.isRequired,
-}
+DashboardPage.propTypes = propTypes;
 
-function mapStateToProps(state){
-  return {
-    user: state.auth.user,
-    groups: state.groups
-  }
-}
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  groups: state.groups
+});
 
-export default connect(mapStateToProps, { getGroups, getMessages }) (DashboardPage);
+export default connect(mapStateToProps, { getGroups, getMessages })(DashboardPage);

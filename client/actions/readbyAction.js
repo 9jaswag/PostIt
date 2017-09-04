@@ -9,6 +9,6 @@ import axios from 'axios';
  * @param {string} data string containing updated readby information
  */
 const updateReadBy = data =>
-  dispatch => axios.patch('/api/message/readby', data);
+  () => axios.patch('/api/message/readby', data);
 
 export default updateReadBy;

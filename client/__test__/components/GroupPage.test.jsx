@@ -41,7 +41,7 @@ describe('Group page Component', () => {
       "updatedAt": "2017-08-27T19:49:14.760Z",
       "groupId": 1,
       "userId": 1
-  }];
+    }];
     const component = shallow(<GroupPage {...props}/>);
     const filterMessagesSpy = jest.spyOn(component.instance(), 'filterMessages');
     component.instance().filterMessages(messages);

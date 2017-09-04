@@ -6,7 +6,7 @@ import { ResetPassword } from '../../components/resetPassword/ResetPassword';
 describe('Reset Password component', () => {
   const props = {
     resetPassword: jest.fn(() => Promise.resolve())
-  }
+  };
   it('should render without crashing', () => {
     const component = shallow(<ResetPassword {...props}/>);
     expect(component.node.type).toEqual('div');

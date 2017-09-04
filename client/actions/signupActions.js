@@ -8,12 +8,10 @@ import { SET_CURRENT_USER } from './types';
  * @return {object} returns object containing user's detail and action type
  * @param {object} user object of currently logged in user
  */
-export const setCurrentUser = (user) => {
-  return {
-    type: SET_CURRENT_USER,
-    user
-  };
-};
+export const setCurrentUser = user => ({
+  type: SET_CURRENT_USER,
+  user
+});
 
 /**
  * @return {promise} returns server response

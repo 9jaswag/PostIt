@@ -6,7 +6,7 @@ import { PostMessageForm } from '../../components/postMessage/PostMessageForm';
 describe('Post message form component', () => {
   const props = {
     postMessage: jest.fn(() => Promise.resolve())
-  }
+  };
   it('should render without crashing', () => {
     const component = shallow(<PostMessageForm {...props}/>);
     expect(component.node.type).toEqual('div');

@@ -36,7 +36,6 @@ models.UserGroup.destroy({
 });
 
 describe('PostIT API Tests:', () => {
-
   describe('Base API', () => {
     it('Displays welcome message', (done) => {
       chai.request(app)
@@ -64,178 +63,195 @@ describe('PostIT API Tests:', () => {
           done();
         });
     });
-    it('Returns 400 error and error message with no username parameter', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          email: 'chuks@andela.com',
-          password: 'chukspass',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.username.should.equals('Username field cannot be empty');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with no email parameter', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'chuks',
-          password: 'chukspass',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.email.should.equals('Email address field cannot be empty');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with no password parameter', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'chuks',
-          email: 'chuks@andela.com',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.password.should.equals('Password field cannot be empty');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with no phone parameter', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'chuks',
-          email: 'chuks@andela.com',
-          password: 'chukspass'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.phone.should.equals('Phone field cannot be empty');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with a duplicate username', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'chuks',
-          email: 'chukss@andela.com',
-          password: 'chukspass',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.username.should.equals('Username already exists');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with a duplicate email address', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'dave',
-          email: 'chuks@andela.com',
-          password: 'chukspass',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.email.should.equals('Email address already exists');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with an invalid email address', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'funsho',
-          email: 'funshoandela.com',
-          password: 'funshopass',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.email.should.equals('Email address is invalid');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with an empty username field', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: '  ',
-          email: 'dave@andela.com',
-          password: 'davepass',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.username.should.equals('Username field cannot be empty');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with an empty email field', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'dave',
-          email: '   ',
-          password: 'davepass',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.email.should.equals('Email address field cannot be empty');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with an empty password field', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'dave',
-          email: 'dave@andela.com',
-          password: '   ',
-          phone: '2347033130448'
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.password.should.equals('Password field cannot be empty');
-          done();
-        });
-    });
-    it('Returns 400 error and error message with an empty phone field', (done) => {
-      chai.request(app)
-        .post('/api/user/signup')
-        .type('form')
-        .send({
-          username: 'dave',
-          email: 'dave@andela.com',
-          password: 'davepass',
-          phone: '  '
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.errors.phone.should.equals('Phone field cannot be empty');
-          done();
-        });
-    });
+    it('Returns 400 error and error message with no username parameter',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            email: 'chuks@andela.com',
+            password: 'chukspass',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.username.should.equals(
+              'Username field cannot be empty');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with no email parameter',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'chuks',
+            password: 'chukspass',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.email.should.equals(
+              'Email address field cannot be empty');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with no password parameter',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'chuks',
+            email: 'chuks@andela.com',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.password.should.equals(
+              'Password field cannot be empty');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with no phone parameter',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'chuks',
+            email: 'chuks@andela.com',
+            password: 'chukspass'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.phone.should.equals('Phone field cannot be empty');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with a duplicate username',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'chuks',
+            email: 'chukss@andela.com',
+            password: 'chukspass',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.username.should.equals('Username already exists');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with a duplicate email address',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'dave',
+            email: 'chuks@andela.com',
+            password: 'chukspass',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.email.should.equals('Email address already exists');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with an invalid email address',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'funsho',
+            email: 'funshoandela.com',
+            password: 'funshopass',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.email.should.equals('Email address is invalid');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with an empty username field',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: '  ',
+            email: 'dave@andela.com',
+            password: 'davepass',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.username.should.equals(
+              'Username field cannot be empty');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with an empty email field',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'dave',
+            email: '   ',
+            password: 'davepass',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.email.should.equals(
+              'Email address field cannot be empty');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with an empty password field',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'dave',
+            email: 'dave@andela.com',
+            password: '   ',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.password.should.equals(
+              'Password field cannot be empty');
+            done();
+          });
+      });
+    it('Returns 400 error and error message with an empty phone field',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signup')
+          .type('form')
+          .send({
+            username: 'dave',
+            email: 'dave@andela.com',
+            password: 'davepass',
+            phone: '  '
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.phone.should.equals('Phone field cannot be empty');
+            done();
+          });
+      });
   });
   describe('Signin API route', () => {
     it('Successful signin should return 200 status code', (done) => {
@@ -273,7 +289,8 @@ describe('PostIT API Tests:', () => {
           password: 'chukspass',
         })
         .end((err, res) => {
-          res.body.errors.username.should.equals('Username field cannot be empty');
+          res.body.errors.username.should.equals(
+            'Username field cannot be empty');
           done();
         });
     });
@@ -285,23 +302,25 @@ describe('PostIT API Tests:', () => {
           username: 'chuks',
         })
         .end((err, res) => {
-          res.body.errors.password.should.equals('Password field cannot be empty');
+          res.body.errors.password.should.equals(
+            'Password field cannot be empty');
           done();
         });
     });
-    it('Returns error message when none existing username is provided', (done) => {
-      chai.request(app)
-        .post('/api/user/signin')
-        .type('form')
-        .send({
-          username: 'chukss',
-          password: 'chukspass'
-        })
-        .end((err, res) => {
-          res.body.errors.username.should.equals('User does not exist');
-          done();
-        });
-    });
+    it('Returns error message when none existing username is provided',
+      (done) => {
+        chai.request(app)
+          .post('/api/user/signin')
+          .type('form')
+          .send({
+            username: 'chukss',
+            password: 'chukspass'
+          })
+          .end((err, res) => {
+            res.body.errors.username.should.equals('User does not exist');
+            done();
+          });
+      });
     it('Returns error message when wrong password is provided', (done) => {
       chai.request(app)
         .post('/api/user/signin')
@@ -323,7 +342,8 @@ describe('PostIT API Tests:', () => {
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
           done();
         });
     });
@@ -347,7 +367,8 @@ describe('PostIT API Tests:', () => {
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
           done();
         });
     });
@@ -371,22 +392,24 @@ describe('PostIT API Tests:', () => {
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
           done();
         });
     });
-    it('returns logged in user object with group info when token is valid', (done) => {
-      chai.request(app)
-        .get('/api/user/chuks/find')
-        .type('form')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.data.should.be.an('array');
-          res.body.data[0].should.be.an('object');
-          done();
-        });
-    });
+    it('returns logged in user object with group info when token is valid',
+      (done) => {
+        chai.request(app)
+          .get('/api/user/chuks/find')
+          .type('form')
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.data.should.be.an('array');
+            res.body.data[0].should.be.an('object');
+            done();
+          });
+      });
   });
   describe('Create group API route', () => {
     it('returns error if no token is provided', (done) => {
@@ -399,7 +422,8 @@ describe('PostIT API Tests:', () => {
         })
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
           done();
         });
     });
@@ -411,7 +435,8 @@ describe('PostIT API Tests:', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.errors.name.should.equals('Please choose a group name');
-          res.body.errors.description.should.equals('Please enter a description of the group');
+          res.body.errors.description.should.equals(
+            'Please enter a description of the group');
           done();
         });
     });
@@ -427,7 +452,8 @@ describe('PostIT API Tests:', () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.body.data.group.name.should.equals('Andela Bootcamp');
-          res.body.data.group.description.should.equals('A little group description');
+          res.body.data.group.description.should.equals(
+            'A little group description');
           done();
         });
     });
@@ -458,7 +484,7 @@ describe('PostIT API Tests:', () => {
           password: 'davepass',
           phone: '2347033130449'
         })
-        .end((err, res) => {
+        .end(() => {
           done();
         });
     });
@@ -468,7 +494,8 @@ describe('PostIT API Tests:', () => {
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
           done();
         });
     });
@@ -511,20 +538,22 @@ describe('PostIT API Tests:', () => {
           done();
         });
     });
-    it('returns error if user id is provided already belongs to the group', (done) => {
-      chai.request(app)
-        .post('/api/group/1/user')
-        .type('form')
-        .set('x-access-token', token)
-        .send({
-          userId: 1
-        })
-        .end((err, res) => {
-          res.should.have.status(400);
-          res.body.error.message.should.equals('User already belongs to this group');
-          done();
-        });
-    });
+    it('returns error if user id is provided already belongs to the group',
+      (done) => {
+        chai.request(app)
+          .post('/api/group/1/user')
+          .type('form')
+          .set('x-access-token', token)
+          .send({
+            userId: 1
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.error.message.should.equals(
+              'User already belongs to this group');
+            done();
+          });
+      });
     it('adds the user to the group', (done) => {
       chai.request(app)
         .post('/api/group/1/user')
@@ -548,7 +577,8 @@ describe('PostIT API Tests:', () => {
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
           done();
         });
     });
@@ -559,7 +589,8 @@ describe('PostIT API Tests:', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.error.message.should.equals('Message title can not be empty');
+          res.body.error.message.should.equals(
+            'Message title can not be empty');
           done();
         });
     });
@@ -634,7 +665,8 @@ describe('PostIT API Tests:', () => {
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
-          res.body.message.should.equals('User not authenticated. Failed to authenticate token.');
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
           done();
         });
     });
@@ -661,5 +693,35 @@ describe('PostIT API Tests:', () => {
           done();
         });
     });
+  });
+  describe('Reset password API route', () => {
+    it('returns 404 error with an error message if no request type is provided',
+      (done) => {
+        chai.request(app)
+          .patch('/api/user/reset')
+          .type('form')
+          .send({
+            email: 'chuks@andela.com'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.error.should.equals('Request type must be specified');
+            done();
+          });
+      });
+    // it('returns 404 error with an error message if invalid request type is provided',(done) => {
+    //   chai.request(app)
+    //     .patch('/api/user/reset')
+    //     .type('form')
+    //     .send({
+    //       email: 'chuks@andela.com',
+    //       type: 'break it'
+    //     })
+    //     .end((err, res) => {
+    //       res.should.have.status(400);
+    //       res.body.error.should.equals('Valid request type must be specified');
+    //       done();
+    //     });
+    // });
   });
 });

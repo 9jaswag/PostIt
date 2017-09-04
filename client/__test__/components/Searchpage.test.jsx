@@ -6,7 +6,7 @@ import { SearchPage } from '../../components/search/SearchPage';
 describe('Search Page component', () => {
   const props = {
     searchUserAction: jest.fn(() => Promise.resolve())
-  }
+  };
   it('should render without crashing', () => {
     const component = shallow(<SearchPage {...props}/>);
     expect(component.node.type).toEqual('div');

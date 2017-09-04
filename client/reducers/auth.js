@@ -1,19 +1,17 @@
+
 /**
- * reducer to add flash message to store
+ * reducer to set current user's details to store
  */
 
 import isEmpty from 'lodash/isEmpty';
+import initialState from '../state';
 import { SET_CURRENT_USER } from '../actions/types';
-
-const initialState = {
-  isAuthenticated: false,
-  user: {}
-};
 
 
 /**
  * @param {object} state object containing initial state
  * @param {object} action object containing action to be carried out
+ * @return {object} state - the new state of the store is returned
  */
 export default (state = initialState, action = {}) => {
   switch (action.type) {

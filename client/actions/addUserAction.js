@@ -6,10 +6,9 @@ import axios from 'axios';
 
 /**
  * @return {promise} returns an array of users info
- * @param void
  */
 export const findUser = () =>
-  dispatch => axios.get('/api/users');
+  () => axios.get('/api/users');
 
 
 /**
@@ -18,6 +17,6 @@ export const findUser = () =>
  * @param {number} userId 
  */
 const addUser = (id, userId) =>
-  (dispatch) => axios.post(`/api/group/${id}/user`, userId);
+  () => axios.post(`/api/group/${id}/user`, userId);
 
 export default addUser;

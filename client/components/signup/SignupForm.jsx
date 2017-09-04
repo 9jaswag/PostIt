@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+const propTypes = {
+  userSignupRequest: PropTypes.func.isRequired
+};
 
 
 /**
  * Function for formatting user's phone number into Nigerian international format
  * @param {number} number phone number to be formatted
+ * @return {number} returns an international formatted phone number
  */
-const formatPhoneNumber = (number) => `234${number.slice(1)}`;
+const formatPhoneNumber = number => `234${number.slice(1)}`;
 
 /**
- * Signup form component
+ * @export
+ * @class SignupForm
+ * @extends {Component}
  */
 export class SignupForm extends Component {
-  constructor(props){
+  /**
+   * Creates an instance of SignupForm.
+   * @param {any} props
+   * @memberof SignupForm
+   */
+  constructor(props) {
     super(props);
     this.state = {
       username: '',
@@ -20,7 +33,7 @@ export class SignupForm extends Component {
       phone: '',
       errors: {},
       isLoading: false
-    }
+    };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -30,24 +43,25 @@ export class SignupForm extends Component {
    */
 
   /**
-   * @return void
+   * @return {void}
    * @param {KeyboardEvent} e 
    */
-  onChange(e){
+  onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   /**
-   * @return void
+   * Makes an action call to sign up a user
+   * @return {void}
    * @param {KeyboardEvent} e 
    */
-  onSubmit(e){
+  onSubmit(e) {
     e.preventDefault();
     this.setState({ errors: {}, isLoading: true });
     // validation checks
-    if(this.state.password.length < 6) {
+    if (this.state.password.length < 6) {
       return this.setState({ errors: { password: 'Password must be 6 characters or more' }, isLoading: false });
-    } if (this.state.phone.length !== 11){
+    } if (this.state.phone.length !== 11) {
       return this.setState({ errors: { phone: 'Phone number must be 11 characters long' }, isLoading: false });
     }
     const { username, email, password, phone } = this.state;
@@ -55,14 +69,19 @@ export class SignupForm extends Component {
     this.props.userSignupRequest(userData).then(
       () => {
         Materialize.toast('Sign up successful. Welcome!', 2000);
-        location.href="/dashboard"
+        location.href='/dashboard';
       },
-      ({response}) => this.setState({ errors: response.data.errors, isLoading: false })
+      ({ response }) => this.setState({ errors: response.data.errors, isLoading: false })
     );
   }
+
+  /**
+   * @returns {string} The HTML markup for the SignupForm component
+   * @memberof SignupForm
+   */
   render() {
     const { errors } = this.state;
-    return(
+    return (
       <form action="" className="col s12" onSubmit={ this.onSubmit }>
         <div className="row">
           <div className="input-field col s6">
@@ -90,7 +109,7 @@ export class SignupForm extends Component {
         </div>
         <div className="row right-align">
           <div className="input-field col s12">
-            <input type="submit" disabled={ this.state.isLoading } className="btn" value="Sign Up"/>
+            <input type="submit" disabled={ this.state.isLoading } className="btn signup" value="Sign Up"/>
           </div>
         </div>
       </form>
@@ -98,9 +117,6 @@ export class SignupForm extends Component {
   }
 }
 
-SignupForm.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired,
-}
+SignupForm.propTypes = propTypes;
 
-SignupForm.contextTypes = {}
 export default SignupForm;

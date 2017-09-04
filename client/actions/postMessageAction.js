@@ -6,10 +6,10 @@ import axios from 'axios';
 
 /**
  * @return {promise} returns an array with server response
- * @param {number} id 
- * @param {object} data 
+ * @param {number} id
+ * @param {object} data
  */
 const postMessage = (id, data) =>
-  (dispatch) => axios.post(`/api/group/${id}/message`, data);
+  () => axios.post(`/api/group/${id}/message`, data);
 
 export default postMessage;

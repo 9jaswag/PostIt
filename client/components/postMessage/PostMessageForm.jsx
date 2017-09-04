@@ -4,38 +4,66 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import postMessage from '../../actions/postMessageAction';
 
+const propTypes = {
+  postMessage: PropTypes.func.isRequired
+};
+
+/**
+ * @export
+ * @class PostMessageForm
+ * @extends {Component}
+ */
 export class PostMessageForm extends Component {
-  constructor(props){
+  /**
+   * Creates an instance of PostMessageForm.
+   * @param {any} props
+   * @memberof PostMessageForm
+   */
+  constructor(props) {
     super(props);
     this.state = {
       message: '',
       priority: 'normal',
       title: '',
-    }
-    
+    };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
-  onSubmit(e){
-    e.preventDefault();;
+  /**
+   * Makes an action call to post a message to a group
+   * @param {object} e
+   * @returns {void}
+   * @memberof PostMessageForm
+   */
+  onSubmit(e) {
+    e.preventDefault();
     this.props.postMessage(this.props.groupId, this.state).then(
-      (res) => {
-        location.href='/group';
+      () => {
+        location.href = '/group';
         Materialize.toast('Message posted', 2000);
-      },
-      (err) => {}
+      }
     );
   }
 
+  /**
+   * @param {object} e
+   * @returns {void}
+   * @memberof PostMessageForm
+   */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  /**
+   * @returns {string} The HTML markup for the PostMessageForm component
+   * @memberof PostMessageForm
+   */
   render() {
-    return(
+    return (
       <div>
         { /* Post Message Modal Structure */}
         <div id="postMessageModal" className="modal">
@@ -65,7 +93,7 @@ export class PostMessageForm extends Component {
                     <option value="urgent">Urgent</option>
                     <option value="critical">Critical</option>
                   </select>
-                   <label htmlFor="priority" className="active">Message Priority</label> 
+                  <label htmlFor="priority" className="active">Message Priority</label>
                 </div>
               </div>
               <div className="row">
@@ -81,14 +109,10 @@ export class PostMessageForm extends Component {
   }
 }
 
-PostMessageForm.propTypes = {
-  postMessage: React.PropTypes.func.isRequired
-}
+PostMessageForm.propTypes = propTypes;
 
-function mapStateToProps(state) {
-  return {
-    userDetails: state.auth.user
-  }
-}
+const mapStateToProps = state => ({
+  userDetails: state.auth.user
+});
 
-export default connect(mapStateToProps, { postMessage }) (PostMessageForm);
+export default connect(mapStateToProps, { postMessage })(PostMessageForm);
