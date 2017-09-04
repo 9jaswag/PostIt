@@ -50,15 +50,13 @@ module.exports = {
     browser.end();
   },
   'user sign in successful': (browser) => {
-    before: (browser) => {
-      browser
-        .click('a.waves-effect.waves-light.btn.modal-trigger.dashboard')
-        .pause(2000)
-        .click('a.waves-effect.waves-light.btn.one-whole.logout');
-    };
     browser
       .url('http://localhost:9000/')
       .waitForElementVisible('body', 5000)
+      .click('a.waves-effect.waves-light.btn.modal-trigger.dashboard')
+      .pause(2000)
+      .click('a.waves-effect.waves-light.btn.one-whole.logout')
+      .pause(2000)
       .click('a.waves-effect.waves-light.btn.modal-trigger.margin-h.signup-modal')
       .setValue('input#username', 'chioma')
       .setValue('input#password', 'password')

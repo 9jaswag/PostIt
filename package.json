@@ -16,6 +16,7 @@
     "build": "webpack --config webpack.config.prod.js",
     "postinstall": "npm run build",
     "e2e-setup": "selenium-standalone install",
+    "e2e-server": "selenium-standalone start",
     "test:e2e": "nightwatch"
   },
   "repository": {
