@@ -5,10 +5,13 @@
 import axios from 'axios';
 
 /**
+ * Search user action
+ * @param {string} payload a string containing the required params
  * @return {promise} returns an array of matched users
- * @param {string} searchTerm a string containing the search term provided by the user
  */
-const searchUserAction = searchTerm =>
-  () => axios.get(`/api/user/${searchTerm}/find`);
+const searchUserAction = payload =>
+  () => axios.get(
+    `/api/user/${payload.searchTerm}/${payload.offset}/${payload.limit}/find`
+  );
 
 export default searchUserAction;

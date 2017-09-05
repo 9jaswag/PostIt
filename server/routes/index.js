@@ -16,7 +16,7 @@ export default (app) => {
   // API to get all users
   app.get('/api/users', auth, controllers.users.findAll);
   // API route to search users
-  app.get('/api/user/:username/find', auth, controllers.users.searchUsers);
+  app.get('/api/user/:username/:offset/:limit/find', auth, controllers.users.searchUsers);
   // API route to get a user and group details
   app.get('/api/users/one', auth, controllers.users.findCurrentUser);
   // API for logged in users to retrieve messages in their group
