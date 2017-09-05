@@ -388,7 +388,7 @@ describe('PostIT API Tests:', () => {
   describe('Search user API route', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
-        .get('/api/user/chuks/find')
+        .get('/api/user/c/0/2/find')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -400,13 +400,13 @@ describe('PostIT API Tests:', () => {
     it('returns logged in user object with group info when token is valid',
       (done) => {
         chai.request(app)
-          .get('/api/user/chuks/find')
+          .get('/api/user/chuks/0/0/find')
           .type('form')
           .set('x-access-token', token)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.data.should.be.an('array');
-            res.body.data[0].should.be.an('object');
+            res.body.data.count.should.equals(1);
+            res.body.data.should.be.an('object');
             done();
           });
       });
