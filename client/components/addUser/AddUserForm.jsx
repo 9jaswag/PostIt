@@ -103,7 +103,6 @@ export class AddUserForm extends Component {
           this.setState({ error: err.response.data.error.message });
         }
       );
-      console.log('we\'re here');
     } else {
       this.setState({ error: 'That user does not exist' });
     }
@@ -121,31 +120,31 @@ export class AddUserForm extends Component {
     return (
       <div>
         { /* Add User Modal Structure */}
-        <div id="addUserModal" className="modal">
-          <div className="modal-content">
+        {/* <div id="addUserModal" className="modal"> */}
+        <div className="modal-content">
+          <div className="row">
+            <div className="col s12">
+              <h5 className="center-align form">Add New User To Group</h5>
+            </div>
+          </div>
+          <form action="" className="col s12" onSubmit={ this.onSubmit }>
             <div className="row">
-              <div className="col s12">
-                <h5>Add New User To Group</h5>
+              <div className="input-field col s12">
+                <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
+                <label htmlFor="username">Enter username</label>
+                { (this.state.userToAdd.userId) ? userChip : null }
+                { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
               </div>
             </div>
-            <form action="" className="col s12" onSubmit={ this.onSubmit }>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
-                  <label htmlFor="username">Enter username</label>
-                  { (this.state.userToAdd.userId) ? userChip : null }
-                  { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
-                </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <input className="btn one-whole" type="submit" value="Add User"/>
               </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input className="btn one-whole" type="submit" value="Add User"/>
-                </div>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
+      // </div>
     );
   }
 }

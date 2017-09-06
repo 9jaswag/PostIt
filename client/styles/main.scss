@@ -402,6 +402,9 @@ input[type='submit'].login-input {
     height: 50vh;
   }
 }
-.modal-overlay {
-  // display: none !important;
+input#title.form, textarea#message.form, .row.form {
+    margin-bottom: 0px;
+}
+h5.center-align.form {
+    font-size: 20px;
 }

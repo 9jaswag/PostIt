@@ -135,7 +135,7 @@ export class GroupPage extends Component {
           <Sidebar />
           {/* Main Page */}
           <div className="col s12 m9 l10">
-            <div className="col s12 m12 l9" style={{ marginTop: '2rem' }}>
+            <div className="col s12 m12 l7" style={{ marginTop: '2rem' }}>
               <h5 className="center-align uppercase">{ groupName ? `${groupName} Message Board` : null } </h5>
               <div className="row full-height overflow-y-scroll">
                 { /* Message Cards*/ }
@@ -153,7 +153,7 @@ export class GroupPage extends Component {
               </div>
             </div>
             { /* Right Sidebar*/ }
-            <div className="col s12 m12 l3">
+            <div className="col s12 m12 l5" style={{ marginTop: '2rem' }}>
               <div className="row">
                 { /* Group Stats*/ }
                 {/* <div className="col s12 m12 l12 teal accent-4 padding05">
@@ -166,13 +166,11 @@ export class GroupPage extends Component {
                 { /* Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />
-                  <a href="#postMessageModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Send A Message</a>
                 </div>
                 <hr/>
                 { /* Add new user div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <AddUserForm groupId={this.props.groupDetails.split(' ')[0]} />
-                  <a href="#addUserModal" className="waves-effect waves-light one-whole btn margin-v2 modal-trigger">Add New Users To Group</a>
                 </div>
               </div>
             </div>
