@@ -17,6 +17,6 @@ export const findUser = () =>
  * @param {number} userId 
  */
 const addUser = (id, userId) =>
-  () => axios.post(`/api/group/${id}/user`, userId);
+  () => axios.post(`/api/v1/group/${id}/user`, userId);
 
 export default addUser;
