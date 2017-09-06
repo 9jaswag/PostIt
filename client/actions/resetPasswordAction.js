@@ -9,6 +9,6 @@ import axios from 'axios';
  * @param {string} data string containing updated readby information
  */
 const resetPassword = data =>
-  () => axios.patch('/api/user/reset', data);
+  () => axios.patch('/api/v1/user/reset', data);
 
 export default resetPassword;

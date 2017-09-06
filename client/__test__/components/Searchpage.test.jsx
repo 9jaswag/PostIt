@@ -39,4 +39,10 @@ describe('Search Page component', () => {
     component.instance().handlePagination(e);
     expect(handlePaginationSpy).toHaveBeenCalledTimes(1);
   });
+  it('should contain the method searchUsers', () => {
+    const component = shallow(<SearchPage {...props}/>);
+    const searchUsersSpy = jest.spyOn(component.instance(), 'searchUsers');
+    component.instance().searchUsers();
+    expect(searchUsersSpy).toHaveBeenCalledTimes(1);
+  });
 });

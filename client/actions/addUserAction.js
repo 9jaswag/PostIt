@@ -8,7 +8,7 @@ import axios from 'axios';
  * @return {promise} returns an array of users info
  */
 export const findUser = () =>
-  () => axios.get('/api/users');
+  () => axios.get('/api/v1/users');
 
 
 /**

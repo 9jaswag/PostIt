@@ -50,7 +50,7 @@ describe('PostIT API Tests:', () => {
   describe('Signup API route', () => {
     it('Registers a new user when complete parameters are provided', (done) => {
       chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/v1/user/signup')
         .type('form')
         .send({
           username: 'chuks',
@@ -66,7 +66,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with no username parameter',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             email: 'chuks@andela.com',
@@ -83,7 +83,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with no email parameter',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'chuks',
@@ -100,7 +100,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with no password parameter',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'chuks',
@@ -117,7 +117,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with no phone parameter',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'chuks',
@@ -133,7 +133,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with a duplicate username',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'chuks',
@@ -150,7 +150,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with a duplicate email address',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'dave',
@@ -167,7 +167,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with an invalid email address',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'funsho',
@@ -184,7 +184,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with an empty username field',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: '  ',
@@ -202,7 +202,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with an empty email field',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'dave',
@@ -220,7 +220,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with an empty password field',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'dave',
@@ -238,7 +238,7 @@ describe('PostIT API Tests:', () => {
     it('Returns 400 error and error message with an empty phone field',
       (done) => {
         chai.request(app)
-          .post('/api/user/signup')
+          .post('/api/v1/user/signup')
           .type('form')
           .send({
             username: 'dave',
@@ -256,7 +256,7 @@ describe('PostIT API Tests:', () => {
   describe('Signin API route', () => {
     it('Successful signin should return 200 status code', (done) => {
       chai.request(app)
-        .post('/api/user/signin')
+        .post('/api/v1/user/signin')
         .type('form')
         .send({
           username: 'chuks',
@@ -269,7 +269,7 @@ describe('PostIT API Tests:', () => {
     });
     it('Successful signin should return a token', (done) => {
       chai.request(app)
-        .post('/api/user/signin')
+        .post('/api/v1/user/signin')
         .type('form')
         .send({
           username: 'chuks',
@@ -283,7 +283,7 @@ describe('PostIT API Tests:', () => {
     });
     it('Returns error message when no username is provided', (done) => {
       chai.request(app)
-        .post('/api/user/signin')
+        .post('/api/v1/user/signin')
         .type('form')
         .send({
           password: 'chukspass',
@@ -296,7 +296,7 @@ describe('PostIT API Tests:', () => {
     });
     it('Returns error message when no password is provided', (done) => {
       chai.request(app)
-        .post('/api/user/signin')
+        .post('/api/v1/user/signin')
         .type('form')
         .send({
           username: 'chuks',
@@ -310,7 +310,7 @@ describe('PostIT API Tests:', () => {
     it('Returns error message when none existing username is provided',
       (done) => {
         chai.request(app)
-          .post('/api/user/signin')
+          .post('/api/v1/user/signin')
           .type('form')
           .send({
             username: 'chukss',
@@ -323,7 +323,7 @@ describe('PostIT API Tests:', () => {
       });
     it('Returns error message when wrong password is provided', (done) => {
       chai.request(app)
-        .post('/api/user/signin')
+        .post('/api/v1/user/signin')
         .type('form')
         .send({
           username: 'chuks',
@@ -338,7 +338,7 @@ describe('PostIT API Tests:', () => {
   describe('API route to find all Users', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
-        .get('/api/users')
+        .get('/api/v1/users')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -349,7 +349,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns an array of user objects when token is valid', (done) => {
       chai.request(app)
-        .get('/api/users/')
+        .get('/api/v1/users/')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
@@ -363,7 +363,7 @@ describe('PostIT API Tests:', () => {
   describe('API route to fetch logged in user group info', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
-        .get('/api/users/one')
+        .get('/api/v1/users/one')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -374,7 +374,7 @@ describe('PostIT API Tests:', () => {
     });
     // it('returns logged in users group info when token is valid', (done) => {
     //   chai.request(app)
-    //     .get('/api/users/one')
+    //     .get('/api/v1/users/one')
     //     .type('form')
     //     .set('x-access-token', token)
     //     .end((err, res) => {
@@ -388,7 +388,7 @@ describe('PostIT API Tests:', () => {
   describe('Search user API route', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
-        .get('/api/user/c/0/2/find')
+        .get('/api/v1/user/c/0/2/find')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -400,7 +400,7 @@ describe('PostIT API Tests:', () => {
     it('returns logged in user object with group info when token is valid',
       (done) => {
         chai.request(app)
-          .get('/api/user/chuks/0/0/find')
+          .get('/api/v1/user/chuks/0/0/find')
           .type('form')
           .set('x-access-token', token)
           .end((err, res) => {
@@ -414,7 +414,7 @@ describe('PostIT API Tests:', () => {
   describe('Create group API route', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
-        .post('/api/group')
+        .post('/api/v1/group')
         .type('form')
         .send({
           name: 'Andela Bootcamp',
@@ -429,7 +429,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error if no parameter is provided', (done) => {
       chai.request(app)
-        .post('/api/group')
+        .post('/api/v1/group')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
@@ -442,7 +442,7 @@ describe('PostIT API Tests:', () => {
     });
     it('creates a group if all parameters are provided', (done) => {
       chai.request(app)
-        .post('/api/group')
+        .post('/api/v1/group')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -459,7 +459,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error if provided group name already exists', (done) => {
       chai.request(app)
-        .post('/api/group')
+        .post('/api/v1/group')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -476,7 +476,7 @@ describe('PostIT API Tests:', () => {
   describe('API route for adding users to a group', () => {
     before((done) => {
       chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/v1/user/signup')
         .type('form')
         .send({
           username: 'dave',
@@ -490,7 +490,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error if no token is provided', (done) => {
       chai.request(app)
-        .post('/api/group/1/user')
+        .post('/api/v1/group/1/user')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -501,7 +501,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error if no user id is provided', (done) => {
       chai.request(app)
-        .post('/api/group/1/user')
+        .post('/api/v1/group/1/user')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
@@ -512,7 +512,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error if user id is provided does not exist', (done) => {
       chai.request(app)
-        .post('/api/group/1/user')
+        .post('/api/v1/group/1/user')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -526,7 +526,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error if group id is provided does not exist', (done) => {
       chai.request(app)
-        .post('/api/group/7/user')
+        .post('/api/v1/group/7/user')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -541,7 +541,7 @@ describe('PostIT API Tests:', () => {
     it('returns error if user id is provided already belongs to the group',
       (done) => {
         chai.request(app)
-          .post('/api/group/1/user')
+          .post('/api/v1/group/1/user')
           .type('form')
           .set('x-access-token', token)
           .send({
@@ -556,7 +556,7 @@ describe('PostIT API Tests:', () => {
       });
     it('adds the user to the group', (done) => {
       chai.request(app)
-        .post('/api/group/1/user')
+        .post('/api/v1/group/1/user')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -573,7 +573,7 @@ describe('PostIT API Tests:', () => {
   describe('API route for posting message to a particular group', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
-        .post('/api/group/1/message')
+        .post('/api/v1/group/1/message')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -584,7 +584,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error message if message title is not provided', (done) => {
       chai.request(app)
-        .post('/api/group/1/message')
+        .post('/api/v1/group/1/message')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
@@ -596,7 +596,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error message if message body is not provided', (done) => {
       chai.request(app)
-        .post('/api/group/1/message')
+        .post('/api/v1/group/1/message')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -610,7 +610,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error message if group id provided does not exist', (done) => {
       chai.request(app)
-        .post('/api/group/44/message')
+        .post('/api/v1/group/44/message')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -625,7 +625,7 @@ describe('PostIT API Tests:', () => {
     });
     it('sets message priority to normal if it is not provided', (done) => {
       chai.request(app)
-        .post('/api/group/1/message')
+        .post('/api/v1/group/1/message')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -640,7 +640,7 @@ describe('PostIT API Tests:', () => {
     });
     it('sends message if all parameters are provided', (done) => {
       chai.request(app)
-        .post('/api/group/1/message')
+        .post('/api/v1/group/1/message')
         .type('form')
         .set('x-access-token', token)
         .send({
@@ -661,7 +661,7 @@ describe('PostIT API Tests:', () => {
   describe('API route for feching messages', () => {
     it('returns error if no token is provided', (done) => {
       chai.request(app)
-        .get('/api/group/1/messages')
+        .get('/api/v1/group/1/messages')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -672,7 +672,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns error message if group id provided does not exist', (done) => {
       chai.request(app)
-        .get('/api/group/44/messages')
+        .get('/api/v1/group/44/messages')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
@@ -683,7 +683,7 @@ describe('PostIT API Tests:', () => {
     });
     it('returns an array of messages if all parameters are correct', (done) => {
       chai.request(app)
-        .get('/api/group/1/messages')
+        .get('/api/v1/group/1/messages')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
@@ -698,7 +698,7 @@ describe('PostIT API Tests:', () => {
     it('returns 404 error with an error message if no request type is provided',
       (done) => {
         chai.request(app)
-          .patch('/api/user/reset')
+          .patch('/api/v1/user/reset')
           .type('form')
           .send({
             email: 'chuks@andela.com'
@@ -711,7 +711,7 @@ describe('PostIT API Tests:', () => {
       });
     // it('returns 404 error with an error message if invalid request type is provided',(done) => {
     //   chai.request(app)
-    //     .patch('/api/user/reset')
+    //     .patch('/api/v1/user/reset')
     //     .type('form')
     //     .send({
     //       email: 'chuks@andela.com',
@@ -720,6 +720,39 @@ describe('PostIT API Tests:', () => {
     //     .end((err, res) => {
     //       res.should.have.status(400);
     //       res.body.error.should.equals('Valid request type must be specified');
+    //       done();
+    //     });
+    // });
+  });
+  describe('API route for updating message readby', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/message/readby')
+        .type('form')
+        .send({
+          id: 1,
+          readby: ['chuks', 'tayo']
+        })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    // it('updates the readby status of a message', (done) => {
+    //   chai.request(app)
+    //     .patch('/api/v1/message/readby')
+    //     .type('form')
+    //     .set('x-access-token', token)
+    //     .send({
+    //       id: 1,
+    //       readby: ['chioma', 'chuks']
+    //     })
+    //     .end((err, res) => {
+    //       console.log('==============> rbody', res.body);
+    //       res.should.have.status(200);
+    //       console.log('==============> rbody', res.body);
     //       done();
     //     });
     // });
