@@ -5,6 +5,6 @@ import axios from 'axios';
  * @param {object} data object containing data required to create the group
  */
 const createGroup = data =>
-  () => axios.post('/api/group', data);
+  () => axios.post('/api/v1/group', data);
 
 export default createGroup;

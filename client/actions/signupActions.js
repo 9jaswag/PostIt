@@ -18,7 +18,7 @@ export const setCurrentUser = user => ({
  * @param {object} userData object containing data submitted by user
  */
 const userSignupRequest = userData =>
-  dispatch => axios.post('/api/user/signup', userData).then((response) => {
+  dispatch => axios.post('/api/v1/user/signup', userData).then((response) => {
     const token = response.data.data.token;
     localStorage.setItem('jwtToken', token);
     setAuthToken(token);

@@ -17,7 +17,7 @@ export const setUserGroups = (groups) => {
  * @return {promise} returns an array of groups
  */
 const getGroups = () =>
-  dispatch => axios.get('/api/users/one').then((res) => {
+  dispatch => axios.get('/api/v1/users/one').then((res) => {
     dispatch(setUserGroups(res.data.data));
   });
 

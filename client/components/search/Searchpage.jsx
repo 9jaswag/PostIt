@@ -28,11 +28,13 @@ export class SearchPage extends Component {
       username: '',
       users: [],
       errors: '',
-      currentPage: 1,
-      usersPerPage: 2
+      count: 0,
+      offset: 0,
+      limit: 2
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.searchUsers = this.searchUsers.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
   }
 
@@ -43,8 +45,31 @@ export class SearchPage extends Component {
    */
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    this.setState({ errors: '', users: [] });
+    this.setState({ errors: '' });
   }
+  /**
+   * Method for searching for users
+   * @return {void}
+   * @memberof Searchpage
+   */
+  searchUsers() {
+    const payload = {
+      searchTerm: this.state.username.toLowerCase(),
+      offset: this.state.offset,
+      limit: this.state.limit
+    };
+    this.props.searchUserAction(payload).then(
+      (res) => {
+        if (res.data.data.length < 1) {
+          return this.setState({ errors: 'No user found' });
+        }
+        this.setState(
+          { users: res.data.data.rows, count: res.data.data.count }
+        );
+      }
+    );
+  }
+
   /**
    * Makes an action call to search for users
    * @param {object} e
@@ -56,14 +81,7 @@ export class SearchPage extends Component {
     if (this.state.username.length === 0) {
       this.setState({ errors: 'Enter a username' });
     } else {
-      this.props.searchUserAction(this.state.username.toLowerCase()).then(
-        (res) => {
-          if (res.data.data.length < 1) {
-            return this.setState({ errors: 'No user found' });
-          }
-          this.setState({ users: res.data.data });
-        }
-      );
+      this.searchUsers();
     }
   }
   /**
@@ -74,7 +92,8 @@ export class SearchPage extends Component {
    * @memberof Searchpage
    */
   handlePagination(e) {
-    this.setState({ currentPage: Number(e.target.id) });
+    this.setState({ offset: Number(e.target.id) });
+    this.searchUsers();
   }
 
   /**
@@ -82,26 +101,23 @@ export class SearchPage extends Component {
    * @memberof Searchpage
    */
   render() {
-    const { users, currentPage, usersPerPage } = this.state;
-    // pagination logic
-    const lastUserIndex = currentPage * usersPerPage;
-    const firstUserIndex = lastUserIndex - usersPerPage;
-    const currentUsers = users.slice(firstUserIndex, lastUserIndex);
+    const { count, limit, offset, users } = this.state;
     // render users
-    const renderUsers = currentUsers.map((user, index) => (
+    const renderUsers = users.map((user, index) => (
       <div className="col s12" key={ index }>
         <RenderUser user={ user }/>
       </div>
     ));
     // render page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(users.length / usersPerPage); i += 1) {
+    for (let i = 1; i <= Math.ceil(count / limit); i += 1) {
       pageNumbers.push(i);
     }
+    const currentPage = Math.floor(offset / limit) + 1;
     const renderPageNumbers = pageNumbers.map(number => (
       <li className={ classnames({ // move to component
         'active teal darken-1': currentPage === number
-      })} key={ number } onClick={ this.handlePagination }>
+      })} key={ number } onClick={ this.handlePagination } >
         <a href="#" id={ number }>{ number }</a>
       </li>
     ));

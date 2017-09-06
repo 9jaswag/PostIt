@@ -259,13 +259,15 @@ export default {
    * @return {object} returns an object containing an array of user objects
    */
   searchUsers(req, res) {
-    return models.User.findAll({
+    return models.User.findAndCountAll({
       include: [{
         model: models.Group,
         required: false,
         attributes: ['id', 'name', 'description'],
         through: { attributes: [] }
       }],
+      offset: req.params.offset || 0,
+      limit: req.param.limit || 2,
       where: { username: { $like: `%${req.params.username}%` } },
       attributes: ['id', 'username', 'email', 'phone'],
     })
