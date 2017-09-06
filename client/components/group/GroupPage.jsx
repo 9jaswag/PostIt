@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Sidebar from '../sidebar/Sidebar';
 import PostMessageForm from '../postMessage/PostMessageForm';
 import AddUserForm from '../addUser/AddUserForm';
@@ -69,7 +70,7 @@ export class GroupPage extends Component {
       const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
       this.props.updateReadBy(data);
     }
-    location.href = '/message';
+    this.props.history.push('/message');
   }
   /**
    * Filters the messages based on their 'read' state
@@ -189,4 +190,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy })(GroupPage);
+export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy })(withRouter(GroupPage));

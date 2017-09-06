@@ -20,8 +20,16 @@
   <script>
     // arrow function
     $( document ).ready(() => {
-      // initialize modal
-      $('.modal').modal();
+        // initialize modal
+        $('.modal').modal({
+        opacity: 0.5,
+        complete: function() {
+          $('.modal').modal('close');
+        } // Callback for Modal close
+      }
+     );
+      // This will remove the tooltip functionality for the buttons on this page
+      // $('.tooltipped').tooltip('remove');
       // initialize select tag
       $('select').material_select();
       $('.dropdown-button').dropdown({
@@ -34,7 +42,7 @@
         alignment: 'right', // Displays dropdown with edge aligned to the left of button
         stopPropagation: false // Stops event propagation
       }
-    );
+      );
     })
   </script>
 </body>

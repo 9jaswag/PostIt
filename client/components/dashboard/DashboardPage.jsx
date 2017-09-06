@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Sidebar from '../sidebar/Sidebar';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
@@ -79,4 +80,4 @@ const mapStateToProps = state => ({
   groups: state.groups
 });
 
-export default connect(mapStateToProps, { getGroups, getMessages })(DashboardPage);
+export default connect(mapStateToProps, { getGroups, getMessages })(withRouter(DashboardPage));

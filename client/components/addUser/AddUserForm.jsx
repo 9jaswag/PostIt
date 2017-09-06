@@ -5,6 +5,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import addUser, { findUser } from '../../actions/addUserAction';
 
 const propTypes = {
@@ -95,13 +96,14 @@ export class AddUserForm extends Component {
     if (this.state.userToAdd.userId) {
       this.props.addUser(this.props.groupId, this.state.userToAdd).then(
         () => {
-          location.href = '/group';
+          this.props.history.push('/group');
           Materialize.toast('User added successfully', 2000);
         },
         (err) => {
           this.setState({ error: err.response.data.error.message });
         }
       );
+      console.log('we\'re here');
     } else {
       this.setState({ error: 'That user does not exist' });
     }
@@ -150,4 +152,4 @@ export class AddUserForm extends Component {
 
 AddUserForm.propTypes = propTypes;
 
-export default connect(null, { findUser, addUser })(AddUserForm);
+export default connect(null, { findUser, addUser })(withRouter(AddUserForm));

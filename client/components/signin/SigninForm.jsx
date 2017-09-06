@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Login from '../../actions/signinAction';
 
 const propTypes = {
@@ -51,7 +52,7 @@ export class SigninForm extends Component {
     this.props.Login(this.state).then(
       () => {
         Materialize.toast('Sign in successful', 2000);
-        location.href='/dashboard';
+        this.props.history.push('/dashboard');
       },
       ({response}) => this.setState({ errors: { message: 'Incorrect Username/Password' }, isLoading: false })
       // server error response is not displayed for security reasons
@@ -96,4 +97,4 @@ export class SigninForm extends Component {
 
 SigninForm.propTypes = propTypes;
 
-export default connect(null, { Login })(SigninForm);
+export default connect(null, { Login })(withRouter(SigninForm));
