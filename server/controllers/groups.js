@@ -336,7 +336,7 @@ export default {
       return res.status(401).send({ success: false,
         error: { message: 'Group id must be provided' } });
     }
-    return models.UserGroup.findAndCountAll({
+    return models.UserGroup.count({
       where: {
         groupId: req.params.group_id
       }
