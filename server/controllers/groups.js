@@ -288,5 +288,35 @@ export default {
           error: { message: error.message }
         }));
     });
+  },
+  removeUser(req, res) {
+    if (!(req.params.group_id) || !(req.body.userId)) {
+      return res.status(401).send({ success: false,
+        error: { message: 'User and group id must be provided' } });
+    }
+    models.UserGroup.findOne({
+      where: {
+        userId: req.body.userId,
+        groupId: req.params.group_id
+      }
+    }).then((user) => {
+      if (!user) {
+        return res.status(401).send({ success: false,
+          error: { message: 'User or group does not exist' } });
+      }
+      models.UserGroup.destroy({
+        where: {
+          userId: req.body.userId,
+          groupId: req.params.group_id
+        }
+      }).then(removedUser => res.status(200).send({
+        success: true,
+        removedUser
+      }));
+    })
+      .catch(error => res.status(400).send({
+        success: false,
+        error: { message: error.message }
+      }));
   }
 };
