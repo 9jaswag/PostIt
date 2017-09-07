@@ -31,7 +31,10 @@ export default (app) => {
   app.post('/api/v1/group', auth, controllers.groups.create);
   // API route for users to add other users to groups:
   app.post('/api/v1/group/:group_id/user', auth, controllers.groups.addUser);
-  app.patch('/api/v1/group/:group_id/remove', auth, controllers.groups.removeUser);
+  app.patch(
+    '/api/v1/group/:group_id/remove', auth, controllers.groups.removeUser
+  );
+  app.get('/api/v1/group/:group_id/count', auth, controllers.groups.getMemberCount);
 
   // API for logged in users to post messages to a group
   app.post(

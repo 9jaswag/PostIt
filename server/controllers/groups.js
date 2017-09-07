@@ -289,6 +289,12 @@ export default {
         }));
     });
   },
+  /**
+   * Method to remove users from a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of messages
+   */
   removeUser(req, res) {
     if (!(req.params.group_id) || !(req.body.userId)) {
       return res.status(401).send({ success: false,
@@ -314,6 +320,30 @@ export default {
         removedUser
       }));
     })
+      .catch(error => res.status(400).send({
+        success: false,
+        error: { message: error.message }
+      }));
+  },
+  /**
+   * Method to get the member count for a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of messages
+   */
+  getMemberCount(req, res) {
+    if (!(req.params.group_id)) {
+      return res.status(401).send({ success: false,
+        error: { message: 'Group id must be provided' } });
+    }
+    return models.UserGroup.findAndCountAll({
+      where: {
+        groupId: req.params.group_id
+      }
+    }).then(data => res.status(200).send({
+      success: true,
+      data
+    }))
       .catch(error => res.status(400).send({
         success: false,
         error: { message: error.message }
