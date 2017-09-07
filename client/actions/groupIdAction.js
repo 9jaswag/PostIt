@@ -13,4 +13,8 @@ const setGroupId = data => ({
   data
 });
 
+export const setGroupToStore = groupDetail => (dispatch) => {
+  dispatch(setGroupId(groupDetail));
+};
+
 export default setGroupId;

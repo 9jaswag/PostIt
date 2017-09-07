@@ -50,13 +50,17 @@ export class GroupPage extends Component {
    * @memberof GroupPage
    */
   onLoad() {
-    this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
-      (res) => {
-        this.setState({ messages: res.data.data });
-        this.filterMessages(res.data.data);
-      },
-      () => {}
-    );
+    if (this.props.groupDetails) {
+      this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
+        (res) => {
+          this.setState({ messages: res.data.data });
+          this.filterMessages(res.data.data);
+        },
+        () => {}
+      );
+    } else {
+      this.props.history.push('/dashboard');
+    }
   }
   /**
    * @param {object} e
@@ -64,13 +68,13 @@ export class GroupPage extends Component {
    * @memberof GroupPage
    */
   onClick(e) {
-    sessionStorage.setItem('message', e.target.dataset.fullmessage);
     // get message readby, update readby and redirect to message
     if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
       const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
       this.props.updateReadBy(data);
     }
-    this.props.history.push('/message');
+    sessionStorage.setItem('message', e.target.dataset.message);
+    this.props.passMessage(e.target.dataset.message);
   }
   /**
    * Filters the messages based on their 'read' state

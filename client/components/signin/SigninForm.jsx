@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import Login from '../../actions/signinAction';
 
 const propTypes = {
@@ -88,7 +88,7 @@ export class SigninForm extends Component {
           </div>
         </div>
         <div className="row">
-          <a href="/resetpassword">Forgot Password</a>
+          <Link to="/resetpassword">Forgot Password</Link>
         </div>
       </form>
     );
