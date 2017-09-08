@@ -13,6 +13,9 @@ ratings:
   paths:
   - "server/*.js"
   - "server/**/*.js"
+  - "client/*.js"
+  - "client/**/*.js"
 exclude_paths:
 - node_modules/
 - server/test/
+- "client/dist/bundle.min.js"
