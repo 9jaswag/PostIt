@@ -16,7 +16,8 @@ describe('Group page Component', () => {
     groupDetails: '3 HNG',
     getMessages: jest.fn(() => Promise.resolve()),
     passMessage: jest.fn(),
-    updateReadBy: jest.fn()
+    updateReadBy: jest.fn(),
+    getMemberCount: jest.fn()
   };
   // const renderer = new ShallowRenderer();
   it('should render without crashing', () => {

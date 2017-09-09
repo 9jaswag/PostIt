@@ -11,18 +11,20 @@ describe('Dashboard page Component', () => {
   const props = {
     getGroups: jest.fn(() => Promise.resolve()),
     setGroupId: jest.fn(),
+    setGroupToStore: jest.fn(),
     getMessages: jest.fn(() => Promise.resolve()),
     groups: [
       {
-        "group": {
-            "id": 2,
-            "name": "HNG",
-            "description": "A group for HNG's Factory product"
+        group: {
+          id: 2,
+          name: 'HNG',
+          description: "A group for HNG's Factory product"
         },
-        "unreadCount": 0
-    }
-    ]
-  }
+        unreadCount: 0
+      }
+    ],
+    history: { push: jest.fn() }
+  };
   it('should render without crashing', () => {
     const component = shallow(<DashboardPage {...props}/>);
     expect(component.node.type).toEqual('div');
