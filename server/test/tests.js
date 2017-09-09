@@ -757,4 +757,75 @@ describe('PostIT API Tests:', () => {
     //     });
     // });
   });
+  describe('API route for removing users from a group', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/1/remove')
+        .type('form')
+        .send({
+          userId: 1,
+        })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns an error if no user id is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/1/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('User and group id must be provided');
+          done();
+        });
+    });
+    it('returns an error if no non-existing group id is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/111/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('User or group does not exist');
+          done();
+        });
+    });
+    it('returns an error if no non-existing user id is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/1/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 111
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('User or group does not exist');
+          done();
+        });
+    });
+    it('removes a user when correct details are provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/1/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.removedUser.should.equals(1);
+          done();
+        });
+    });
+  });
 });
