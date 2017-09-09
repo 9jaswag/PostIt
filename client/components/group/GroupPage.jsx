@@ -74,7 +74,7 @@ export class GroupPage extends Component {
   onClick(e) {
     // get message readby, update readby and redirect to message
     if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
-      const data = { id: Number(e.target.dataset.id), readby: [...e.target.dataset.readby.split(','), this.props.user.userUsername] };
+      const data = { id: Number(e.target.dataset.id), readby: this.props.user.userUsername };
       this.props.updateReadBy(data);
     }
     sessionStorage.setItem('message', e.target.dataset.message);

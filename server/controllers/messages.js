@@ -30,7 +30,8 @@ export default {
     models.Message.findOne({
       where: {
         id: req.body.id
-      }
+      },
+      attributes: ['id', 'readby'],
     })
       .then((message) => {
         if (!message) {
@@ -40,8 +41,12 @@ export default {
         if (hasError) {
           return res.status(400).send({ success: false, errors });
         }
+        if (message.readby.includes(req.body.readby)) {
+          return res.status(400).send({ success: false, errors: 'User has read this message' });
+        }
+        message.readby.push(req.body.readby);
         return models.Message.update({
-          readby: req.body.readby
+          readby: message.readby
         }, {
           where: { id: req.body.id }
         })

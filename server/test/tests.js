@@ -696,6 +696,17 @@ describe('PostIT API Tests:', () => {
     });
   });
   describe('Reset password API route', () => {
+    it('returns 404 error with an error message if no email is provided',
+      (done) => {
+        chai.request(app)
+          .patch('/api/v1/user/reset')
+          .type('form')
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.error.should.equals('No email address provided');
+            done();
+          });
+      });
     it('returns 404 error with an error message if no request type is provided',
       (done) => {
         chai.request(app)
@@ -741,22 +752,35 @@ describe('PostIT API Tests:', () => {
           done();
         });
     });
-    // it('updates the readby status of a message', (done) => {
-    //   chai.request(app)
-    //     .patch('/api/v1/message/readby')
-    //     .type('form')
-    //     .set('x-access-token', token)
-    //     .send({
-    //       id: 1,
-    //       readby: ['chioma', 'chuks']
-    //     })
-    //     .end((err, res) => {
-    //       console.log('==============> rbody', res.body);
-    //       res.should.have.status(200);
-    //       console.log('==============> rbody', res.body);
-    //       done();
-    //     });
-    // });
+    it('returns error if user has read the message', (done) => {
+      chai.request(app)
+        .patch('/api/v1/message/readby')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          id: 1,
+          readby: 'chuks'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.errors.should.equal('User has read this message');
+          done();
+        });
+    });
+    it('returns error if user has read the message', (done) => {
+      chai.request(app)
+        .patch('/api/v1/message/readby')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          id: 1,
+          readby: 'jude'
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
   });
   describe('API route for removing users from a group', () => {
     it('returns error if no token is provided', (done) => {
