@@ -70,3 +70,9 @@ You can find the Documentation for the PostIt Restful API [here](https://docs.po
   DATABASE_URL_DEV=development-database-url
   DATABASE_URL=production-database-url
 ```
+
+# Author
+* Chuks Opia
+
+# Acknowledgement
+* [Andela](http://andela.com/) Talent Accelerator Team
