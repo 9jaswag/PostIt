@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import addUser, { findUser } from '../../actions/addUserAction';
 import removeUser from '../../actions/removeUserAction';
+import { getMemberCount } from '../../actions/getGroups';
 
 const propTypes = {
   findUser: PropTypes.func.isRequired,
@@ -35,7 +36,6 @@ export class AddUserForm extends Component {
       userExists: false
     };
     this.onChange = this.onChange.bind(this);
-    // this.onSubmit = this.onSubmit.bind(this);
     this.filterUser = this.filterUser.bind(this);
     this.resetState = this.resetState.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -102,6 +102,7 @@ export class AddUserForm extends Component {
         () => {
           this.props.history.push('/group');
           Materialize.toast(`${userToAdd.username} has been added successfully`, 2000);
+          this.props.getMemberCount(groupId);
         },
         (err) => {
           // this.setState({ error: err.response.data.error.message });
@@ -111,6 +112,7 @@ export class AddUserForm extends Component {
                 () => {
                   this.props.history.push('/group');
                   Materialize.toast(`${userToAdd.username} has been removed from the group`, 2000);
+                  this.props.getMemberCount(groupId);
                 }
               );
             }
@@ -169,4 +171,4 @@ export class AddUserForm extends Component {
 
 AddUserForm.propTypes = propTypes;
 
-export default connect(null, { findUser, addUser, removeUser })(withRouter(AddUserForm));
+export default connect(null, { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));

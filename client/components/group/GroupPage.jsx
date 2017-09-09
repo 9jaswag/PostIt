@@ -61,11 +61,7 @@ export class GroupPage extends Component {
         },
         () => {}
       );
-      this.props.getMemberCount(groupId).then(
-        (res) => {
-          this.setState({ memberCount: res.data.data });
-        }
-      );
+      this.props.getMemberCount(groupId);
     } else {
       this.props.history.push('/dashboard');
     }
@@ -170,7 +166,7 @@ export class GroupPage extends Component {
                 { /* Group Stats*/ }
                 <div className="col s12 m12 l12 teal accent-4">
                   <h6 className="white-text center-align" style={{ marginBottom: '0rem' }}>GROUP STATISTICS</h6>
-                  <h6 className="white-text center-align">{ this.state.memberCount } Members</h6>
+                  <h6 className="white-text center-align">{ this.props.count } Members</h6>
                 </div>
                 { /* Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
@@ -194,7 +190,8 @@ GroupPage.propTypes = propTypes;
 
 const mapStateToProps = state => ({
   groupDetails: state.groupDetails.details,
-  user: state.auth.user
+  user: state.auth.user,
+  count: state.groupMemberCount
 });
 
 export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy, getMemberCount })(withRouter(GroupPage));
