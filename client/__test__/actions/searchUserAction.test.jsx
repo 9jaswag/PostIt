@@ -1,9 +1,8 @@
 import expect from 'expect';
-import addUser, { findUser } from '../../actions/addUserAction';
+import searchUserAction from '../../actions/searchUserAction';
 
 describe('Search User Action', () => {
-  it('should return a function', () => {
-    expect(addUser()).toBeA('function');
-    expect(findUser()).toBeA('function');
+  it('should contain a searchUserAction function', () => {
+    expect(searchUserAction()).toBeA('function');
   });
 });

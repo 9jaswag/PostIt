@@ -32,16 +32,16 @@ describe('Group page Component', () => {
   });
   it('should contain the method filterMessages', () => {
     const messages = [{
-      "id": 9,
-      "title": "true love",
-      "message": "true lovers",
-      "priority": "urgent",
-      "author": "chuks",
-      "readby": ["chuks"],
-      "createdAt": "2017-08-27T19:49:14.760Z",
-      "updatedAt": "2017-08-27T19:49:14.760Z",
-      "groupId": 1,
-      "userId": 1
+      id: 9,
+      title: 'true love',
+      message: 'true lovers',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['chuks'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
     }];
     const component = shallow(<GroupPage {...props}/>);
     const filterMessagesSpy = jest.spyOn(component.instance(), 'filterMessages');
@@ -57,5 +57,15 @@ describe('Group page Component', () => {
       }
     });
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should contain the method onClick', () => {
+    const component = shallow(<GroupPage {...props}/>);
+    const onClickSpy = jest.spyOn(component.instance(), 'onClick');
+    component.instance().onClick({
+      target: {
+        value: 'unread', name: 'filter-message'
+      }
+    });
+    expect(onClickSpy).toHaveBeenCalledTimes(1);
   });
 });
