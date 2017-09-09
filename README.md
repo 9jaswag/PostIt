@@ -71,6 +71,14 @@ You can find the Documentation for the PostIt Restful API [here](https://docs.po
   DATABASE_URL=production-database-url
 ```
 
+# Contributing
+
+Fork it!
+Create your feature branch: git checkout -b awesome-feature
+Commit your changes: git commit -m 'Add my awesome feature'
+Push to the branch: git push origin awesome-feature
+Submit a pull request :smile:
+
 # Author
 * Chuks Opia
 
