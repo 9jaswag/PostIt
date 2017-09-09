@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import { Link } from 'react-router-dom';
 
 /**
  * MessageCard component.
@@ -8,7 +9,7 @@ import classnames from 'classnames';
 const MessageCard = ({ onClick, message }) => (
   <div className="teal darken-1 hoverable custom-card tooltipped" data-position="top" data-delay="50" data-tooltip="click message title to view message">
     <div className="white-text">
-      <h5 className="pointer normal" onClick={ onClick } data-id={ message.id } data-readby={ message.readby } data-fullmessage={JSON.stringify(message)}>{ message.title }</h5>
+      <Link to="/message" className="pointer normal text-white block" onClick={ onClick } data-id={ message.id } data-readby={ message.readby } data-message={ JSON.stringify(message) }>{ message.title }</Link>
       <span className="inline-block slim">@{message.author} <small className="padding-left">{ new Date(message.createdAt).toLocaleTimeString({ hour12: true }) }</small></span>
       <span className={ classnames('margin-h default-radius slim', {
         'red darken-3': message.priority === 'critical',

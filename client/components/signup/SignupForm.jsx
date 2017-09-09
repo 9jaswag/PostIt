@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const propTypes = {
@@ -69,7 +70,7 @@ export class SignupForm extends Component {
     this.props.userSignupRequest(userData).then(
       () => {
         Materialize.toast('Sign up successful. Welcome!', 2000);
-        location.href='/dashboard';
+        this.props.history.push('/dashboard');
       },
       ({ response }) => this.setState({ errors: response.data.errors, isLoading: false })
     );
@@ -119,4 +120,4 @@ export class SignupForm extends Component {
 
 SignupForm.propTypes = propTypes;
 
-export default SignupForm;
+export default withRouter(SignupForm);

@@ -32,6 +32,14 @@ describe('Add user form Component', () => {
     });
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
+  it('should contain the method onClick', () => {
+    const component = shallow(<AddUserForm {...props}/>);
+    const onClickSpy = jest.spyOn(component.instance(), 'onClick');
+    component.instance().onClick({
+      target: { name: 'username', value: 'troy34' }
+    });
+    expect(onClickSpy).toHaveBeenCalledTimes(1);
+  });
   it('should contain the method onSubmit', () => {
     const component = shallow(<AddUserForm {...props}/>);
     const e = {

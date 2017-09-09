@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import resetPassword from '../../actions/resetPasswordAction';
 
@@ -60,7 +61,7 @@ export class ResetPassword extends Component {
     this.props.resetPassword(payload).then(
       (res) => {
         Materialize.toast(res.data.message, 2000);
-        location.href = '/';
+        this.props.history.push('/');
       },
       (err) => {
         this.setState({ error: err.response.data.error });
@@ -92,7 +93,7 @@ export class ResetPassword extends Component {
     this.props.resetPassword(payload).then(
       (res) => {
         Materialize.toast(res.data.message, 2000);
-        this.props.location.pathname = '/';
+        this.props.history.push('/');
       },
       (err) => {
         this.setState({ error: err.response.data.error });
@@ -133,7 +134,7 @@ export class ResetPassword extends Component {
           </div>
         </form>
         <div className="col s12 margin-v">
-          <a className="text-white" href="/">I think I remember my password</a>
+          <Link className="text-white" to="/">I think I remember my password</Link>
         </div>
       </section>
     </div>;
@@ -157,7 +158,7 @@ export class ResetPassword extends Component {
           </div>
         </form>
         <div className="col s12 margin-v">
-          <a className="text-white" href="/">I think I remember my password</a>
+          <Link className="text-white" to="/">I think I remember my password</Link>
         </div>
       </section>
     </div>;
@@ -174,4 +175,4 @@ export class ResetPassword extends Component {
 
 ResetPassword.propTypes = propTypes;
 
-export default connect(null, { resetPassword })(ResetPassword);
+export default connect(null, { resetPassword })(withRouter(ResetPassword));

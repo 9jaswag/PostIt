@@ -4,6 +4,7 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 import models from '../models';
+import customSort from '../../helpers/customSort';
 
 process.env.NODE_ENV = 'test';
 const should = chai.should();
@@ -695,6 +696,17 @@ describe('PostIT API Tests:', () => {
     });
   });
   describe('Reset password API route', () => {
+    it('returns 404 error with an error message if no email is provided',
+      (done) => {
+        chai.request(app)
+          .patch('/api/v1/user/reset')
+          .type('form')
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.error.should.equals('No email address provided');
+            done();
+          });
+      });
     it('returns 404 error with an error message if no request type is provided',
       (done) => {
         chai.request(app)
@@ -740,21 +752,161 @@ describe('PostIT API Tests:', () => {
           done();
         });
     });
-    // it('updates the readby status of a message', (done) => {
-    //   chai.request(app)
-    //     .patch('/api/v1/message/readby')
-    //     .type('form')
-    //     .set('x-access-token', token)
-    //     .send({
-    //       id: 1,
-    //       readby: ['chioma', 'chuks']
-    //     })
-    //     .end((err, res) => {
-    //       console.log('==============> rbody', res.body);
-    //       res.should.have.status(200);
-    //       console.log('==============> rbody', res.body);
-    //       done();
-    //     });
-    // });
+    it('returns error if user has read the message', (done) => {
+      chai.request(app)
+        .patch('/api/v1/message/readby')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          id: 1,
+          readby: 'chuks'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.errors.should.equal('User has read this message');
+          done();
+        });
+    });
+    it('returns error if user has read the message', (done) => {
+      chai.request(app)
+        .patch('/api/v1/message/readby')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          id: 1,
+          readby: 'jude'
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+  describe('API route for removing users from a group', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/1/remove')
+        .type('form')
+        .send({
+          userId: 1,
+        })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns an error if no user id is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/1/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('User and group id must be provided');
+          done();
+        });
+    });
+    it('returns an error if no non-existing group id is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/111/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('User or group does not exist');
+          done();
+        });
+    });
+    it('returns an error if no non-existing user id is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/1/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 111
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.message.should.equals('User or group does not exist');
+          done();
+        });
+    });
+    it('removes a user when correct details are provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/1/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.removedUser.should.equals(1);
+          done();
+        });
+    });
+  });
+  describe('API route for getting group member count', () => {
+    it('returns error if no token is provided', (done) => {
+      chai.request(app)
+        .get('/api/v1/group/1/count')
+        .type('form')
+        .send({
+          userId: 1,
+        })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals(
+            'User not authenticated. Failed to authenticate token.');
+          done();
+        });
+    });
+    it('returns the member count of a group', (done) => {
+      chai.request(app)
+        .get('/api/v1/group/1/count')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.data.should.equals(2);
+          done();
+        });
+    });
+  });
+  describe('customSort helper function', () => {
+    it('should be a function', (done) => {
+      customSort.should.be.a('function');
+      done();
+    });
+    it('should return an array sorted by ID', (done) => {
+      const array = [
+        {
+          group: {
+            id: 13,
+            name: 'Andela',
+            description: 'an Andelan group'
+          },
+          unreadCount: 1
+        },
+        {
+          group: {
+            id: 2,
+            name: 'PostIT',
+            description: "A group for HNG's Factory product"
+          },
+          unreadCount: 4
+        }
+      ];
+      const sortedArr = array.sort(customSort);
+      sortedArr[0].group.id.should.equal(2);
+      done();
+    });
   });
 });

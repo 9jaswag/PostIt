@@ -20,6 +20,10 @@ $red: #e74c3c;
   display: inline-block;
 }
 
+.block {
+  display: block;
+}
+
 .default-radius {
   border-radius: 4px;
 }
@@ -401,4 +405,10 @@ input[type='submit'].login-input {
   .full-height {
     height: 50vh;
   }
+}
+input#title.form, textarea#message.form, .row.form {
+    margin-bottom: 0px;
+}
+h5.center-align.form {
+    font-size: 20px;
 }

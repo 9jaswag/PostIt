@@ -5,7 +5,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import addUser, { findUser } from '../../actions/addUserAction';
+import removeUser from '../../actions/removeUserAction';
+import { getMemberCount } from '../../actions/getGroups';
 
 const propTypes = {
   findUser: PropTypes.func.isRequired,
@@ -26,16 +29,17 @@ export class AddUserForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // users: [], for adding multiple users
       username: '',
       fetchedUsers: [],
       userToAdd: {},
-      error: ''
+      error: '',
+      userExists: false
     };
     this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
     this.filterUser = this.filterUser.bind(this);
     this.resetState = this.resetState.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   /**
@@ -84,22 +88,36 @@ export class AddUserForm extends Component {
   }
 
   /**
-   * Makes an action call to add a new user to a group
+   * Makes an action call to add a user to a group
    * @param {object} e
    * @returns {void}
    * @memberof AddUserForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onClick() {
     this.setState({ error: '' });
     if (this.state.userToAdd.userId) {
-      this.props.addUser(this.props.groupId, this.state.userToAdd).then(
+      const groupId = this.props.groupId;
+      const userToAdd = this.state.userToAdd;
+      this.props.addUser(groupId, userToAdd).then(
         () => {
-          location.href = '/group';
-          Materialize.toast('User added successfully', 2000);
+          this.props.history.push('/group');
+          Materialize.toast(`${userToAdd.username} has been added successfully`, 2000);
+          this.props.getMemberCount(groupId);
         },
         (err) => {
-          this.setState({ error: err.response.data.error.message });
+          // this.setState({ error: err.response.data.error.message });
+          Materialize.toast(`${err.response.data.error.message}`, 1000, '', () => {
+            if (confirm(`Do you want to remove ${userToAdd.username} from this group?`) === true) {
+              this.props.removeUser(groupId, userToAdd).then(
+                () => {
+                  this.props.history.push('/group');
+                  Materialize.toast(`${userToAdd.username} has been removed from the group`, 2000);
+                  this.props.getMemberCount(groupId);
+                }
+              );
+            }
+          });
+          this.setState({ userExists: true });
         }
       );
     } else {
@@ -107,47 +125,50 @@ export class AddUserForm extends Component {
     }
     this.resetState();
   }
+  /**
+   * Prevents form action if enter is pressed
+   * @param {object} e
+   * @returns {void}
+   * @memberof AddUserForm
+   */
+  onSubmit(e) {
+    e.preventDefault();
+  }
 
   /**
    * @returns {string} The HTML markup for the AddUserForm
    * @memberof AddUserForm
    */
   render() {
-    const userChip = <div className="chip">{ this.state.userToAdd.username }
-      <i className="close material-icons" onClick={ this.resetState }>close</i>
+    const userChip = <div className="chip pointer" data-id={ this.state.userToAdd.userId } onClick={ this.onClick }>{ this.state.userToAdd.username }
     </div>;
     return (
       <div>
         { /* Add User Modal Structure */}
-        <div id="addUserModal" className="modal">
-          <div className="modal-content">
+        {/* <div id="addUserModal" className="modal"> */}
+        <div className="modal-content">
+          <div className="row">
+            <div className="col s12">
+              <h5 className="center-align form">Add New User To Group</h5>
+            </div>
+          </div>
+          <form action="" className="col s12" onSubmit={ this.onSubmit }>
             <div className="row">
-              <div className="col s12">
-                <h5>Add New User To Group</h5>
+              <div className="input-field col s12">
+                <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
+                <label htmlFor="username">Enter username</label>
+                { (this.state.userToAdd.userId) ? userChip : null }
+                { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
               </div>
             </div>
-            <form action="" className="col s12" onSubmit={ this.onSubmit }>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
-                  <label htmlFor="username">Enter username</label>
-                  { (this.state.userToAdd.userId) ? userChip : null }
-                  { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
-                </div>
-              </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input className="btn one-whole" type="submit" value="Add User"/>
-                </div>
-              </div>
-            </form>
-          </div>
+          </form>
         </div>
       </div>
+      // </div>
     );
   }
 }
 
 AddUserForm.propTypes = propTypes;
 
-export default connect(null, { findUser, addUser })(AddUserForm);
+export default connect(null, { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));

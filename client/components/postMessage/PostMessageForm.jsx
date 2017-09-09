@@ -66,43 +66,41 @@ export class PostMessageForm extends Component {
     return (
       <div>
         { /* Post Message Modal Structure */}
-        <div id="postMessageModal" className="modal">
-          <div className="modal-content">
-            <div className="row">
-              <div className="col s12">
-                <h5>Post New Broadcast Message</h5>
+        <div className="modal-content">
+          <div className="row">
+            <div className="col s12">
+              <h5 className="center-align form">Post New Broadcast Message</h5>
+            </div>
+          </div>
+          <form action="" className="col s12" onSubmit= { this.onSubmit }>
+            <div className="row form">
+              <div className="input-field col s12">
+                <input type="text" cols="30" rows="10" id="title" name="title" value={ this.state.title } onChange= { this.onChange } className="validate form" required/>
+                <label htmlFor="title">Message Title</label>
               </div>
             </div>
-            <form action="" className="col s12" onSubmit= { this.onSubmit }>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input type="text" cols="30" rows="10" id="title" name="title" value={ this.state.title } onChange= { this.onChange } className="validate" required/>
-                  <label htmlFor="title">Message Title</label>
-                </div>
+            <div className="row">
+              <div className="input-field col s12">
+                <textarea cols="30" rows="10" id="message" name="message" value={ this.state.message } onChange= { this.onChange } className="materialize-textarea form" required></textarea>
+                <label htmlFor="message">Message body</label>
               </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <textarea cols="30" rows="10" id="message" name="message" value={ this.state.message } onChange= { this.onChange } className="materialize-textarea" required></textarea>
-                  <label htmlFor="message">Message</label>
-                </div>
+            </div>
+            <div className="row form">
+              <div className="input-field col s12">
+                <select className="browser-default" name="priority" id="priority" value={ this.state.priority } onChange= { this.onChange }>
+                  <option value="normal" defaultValue>Normal</option>
+                  <option value="urgent">Urgent</option>
+                  <option value="critical">Critical</option>
+                </select>
+                <label htmlFor="priority" className="active">Message Priority</label>
               </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <select className="browser-default" name="priority" id="priority" value={ this.state.priority } onChange= { this.onChange }>
-                    <option value="normal" defaultValue>Normal</option>
-                    <option value="urgent">Urgent</option>
-                    <option value="critical">Critical</option>
-                  </select>
-                  <label htmlFor="priority" className="active">Message Priority</label>
-                </div>
+            </div>
+            <div className="row form">
+              <div className="input-field col s12">
+                <input className="waves-effect waves-light one-whole btn margin-v2" type="submit" value="Send Broadcast Message"/>
               </div>
-              <div className="row">
-                <div className="input-field col s12">
-                  <input className="btn one-whole" type="submit" value="Send Broadcast Message"/>
-                </div>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     );

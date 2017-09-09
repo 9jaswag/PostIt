@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Sidebar from '../sidebar/Sidebar';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
 import GroupCards from '../group/GroupCards';
+import { setGroupToStore } from '../../actions/groupIdAction';
 
 const propTypes = {
   getGroups: PropTypes.func.isRequired,
@@ -32,7 +34,10 @@ export class DashboardPage extends Component {
    * @memberof DashboardPage
    */
   onClick(e) {
+    // store.dispatch(setGroupId(`${e.target.dataset.id} ${e.target.dataset.name}`));
     sessionStorage.setItem('groupDetails', `${e.target.dataset.id} ${e.target.dataset.name}`);
+    this.props.setGroupToStore(`${e.target.dataset.id} ${e.target.dataset.name}`);
+    this.props.history.push('/group');
   }
   /**
    * Gets the user's groups on component mount
@@ -79,4 +84,4 @@ const mapStateToProps = state => ({
   groups: state.groups
 });
 
-export default connect(mapStateToProps, { getGroups, getMessages })(DashboardPage);
+export default connect(mapStateToProps, { getGroups, getMessages, setGroupToStore })(withRouter(DashboardPage));

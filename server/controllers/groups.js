@@ -288,5 +288,65 @@ export default {
           error: { message: error.message }
         }));
     });
+  },
+  /**
+   * Method to remove users from a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of messages
+   */
+  removeUser(req, res) {
+    if (!(req.params.group_id) || !(req.body.userId)) {
+      return res.status(401).send({ success: false,
+        error: { message: 'User and group id must be provided' } });
+    }
+    models.UserGroup.findOne({
+      where: {
+        userId: req.body.userId,
+        groupId: req.params.group_id
+      }
+    }).then((user) => {
+      if (!user) {
+        return res.status(401).send({ success: false,
+          error: { message: 'User or group does not exist' } });
+      }
+      models.UserGroup.destroy({
+        where: {
+          userId: req.body.userId,
+          groupId: req.params.group_id
+        }
+      }).then(removedUser => res.status(200).send({
+        success: true,
+        removedUser
+      }));
+    })
+      .catch(error => res.status(400).send({
+        success: false,
+        error: { message: error.message }
+      }));
+  },
+  /**
+   * Method to get the member count for a group
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns an object containing an array of messages
+   */
+  getMemberCount(req, res) {
+    if (!(req.params.group_id)) {
+      return res.status(401).send({ success: false,
+        error: { message: 'Group id must be provided' } });
+    }
+    return models.UserGroup.count({
+      where: {
+        groupId: req.params.group_id
+      }
+    }).then(data => res.status(200).send({
+      success: true,
+      data
+    }))
+      .catch(error => res.status(400).send({
+        success: false,
+        error: { message: error.message }
+      }));
   }
 };
