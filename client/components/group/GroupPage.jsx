@@ -8,6 +8,7 @@ import AddUserForm from '../addUser/AddUserForm';
 import getMessages from '../../actions/getMessages';
 import passMessage from '../../actions/passMessageAction';
 import updateReadBy from '../../actions/readbyAction';
+import { getMemberCount } from '../../actions/getGroups';
 import MessageCard from '../message/MessageCard';
 
 const propTypes = {
@@ -35,7 +36,8 @@ export class GroupPage extends Component {
       displayedMessage: [],
       message: '',
       priority: '',
-      displayState: 'all'
+      displayState: 'all',
+      memberCount: 0
     };
 
     this.onLoad = this.onLoad.bind(this);
@@ -51,12 +53,18 @@ export class GroupPage extends Component {
    */
   onLoad() {
     if (this.props.groupDetails) {
-      this.props.getMessages(this.props.groupDetails.split(' ')[0]).then(
+      const groupId = this.props.groupDetails.split(' ')[0];
+      this.props.getMessages(groupId).then(
         (res) => {
           this.setState({ messages: res.data.data });
           this.filterMessages(res.data.data);
         },
         () => {}
+      );
+      this.props.getMemberCount(groupId).then(
+        (res) => {
+          this.setState({ memberCount: res.data.data });
+        }
       );
     } else {
       this.props.history.push('/dashboard');
@@ -160,13 +168,10 @@ export class GroupPage extends Component {
             <div className="col s12 m12 l5" style={{ marginTop: '2rem' }}>
               <div className="row">
                 { /* Group Stats*/ }
-                {/* <div className="col s12 m12 l12 teal accent-4 padding05">
-                  <h6 className="white-text center-align" style={{ marginBottom: '2rem' }}>GROUP STATISTICS</h6>
-                  <div className="col s12 m12 l12 center-align">
-                    <i className="material-icons white-text large">group</i>
-                    <h5 className="white-text">15 Members</h5>
-                  </div>
-                </div> */}
+                <div className="col s12 m12 l12 teal accent-4">
+                  <h6 className="white-text center-align" style={{ marginBottom: '0rem' }}>GROUP STATISTICS</h6>
+                  <h6 className="white-text center-align">{ this.state.memberCount } Members</h6>
+                </div>
                 { /* Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />
@@ -192,4 +197,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy })(withRouter(GroupPage));
+export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy, getMemberCount })(withRouter(GroupPage));

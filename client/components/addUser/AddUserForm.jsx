@@ -39,6 +39,7 @@ export class AddUserForm extends Component {
     this.filterUser = this.filterUser.bind(this);
     this.resetState = this.resetState.bind(this);
     this.onClick = this.onClick.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   /**
@@ -104,10 +105,11 @@ export class AddUserForm extends Component {
         },
         (err) => {
           // this.setState({ error: err.response.data.error.message });
-          Materialize.toast(`${err.response.data.error.message}`, 2000, '', () => {
+          Materialize.toast(`${err.response.data.error.message}`, 1000, '', () => {
             if (confirm(`Do you want to remove ${userToAdd.username} from this group?`) === true) {
               this.props.removeUser(groupId, userToAdd).then(
                 () => {
+                  this.props.history.push('/group');
                   Materialize.toast(`${userToAdd.username} has been removed from the group`, 2000);
                 }
               );
@@ -121,6 +123,15 @@ export class AddUserForm extends Component {
     }
     this.resetState();
   }
+  /**
+   * Prevents form action if enter is pressed
+   * @param {object} e
+   * @returns {void}
+   * @memberof AddUserForm
+   */
+  onSubmit(e) {
+    e.preventDefault();
+  }
 
   /**
    * @returns {string} The HTML markup for the AddUserForm
@@ -128,7 +139,6 @@ export class AddUserForm extends Component {
    */
   render() {
     const userChip = <div className="chip pointer" data-id={ this.state.userToAdd.userId } onClick={ this.onClick }>{ this.state.userToAdd.username }
-      {/* <i className="close material-icons" onClick={ this.resetState }>close</i> */}
     </div>;
     return (
       <div>
@@ -140,7 +150,7 @@ export class AddUserForm extends Component {
               <h5 className="center-align form">Add New User To Group</h5>
             </div>
           </div>
-          <form action="" className="col s12">
+          <form action="" className="col s12" onSubmit={ this.onSubmit }>
             <div className="row">
               <div className="input-field col s12">
                 <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>

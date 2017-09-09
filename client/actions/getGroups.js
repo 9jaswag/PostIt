@@ -21,4 +21,11 @@ const getGroups = () =>
     dispatch(setUserGroups(res.data.data));
   });
 
+/**
+ * @function getMemberCount
+ * @return {object} returns an object containing the group member count
+ */
+export const getMemberCount = id =>
+  () => axios.get(`/api/v1/group/${id}/count`);
+
 export default getGroups;
