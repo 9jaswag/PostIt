@@ -1,3 +1,5 @@
+/* global Materialize */
+/* global $ */
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -69,6 +71,7 @@ export class SignupForm extends Component {
     const userData = { username, email, password, phone: formatPhoneNumber(phone) };
     this.props.userSignupRequest(userData).then(
       () => {
+        $('#signupModal').modal('close');
         Materialize.toast('Sign up successful. Welcome!', 2000);
         this.props.history.push('/dashboard');
       },

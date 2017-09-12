@@ -43,7 +43,7 @@ export class Sidebar extends Component {
         <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
           { loggedInUser ? welcomeChip : null }
           <Link to="/dashboard" className="waves-effect waves-light btn one-whole margin-v dashboard">Dashboard</Link>
-          <Link to="#createGroupModal" className="waves-effect waves-light btn one-whole modal-trigger create-group">Create New Group</Link>
+          <a to="#createGroupModal" className="waves-effect waves-light btn one-whole modal-trigger create-group">Create New Group</a>
           <Link to="/search" className="waves-effect waves-light btn one-whole margin-v search">Search User</Link>
           <Link to="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole logout">Logout</Link>
         </div>

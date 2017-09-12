@@ -412,3 +412,28 @@ input#title.form, textarea#message.form, .row.form {
 h5.center-align.form {
     font-size: 20px;
 }
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .middle, .right {
+    max-height: 45vh;
+    overflow: scroll;
+  }
+}
+
+.message-card-div {
+  overflow: scroll;
+}
+
+@media (min-width: 992px) {
+  .message-card-div {
+    max-height: 80vh
+  }
+}
+
+@media (min-width: 768px) {
+  #app {
+      position: relative;
+      overflow: hidden;
+      height: 100vh;
+  }
+}

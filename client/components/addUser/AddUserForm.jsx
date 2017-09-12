@@ -1,3 +1,6 @@
+/* global Materialize */
+/* global confirm */
+
 /**
  * Component for form that adds a new user to a group
  */
@@ -61,7 +64,7 @@ export class AddUserForm extends Component {
    * @memberof AddUserForm
    */
   filterUser(username, usersArray) {
-    usersArray.filter((user) => {
+    usersArray.forEach((user) => {
       if ((user.username === username)) {
         this.setState({ userToAdd: { userId: user.id, username: user.username } });
       }
@@ -101,11 +104,10 @@ export class AddUserForm extends Component {
       this.props.addUser(groupId, userToAdd).then(
         () => {
           this.props.history.push('/group');
-          Materialize.toast(`${userToAdd.username} has been added successfully`, 2000);
+          Materialize.toast(`${userToAdd.username} has been added to the group`, 2000);
           this.props.getMemberCount(groupId);
         },
         (err) => {
-          // this.setState({ error: err.response.data.error.message });
           Materialize.toast(`${err.response.data.error.message}`, 1000, '', () => {
             if (confirm(`Do you want to remove ${userToAdd.username} from this group?`) === true) {
               this.props.removeUser(groupId, userToAdd).then(
@@ -144,27 +146,22 @@ export class AddUserForm extends Component {
     </div>;
     return (
       <div>
-        { /* Add User Modal Structure */}
-        {/* <div id="addUserModal" className="modal"> */}
-        <div className="modal-content">
+        <div className="row form">
+          <div className="col s12">
+            <h5 className="center-align form">Add New User To Group</h5>
+          </div>
+        </div>
+        <form action="" className="col s12" onSubmit={ this.onSubmit }>
           <div className="row">
-            <div className="col s12">
-              <h5 className="center-align form">Add New User To Group</h5>
+            <div className="input-field col s12">
+              <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
+              <label htmlFor="username">Enter username</label>
+              { (this.state.userToAdd.userId) ? userChip : null }
+              { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
             </div>
           </div>
-          <form action="" className="col s12" onSubmit={ this.onSubmit }>
-            <div className="row">
-              <div className="input-field col s12">
-                <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
-                <label htmlFor="username">Enter username</label>
-                { (this.state.userToAdd.userId) ? userChip : null }
-                { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
-              </div>
-            </div>
-          </form>
-        </div>
+        </form>
       </div>
-      // </div>
     );
   }
 }

@@ -1,3 +1,5 @@
+/* global $ */
+/* global Materialize */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -51,6 +53,7 @@ export class SigninForm extends Component {
     this.setState({ errors: {}, isLoading: true });
     this.props.Login(this.state).then(
       () => {
+        $('#signinModal').modal('close');
         Materialize.toast('Sign in successful', 2000);
         this.props.history.push('/dashboard');
       },

@@ -1,3 +1,5 @@
+/* global sessionStorage */
+/* global $ */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -79,6 +81,7 @@ export class GroupPage extends Component {
     }
     sessionStorage.setItem('message', e.target.dataset.message);
     this.props.passMessage(e.target.dataset.message);
+    $('.tooltipped').tooltip('remove');
   }
   /**
    * Filters the messages based on their 'read' state
@@ -142,10 +145,10 @@ export class GroupPage extends Component {
           {/* Sidebar */}
           <Sidebar />
           {/* Main Page */}
-          <div className="col s12 m9 l10">
-            <div className="col s12 m12 l7" style={{ marginTop: '2rem' }}>
+          <div className="col s12 m9 l10 no-padding">
+            <div className="col s12 m12 l7 middle" style={{ marginTop: '2rem' }}>
               <h5 className="center-align uppercase">{ groupName ? `${groupName} Message Board` : null } </h5>
-              <div className="row full-height overflow-y-scroll">
+              <div className="row full-height">
                 { /* Message Cards*/ }
                 <div className="col s12">
                   <label htmlFor="filter-message">Filter Messages</label>
@@ -155,13 +158,13 @@ export class GroupPage extends Component {
                     <option value="archived">Archived</option>
                   </select>
                 </div>
-                <div className="col s12">
-                  { (displayedMessage.length > 0) ? messageCards : <h6 className="center-align margin-v2">No Messages Available. Create one from the right sidebar</h6> }
+                <div className="col s12 message-card-div overflow-y-scroll">
+                  { (displayedMessage.length > 0) ? messageCards : <h6 className="center-align margin-v2">No Messages Available. Create one from the sidebar</h6> }
                 </div>
               </div>
             </div>
             { /* Right Sidebar*/ }
-            <div className="col s12 m12 l5" style={{ marginTop: '2rem' }}>
+            <div className="col s12 m12 l5 no-padding right">
               <div className="row">
                 { /* Group Stats*/ }
                 <div className="col s12 m12 l12 teal accent-4">

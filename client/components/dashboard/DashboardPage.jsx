@@ -1,3 +1,6 @@
+/* global sessionStorage */
+/* global $ */
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -37,6 +40,7 @@ export class DashboardPage extends Component {
     // store.dispatch(setGroupId(`${e.target.dataset.id} ${e.target.dataset.name}`));
     sessionStorage.setItem('groupDetails', `${e.target.dataset.id} ${e.target.dataset.name}`);
     this.props.setGroupToStore(`${e.target.dataset.id} ${e.target.dataset.name}`);
+    $('.tooltipped').tooltip('remove');
     this.props.history.push('/group');
   }
   /**
@@ -68,7 +72,7 @@ export class DashboardPage extends Component {
             <div className="col s12 m12 l12">
               <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>My Groups</h5>
               { /* Group cards*/ }
-              { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h6> }
+              { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the sidebar</h6> }
             </div>
           </div>
         </div>
