@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import CreateGroupModal from '../modal/CreateGroupModal';
 import { logout } from '../../actions/signinAction';
 
 const propTypes = {
@@ -32,18 +31,16 @@ export class Sidebar extends Component {
    * @memberof Sidebar
    */
   render() {
-    const { isAuthenticated } = this.props.auth;
+    const isAuthenticated = this.props.auth;
     const loggedInUser = this.props.auth.user.userUsername;
     const welcomeChip = <div className="chip">{ `Welcome ${loggedInUser}` }</div>;
     return (
       <section className="left-sidebar">
-        { /* Create Group Modal Structure */}
-        <CreateGroupModal/>
         { /* Sidebar*/ }
         <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
           { loggedInUser ? welcomeChip : null }
           <Link to="/dashboard" className="waves-effect waves-light btn one-whole margin-v dashboard">Dashboard</Link>
-          <a to="#createGroupModal" className="waves-effect waves-light btn one-whole modal-trigger create-group">Create New Group</a>
+          <Link to="create-group" className="waves-effect waves-light btn one-whole create-group">Create Group</Link>
           <Link to="/search" className="waves-effect waves-light btn one-whole margin-v search">Search User</Link>
           <Link to="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole logout">Logout</Link>
         </div>

@@ -1,5 +1,7 @@
+/* global Materialize */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import createGroup from '../../actions/createGroup';
 
@@ -50,7 +52,7 @@ export class CreateGroupForm extends Component {
     this.setState({ errors: {}, isLoading: true });
     this.props.createGroup(this.state).then(
       () => {
-        location.href = '/dashboard';
+        this.props.history.push('/dashboard');
         Materialize.toast('Group created successfully', 2000);
       },
       ({ response }) => this.setState({ errors: response.data.errors, isLoading: false })
@@ -91,4 +93,4 @@ export class CreateGroupForm extends Component {
 
 CreateGroupForm.propTypes = propTypes;
 
-export default connect(null, { createGroup })(CreateGroupForm);
+export default connect(null, { createGroup })(withRouter(CreateGroupForm));
