@@ -32,7 +32,7 @@ export class Sidebar extends Component {
    */
   render() {
     const isAuthenticated = this.props.auth;
-    const loggedInUser = this.props.auth.user.userUsername;
+    const loggedInUser = isAuthenticated.user.userUsername;
     const welcomeChip = <div className="chip">{ `Welcome ${loggedInUser}` }</div>;
     return (
       <section className="left-sidebar">
