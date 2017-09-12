@@ -17,7 +17,10 @@ describe('Group page Component', () => {
     getMessages: jest.fn(() => Promise.resolve()),
     passMessage: jest.fn(),
     updateReadBy: jest.fn(),
-    getMemberCount: jest.fn()
+    getMemberCount: jest.fn(),
+    user: {
+      userUsername: 'chuks'
+    }
   };
   // const renderer = new ShallowRenderer();
   it('should render without crashing', () => {
@@ -63,7 +66,11 @@ describe('Group page Component', () => {
     const onClickSpy = jest.spyOn(component.instance(), 'onClick');
     component.instance().onClick({
       target: {
-        value: 'unread', name: 'filter-message'
+        value: 'unread',
+        name: 'filter-message',
+        dataset: {
+          readby: 'chuks'
+        }
       }
     });
     expect(onClickSpy).toHaveBeenCalledTimes(1);

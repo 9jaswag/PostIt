@@ -2,7 +2,7 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import GroupCards from '../../components/group/GroupCards';
 
-describe('Create group modal', () => {
+describe('Group cards', () => {
   const props = {
     onClick: jest.fn(),
     group: {
