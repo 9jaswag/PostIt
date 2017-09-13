@@ -37,9 +37,13 @@ export class DashboardPage extends Component {
    * @memberof DashboardPage
    */
   onClick(e) {
-    // store.dispatch(setGroupId(`${e.target.dataset.id} ${e.target.dataset.name}`));
-    sessionStorage.setItem('groupDetails', `${e.target.dataset.id} ${e.target.dataset.name}`);
-    this.props.setGroupToStore(`${e.target.dataset.id} ${e.target.dataset.name}`);
+    // store.dispatch(
+    // setGroupId(`${e.target.dataset.id} ${e.target.dataset.name}`));
+    sessionStorage.setItem(
+      'groupDetails',
+      [e.target.dataset.id, e.target.dataset.name, e.target.dataset.owner]);
+    this.props.setGroupToStore(
+      [e.target.dataset.id, e.target.dataset.name, e.target.dataset.owner]);
     $('.tooltipped').tooltip('remove');
     this.props.history.push('/group');
   }

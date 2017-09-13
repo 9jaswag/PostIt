@@ -212,7 +212,7 @@ export default {
           model: models.Group,
           order: [['createdAt', 'DESC']],
           required: false,
-          attributes: ['id', 'name', 'description'],
+          attributes: ['id', 'name', 'description', 'owner'],
           through: { attributes: [] }
         }],
         where: { username },

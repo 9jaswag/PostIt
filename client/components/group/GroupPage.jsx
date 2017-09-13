@@ -14,7 +14,7 @@ import { getMemberCount } from '../../actions/getGroups';
 import MessageCard from '../message/MessageCard';
 
 const propTypes = {
-  groupDetails: PropTypes.string.isRequired,
+  groupDetails: PropTypes.array.isRequired,
   getMessages: PropTypes.func.isRequired,
   passMessage: PropTypes.func.isRequired,
   updateReadBy: PropTypes.func.isRequired
@@ -55,7 +55,7 @@ export class GroupPage extends Component {
    */
   onLoad() {
     if (this.props.groupDetails) {
-      const groupId = this.props.groupDetails.split(' ')[0];
+      const groupId = this.props.groupDetails[0];
       this.props.getMessages(groupId).then(
         (res) => {
           this.setState({ messages: res.data.data });
@@ -132,7 +132,7 @@ export class GroupPage extends Component {
    */
   render() {
     const { displayedMessage } = this.state;
-    const groupName = this.props.groupDetails.split(' ')[1];
+    const groupName = this.props.groupDetails[1];
     const messageCards = displayedMessage.map(message =>
       <div className="margin-v" key={message.id}>
         <MessageCard onClick={ this.onClick } message={ message }/>
@@ -173,12 +173,12 @@ export class GroupPage extends Component {
                 </div>
                 { /* Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
-                  <PostMessageForm groupId={this.props.groupDetails.split(' ')[0]} />
+                  <PostMessageForm groupId={this.props.groupDetails[0]} />
                 </div>
                 <hr/>
                 { /* Add new user div*/ }
                 <div className="col s12 m12 l12 no-padding">
-                  <AddUserForm groupId={this.props.groupDetails.split(' ')[0]} />
+                  <AddUserForm groupId={this.props.groupDetails[0]} />
                 </div>
               </div>
             </div>

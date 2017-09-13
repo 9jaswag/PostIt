@@ -110,13 +110,18 @@ export class AddUserForm extends Component {
         (err) => {
           Materialize.toast(`${err.response.data.error.message}`, 1000, '', () => {
             if (confirm(`Do you want to remove ${userToAdd.username} from this group?`) === true) {
-              this.props.removeUser(groupId, userToAdd).then(
-                () => {
-                  this.props.history.push('/group');
-                  Materialize.toast(`${userToAdd.username} has been removed from the group`, 2000);
-                  this.props.getMemberCount(groupId);
-                }
-              );
+              if (this.props.groupOwner === this.props.currentUser) {
+                this.props.removeUser(groupId, userToAdd).then( // send group owner
+                  () => {
+                    this.props.history.push('/group');
+                    Materialize.toast(`${userToAdd.username} has been removed from the group`, 2000);
+                    this.props.getMemberCount(groupId);
+                  }
+                );
+              } else {
+                this.props.history.push('/group');
+                Materialize.toast('Only group owner can remove users from group', 2000);
+              }
             }
           });
           this.setState({ userExists: true });
@@ -168,4 +173,9 @@ export class AddUserForm extends Component {
 
 AddUserForm.propTypes = propTypes;
 
-export default connect(null, { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));
+const mapStateToProps = state => ({
+  groupOwner: state.groupDetails.details[2],
+  currentUser: state.auth.user.userUsername
+});
+
+export default connect(mapStateToProps, { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));

@@ -1,3 +1,6 @@
+/* global sessionStorage */
+/* global localStorage */
+/* global document */
 import 'babel-polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -17,10 +20,10 @@ if (localStorage.jwtToken) {
   setAuthToken(localStorage.jwtToken);
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
-if (sessionStorage.groupDetails){
-  store.dispatch(setGroupId(sessionStorage.groupDetails));
+if (sessionStorage.groupDetails) {
+  store.dispatch(setGroupId(sessionStorage.groupDetails.split(',')));
 }
-if (sessionStorage.message){
+if (sessionStorage.message) {
   store.dispatch(passMessage(sessionStorage.message));
 }
 
