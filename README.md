@@ -77,9 +77,9 @@ This app uses ```Mocha```, ```Chai-Http``` for API tests, ```Jest```, ```Enzyme`
 ## Contributing
 
 Fork it!
-Create your feature branch: git checkout -b awesome-feature
-Commit your changes: git commit -m 'Add my awesome feature'
-Push to the branch: git push origin awesome-feature
+* Create your feature branch: ```git checkout -b awesome-feature```
+* Commit your changes: ```git commit -m 'Add my awesome feature'```
+Push to the branch: ```git push origin awesome-feature```
 Submit a pull request :smile:
 
 ## Author
