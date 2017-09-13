@@ -405,6 +405,12 @@ input[type='submit'].login-input {
   .full-height {
     height: 50vh;
   }
+  .home {
+    height: 100vh;
+  }
+  .footer {
+    display: none;
+  }
 }
 input#title.form, textarea#message.form, .row.form {
     margin-bottom: 0px;
@@ -436,4 +442,13 @@ h5.center-align.form {
       overflow: hidden;
       height: 100vh;
   }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+}
+
+.footer h6 {
+  font-size: 1.4rem;  
 }

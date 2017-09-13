@@ -43,6 +43,9 @@ export class Sidebar extends Component {
           <Link to="create-group" className="waves-effect waves-light btn one-whole create-group">Create Group</Link>
           <Link to="/search" className="waves-effect waves-light btn one-whole margin-v search">Search User</Link>
           <Link to="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole logout">Logout</Link>
+          <div className="footer col s12">
+            <h6 className="text-white">&copy; PostIT 2017</h6>
+          </div>
         </div>
       </section>
     );
