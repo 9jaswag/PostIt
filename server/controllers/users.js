@@ -165,7 +165,7 @@ export default {
         userEmail: user.email,
         userUsername: user.username,
       }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-      res.status(200)
+      return res.status(200)
         .send({ success: true,
           message: 'Sign in successful',
           data: { token } });
@@ -245,7 +245,7 @@ export default {
             if (mapCounter === user.Groups.length) {
               // send response
               // sort array to return by id
-              res.status(200).send({ data: groupsWithCount.sort(customSort) });
+              return res.status(200).send({ data: groupsWithCount.sort(customSort) });
             }
           })
         );
