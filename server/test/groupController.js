@@ -434,6 +434,17 @@ describe('Group controller test', () => {
           done();
         });
     });
+    it('should return an error if non-existent group is provide', (done) => {
+      chai.request(app)
+        .get('/api/v1/group/222/count')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.message.should.equals('Group does not exist');
+          done();
+        });
+    });
     it('should return the member count of a group', (done) => {
       chai.request(app)
         .get('/api/v1/group/1/count')

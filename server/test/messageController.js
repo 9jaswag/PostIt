@@ -66,6 +66,33 @@ describe('Message controller test', () => {
           done();
         });
     });
+    it('should return an error if no parameter is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/message/readby')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.errors.id.should.equal('Message ID not supplied');
+          res.body.errors.readby.should.equal('Read By not supplied');
+          done();
+        });
+    });
+    it('should return an error if the message does not exist', (done) => {
+      chai.request(app)
+        .patch('/api/v1/message/readby')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          id: 122,
+          readby: 'chuks'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.errors.message.should.equal('Message does not exist');
+          done();
+        });
+    });
     it('should return an error if user has read the message', (done) => {
       chai.request(app)
         .patch('/api/v1/message/readby')

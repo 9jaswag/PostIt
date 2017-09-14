@@ -340,10 +340,16 @@ export default {
       where: {
         groupId: req.params.group_id
       }
-    }).then(data => res.status(200).send({
-      success: true,
-      data
-    }))
+    }).then((data) => {
+      if (!data) {
+        return res.status(404).send(
+          { success: false, message: 'Group does not exist' });
+      }
+      return res.status(200).send({
+        success: true,
+        data
+      });
+    })
       .catch(error => res.status(400).send({
         success: false,
         error: { message: error.message }
