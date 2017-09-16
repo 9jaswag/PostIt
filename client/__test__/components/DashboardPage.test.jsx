@@ -31,7 +31,8 @@ describe('Dashboard page Component', () => {
   });
   it('should contain the method componentDidMount', () => {
     const component = shallow(<DashboardPage {...props}/>);
-    const componentDidMountSpy = jest.spyOn(component.instance(), 'componentDidMount');
+    const componentDidMountSpy = jest.spyOn(
+      component.instance(), 'componentDidMount');
     component.instance().componentDidMount();
     expect(componentDidMountSpy).toHaveBeenCalledTimes(1);
   });

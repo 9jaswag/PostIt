@@ -103,11 +103,13 @@ export default {
           hasError = true;
           errors.phone = 'Phone number already exists';
         }
-        if (error.errors[0].message === 'Formatted phone number must have 13 characters') {
+        if (error.errors[0].message
+          === 'Formatted phone number must have 13 characters') {
           hasError = true;
           errors.phone = 'Formatted phone number must have 13 characters';
         }
-        if (error.errors[0].message === 'Only numeric characters are allowed as phone numbers') {
+        if (error.errors[0].message ===
+          'Only numeric characters are allowed as phone numbers') {
           hasError = true;
           errors.phone = 'Only numeric characters are allowed as phone numbers';
         }
@@ -245,7 +247,8 @@ export default {
             if (mapCounter === user.Groups.length) {
               // send response
               // sort array to return by id
-              return res.status(200).send({ data: groupsWithCount.sort(customSort) });
+              return res.status(200).send(
+                { data: groupsWithCount.sort(customSort) });
             }
           })
         );
@@ -280,7 +283,8 @@ export default {
   },
   resetUserPassword(req, res) {
     if (!(req.body.email)) {
-      return res.status(400).send({ status: false, error: 'No email address provided' });
+      return res.status(400).send(
+        { status: false, error: 'No email address provided' });
     }
     if (!(req.body.type)) {
       return res.status(400).send(
@@ -288,7 +292,8 @@ export default {
       );
     }
     // if ((req.body.type !== 'request') || (req.body.type !== 'reset')) {
-    //   return res.status(400).send({ status: false, error: 'Valid request type must be specified' });
+    //   return res.status(400).send(
+    // { status: false, error: 'Valid request type must be specified' });
     // }
     const email = req.body.email;
     models.User.findOne({
@@ -322,27 +327,34 @@ export default {
                 from: 'PostIT',
                 to: email,
                 subject: 'Password Request on PostIT',
-                text: `You have requested a password reset on your PostIT account.\n Please click on the following link, or paste this into your browser to complete the process:
-                \n ${`http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}`}\n If you did not request this, please ignore this email.\n`
+                text: `You have requested a password reset on your PostIT
+                account.\n Please click on the following link, or
+                paste this intoyour browser to complete the process:\n
+                ${`http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}`}\n
+                If you did not request this, please ignore this email.\n`
               };
               // send email
               sendEmailNotification(mailOptions);
               res.status(200).send({ status: true, message: 'Email sent' });
             })
-            .catch(error => res.status(400).send({ status: false, error: error.message }));
+            .catch(error => res.status(400).send(
+              { status: false, error: error.message }));
         }
         if (req.body.type === 'reset') {
           const receivedToken = req.body.token;
           const currentTime = Date.now();
           const password = req.body.password;
           if (user.resetToken !== receivedToken) {
-            return res.status(400).send({ status: false, error: 'Invalid token' });
+            return res.status(400).send(
+              { status: false, error: 'Invalid token' });
           }
           if (currentTime - user.resetTime > 3600000) {
-            return res.status(400).send({ status: false, error: 'Token has expired. Please request for another password reset.' });
+            return res.status(400).send(
+              { status: false,
+                error: 'Token has expired. Please request for anotherpassword reset.'
+              });
           }
           // reset user password and delete token and resetTime
-          // password: bcrypt.hashSync(req.body.password, salt),
           models.User.update({
             password: bcrypt.hashSync(password, salt),
             resetToken: null,
@@ -353,9 +365,11 @@ export default {
             }
           })
             .then(() => {
-              res.status(200).send({ status: true, message: 'Password reset successful' });
+              res.status(200).send(
+                { success: true, message: 'Password reset successful' });
             })
-            .catch(error => res.status(400).send({ status: false, error: error.message }));
+            .catch(error => res.status(400).send(
+              { success: false, error: error.message }));
         }
       })
       .catch(error => res.status(400).send(

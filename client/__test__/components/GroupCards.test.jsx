@@ -14,7 +14,8 @@ describe('Group cards', () => {
     }
   };
   it('should render without crashing', () => {
-    const component = shallow(<GroupCards onClick={ props.onClick } group={ props.group } />);
+    const component = shallow(
+      <GroupCards onClick={ props.onClick } group={ props.group } />);
     expect(component.node.type).toEqual('div');
   });
 });

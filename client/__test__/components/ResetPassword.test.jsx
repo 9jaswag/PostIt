@@ -41,7 +41,8 @@ describe('Reset Password component', () => {
   });
   it('should contain the method componentWillMount', () => {
     const component = shallow(<ResetPassword {...props}/>);
-    const componentWillMountSpy = jest.spyOn(component.instance(), 'componentWillMount');
+    const componentWillMountSpy = jest.spyOn(
+      component.instance(), 'componentWillMount');
     component.instance().componentWillMount();
     expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
     expect(component.find('h4').text()).toBe('Forgot password?');

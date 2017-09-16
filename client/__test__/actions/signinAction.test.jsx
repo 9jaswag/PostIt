@@ -1,3 +1,4 @@
+/* global window */
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
@@ -16,39 +17,40 @@ describe('Sign in action', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
-  it('dispatches an action SET_CURRENT_USER on successful user sign up', (done) => {
-    moxios.stubRequest('/api/user/signup', {
-      status: 201,
-      response: {
-        success: true,
-        message: 'Sign in succesful.',
-        data: {
-          token: '0SX6NVMqqQpgdUebW3iRBJz8oerTtfzYUm4ADESM7fk'
+  it('dispatches an action SET_CURRENT_USER on successful user sign up',
+    (done) => {
+      moxios.stubRequest('/api/user/signup', {
+        status: 201,
+        response: {
+          success: true,
+          message: 'Sign in succesful.',
+          data: {
+            token: '0SX6NVMqqQpgdUebW3iRBJz8oerTtfzYUm4ADESM7fk'
+          }
         }
-      }
-    });
-    const store = mockStore({});
-    const auth = {
-      isAuthenticated: true,
-      user: {
-        id: 1,
+      });
+      const store = mockStore({});
+      const auth = {
+        isAuthenticated: true,
+        user: {
+          id: 1,
+          username: 'chuks',
+          email: 'chuks@andela.com',
+        }
+      };
+      const userData = {
         username: 'chuks',
-        email: 'chuks@andela.com',
-      }
-    };
-    const userData = {
-      username: 'chuks',
-      password: 'password'
-    };
-    const expectedActions = [
-      { type: types.SET_CURRENT_USER, user: auth.user }
-    ];
-    store.dispatch(Login(userData)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
+        password: 'password'
+      };
+      const expectedActions = [
+        { type: types.SET_CURRENT_USER, user: auth.user }
+      ];
+      store.dispatch(Login(userData)).then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
       // expect(mockLocalStorage.jwtToken).toBeTruthy();
+      });
+      done();
     });
-    done();
-  });
   it('dispatches an action SET_CURRENT_USER on successful user logout', () => {
     const store = mockStore({});
     const expectedActions = [
