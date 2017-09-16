@@ -66,7 +66,8 @@ export class AddUserForm extends Component {
   filterUser(username, usersArray) {
     usersArray.forEach((user) => {
       if ((user.username === username)) {
-        this.setState({ userToAdd: { userId: user.id, username: user.username } });
+        this.setState(
+          { userToAdd: { userId: user.id, username: user.username } });
       }
     });
   }
@@ -104,26 +105,33 @@ export class AddUserForm extends Component {
       this.props.addUser(groupId, userToAdd).then(
         () => {
           this.props.history.push('/group');
-          Materialize.toast(`${userToAdd.username} has been added to the group`, 2000);
+          Materialize.toast(
+            `${userToAdd.username} has been added to the group`, 2000);
           this.props.getMemberCount(groupId);
         },
         (err) => {
-          Materialize.toast(`${err.response.data.error.message}`, 1000, '', () => {
-            if (confirm(`Do you want to remove ${userToAdd.username} from this group?`) === true) {
-              if (this.props.groupOwner === this.props.currentUser) {
-                this.props.removeUser(groupId, userToAdd).then( // send group owner
-                  () => {
-                    this.props.history.push('/group');
-                    Materialize.toast(`${userToAdd.username} has been removed from the group`, 2000);
-                    this.props.getMemberCount(groupId);
-                  }
-                );
-              } else {
-                this.props.history.push('/group');
-                Materialize.toast('Only group owner can remove users from group', 2000);
+          Materialize.toast(
+            `${err.response.data.error.message}`, 1000, '', () => {
+              if (confirm(
+                `Do you want to remove ${userToAdd.username} from this group?`) === true) {
+                if (this.props.groupOwner === this.props.currentUser) {
+                  this.props.removeUser(
+                    groupId, userToAdd).then( // send group owner
+                    () => {
+                      this.props.history.push('/group');
+                      Materialize.toast(
+                        `${userToAdd.username}
+                        has been removed from the group`, 2000);
+                      this.props.getMemberCount(groupId);
+                    }
+                  );
+                } else {
+                  this.props.history.push('/group');
+                  Materialize.toast(
+                    'Only group owner can remove users from group', 2000);
+                }
               }
-            }
-          });
+            });
           this.setState({ userExists: true });
         }
       );
@@ -147,7 +155,9 @@ export class AddUserForm extends Component {
    * @memberof AddUserForm
    */
   render() {
-    const userChip = <div className="chip pointer" data-id={ this.state.userToAdd.userId } onClick={ this.onClick }>{ this.state.userToAdd.username }
+    const userChip = <div className="chip pointer"
+      data-id={ this.state.userToAdd.userId }
+      onClick={ this.onClick }>{ this.state.userToAdd.username }
     </div>;
     return (
       <div>
@@ -159,10 +169,14 @@ export class AddUserForm extends Component {
         <form action="" className="col s12" onSubmit={ this.onSubmit }>
           <div className="row">
             <div className="input-field col s12">
-              <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
+              <input id="username" name="username"
+                type="text" className="validate"
+                value={ this.state.username }
+                onChange= { this.onChange} required/>
               <label htmlFor="username">Enter username</label>
               { (this.state.userToAdd.userId) ? userChip : null }
-              { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
+              { this.state.error ? <span
+                className="red-text">{ this.state.error }</span> : null}
             </div>
           </div>
         </form>
@@ -178,4 +192,6 @@ const mapStateToProps = state => ({
   currentUser: state.auth.user.userUsername
 });
 
-export default connect(mapStateToProps, { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));
+export default connect(
+  mapStateToProps,
+  { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));

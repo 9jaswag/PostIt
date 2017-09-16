@@ -76,7 +76,9 @@ export class GroupPage extends Component {
   onClick(e) {
     // get message readby, update readby and redirect to message
     if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
-      const data = { id: Number(e.target.dataset.id), readby: this.props.user.userUsername };
+      const data = {
+        id: Number(e.target.dataset.id),
+        readby: this.props.user.userUsername };
       this.props.updateReadBy(data);
     }
     sessionStorage.setItem('message', e.target.dataset.message);
@@ -146,8 +148,10 @@ export class GroupPage extends Component {
           <Sidebar />
           {/* Main Page */}
           <div className="col s12 m9 l10 no-padding">
-            <div className="col s12 m12 l7 middle" style={{ marginTop: '2rem' }}>
-              <h5 className="center-align uppercase">{ groupName ? `${groupName} Message Board` : null } </h5>
+            <div className="col s12 m12 l7 middle"
+              style={{ marginTop: '2rem' }}>
+              <h5 className="center-align uppercase">
+                { groupName ? `${groupName} Message Board` : null } </h5>
               <div className="row full-height">
                 { /* Message Cards*/ }
                 <div className="col s12">
@@ -168,8 +172,10 @@ export class GroupPage extends Component {
               <div className="row">
                 { /* Group Stats*/ }
                 <div className="col s12 m12 l12 teal accent-4">
-                  <h6 className="white-text center-align" style={{ marginBottom: '0rem' }}>GROUP STATISTICS</h6>
-                  <h6 className="white-text center-align">{ this.props.count } Members</h6>
+                  <h6 className="white-text center-align"
+                    style={{ marginBottom: '0rem' }}>GROUP STATISTICS</h6>
+                  <h6 className="white-text center-align">
+                    { this.props.count } Members</h6>
                 </div>
                 { /* Send A Message div*/ }
                 <div className="col s12 m12 l12 no-padding">
@@ -197,4 +203,9 @@ const mapStateToProps = state => ({
   count: state.groupMemberCount
 });
 
-export default connect(mapStateToProps, { getMessages, passMessage, updateReadBy, getMemberCount })(withRouter(GroupPage));
+export default connect(
+  mapStateToProps,
+  { getMessages,
+    passMessage,
+    updateReadBy,
+    getMemberCount })(withRouter(GroupPage));

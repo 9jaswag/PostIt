@@ -33,16 +33,27 @@ export class Sidebar extends Component {
   render() {
     const isAuthenticated = this.props.auth;
     const loggedInUser = isAuthenticated.user.userUsername;
-    const welcomeChip = <div className="chip">{ `Welcome ${loggedInUser}` }</div>;
+    const welcomeChip = <div
+      className="chip">{ `Welcome ${loggedInUser}` }</div>;
     return (
       <section className="left-sidebar">
         { /* Sidebar*/ }
         <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
           { loggedInUser ? welcomeChip : null }
           <Link to="/dashboard" className="waves-effect waves-light btn one-whole margin-v dashboard">Dashboard</Link>
-          <Link to="create-group" className="waves-effect waves-light btn one-whole create-group">Create Group</Link>
-          <Link to="/search" className="waves-effect waves-light btn one-whole margin-v search">Search User</Link>
-          <Link to="#" onClick= { this.logout.bind(this) } className="waves-effect waves-light btn one-whole logout">Logout</Link>
+          <Link to="create-group"
+            className="waves-effect waves-light btn one-whole create-group">
+            Create Group
+          </Link>
+          <Link to="/search"
+            className="waves-effect waves-light btn one-whole margin-v search">
+            Search User
+          </Link>
+          <Link to="#"
+            onClick= { this.logout.bind(this) }
+            className="waves-effect waves-light btn one-whole logout">
+            Logout
+          </Link>
           <div className="footer col s12">
             <h6 className="text-white">&copy; PostIT 2017</h6>
           </div>

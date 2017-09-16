@@ -30,9 +30,11 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/resetpassword" component={ ResetPassword } />
-          <Route exact path="/dashboard" component={ requireAuth(DashboardPage) } />
+          <Route exact path="/dashboard"
+            component={ requireAuth(DashboardPage) } />
           <Route exact path="/group" component={ requireAuth(GroupPage) } />
-          <Route exact path="/create-group" component={ requireAuth(CreateGroupPage) } />
+          <Route exact path="/create-group"
+            component={ requireAuth(CreateGroupPage) } />
           <Route exact path="/search" component={ requireAuth(SearchPage) } />
           <Route exact path="/message" component={ requireAuth(MessagePage) } />
           <Route render={() => <NotFound/> } />

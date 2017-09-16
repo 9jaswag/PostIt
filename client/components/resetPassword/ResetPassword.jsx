@@ -1,3 +1,5 @@
+/* global location */
+/* global Materialize */
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
@@ -125,16 +127,28 @@ export class ResetPassword extends Component {
       <section className="padding2 teal accent-4" style={{ marginTop: '3rem' }}>
         <form action="" onSubmit={ this.submitRequest }>
           <div className="input-field col s12">
-            <label htmlFor="email" style={{ color: 'white' }}>Enter your email address</label>
-            <input type="email" name="email" id="email" className="validate" value={ this.state.email } onChange={ this.onChange }/>
-            <input type="submit" value="Submit" className="btn waves-effect waves-light one-whole"/>
+            <label htmlFor="email"
+              style={{ color: 'white' }}>Enter your email address
+            </label>
+            <input type="email"
+              name="email"
+              id="email"
+              className="validate"
+              value={ this.state.email }
+              onChange={ this.onChange }/>
+            <input type="submit"
+              value="Submit"
+              className="btn waves-effect waves-light one-whole"/>
           </div>
           <div className="center-align margin-v">
-            { this.state.error && <span className="red-text">{ this.state.error }</span>}
+            { this.state.error && <span
+              className="red-text">{ this.state.error }</span>}
           </div>
         </form>
         <div className="col s12 margin-v">
-          <Link className="text-white" to="/">I think I remember my password</Link>
+          <Link className="text-white" to="/">
+            I think I remember my password
+          </Link>
         </div>
       </section>
     </div>;
@@ -143,22 +157,43 @@ export class ResetPassword extends Component {
       <section className="padding2 teal accent-4" style={{ marginTop: '3rem' }}>
         <form action="" onSubmit={ this.submitReset }>
           <div className="input-field col s12">
-            <label htmlFor="password" style={{ color: 'white' }}>Enter your new password</label>
-            <input type="password" name="password" id="password" className="validate" value={ this.state.password } onChange={ this.onChange }/>
+            <label
+              htmlFor="password"
+              style={{ color: 'white' }}>Enter your new password
+            </label>
+            <input type="password"
+              name="password"
+              id="password"
+              className="validate"
+              value={ this.state.password }
+              onChange={ this.onChange }/>
           </div>
           <div className="input-field col s12">
-            <label htmlFor="confirmPassword" style={{ color: 'white' }}>Confirm new password</label>
-            <input type="password" name="confirmPassword" id="confirmPassword" className="validate" value={ this.state.confirmPassword } onChange={ this.onChange }/>
+            <label
+              htmlFor="confirmPassword"
+              style={{ color: 'white' }}>Confirm new password
+            </label>
+            <input type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              className="validate"
+              value={ this.state.confirmPassword }
+              onChange={ this.onChange }/>
           </div>
           <div className="input-field col s12">
-            <input type="submit" value="Reset password" className="btn waves-effect waves-light one-whole"/>
+            <input type="submit"
+              value="Reset password"
+              className="btn waves-effect waves-light one-whole"/>
           </div>
           <div className="center-align margin-v">
-            { this.state.error && <span className="red-text">{ this.state.error }</span>}
+            { this.state.error && <span
+              className="red-text">{ this.state.error }</span>}
           </div>
         </form>
         <div className="col s12 margin-v">
-          <Link className="text-white" to="/">I think I remember my password</Link>
+          <Link className="text-white" to="/">
+            I think I remember my password
+          </Link>
         </div>
       </section>
     </div>;

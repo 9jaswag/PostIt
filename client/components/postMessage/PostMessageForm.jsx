@@ -1,3 +1,5 @@
+/* global location */
+/* global Materialize */
 /**
  * Component for form that posts a message to a group
  */
@@ -75,29 +77,48 @@ export class PostMessageForm extends Component {
           <form action="" className="col s12" onSubmit= { this.onSubmit }>
             <div className="row form">
               <div className="input-field col s12">
-                <input type="text" cols="30" rows="10" id="title" name="title" value={ this.state.title } onChange= { this.onChange } className="validate form" required/>
+                <input type="text"
+                  cols="30"
+                  rows="10"
+                  id="title"
+                  name="title"
+                  value={ this.state.title }
+                  onChange= { this.onChange }
+                  className="validate form" required/>
                 <label htmlFor="title">Message Title</label>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <textarea cols="30" rows="10" id="message" name="message" value={ this.state.message } onChange= { this.onChange } className="materialize-textarea form" required></textarea>
+                <textarea cols="30"
+                  rows="10" id="message"
+                  name="message" value={ this.state.message }
+                  onChange= { this.onChange }
+                  className="materialize-textarea form" required></textarea>
                 <label htmlFor="message">Message body</label>
               </div>
             </div>
             <div className="row form">
               <div className="input-field col s12">
-                <select className="browser-default" name="priority" id="priority" value={ this.state.priority } onChange= { this.onChange }>
+                <select className="browser-default"
+                  name="priority" id="priority"
+                  value={ this.state.priority }
+                  onChange= { this.onChange }>
                   <option value="normal" defaultValue>Normal</option>
                   <option value="urgent">Urgent</option>
                   <option value="critical">Critical</option>
                 </select>
-                <label htmlFor="priority" className="active">Message Priority</label>
+                <label htmlFor="priority"
+                  className="active">Message Priority
+                </label>
               </div>
             </div>
             <div className="row form">
               <div className="input-field col s12">
-                <input className="waves-effect waves-light one-whole btn margin-v2" type="submit" value="Send Broadcast Message"/>
+                <input
+                  className="waves-effect waves-light one-whole btn margin-v2"
+                  type="submit"
+                  value="Send Broadcast Message"/>
               </div>
             </div>
           </form>

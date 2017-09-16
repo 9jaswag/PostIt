@@ -55,7 +55,8 @@ export class CreateGroupForm extends Component {
         this.props.history.push('/dashboard');
         Materialize.toast('Group created successfully', 2000);
       },
-      ({ response }) => this.setState({ errors: response.data.errors, isLoading: false })
+      ({ response }) => this.setState(
+        { errors: response.data.errors, isLoading: false })
     );
   }
   /**
@@ -65,24 +66,36 @@ export class CreateGroupForm extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div>
+      <div className="container">
         <form action="" className="col s12" onSubmit={ this.onSubmit }>
           <div className="row">
             <div className="input-field col s12">
-              <input type="text" name="name" id="name" className="validate" onChange={ this.onChange } value={ this.state.name } required />
+              <input type="text"
+                name="name"
+                id="name"
+                className="validate"
+                onChange={ this.onChange }
+                value={ this.state.name } required />
               <label htmlFor="name">Group Name</label>
-              { errors.group && <span className="red-text">{ errors.group }</span>}
+              { errors.group && <span className="red-text">
+                { errors.group }</span>}
             </div>
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input type="text" name="description" id="description" className="validate" onChange={ this.onChange } value={ this.state.description } data-length="80" required/>
+              <input type="text"
+                name="description"
+                id="description"
+                className="validate"
+                onChange={ this.onChange }
+                value={ this.state.description } data-length="80" required/>
               <label htmlFor="description">Group Description</label>
             </div>
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input className="btn one-whole" type="submit" value="Create Group"/>
+              <input className="btn one-whole"
+                type="submit" value="Create Group"/>
             </div>
           </div>
         </form>
