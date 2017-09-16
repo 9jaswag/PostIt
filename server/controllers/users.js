@@ -266,7 +266,7 @@ export default {
       include: [{
         model: models.Group,
         required: false,
-        attributes: ['id', 'name', 'description'],
+        attributes: ['id'],
         through: { attributes: [] }
       }],
       offset: req.params.offset || 0,

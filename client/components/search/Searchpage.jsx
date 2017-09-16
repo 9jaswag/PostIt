@@ -58,6 +58,7 @@ export class SearchPage extends Component {
       offset: this.state.offset,
       limit: this.state.limit
     };
+    console.log(this.state.offset);
     this.props.searchUserAction(payload).then(
       (res) => {
         if (res.data.data.length < 1) {
@@ -117,7 +118,7 @@ export class SearchPage extends Component {
     const renderPageNumbers = pageNumbers.map(number => (
       <li className={ classnames({ // move to component
         'active teal darken-1': currentPage === number
-      })} key={ number } onClick={ this.handlePagination } >
+      })} key={ number } id={ number } onClick={ this.handlePagination } >
         <a href="#" id={ number }>{ number }</a>
       </li>
     ));
