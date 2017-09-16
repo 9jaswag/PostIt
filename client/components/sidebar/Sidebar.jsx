@@ -1,6 +1,8 @@
+/* global Materialize */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { logout } from '../../actions/signinAction';
 
@@ -23,7 +25,12 @@ export class Sidebar extends Component {
    */
   logout(e) {
     e.preventDefault();
-    this.props.logout();
+    this.props.logout().then(
+      () => {
+        Materialize.toast('You\'ve logged out successfully', 2000);
+        this.props.history.push('/');
+      }
+    );
   }
 
   /**
@@ -69,4 +76,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { logout })(Sidebar);
+export default connect(mapStateToProps, { logout })(withRouter(Sidebar));

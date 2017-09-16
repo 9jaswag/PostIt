@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 /**
@@ -30,7 +31,7 @@ export default (ComposedComponent) => {
     componentWillMount() {
       if (!this.props.isAuthenticated) {
         // Materialize.toast('Login to use app', 2000);
-        location.href='/';
+        this.props.history.push('/');
       }
     }
     /**
@@ -42,7 +43,7 @@ export default (ComposedComponent) => {
    */
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
-        location.href='/';
+        this.props.history.push('/');
       }
     }
     /**
@@ -64,5 +65,5 @@ export default (ComposedComponent) => {
     isAuthenticated: state.auth.isAuthenticated
   });
 
-  return connect(mapStateToProps, { })(Authenticate);
+  return connect(mapStateToProps, { })(withRouter(Authenticate));
 };

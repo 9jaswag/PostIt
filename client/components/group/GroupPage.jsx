@@ -60,8 +60,7 @@ export class GroupPage extends Component {
         (res) => {
           this.setState({ messages: res.data.data });
           this.filterMessages(res.data.data);
-        },
-        () => {}
+        }
       );
       this.props.getMemberCount(groupId);
     } else {
@@ -127,6 +126,7 @@ export class GroupPage extends Component {
    */
   componentDidMount() {
     this.onLoad();
+    // this.forceUpdate();
   }
   /**
    * @returns {string} The HTML markup for the GroupPage
@@ -156,14 +156,21 @@ export class GroupPage extends Component {
                 { /* Message Cards*/ }
                 <div className="col s12">
                   <label htmlFor="filter-message">Filter Messages</label>
-                  <select className="browser-default" name="filter-message" id="filter-message" value={ this.state.displayState } onChange={ this.onChange }>
+                  <select
+                    className="browser-default"
+                    name="filter-message"
+                    id="filter-message"
+                    value={ this.state.displayState }
+                    onChange={ this.onChange }>
                     <option value="all">All</option>
                     <option value="unread">Unread</option>
                     <option value="archived">Archived</option>
                   </select>
                 </div>
                 <div className="col s12 message-card-div overflow-y-scroll">
-                  { (displayedMessage.length > 0) ? messageCards : <h6 className="center-align margin-v2">No Messages Available. Create one from the sidebar</h6> }
+                  { (displayedMessage.length > 0) ? messageCards : <h6
+                    className="center-align margin-v2">
+                    No Messages Available. Create one from the sidebar</h6> }
                 </div>
               </div>
             </div>

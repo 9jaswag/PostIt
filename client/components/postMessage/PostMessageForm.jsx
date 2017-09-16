@@ -1,4 +1,3 @@
-/* global location */
 /* global Materialize */
 /**
  * Component for form that posts a message to a group
@@ -7,6 +6,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import postMessage from '../../actions/postMessageAction';
 
 const propTypes = {
@@ -45,7 +45,12 @@ export class PostMessageForm extends Component {
     e.preventDefault();
     this.props.postMessage(this.props.groupId, this.state).then(
       () => {
-        location.href = '/group';
+        this.setState({
+          message: '',
+          title: '',
+          priority: 'normal'
+        });
+        this.props.history.push('/group');
         Materialize.toast('Message posted', 2000);
       }
     );
@@ -134,4 +139,5 @@ const mapStateToProps = state => ({
   userDetails: state.auth.user
 });
 
-export default connect(mapStateToProps, { postMessage })(PostMessageForm);
+export default connect(
+  mapStateToProps, { postMessage })(withRouter(PostMessageForm));
