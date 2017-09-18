@@ -45,7 +45,10 @@
     "unmockedModulePathPatterns": [
       "react"
     ],
-    "collectCoverage": true
+    "collectCoverage": true,
+    "setupFiles": [
+      "<rootDir>/test-env.js"
+    ]
   },
   "dependencies": {
     "axios": "^0.16.2",

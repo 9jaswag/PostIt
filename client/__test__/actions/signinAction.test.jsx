@@ -43,11 +43,10 @@ describe('Sign in action', () => {
         password: 'password'
       };
       const expectedActions = [
-        { type: types.SET_CURRENT_USER, user: auth.user }
+        { type: types.SET_CURRENT_USER }
       ];
       store.dispatch(Login(userData)).then(() => {
         expect(store.getActions()).toEqual(expectedActions);
-      // expect(mockLocalStorage.jwtToken).toBeTruthy();
       });
       done();
     });
