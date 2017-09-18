@@ -387,7 +387,7 @@ describe('User Controller test', () => {
   describe('Search user API route', () => {
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
-        .get('/api/v1/user/c/0/2/find')
+        .get('/api/v1/user/search')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -399,7 +399,7 @@ describe('User Controller test', () => {
     it('should return logged in user object with group info when token is valid',
       (done) => {
         chai.request(app)
-          .get('/api/v1/user/chuks/0/0/find')
+          .get('/api/v1/user/search?username=chuks')
           .type('form')
           .set('x-access-token', token)
           .end((err, res) => {
