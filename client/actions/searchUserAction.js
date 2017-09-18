@@ -11,7 +11,7 @@ import axios from 'axios';
  */
 const searchUserAction = payload =>
   () => axios.get(
-    `/api/v1/user/${payload.searchTerm}/${payload.offset}/${payload.limit}/find`
+    `/api/v1/user/search?username=${payload.username}&offset=${payload.offset}&limit=${payload.limit}`
   );
 
 export default searchUserAction;

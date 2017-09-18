@@ -6,6 +6,12 @@
     "es6": true,
     "mocha": true
   },
+  "globals": {
+    "$": true,
+    "document": true,
+    "localStorage": true,
+    "sessionStorage": true
+  },
   "rules": {
     "one-var": 0,
     "one-var-declaration-per-line": 0,

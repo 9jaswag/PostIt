@@ -6,6 +6,7 @@
 // import path from 'path';
 const webpack = require('webpack');
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   // debug: true,
@@ -16,7 +17,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'client/index'),
   target: 'web',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/js'),
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -34,12 +35,10 @@ module.exports = {
     }),
     // Minify Js
     new webpack.optimize.UglifyJsPlugin(),
-    // new webpack.DefinePlugin({
-    //   'process.env': {
-    //     NODE_ENV: JSON.stringify('production')
-    //   }
-    // }),
-    // new webpack.optimize.UglifyJsPlugin()
+    new ExtractTextPlugin({
+      filename: '../styles/main.css',
+      allChunks: true
+    })
   ],
   module: {
     loaders: [
@@ -49,7 +48,10 @@ module.exports = {
         query: { presets: ['es2015', 'react'] }
       },
       { test: /\.scss$/,
-        loader: 'style-loader!css-loader?url=false!sass-loader'
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader'],
+        }),
       },
       { test: /(\.css)$/, loaders: ['style-loader', 'css-loader'] },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },

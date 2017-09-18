@@ -262,6 +262,14 @@ export default {
    * @return {object} returns an object containing an array of user objects
    */
   searchUsers(req, res) {
+    const username = req.query.username;
+    const offset = req.query.offset || 0;
+    const limit = req.query.limit || 2;
+    console.log({
+      username,
+      offset,
+      limit
+    });
     return models.User.findAndCountAll({
       include: [{
         model: models.Group,
@@ -269,9 +277,10 @@ export default {
         attributes: ['id'],
         through: { attributes: [] }
       }],
-      offset: req.params.offset || 0,
-      limit: req.param.limit || 2,
-      where: { username: { $like: `%${req.params.username}%` } },
+      distinct: true,
+      offset,
+      limit,
+      where: { username: { $like: `%${username}%` } },
       attributes: ['id', 'username', 'email', 'phone'],
     })
       .then((user) => {
@@ -291,10 +300,6 @@ export default {
         { status: false, error: 'Request type must be specified' }
       );
     }
-    // if ((req.body.type !== 'request') || (req.body.type !== 'reset')) {
-    //   return res.status(400).send(
-    // { status: false, error: 'Valid request type must be specified' });
-    // }
     const email = req.body.email;
     models.User.findOne({
       where: {

@@ -14,6 +14,9 @@ const propTypes = {
  * @extends {Component}
  */
 export class HomePage extends Component {
+  componentDidMount() {
+    $('.modal').modal();
+  }
   /**
    * @returns {string} The HTML markup for the HomePage
    * @memberof HomePage
@@ -32,7 +35,7 @@ export class HomePage extends Component {
         <a href="#signupModal"
           className="waves-effect waves-light btn modal-trigger signup-modal">
           Sign Up</a>
-        <a href="#signinModal"className="waves-effect waves-light btn modal-trigger margin-h signin-modal">Sign In</a>
+        <a href="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h signin-modal">Sign In</a>
       </div>
     );
 
