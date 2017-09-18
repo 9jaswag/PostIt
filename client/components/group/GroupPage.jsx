@@ -57,9 +57,9 @@ export class GroupPage extends Component {
     if (this.props.groupDetails) {
       const groupId = this.props.groupDetails[0];
       this.props.getMessages(groupId).then(
-        (res) => {
-          this.setState({ messages: res.data.data });
-          this.filterMessages(res.data.data);
+        () => {
+          this.setState({ messages: this.props.messages });
+          this.filterMessages(this.props.messages);
         }
       );
       this.props.getMemberCount(groupId);
@@ -92,22 +92,36 @@ export class GroupPage extends Component {
    */
   filterMessages(messages) {
     const displayedMessage = [];
-    messages.forEach((message) => {
-      if (this.state.displayState === 'all') {
-        displayedMessage.push(message);
-      }
-      if (this.state.displayState === 'unread') {
-        if (!message.readby.includes(this.props.user.userUsername)) {
+    if (messages && messages.length > 0) {
+      messages.forEach((message) => {
+        if (this.state.displayState === 'all') {
           displayedMessage.push(message);
         }
-      }
-      if (this.state.displayState === 'archived') {
-        if (message.readby.includes(this.props.user.userUsername)) {
-          displayedMessage.push(message);
+        if (this.state.displayState === 'unread') {
+          if (!message.readby.includes(this.props.user.userUsername)) {
+            displayedMessage.push(message);
+          }
         }
-      }
+        if (this.state.displayState === 'archived') {
+          if (message.readby.includes(this.props.user.userUsername)) {
+            displayedMessage.push(message);
+          }
+        }
+      });
+      this.setState({ displayedMessage });
+    }
+  }
+  /**
+   * Filters the messages based on their 'read' state
+   * @method componentWillReceiveProps
+   * @param {object} nextProps new props coming into the component
+   * @return {void}
+   */
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      messages: nextProps.messages
     });
-    this.setState({ displayedMessage });
+    this.filterMessages(nextProps.messages);
   }
   /**
    * @param {object} e
@@ -126,7 +140,6 @@ export class GroupPage extends Component {
    */
   componentDidMount() {
     this.onLoad();
-    // this.forceUpdate();
   }
   /**
    * @returns {string} The HTML markup for the GroupPage
@@ -207,7 +220,8 @@ GroupPage.propTypes = propTypes;
 const mapStateToProps = state => ({
   groupDetails: state.groupDetails.details,
   user: state.auth.user,
-  count: state.groupMemberCount
+  count: state.groupMemberCount,
+  messages: state.message.groupMessages
 });
 
 export default connect(

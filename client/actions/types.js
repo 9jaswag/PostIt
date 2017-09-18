@@ -3,3 +3,4 @@ export const SET_GROUP_DETAILS = 'SET_GROUP_DETAILS';
 export const PASS_MESSAGE = 'PASS_MESSAGE';
 export const GET_USER_GROUPS = 'GET_USER_GROUPS';
 export const SET_MEMBER_COUNT = 'SET_MEMBER_COUNT';
+export const SET_MESSAGE = 'SET_MESSAGE';

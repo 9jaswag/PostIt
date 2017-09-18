@@ -22,12 +22,14 @@ export const setCurrentUser = user => ({
 /**
  * @return {void}
  */
-export const logout = () => (dispatch) => {
-  localStorage.removeItem('jwtToken');
-  sessionStorage.clear();
-  setAuthToken(false);
-  dispatch(setCurrentUser({}));
-};
+export const logout = () => dispatch =>
+  new Promise((resolve) => {
+    localStorage.removeItem('jwtToken');
+    sessionStorage.clear();
+    setAuthToken(false);
+    resolve(dispatch(setCurrentUser({})));
+  })
+;
 
 /**
  * @return {promise} returns server response

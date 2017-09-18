@@ -3,6 +3,12 @@
  */
 
 import axios from 'axios';
+import { SET_MESSAGE } from './types';
+
+export const setMessages = messages => ({
+  type: SET_MESSAGE,
+  messages
+});
 
 /**
  * @function getMessages
@@ -10,6 +16,8 @@ import axios from 'axios';
  * @return {promise} returns an array of messages
  */
 const getMessages = id =>
-  () => axios.get(`/api/v1/group/${id}/messages`);
+  dispatch => axios.get(`/api/v1/group/${id}/messages`).then((res) => {
+    dispatch(setMessages(res.data.data));
+  });
 
 export default getMessages;

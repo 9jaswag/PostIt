@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import postMessage from '../../actions/postMessageAction';
+import getMessages from '../../actions/getMessages';
 
 const propTypes = {
   postMessage: PropTypes.func.isRequired
@@ -50,8 +51,9 @@ export class PostMessageForm extends Component {
           title: '',
           priority: 'normal'
         });
-        this.props.history.push('/group');
+        this.props.getMessages(this.props.groupId);
         Materialize.toast('Message posted', 2000);
+        this.props.history.push('/group');
       }
     );
   }
@@ -140,4 +142,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-  mapStateToProps, { postMessage })(withRouter(PostMessageForm));
+  mapStateToProps, { postMessage, getMessages })(withRouter(PostMessageForm));
