@@ -1,5 +1,3 @@
-/* global location */
-/* global Materialize */
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
@@ -38,24 +36,24 @@ export class ResetPassword extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
    */
-  onChange(e) {
+  onChange(event) {
     this.setState({ error: '' });
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
    * Makes an action call to request for a password reset
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
    */
-  submitRequest(e) {
+  submitRequest(event) {
     this.setState({ error: '' });
-    e.preventDefault();
+    event.preventDefault();
     const payload = {
       email: this.state.email,
       type: 'request'
@@ -73,13 +71,13 @@ export class ResetPassword extends Component {
 
   /**
    * Makes an action call to update the user's password on the database
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
    */
-  submitReset(e) {
+  submitReset(event) {
     this.setState({ error: '' });
-    e.preventDefault();
+    event.preventDefault();
     if (this.state.password !== this.state.confirmPassword) {
       return this.setState({ error: 'Passwords do not match' });
     }

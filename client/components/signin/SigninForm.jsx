@@ -1,5 +1,3 @@
-/* global $ */
-/* global Materialize */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -34,22 +32,22 @@ export class SigninForm extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof SigninForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
    * Makes an action call to sign in a user
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof SigninForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
     this.props.Login(this.state).then(
       () => {
@@ -57,7 +55,7 @@ export class SigninForm extends Component {
         Materialize.toast('Sign in successful', 2000);
         this.props.history.push('/dashboard');
       },
-      ({ response }) => this.setState(
+      () => this.setState(
         { errors: {
           message: 'Incorrect Username/Password' },
         isLoading: false

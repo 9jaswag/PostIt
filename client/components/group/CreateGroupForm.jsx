@@ -1,4 +1,3 @@
-/* global Materialize */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -33,22 +32,22 @@ export class CreateGroupForm extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof CreateGroupForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
    * Makes an action call to create a new group
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof CreateGroupForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
     this.props.createGroup(this.state).then(
       () => {

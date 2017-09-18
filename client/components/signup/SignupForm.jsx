@@ -1,5 +1,3 @@
-/* global Materialize */
-/* global $ */
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -7,7 +5,6 @@ import PropTypes from 'prop-types';
 const propTypes = {
   userSignupRequest: PropTypes.func.isRequired
 };
-
 
 /**
  * Function for formatting user's phone number
@@ -48,19 +45,19 @@ export class SignupForm extends Component {
 
   /**
    * @return {void}
-   * @param {KeyboardEvent} e 
+   * @param {KeyboardEvent} event
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
    * Makes an action call to sign up a user
    * @return {void}
-   * @param {KeyboardEvent} e 
+   * @param {KeyboardEvent} event
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
     // validation checks
     if (this.state.password.length < 6) {

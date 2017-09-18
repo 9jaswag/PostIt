@@ -40,12 +40,12 @@ export class SearchPage extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof Searchpage
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
     this.setState({ errors: '' });
   }
   /**
@@ -73,12 +73,12 @@ export class SearchPage extends Component {
 
   /**
    * Makes an action call to search for users
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof Searchpage
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     if (this.state.username.length === 0) {
       this.setState({ errors: 'Enter a username' });
     } else {

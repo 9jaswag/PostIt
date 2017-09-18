@@ -68,20 +68,20 @@ export class GroupPage extends Component {
     }
   }
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof GroupPage
    */
-  onClick(e) {
+  onClick(event) {
     // get message readby, update readby and redirect to message
-    if (!e.target.dataset.readby.includes(this.props.user.userUsername)) {
+    if (!event.target.dataset.readby.includes(this.props.user.userUsername)) {
       const data = {
-        id: Number(e.target.dataset.id),
+        id: Number(event.target.dataset.id),
         readby: this.props.user.userUsername };
       this.props.updateReadBy(data);
     }
-    sessionStorage.setItem('message', e.target.dataset.message);
-    this.props.passMessage(e.target.dataset.message);
+    sessionStorage.setItem('message', event.target.dataset.message);
+    this.props.passMessage(event.target.dataset.message);
     $('.tooltipped').tooltip('remove');
   }
   /**
@@ -124,12 +124,12 @@ export class GroupPage extends Component {
     this.filterMessages(nextProps.messages);
   }
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof GroupPage
    */
-  onChange(e) {
-    this.setState({ displayState: e.target.value });
+  onChange(event) {
+    this.setState({ displayState: event.target.value });
     this.onLoad();
   }
   /**

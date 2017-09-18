@@ -10,7 +10,9 @@
     "$": true,
     "document": true,
     "localStorage": true,
-    "sessionStorage": true
+    "sessionStorage": true,
+    "Materialize": true,
+    "location": true
   },
   "rules": {
     "one-var": 0,

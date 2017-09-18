@@ -14,6 +14,12 @@ const propTypes = {
  * @extends {Component}
  */
 export class HomePage extends Component {
+  /**
+   * For opening the modal when component mounts
+   * @method componentDidMount
+   * @return {void}
+   * @memberof HomePage
+   */
   componentDidMount() {
     $('.modal').modal();
   }

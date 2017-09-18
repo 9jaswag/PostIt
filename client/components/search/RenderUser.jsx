@@ -1,5 +1,4 @@
 import React from 'react';
-
 /**
  * RenderUser component
  * @param {object} param0 object containing user's detail

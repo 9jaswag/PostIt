@@ -1,6 +1,3 @@
-/* global sessionStorage */
-/* global $ */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -32,18 +29,22 @@ export class DashboardPage extends Component {
     this.onClick = this.onClick.bind(this);
   }
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof DashboardPage
    */
-  onClick(e) {
-    // store.dispatch(
-    // setGroupId(`${e.target.dataset.id} ${e.target.dataset.name}`));
+  onClick(event) {
     sessionStorage.setItem(
       'groupDetails',
-      [e.target.dataset.id, e.target.dataset.name, e.target.dataset.owner]);
+      [event.target.dataset.id,
+        event.target.dataset.name,
+        event.target.dataset.owner
+      ]);
     this.props.setGroupToStore(
-      [e.target.dataset.id, e.target.dataset.name, e.target.dataset.owner]);
+      [event.target.dataset.id,
+        event.target.dataset.name,
+        event.target.dataset.owner
+      ]);
     $('.tooltipped').tooltip('remove');
     this.props.history.push('/group');
   }
@@ -77,7 +78,9 @@ export class DashboardPage extends Component {
               <h5 className="center-align uppercase"
                 style={{ marginBottom: '2rem' }}>My Groups</h5>
               { /* Group cards*/ }
-              { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the sidebar</h6> }
+              { (groups.length > 0) ? groupCards : <h6
+                className="center-align margin-v2">
+                No Groups Available. Create one from the sidebar</h6> }
             </div>
           </div>
         </div>

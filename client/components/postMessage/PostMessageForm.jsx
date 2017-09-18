@@ -1,4 +1,3 @@
-/* global Materialize */
 /**
  * Component for form that posts a message to a group
  */
@@ -38,12 +37,12 @@ export class PostMessageForm extends Component {
 
   /**
    * Makes an action call to post a message to a group
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof PostMessageForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     this.props.postMessage(this.props.groupId, this.state).then(
       () => {
         this.setState({
@@ -59,12 +58,12 @@ export class PostMessageForm extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof PostMessageForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**

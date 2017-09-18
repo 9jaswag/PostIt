@@ -1,4 +1,3 @@
-/* global Materialize */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -20,11 +19,11 @@ export class Sidebar extends Component {
   /**
    * Method for logging out a user
    * @method logout
-   * @param {object} e 
+   * @param {object} event
    * @return {void}
    */
-  logout(e) {
-    e.preventDefault();
+  logout(event) {
+    event.preventDefault();
     this.props.logout().then(
       () => {
         Materialize.toast('You\'ve logged out successfully', 2000);

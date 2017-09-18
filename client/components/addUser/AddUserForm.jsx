@@ -1,6 +1,3 @@
-/* global Materialize */
-/* global confirm */
-
 /**
  * Component for form that adds a new user to a group
  */
@@ -73,19 +70,21 @@ export class AddUserForm extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof AddUserForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
     this.setState({ error: '', userToAdd: {} });
     if (this.state.username.length > 0) {
       this.props.findUser().then(
         (res) => {
           this.setState({ fetchedUsers: res.data.data.user });
-          this.filterUser(this.state.username.toLowerCase(), this.state.fetchedUsers);
-          // reset username state after adding user to users array
+          this.filterUser(
+            this.state.username.toLowerCase(),
+            this.state.fetchedUsers
+          );
         }
       );
     }
@@ -93,7 +92,6 @@ export class AddUserForm extends Component {
 
   /**
    * Makes an action call to add a user to a group
-   * @param {object} e
    * @returns {void}
    * @memberof AddUserForm
    */
@@ -112,8 +110,7 @@ export class AddUserForm extends Component {
         (err) => {
           Materialize.toast(
             `${err.response.data.error.message}`, 1000, '', () => {
-              if (confirm(
-                `Do you want to remove ${userToAdd.username} from this group?`) === true) {
+              if (confirm(`Do you want to remove ${userToAdd.username} from this group?`) === true) {
                 if (this.props.groupOwner === this.props.currentUser) {
                   this.props.removeUser(
                     groupId, userToAdd).then( // send group owner
@@ -142,12 +139,12 @@ export class AddUserForm extends Component {
   }
   /**
    * Prevents form action if enter is pressed
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof AddUserForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
   }
 
   /**
