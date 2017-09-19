@@ -4,8 +4,7 @@
   "env": {
     "node": true,
     "es6": true,
-    "mocha": true,
-    "esversion": 6
+    "mocha": true
   },
   "globals": {
     "$": true,
@@ -13,7 +12,8 @@
     "localStorage": true,
     "sessionStorage": true,
     "Materialize": true,
-    "location": true
+    "location": true,
+    "esversion": 6
   },
   "rules": {
     "class-methods-use-this": ["error", { "exceptMethods": 
