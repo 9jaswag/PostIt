@@ -8,6 +8,6 @@ app.set('port', port);
 const server = http.createServer(app);
 server.listen(port, (err) => {
   if(err){
-    console.log(err);
+    return err;
   }
 });

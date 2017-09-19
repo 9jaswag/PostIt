@@ -265,11 +265,6 @@ export default {
     const username = req.query.username;
     const offset = req.query.offset || 0;
     const limit = req.query.limit || 2;
-    console.log({
-      username,
-      offset,
-      limit
-    });
     return models.User.findAndCountAll({
       include: [{
         model: models.Group,

@@ -242,10 +242,9 @@ export default {
                     '2347033130448',
                     user.phone, req.body.message, (err, res) => {
                       if (err) {
-                        console.log(err);
-                      } else {
-                        console.log(res);
+                        return err;
                       }
+                      return res;
                     });
                 }
                 return user;
