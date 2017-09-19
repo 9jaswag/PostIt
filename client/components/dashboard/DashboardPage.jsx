@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Sidebar from '../sidebar/Sidebar';
+import Sidebar from '../sidebar/Sidebar.jsx';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
-import GroupCards from '../group/GroupCards';
+import GroupCards from '../group/GroupCards.jsx';
 import { setGroupToStore } from '../../actions/groupIdAction';
 
 const propTypes = {

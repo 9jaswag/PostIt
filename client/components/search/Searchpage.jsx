@@ -3,9 +3,9 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import Sidebar from '../sidebar/Sidebar';
-import SearchForm from './SearchForm';
-import RenderUser from './RenderUser';
+import Sidebar from '../sidebar/Sidebar.jsx';
+import SearchForm from './SearchForm.jsx';
+import RenderUser from './RenderUser.jsx';
 import searchUserAction from '../../actions/searchUserAction';
 
 const propTypes = {

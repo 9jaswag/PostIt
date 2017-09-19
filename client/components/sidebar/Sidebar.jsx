@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { logout } from '../../actions/signinAction';
 
 const propTypes = {

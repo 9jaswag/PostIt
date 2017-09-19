@@ -19,7 +19,8 @@
       ["removeBackdrop",
       "componentWillUnmount",
       "componentDidMount",
-      "render"
+      "render",
+      "onSubmit"
       ] }],
     "one-var": 0,
     "one-var-declaration-per-line": 0,

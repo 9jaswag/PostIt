@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import SignupModal from '../modal/SignupModal';
-import SigninModal from '../modal/SigninModal';
+import SignupModal from '../modal/SignupModal.jsx';
+import SigninModal from '../modal/SigninModal.jsx';
 
 const propTypes = {
   auth: PropTypes.object.isRequired

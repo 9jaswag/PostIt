@@ -4,14 +4,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Sidebar from '../sidebar/Sidebar';
-import PostMessageForm from '../postMessage/PostMessageForm';
-import AddUserForm from '../addUser/AddUserForm';
+import Sidebar from '../sidebar/Sidebar.jsx';
+import PostMessageForm from '../postMessage/PostMessageForm.jsx';
+import AddUserForm from '../addUser/AddUserForm.jsx';
 import getMessages from '../../actions/getMessages';
 import passMessage from '../../actions/passMessageAction';
 import updateReadBy from '../../actions/readbyAction';
 import { getMemberCount } from '../../actions/getGroups';
-import MessageCard from '../message/MessageCard';
+import MessageCard from '../message/MessageCard.jsx';
 
 const propTypes = {
   groupDetails: PropTypes.array.isRequired,

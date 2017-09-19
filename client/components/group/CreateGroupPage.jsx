@@ -1,6 +1,6 @@
 import React from 'react';
-import CreateGroupForm from './CreateGroupForm';
-import Sidebar from '../sidebar/Sidebar';
+import CreateGroupForm from './CreateGroupForm.jsx';
+import Sidebar from '../sidebar/Sidebar.jsx';
 
 /**
  * CreateGroupPage component.
