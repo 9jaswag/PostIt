@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import SignupModal from '../modal/SignupModal';
 import SigninModal from '../modal/SigninModal';
 
@@ -31,17 +32,17 @@ export class HomePage extends Component {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
       <div>
-        <a href="/dashboard"
+        <Link to="/dashboard"
           className="waves-effect waves-light btn modal-trigger dashboard">
-          Dashboard</a>
+          Dashboard</Link>
       </div>
     );
     const guestLinks = (
       <div>
-        <a href="#signupModal"
+        <Link to="#signupModal"
           className="waves-effect waves-light btn modal-trigger signup-modal">
-          Sign Up</a>
-        <a href="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h signin-modal">Sign In</a>
+          Sign Up</Link>
+        <Link to="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h signin-modal">Sign In</Link>
       </div>
     );
 
