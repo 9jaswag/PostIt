@@ -103,7 +103,7 @@ export class ResetPassword extends Component {
 
   /**
    * Set state to determine the form to show based on the page's URL
-   * @method componentDidMount
+   * @method componentWillMount
    * @return {void}
    * @memberof DashboardPage
    */
