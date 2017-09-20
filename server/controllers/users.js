@@ -285,6 +285,12 @@ export default {
         res.status(400).send({ success: false, errors: error.message });
       });
   },
+  /**
+   * Method to reset users password
+   * @param {object} req request object
+   * @param {object} res response object
+   * @return {object} returns a user object
+   */
   resetUserPassword(req, res) {
     if (!(req.body.email)) {
       return res.status(400).send(
