@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 import models from '../models';
-import customSort from '../../helpers/customSort';
 
 process.env.NODE_ENV = 'test';
 const should = chai.should();
