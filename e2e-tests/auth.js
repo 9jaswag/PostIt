@@ -32,7 +32,7 @@ module.exports = {
       .setValue('input#phone', '07077123456')
       .click('input.btn.signup')
       .pause(2000)
-      .click('a.waves-effect.waves-light.btn.modal-trigger.dashboard')
+      .url('http://localhost:9000/dashboard')
       .pause(2000)
       .assert.urlEquals('http://localhost:9000/dashboard')
       .end();
@@ -59,7 +59,7 @@ module.exports = {
       .setValue('input#password.signin', 'password')
       .click('input.btn.signin')
       .pause(2000)
-      .click('a.waves-effect.waves-light.btn.modal-trigger.dashboard')
+      .url('http://localhost:9000/dashboard')
       .assert.urlEquals('http://localhost:9000/dashboard')
       .end();
   },
@@ -74,7 +74,7 @@ module.exports = {
       .setValue('input#password.signin', 'password')
       .click('input.btn.signin')
       .pause(2000)
-      .click('a.waves-effect.waves-light.btn.modal-trigger.dashboard')
+      .url('http://localhost:9000/dashboard')
       .pause(2000)
       .click('a.waves-effect.waves-light.btn.one-whole.logout')
       .assert.urlEquals('http://localhost:9000/')
