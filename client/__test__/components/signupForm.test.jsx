@@ -1,7 +1,9 @@
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { SignupForm } from '../../components/signup/signupForm';
+import { SignupForm } from '../../components/signup/SignupForm';
 
 describe('Signup form component test', () => {
   const props = {
@@ -22,12 +24,12 @@ describe('Signup form component test', () => {
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
   it('should contain the method onSubmit', () => {
-    const e = {
+    const event = {
       preventDefault: jest.fn()
     };
     const component = shallow(<SignupForm {...props}/>);
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
-    component.instance().onSubmit(e);
+    component.instance().onSubmit(event);
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
   });
 });

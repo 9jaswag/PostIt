@@ -30,14 +30,6 @@ describe('Sign in action', () => {
         }
       });
       const store = mockStore({});
-      const auth = {
-        isAuthenticated: true,
-        user: {
-          id: 1,
-          username: 'chuks',
-          email: 'chuks@andela.com',
-        }
-      };
       const userData = {
         username: 'chuks',
         password: 'password'
@@ -53,7 +45,7 @@ describe('Sign in action', () => {
   it('dispatches an action SET_CURRENT_USER on successful user logout', () => {
     const store = mockStore({});
     const expectedActions = [
-      { type: types.SET_CURRENT_USER }
+      { type: types.SET_CURRENT_USER, user: {} }
     ];
     store.dispatch(logout());
     expect(store.getActions()).toEqual(expectedActions);

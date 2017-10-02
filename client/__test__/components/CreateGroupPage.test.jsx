@@ -1,3 +1,4 @@
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import CreateGroupPage from '../../components/group/CreateGroupPage';

@@ -1,3 +1,6 @@
+/* global jest */
+/* global expect */
+/* global window */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -13,7 +16,7 @@ Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
 
 describe('Group page Component', () => {
   const props = {
-    groupDetails: '3 HNG',
+    groupDetails: [3, 'HNG'],
     getMessages: jest.fn(() => Promise.resolve()),
     passMessage: jest.fn(),
     updateReadBy: jest.fn(),
@@ -74,5 +77,26 @@ describe('Group page Component', () => {
       }
     });
     expect(onClickSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should contain the method componentWillReceiveProps', () => {
+    const nextProps = {
+      messages: [
+        {
+          id: 46,
+          title: 'Hello World',
+          message: 'from the other side',
+          priority: 'normal',
+          author: 'chuks',
+          readby: ['chuks'],
+          groupId: 1,
+          userId: 2
+        }
+      ]
+    };
+    const component = shallow(<GroupPage {...props}/>);
+    const componentWillReceivePropsSpy = jest.spyOn(
+      component.instance(), 'componentWillReceiveProps');
+    component.instance().componentWillReceiveProps(nextProps);
+    expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
   });
 });

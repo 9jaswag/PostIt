@@ -1,3 +1,5 @@
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store'
@@ -5,7 +7,7 @@ import { Sidebar } from '../../components/sidebar/Sidebar';
 
 describe('Sidebar', () => {
   const props = {
-    auth:  {
+    auth: {
       isAuthenticated: true,
       user: {
         userId: 1,
@@ -13,8 +15,8 @@ describe('Sidebar', () => {
         userUsername: 'chuks'
       }
     },
-    logout: jest.fn(),
-    createGroup: jest.fn(() => Promise.resolve()),
+    logout: jest.fn(() => Promise.resolve()),
+    createGroup: jest.fn(() => Promise.resolve())
   };
   const e = {
     preventDefault: jest.fn()
