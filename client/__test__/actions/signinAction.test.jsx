@@ -16,6 +16,11 @@ window.sessionStorage = mockSessionStorage;
 describe('Sign in action', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
+  const store = mockStore({});
+  const userData = {
+    username: 'chuks',
+    password: 'password'
+  };
 
   it('dispatches an action SET_CURRENT_USER on successful user sign up',
     (done) => {
@@ -29,11 +34,6 @@ describe('Sign in action', () => {
           }
         }
       });
-      const store = mockStore({});
-      const userData = {
-        username: 'chuks',
-        password: 'password'
-      };
       const expectedActions = [
         { type: types.SET_CURRENT_USER }
       ];
@@ -43,7 +43,6 @@ describe('Sign in action', () => {
       done();
     });
   it('dispatches an action SET_CURRENT_USER on successful user logout', () => {
-    const store = mockStore({});
     const expectedActions = [
       { type: types.SET_CURRENT_USER, user: {} }
     ];

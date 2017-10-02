@@ -1,6 +1,6 @@
 import expect from 'expect';
 import { SET_GROUP_DETAILS } from '../../actions/types';
-import setGroupId from '../../actions/groupIdAction';
+import setGroupId, { setGroupToStore } from '../../actions/groupIdAction';
 
 describe('set group id action creator', () => {
   it('should contain setGroupId object', () => {
@@ -13,5 +13,8 @@ describe('set group id action creator', () => {
       data: groupId
     };
     expect(setGroupId(groupId)).toEqual(expectedAction);
+  });
+  it('should contain setGroupToStore function', () => {
+    expect(setGroupToStore()).toBeA('function');
   });
 });

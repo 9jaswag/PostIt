@@ -3,7 +3,9 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
-import getGroups, { getMemberCount } from '../../actions/getGroups';
+import getGroups, { getMemberCount,
+  setUserGroups,
+  setGroupMemberCount } from '../../actions/getGroups';
 import * as types from '../../actions/types';
 import mockLocalStorage from '../../__mocks__/mockLocalStorage';
 
@@ -17,6 +19,12 @@ describe('Get groups action', () => {
 
   it('should contain getGroups function', () => {
     expect(getGroups()).toBeA('function');
+  });
+  it('should contain setUserGroups object', () => {
+    expect(setUserGroups()).toBeA('object');
+  });
+  it('should contain setGroupMemberCount object', () => {
+    expect(setGroupMemberCount()).toBeA('object');
   });
   it('should contain getMemberCount function', () => {
     expect(getMemberCount()).toBeA('function');
