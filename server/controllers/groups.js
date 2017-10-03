@@ -154,7 +154,8 @@ export default {
     } else if (!req.body.message || req.body.message.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Message can not be empty' } });
-    } else if (!req.decoded.userUsername || req.decoded.userUsername.trim() === '') {
+    } else if (
+      !req.decoded.userUsername || req.decoded.userUsername.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Readby cannot be empty' } });
     } else if (!req.decoded.userUsername) {
@@ -202,8 +203,9 @@ export default {
                     from: 'PostIT',
                     to: user.email,
                     subject: `${req.body.priority} message on PostIT`,
-                    text: `You have a new ${req.body.priority} message on PostIT. Login to check it now.\n
-                      Message: ${req.body.message}`
+                    text: `You have a new ${req.body.priority}
+                    message on PostIT.Login to check it now.\n
+                    Message: ${req.body.message}`
                   };
                   sendEmailNotification(mailOptions);
                 }
@@ -228,20 +230,22 @@ export default {
                     from: 'PostIT',
                     to: user.email,
                     subject: `${req.body.priority} message on PostIT`,
-                    text: `You have a new ${req.body.priority} message on PostIT. Login to check it now.\n
-                      Message: ${req.body.message}`
+                    text: `You have a new ${req.body.priority}
+                    message on PostIT. Login to check it now.\n
+                    Message: ${req.body.message}`
                   };
                   sendEmailNotification(mailOptions);
                 }
                 // send sms
                 if (user.phone !== req.decoded.userPhone) {
-                  nexmo.message.sendSms('2347033130448', user.phone, req.body.message, (err, res) => {
-                    if (err) {
-                      console.log(err);
-                    } else {
-                      console.log(res);
-                    }
-                  });
+                  nexmo.message.sendSms(
+                    '2347033130448',
+                    user.phone, req.body.message, (err, res) => {
+                      if (err) {
+                        return err;
+                      }
+                      return res;
+                    });
                 }
                 return user;
               });
@@ -340,10 +344,16 @@ export default {
       where: {
         groupId: req.params.group_id
       }
-    }).then(data => res.status(200).send({
-      success: true,
-      data
-    }))
+    }).then((data) => {
+      if (!data) {
+        return res.status(404).send(
+          { success: false, message: 'Group does not exist' });
+      }
+      return res.status(200).send({
+        success: true,
+        data
+      });
+    })
       .catch(error => res.status(400).send({
         success: false,
         error: { message: error.message }

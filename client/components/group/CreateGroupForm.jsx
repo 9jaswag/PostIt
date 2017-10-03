@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import createGroup from '../../actions/createGroup';
 
@@ -31,29 +32,30 @@ export class CreateGroupForm extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof CreateGroupForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
    * Makes an action call to create a new group
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof CreateGroupForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
     this.props.createGroup(this.state).then(
       () => {
-        location.href = '/dashboard';
+        this.props.history.push('/dashboard');
         Materialize.toast('Group created successfully', 2000);
       },
-      ({ response }) => this.setState({ errors: response.data.errors, isLoading: false })
+      ({ response }) => this.setState(
+        { errors: response.data.errors, isLoading: false })
     );
   }
   /**
@@ -63,24 +65,36 @@ export class CreateGroupForm extends Component {
   render() {
     const { errors } = this.state;
     return (
-      <div>
+      <div className="container">
         <form action="" className="col s12" onSubmit={ this.onSubmit }>
           <div className="row">
             <div className="input-field col s12">
-              <input type="text" name="name" id="name" className="validate" onChange={ this.onChange } value={ this.state.name } required />
+              <input type="text"
+                name="name"
+                id="name"
+                className="validate"
+                onChange={ this.onChange }
+                value={ this.state.name } required />
               <label htmlFor="name">Group Name</label>
-              { errors.group && <span className="red-text">{ errors.group }</span>}
+              { errors.group && <span className="red-text">
+                { errors.group }</span>}
             </div>
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input type="text" name="description" id="description" className="validate" onChange={ this.onChange } value={ this.state.description } data-length="80" required/>
+              <input type="text"
+                name="description"
+                id="description"
+                className="validate"
+                onChange={ this.onChange }
+                value={ this.state.description } data-length="80" required/>
               <label htmlFor="description">Group Description</label>
             </div>
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input className="btn one-whole" type="submit" value="Create Group"/>
+              <input className="btn one-whole"
+                type="submit" value="Create Group"/>
             </div>
           </div>
         </form>
@@ -91,4 +105,4 @@ export class CreateGroupForm extends Component {
 
 CreateGroupForm.propTypes = propTypes;
 
-export default connect(null, { createGroup })(CreateGroupForm);
+export default connect(null, { createGroup })(withRouter(CreateGroupForm));

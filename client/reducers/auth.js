@@ -14,12 +14,13 @@ import { SET_CURRENT_USER } from '../actions/types';
  * @return {object} state - the new state of the store is returned
  */
 export default (state = initialState, action = {}) => {
+  const auth = {
+    isAuthenticated: !isEmpty(action.user),
+    user: action.user
+  };
   switch (action.type) {
     case SET_CURRENT_USER:
-      return {
-        isAuthenticated: !isEmpty(action.user),
-        user: action.user
-      };
+      return Object.assign({}, auth);
     default: return state;
   }
 };

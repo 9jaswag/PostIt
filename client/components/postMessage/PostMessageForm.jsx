@@ -5,7 +5,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import postMessage from '../../actions/postMessageAction';
+import getMessages from '../../actions/getMessages';
 
 const propTypes = {
   postMessage: PropTypes.func.isRequired
@@ -35,27 +37,33 @@ export class PostMessageForm extends Component {
 
   /**
    * Makes an action call to post a message to a group
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof PostMessageForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     this.props.postMessage(this.props.groupId, this.state).then(
       () => {
-        location.href = '/group';
+        this.setState({
+          message: '',
+          title: '',
+          priority: 'normal'
+        });
+        this.props.getMessages(this.props.groupId);
         Materialize.toast('Message posted', 2000);
+        this.props.history.push('/group');
       }
     );
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof PostMessageForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
@@ -75,29 +83,48 @@ export class PostMessageForm extends Component {
           <form action="" className="col s12" onSubmit= { this.onSubmit }>
             <div className="row form">
               <div className="input-field col s12">
-                <input type="text" cols="30" rows="10" id="title" name="title" value={ this.state.title } onChange= { this.onChange } className="validate form" required/>
+                <input type="text"
+                  cols="30"
+                  rows="10"
+                  id="title"
+                  name="title"
+                  value={ this.state.title }
+                  onChange= { this.onChange }
+                  className="validate form" required/>
                 <label htmlFor="title">Message Title</label>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <textarea cols="30" rows="10" id="message" name="message" value={ this.state.message } onChange= { this.onChange } className="materialize-textarea form" required></textarea>
+                <textarea cols="30"
+                  rows="10" id="message"
+                  name="message" value={ this.state.message }
+                  onChange= { this.onChange }
+                  className="materialize-textarea form" required></textarea>
                 <label htmlFor="message">Message body</label>
               </div>
             </div>
             <div className="row form">
               <div className="input-field col s12">
-                <select className="browser-default" name="priority" id="priority" value={ this.state.priority } onChange= { this.onChange }>
+                <select className="browser-default"
+                  name="priority" id="priority"
+                  value={ this.state.priority }
+                  onChange= { this.onChange }>
                   <option value="normal" defaultValue>Normal</option>
                   <option value="urgent">Urgent</option>
                   <option value="critical">Critical</option>
                 </select>
-                <label htmlFor="priority" className="active">Message Priority</label>
+                <label htmlFor="priority"
+                  className="active">Message Priority
+                </label>
               </div>
             </div>
             <div className="row form">
               <div className="input-field col s12">
-                <input className="waves-effect waves-light one-whole btn margin-v2" type="submit" value="Send Broadcast Message"/>
+                <input
+                  className="waves-effect waves-light one-whole btn margin-v2"
+                  type="submit"
+                  value="Send Broadcast Message"/>
               </div>
             </div>
           </form>
@@ -113,4 +140,5 @@ const mapStateToProps = state => ({
   userDetails: state.auth.user
 });
 
-export default connect(mapStateToProps, { postMessage })(PostMessageForm);
+export default connect(
+  mapStateToProps, { postMessage, getMessages })(withRouter(PostMessageForm));

@@ -8,15 +8,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/css/materialize.min.css">
   <!-- Import Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="../template/styles/style.css"> -->
-</head>
-<body>
-  <div id="app"></div>
-  <script src="/bundle.js"></script>
+  <link rel="stylesheet" href="/styles/main.css"> 
   <!--Import jQuery before materialize.js-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <!-- Compiled and minified JavaScript for Materialize.css -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="/js/bundle.js"></script>
+  
   <script>
     // arrow function
     $( document ).ready(() => {
@@ -24,12 +25,9 @@
         $('.modal').modal({
         opacity: 0.5,
         complete: function() {
-          $('.modal').modal('close');
         } // Callback for Modal close
       }
      );
-      // This will remove the tooltip functionality for the buttons on this page
-      // $('.tooltipped').tooltip('remove');
       // initialize select tag
       $('select').material_select();
       $('.dropdown-button').dropdown({

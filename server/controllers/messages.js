@@ -42,7 +42,8 @@ export default {
           return res.status(400).send({ success: false, errors });
         }
         if (message.readby.includes(req.body.readby)) {
-          return res.status(400).send({ success: false, errors: 'User has read this message' });
+          return res.status(400).send(
+            { success: false, errors: 'User has read this message' });
         }
         message.readby.push(req.body.readby);
         return models.Message.update({

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Sidebar from '../sidebar/Sidebar';
+import Sidebar from '../sidebar/Sidebar.jsx';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
-import GroupCards from '../group/GroupCards';
+import GroupCards from '../group/GroupCards.jsx';
 import { setGroupToStore } from '../../actions/groupIdAction';
 
 const propTypes = {
@@ -29,14 +29,23 @@ export class DashboardPage extends Component {
     this.onClick = this.onClick.bind(this);
   }
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof DashboardPage
    */
-  onClick(e) {
-    // store.dispatch(setGroupId(`${e.target.dataset.id} ${e.target.dataset.name}`));
-    sessionStorage.setItem('groupDetails', `${e.target.dataset.id} ${e.target.dataset.name}`);
-    this.props.setGroupToStore(`${e.target.dataset.id} ${e.target.dataset.name}`);
+  onClick(event) {
+    sessionStorage.setItem(
+      'groupDetails',
+      [event.target.dataset.id,
+        event.target.dataset.name,
+        event.target.dataset.owner
+      ]);
+    this.props.setGroupToStore(
+      [event.target.dataset.id,
+        event.target.dataset.name,
+        event.target.dataset.owner
+      ]);
+    $('.tooltipped').tooltip('remove');
     this.props.history.push('/group');
   }
   /**
@@ -66,9 +75,12 @@ export class DashboardPage extends Component {
           { /* Main page*/ }
           <div className="col s12 m9 l10" style={{ marginTop: '2rem' }}>
             <div className="col s12 m12 l12">
-              <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>My Groups</h5>
+              <h5 className="center-align uppercase"
+                style={{ marginBottom: '2rem' }}>My Groups</h5>
               { /* Group cards*/ }
-              { (groups.length > 0) ? groupCards : <h6 className="center-align margin-v2">No Groups Available. Create one from the left sidebar</h6> }
+              { (groups.length > 0) ? groupCards : <h6
+                className="center-align margin-v2">
+                No Groups Available. Create one from the sidebar</h6> }
             </div>
           </div>
         </div>
@@ -84,4 +96,6 @@ const mapStateToProps = state => ({
   groups: state.groups
 });
 
-export default connect(mapStateToProps, { getGroups, getMessages, setGroupToStore })(withRouter(DashboardPage));
+export default connect(
+  mapStateToProps,
+  { getGroups, getMessages, setGroupToStore })(withRouter(DashboardPage));

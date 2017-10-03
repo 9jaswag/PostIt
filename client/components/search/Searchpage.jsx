@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Sidebar from '../sidebar/Sidebar';
-import SearchForm from './SearchForm';
-import RenderUser from './RenderUser';
+import ReactPaginate from 'react-paginate';
+import Sidebar from '../sidebar/Sidebar.jsx';
+import SearchForm from './SearchForm.jsx';
+import RenderUser from './RenderUser.jsx';
 import searchUserAction from '../../actions/searchUserAction';
 
 const propTypes = {
@@ -39,12 +40,12 @@ export class SearchPage extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof Searchpage
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
     this.setState({ errors: '' });
   }
   /**
@@ -54,7 +55,7 @@ export class SearchPage extends Component {
    */
   searchUsers() {
     const payload = {
-      searchTerm: this.state.username.toLowerCase(),
+      username: this.state.username.toLowerCase(),
       offset: this.state.offset,
       limit: this.state.limit
     };
@@ -72,12 +73,12 @@ export class SearchPage extends Component {
 
   /**
    * Makes an action call to search for users
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof Searchpage
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     if (this.state.username.length === 0) {
       this.setState({ errors: 'Enter a username' });
     } else {
@@ -87,13 +88,16 @@ export class SearchPage extends Component {
   /**
    * Method for handling the pagination of users
    * @method handlePagination
-   * @param {object} e
+   * @param {Number} page the selected page number
    * @return {void}
    * @memberof Searchpage
    */
-  handlePagination(e) {
-    this.setState({ offset: Number(e.target.id) });
-    this.searchUsers();
+  handlePagination(page) {
+    const selected = page.selected;
+    const offset = Math.ceil(selected * this.state.limit);
+    this.setState({ offset }, () => {
+      this.searchUsers();
+    });
   }
 
   /**
@@ -101,26 +105,28 @@ export class SearchPage extends Component {
    * @memberof Searchpage
    */
   render() {
-    const { count, limit, offset, users } = this.state;
+    const { count, limit, users } = this.state;
     // render users
     const renderUsers = users.map((user, index) => (
       <div className="col s12" key={ index }>
         <RenderUser user={ user }/>
       </div>
     ));
-    // render page numbers
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(count / limit); i += 1) {
-      pageNumbers.push(i);
-    }
-    const currentPage = Math.floor(offset / limit) + 1;
-    const renderPageNumbers = pageNumbers.map(number => (
-      <li className={ classnames({ // move to component
-        'active teal darken-1': currentPage === number
-      })} key={ number } onClick={ this.handlePagination } >
-        <a href="#" id={ number }>{ number }</a>
-      </li>
-    ));
+    // get page numbers
+    const pageCount = count / limit;
+    // remder page numbers
+    const renderPageNumbers = <ReactPaginate
+      previousLabel={<i className="material-icons pointer">chevron_left</i>}
+      nextLabel={<i className="material-icons pointer">chevron_right</i>}
+      breakLabel={<a href="">...</a>}
+      breakClassName={'break-me'}
+      pageCount={pageCount}
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={5}
+      onPageChange={this.handlePagination}
+      containerClassName={'pagination pointer'}
+      subContainerClassName={'pages pagination'}
+      activeClassName={'active'} />;
     return (
       <div className="row">
         { /* Sidebar*/ }
@@ -129,9 +135,13 @@ export class SearchPage extends Component {
         <div className="col s12 m9 l10" style={{ marginTop: '2rem' }}>
           <div className="col s12">
             <div className="container">
-              <h5 className="center-align uppercase" style={{ marginBottom: '2rem' }}>Search Users</h5>
+              <h5 className="center-align uppercase"
+                style={{ marginBottom: '2rem' }}>Search Users
+              </h5>
               <div className="row">
-                <SearchForm onSubmit={ this.onSubmit } onChange={ this.onChange } state={ this.state }/>
+                <SearchForm onSubmit={ this.onSubmit }
+                  onChange={ this.onChange }
+                  state={ this.state }/>
               </div>
               <div className="row">
                 <div className="col s12">
@@ -139,7 +149,7 @@ export class SearchPage extends Component {
                 </div>
                 <div className="col s12">
                   <ul className="pagination center-align">
-                    { renderPageNumbers }
+                    { users.length > 0 && renderPageNumbers }
                   </ul>
                 </div>
               </div>

@@ -1,9 +1,12 @@
+/* global localStorage */
+/* global sessionStorage */
 /**
  * Action to handle sign in/logout
  */
 
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
+// import { withRouter } from 'react-router-dom';
 import setAuthToken from '../utilities/setAuthToken';
 import { SET_CURRENT_USER } from './types';
 
@@ -19,14 +22,14 @@ export const setCurrentUser = user => ({
 /**
  * @return {void}
  */
-export const logout = () => (dispatch) => {
-  localStorage.removeItem('jwtToken');
-  sessionStorage.clear();
-  setAuthToken(false);
-  dispatch(setCurrentUser({}));
-  Materialize.toast('You\'ve logged out successfully', 2000);
-  location.href = '/';
-};
+export const logout = () => dispatch =>
+  new Promise((resolve) => {
+    localStorage.removeItem('jwtToken');
+    sessionStorage.clear();
+    setAuthToken(false);
+    resolve(dispatch(setCurrentUser({})));
+  })
+;
 
 /**
  * @return {promise} returns server response

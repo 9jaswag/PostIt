@@ -21,7 +21,8 @@ describe('Create group modal', () => {
     }
   };
   it('should render without crashing', () => {
-    const component = shallow(<MessageCard onClick={ props.onClick } message={ props.message } />);
+    const component = shallow(
+      <MessageCard onClick={ props.onClick } message={ props.message } />);
     expect(component.node.type).toEqual('div');
   });
 });

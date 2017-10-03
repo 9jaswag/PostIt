@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import SignupModal from '../modal/SignupModal';
-import SigninModal from '../modal/SigninModal';
+import { Link } from 'react-router-dom';
+import SignupModal from '../modal/SignupModal.jsx';
+import SigninModal from '../modal/SigninModal.jsx';
 
 const propTypes = {
   auth: PropTypes.object.isRequired
@@ -15,6 +16,15 @@ const propTypes = {
  */
 export class HomePage extends Component {
   /**
+   * For opening the modal when component mounts
+   * @method componentDidMount
+   * @return {void}
+   * @memberof HomePage
+   */
+  componentDidMount() {
+    $('.modal').modal();
+  }
+  /**
    * @returns {string} The HTML markup for the HomePage
    * @memberof HomePage
    */
@@ -22,13 +32,17 @@ export class HomePage extends Component {
     const { isAuthenticated } = this.props.auth;
     const userLinks = (
       <div>
-        <a href="/dashboard" className="waves-effect waves-light btn modal-trigger dashboard">Dashboard</a>
+        <Link to="/dashboard"
+          className="waves-effect waves-light btn modal-trigger dashboard">
+          Dashboard</Link>
       </div>
     );
     const guestLinks = (
       <div>
-        <a href="#signupModal" className="waves-effect waves-light btn modal-trigger signup-modal">Sign Up</a>
-        <a href="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h signin-modal">Sign In</a>
+        <Link to="#signupModal"
+          className="waves-effect waves-light btn modal-trigger signup-modal">
+          Sign Up</Link>
+        <Link to="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h signin-modal">Sign In</Link>
       </div>
     );
 
@@ -40,12 +54,13 @@ export class HomePage extends Component {
         <SigninModal/>
         { /* Page Content */}
         <div>
-          <div className="full-height fh">
+          <div className="full-height fh home">
             <div className="row">
-              <div className="col s12 m6 l6 teal accent-4 valign-wrapper full-height">
+              <div className="col s12 m6 l6 teal accent-4 valign-wrapper full-height home">
                 <div style={{ display: 'block', margin: 'auto' }}>
                   <h2 className="center-align text-white">PostIT</h2>
-                  <h5 className="center-align text-white">Prompt Messages, Prompt Delivery</h5>
+                  <h5 className="center-align text-white">
+                    Prompt Messages, Prompt Delivery</h5>
                   { /* Modal Buttons for mobile only*/ }
                   <div className="show-on-small hide-on-med-and-up center-align margin-v2">
                     { isAuthenticated ? userLinks : guestLinks }
@@ -53,7 +68,8 @@ export class HomePage extends Component {
                 </div>
               </div>
               <div className="col s12 m6 l6 valign-wrapper full-height hide-on-small-only">
-                <div className="center-align" style={{ display: 'block', margin: 'auto' }}>
+                <div className="center-align"
+                  style={{ display: 'block', margin: 'auto' }}>
                   { isAuthenticated ? userLinks : guestLinks }
                 </div>
               </div>

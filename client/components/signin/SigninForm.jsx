@@ -29,32 +29,48 @@ export class SigninForm extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.removeBackdrop = this.removeBackdrop.bind(this);
+  }
+  /**
+   * Removes the modal backdrop that remains after modal closes
+   * @method removeBackdrop
+   * @return {void}
+   * @memberof SigninForm
+   */
+  removeBackdrop() {
+    const backdrop = document.querySelector('.modal-backdrop.fade.in');
+    backdrop.hidden = true;
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof SigninForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
    * Makes an action call to sign in a user
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof SigninForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
     this.props.Login(this.state).then(
       () => {
+        $('#signinModal').modal('close');
         Materialize.toast('Sign in successful', 2000);
         this.props.history.push('/dashboard');
       },
-      ({response}) => this.setState({ errors: { message: 'Incorrect Username/Password' }, isLoading: false })
+      () => this.setState(
+        { errors: {
+          message: 'Incorrect Username/Password' },
+        isLoading: false
+        })
       // server error response is not displayed for security reasons
     );
   }
@@ -68,27 +84,43 @@ export class SigninForm extends Component {
     return (
       <form action="" className="col s12" onSubmit= { this.onSubmit }>
         <div className="row center-align">
-          { errors.message && <span className="red-text">{ errors.message }</span>}
+          { errors.message && <span className="red-text">
+            { errors.message }</span>}
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <input id="username" name="username" type="text" className="validate signin" value={ this.state.username } onChange={ this.onChange } required />
+            <input id="username"
+              name="username"
+              type="text"
+              className="validate signin"
+              value={ this.state.username }
+              onChange={ this.onChange } required />
             <label htmlFor="username">Username</label>
           </div>
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <input id="password" name="password" type="password" className="validate signin" value={ this.state.password } onChange={ this.onChange } required />
+            <input id="password"
+              name="password"
+              type="password"
+              className="validate signin"
+              value={ this.state.password }
+              onChange={ this.onChange } required />
             <label htmlFor="password">Password</label>
           </div>
         </div>
         <div className="row right-align">
           <div className="input-field col s12">
-            <input type="submit" className="btn signin" disabled= { isLoading } value="Sign In"/>
+            <input type="submit"
+              className="btn signin"
+              disabled= { isLoading } value="Sign In"/>
           </div>
         </div>
         <div className="row">
-          <Link to="/resetpassword">Forgot Password</Link>
+          <Link to="/resetpassword"
+            onClick={ this.removeBackdrop }>
+            Forgot Password
+          </Link>
         </div>
       </form>
     );

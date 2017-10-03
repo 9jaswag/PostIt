@@ -36,24 +36,24 @@ export class ResetPassword extends Component {
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
    */
-  onChange(e) {
+  onChange(event) {
     this.setState({ error: '' });
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
    * Makes an action call to request for a password reset
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
    */
-  submitRequest(e) {
+  submitRequest(event) {
     this.setState({ error: '' });
-    e.preventDefault();
+    event.preventDefault();
     const payload = {
       email: this.state.email,
       type: 'request'
@@ -71,13 +71,13 @@ export class ResetPassword extends Component {
 
   /**
    * Makes an action call to update the user's password on the database
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
    */
-  submitReset(e) {
+  submitReset(event) {
     this.setState({ error: '' });
-    e.preventDefault();
+    event.preventDefault();
     if (this.state.password !== this.state.confirmPassword) {
       return this.setState({ error: 'Passwords do not match' });
     }
@@ -103,7 +103,7 @@ export class ResetPassword extends Component {
 
   /**
    * Set state to determine the form to show based on the page's URL
-   * @method componentDidMount
+   * @method componentWillMount
    * @return {void}
    * @memberof DashboardPage
    */
@@ -125,16 +125,28 @@ export class ResetPassword extends Component {
       <section className="padding2 teal accent-4" style={{ marginTop: '3rem' }}>
         <form action="" onSubmit={ this.submitRequest }>
           <div className="input-field col s12">
-            <label htmlFor="email" style={{ color: 'white' }}>Enter your email address</label>
-            <input type="email" name="email" id="email" className="validate" value={ this.state.email } onChange={ this.onChange }/>
-            <input type="submit" value="Submit" className="btn waves-effect waves-light one-whole"/>
+            <label htmlFor="email"
+              style={{ color: 'white' }}>Enter your email address
+            </label>
+            <input type="email"
+              name="email"
+              id="email"
+              className="validate"
+              value={ this.state.email }
+              onChange={ this.onChange }/>
+            <input type="submit"
+              value="Submit"
+              className="btn waves-effect waves-light one-whole"/>
           </div>
           <div className="center-align margin-v">
-            { this.state.error && <span className="red-text">{ this.state.error }</span>}
+            { this.state.error && <span
+              className="red-text">{ this.state.error }</span>}
           </div>
         </form>
         <div className="col s12 margin-v">
-          <Link className="text-white" to="/">I think I remember my password</Link>
+          <Link className="text-white" to="/">
+            I think I remember my password
+          </Link>
         </div>
       </section>
     </div>;
@@ -143,22 +155,43 @@ export class ResetPassword extends Component {
       <section className="padding2 teal accent-4" style={{ marginTop: '3rem' }}>
         <form action="" onSubmit={ this.submitReset }>
           <div className="input-field col s12">
-            <label htmlFor="password" style={{ color: 'white' }}>Enter your new password</label>
-            <input type="password" name="password" id="password" className="validate" value={ this.state.password } onChange={ this.onChange }/>
+            <label
+              htmlFor="password"
+              style={{ color: 'white' }}>Enter your new password
+            </label>
+            <input type="password"
+              name="password"
+              id="password"
+              className="validate"
+              value={ this.state.password }
+              onChange={ this.onChange }/>
           </div>
           <div className="input-field col s12">
-            <label htmlFor="confirmPassword" style={{ color: 'white' }}>Confirm new password</label>
-            <input type="password" name="confirmPassword" id="confirmPassword" className="validate" value={ this.state.confirmPassword } onChange={ this.onChange }/>
+            <label
+              htmlFor="confirmPassword"
+              style={{ color: 'white' }}>Confirm new password
+            </label>
+            <input type="password"
+              name="confirmPassword"
+              id="confirmPassword"
+              className="validate"
+              value={ this.state.confirmPassword }
+              onChange={ this.onChange }/>
           </div>
           <div className="input-field col s12">
-            <input type="submit" value="Reset password" className="btn waves-effect waves-light one-whole"/>
+            <input type="submit"
+              value="Reset password"
+              className="btn waves-effect waves-light one-whole"/>
           </div>
           <div className="center-align margin-v">
-            { this.state.error && <span className="red-text">{ this.state.error }</span>}
+            { this.state.error && <span
+              className="red-text">{ this.state.error }</span>}
           </div>
         </form>
         <div className="col s12 margin-v">
-          <Link className="text-white" to="/">I think I remember my password</Link>
+          <Link className="text-white" to="/">
+            I think I remember my password
+          </Link>
         </div>
       </section>
     </div>;

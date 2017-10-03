@@ -61,27 +61,30 @@ export class AddUserForm extends Component {
    * @memberof AddUserForm
    */
   filterUser(username, usersArray) {
-    usersArray.filter((user) => {
+    usersArray.forEach((user) => {
       if ((user.username === username)) {
-        this.setState({ userToAdd: { userId: user.id, username: user.username } });
+        this.setState(
+          { userToAdd: { userId: user.id, username: user.username } });
       }
     });
   }
 
   /**
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof AddUserForm
    */
-  onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
     this.setState({ error: '', userToAdd: {} });
     if (this.state.username.length > 0) {
       this.props.findUser().then(
         (res) => {
           this.setState({ fetchedUsers: res.data.data.user });
-          this.filterUser(this.state.username.toLowerCase(), this.state.fetchedUsers);
-          // reset username state after adding user to users array
+          this.filterUser(
+            this.state.username.toLowerCase(),
+            this.state.fetchedUsers
+          );
         }
       );
     }
@@ -89,7 +92,6 @@ export class AddUserForm extends Component {
 
   /**
    * Makes an action call to add a user to a group
-   * @param {object} e
    * @returns {void}
    * @memberof AddUserForm
    */
@@ -101,22 +103,32 @@ export class AddUserForm extends Component {
       this.props.addUser(groupId, userToAdd).then(
         () => {
           this.props.history.push('/group');
-          Materialize.toast(`${userToAdd.username} has been added successfully`, 2000);
+          Materialize.toast(
+            `${userToAdd.username} has been added to the group`, 2000);
           this.props.getMemberCount(groupId);
         },
         (err) => {
-          // this.setState({ error: err.response.data.error.message });
-          Materialize.toast(`${err.response.data.error.message}`, 1000, '', () => {
-            if (confirm(`Do you want to remove ${userToAdd.username} from this group?`) === true) {
-              this.props.removeUser(groupId, userToAdd).then(
-                () => {
+          Materialize.toast(
+            `${err.response.data.error.message}`, 1000, '', () => {
+              if (confirm(`Do you want to remove ${userToAdd.username} from this group?`) === true) {
+                if (this.props.groupOwner === this.props.currentUser) {
+                  this.props.removeUser(
+                    groupId, userToAdd).then( // send group owner
+                    () => {
+                      this.props.history.push('/group');
+                      Materialize.toast(
+                        `${userToAdd.username}
+                        has been removed from the group`, 2000);
+                      this.props.getMemberCount(groupId);
+                    }
+                  );
+                } else {
                   this.props.history.push('/group');
-                  Materialize.toast(`${userToAdd.username} has been removed from the group`, 2000);
-                  this.props.getMemberCount(groupId);
+                  Materialize.toast(
+                    'Only group owner can remove users from group', 2000);
                 }
-              );
-            }
-          });
+              }
+            });
           this.setState({ userExists: true });
         }
       );
@@ -127,12 +139,12 @@ export class AddUserForm extends Component {
   }
   /**
    * Prevents form action if enter is pressed
-   * @param {object} e
+   * @param {object} event
    * @returns {void}
    * @memberof AddUserForm
    */
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit(event) {
+    event.preventDefault();
   }
 
   /**
@@ -140,35 +152,43 @@ export class AddUserForm extends Component {
    * @memberof AddUserForm
    */
   render() {
-    const userChip = <div className="chip pointer" data-id={ this.state.userToAdd.userId } onClick={ this.onClick }>{ this.state.userToAdd.username }
+    const userChip = <div className="chip pointer"
+      data-id={ this.state.userToAdd.userId }
+      onClick={ this.onClick }>{ this.state.userToAdd.username }
     </div>;
     return (
       <div>
-        { /* Add User Modal Structure */}
-        {/* <div id="addUserModal" className="modal"> */}
-        <div className="modal-content">
+        <div className="row form">
+          <div className="col s12">
+            <h5 className="center-align form">Add New User To Group</h5>
+          </div>
+        </div>
+        <form action="" className="col s12" onSubmit={ this.onSubmit }>
           <div className="row">
-            <div className="col s12">
-              <h5 className="center-align form">Add New User To Group</h5>
+            <div className="input-field col s12">
+              <input id="username" name="username"
+                type="text" className="validate"
+                value={ this.state.username }
+                onChange= { this.onChange} required/>
+              <label htmlFor="username">Enter username</label>
+              { (this.state.userToAdd.userId) ? userChip : null }
+              { this.state.error ? <span
+                className="red-text">{ this.state.error }</span> : null}
             </div>
           </div>
-          <form action="" className="col s12" onSubmit={ this.onSubmit }>
-            <div className="row">
-              <div className="input-field col s12">
-                <input id="username" name="username" type="text" className="validate" value={ this.state.username } onChange= { this.onChange} required/>
-                <label htmlFor="username">Enter username</label>
-                { (this.state.userToAdd.userId) ? userChip : null }
-                { this.state.error ? <span className="red-text">{ this.state.error }</span> : null}
-              </div>
-            </div>
-          </form>
-        </div>
+        </form>
       </div>
-      // </div>
     );
   }
 }
 
 AddUserForm.propTypes = propTypes;
 
-export default connect(null, { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));
+const mapStateToProps = state => ({
+  groupOwner: state.groupDetails.details[2],
+  currentUser: state.auth.user.userUsername
+});
+
+export default connect(
+  mapStateToProps,
+  { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));

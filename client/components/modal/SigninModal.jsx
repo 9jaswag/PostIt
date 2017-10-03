@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SigninForm from '../signin/SigninForm';
+import SigninForm from '../signin/SigninForm.jsx';
 
 /**
  * SigninModal component.
