@@ -87,4 +87,4 @@ Submit a pull request :smile:
 * [Andela](http://andela.com/) Talent Accelerator Team
 
 ## License
-* This project is licensed under the terms of the MIT [License.](https://github.com/9jaswag/PostIt/blob/chore/implement-feedback/LICENSE.md)
+* This project is licensed under the terms of the MIT [License.](https://github.com/9jaswag/PostIt/blob/chore/implement-feedback/LICENSE)
