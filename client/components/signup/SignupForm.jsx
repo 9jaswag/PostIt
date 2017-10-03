@@ -105,14 +105,13 @@ export class SignupForm extends Component {
               { errors.username }</span>}
           </div>
           <div className="input-field col s6">
-            <input id="password" name="password"
-              type="password"
-              className="validate"
-              value={ this.state.password }
+            <input id="phone" name="phone"
+              type="tel" className="validate"
+              value={ this.state.phone }
               onChange={ this.onChange } required />
-            <label htmlFor="password">Password</label>
-            { errors.password && <span className="red-text">
-              { errors.password }</span>}
+            <label htmlFor="phone">Phone Number</label>
+            { errors.phone && <span className="red-text">
+              { errors.phone }</span>}
           </div>
         </div>
         <div className="row">
@@ -127,13 +126,14 @@ export class SignupForm extends Component {
               { errors.email }</span>}
           </div>
           <div className="input-field col s6">
-            <input id="phone" name="phone"
-              type="tel" className="validate"
-              value={ this.state.phone }
+            <input id="password" name="password"
+              type="password"
+              className="validate"
+              value={ this.state.password }
               onChange={ this.onChange } required />
-            <label htmlFor="phone">Phone Number</label>
-            { errors.phone && <span className="red-text">
-              { errors.phone }</span>}
+            <label htmlFor="password">Password</label>
+            { errors.password && <span className="red-text">
+              { errors.password }</span>}
           </div>
         </div>
         <div className="row right-align">
