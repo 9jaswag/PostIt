@@ -27,7 +27,6 @@ The **client** directory houses the front-end implementation in ReactJS (Redux)
 * Front-end: React/Redux, SASS, Webpack
 * Back-end: Node/Express, Sequelize/Postgres
 * Nexmo: For sending SMS notifications
-* Nodemailer: For sending email notifications
 
 ## Get Started
 1. Clone the repository, navigate to the folder and run ```npm install``` to install dependencies.
@@ -73,7 +72,6 @@ This app uses ```Mocha```, ```Chai-Http``` for API tests, ```Jest```, ```Enzyme`
   DATABASE_URL_DEV=development-database-url
   DATABASE_URL=production-database-url
 ```
-
 ## Contributing
 
 Fork it!
@@ -87,3 +85,6 @@ Submit a pull request :smile:
 
 ## Acknowledgement
 * [Andela](http://andela.com/) Talent Accelerator Team
+
+## License
+* This project is licensed under the terms of the MIT [License.](https://github.com/9jaswag/PostIt/blob/chore/implement-feedback/LICENSE.md)
