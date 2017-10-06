@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
-import userSignupRequest from '../../actions/signupActions';
+import userSignupRequest, { setCurrentUser } from '../../actions/signupActions';
 import * as types from '../../actions/types';
 import mockLocalStorage from '../../__mocks__/mockLocalStorage';
 
@@ -17,6 +17,26 @@ describe('Sign up action', () => {
 
   it('should contain userSignupRequest function', () => {
     expect(userSignupRequest()).toBeA('function');
+  });
+  it('should contain setCurrentUser object', () => {
+    expect(setCurrentUser()).toBeA('object');
+  });
+  it('should dispatch an action', () => {
+    const auth = {
+      isAuthenticated: true,
+      user: {
+        id: 1,
+        username: 'chuks',
+        email: 'chuks@andela.com',
+      }
+    };
+    const userData = {
+      email: 'chuks@andela.com',
+      id: 1,
+      username: 'chuks'
+    };
+    const expectedAction = { type: types.SET_CURRENT_USER, user: auth.user };
+    expect(setCurrentUser(userData)).toEqual(expectedAction);
   });
   it('creates an action SET_CURRENT_USER on successful user sign up',
     (done) => {
