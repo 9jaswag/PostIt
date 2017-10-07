@@ -3,7 +3,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { SignupForm } from '../../components/signup/SignupForm';
+import { SignupForm } from '../../components/home/SignupForm.jsx';
 
 describe('Signup form component test', () => {
   const props = {

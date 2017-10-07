@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import classnames from 'classnames';
-import Sidebar from '../sidebar/Sidebar.jsx';
+import Sidebar from '../dashboard/Sidebar.jsx';
 
 /**
  * @export

@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store'
-import { MessagePage } from '../../components/message/MessagePage';
+import { MessagePage } from '../../components/group/MessagePage.jsx';
 
 describe('Add user form Component', () => {
   const message = {

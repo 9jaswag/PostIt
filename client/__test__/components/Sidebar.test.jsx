@@ -3,7 +3,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store'
-import { Sidebar } from '../../components/sidebar/Sidebar';
+import { Sidebar } from '../../components/dashboard/Sidebar.jsx';
 
 describe('Sidebar', () => {
   const props = {

@@ -7,8 +7,8 @@ import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
 // import ShallowRenderer from 'react-test-renderer/shallow';
 import configureStore from 'redux-mock-store'
-import { GroupPage } from '../../components/group/GroupPage';
-import { Sidebar } from '../../components/sidebar/Sidebar';
+import { GroupPage } from '../../components/group/GroupPage.jsx';
+import { Sidebar } from '../../components/dashboard/Sidebar.jsx';
 import mockSessionStorage from '../../__mocks__/mockSessionStorage';
 
 Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });

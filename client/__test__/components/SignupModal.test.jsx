@@ -2,7 +2,7 @@
 /* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { SignupModal } from '../../components/signup/SignupModal.jsx';
+import { SignupModal } from '../../components/home/SignupModal.jsx';
 
 describe('Create group modal', () => {
   const props = {

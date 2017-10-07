@@ -3,7 +3,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { SigninForm } from '../../components/signin/SigninForm';
+import { SigninForm } from '../../components/home/SigninForm.jsx';
 
 describe('Sign in form component test', () => {
   const props = {

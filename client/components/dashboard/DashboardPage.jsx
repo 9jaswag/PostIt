@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Sidebar from '../sidebar/Sidebar.jsx';
+import Sidebar from '../dashboard/Sidebar.jsx';
 import getGroups from '../../actions/getGroups';
 import getMessages from '../../actions/getMessages';
 import GroupCards from '../group/GroupCards.jsx';
