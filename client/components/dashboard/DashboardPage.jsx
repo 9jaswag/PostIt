@@ -64,9 +64,10 @@ export class DashboardPage extends Component {
    */
   render() {
     const groups = this.props.groups;
-    const groupCards = groups.map(group => <div key={ group.group.id }>
-      <GroupCards onClick={ this.onClick } group={ group }/>
-    </div>);
+    const groupCards = groups.map(group => <GroupCards
+      onClick={ this.onClick }
+      group={ group }
+      key={ group.group.id }/>);
     return (
       <div>
         <div className="row">

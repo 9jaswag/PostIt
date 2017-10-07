@@ -1,6 +1,8 @@
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import configureStore from 'redux-mock-store'
+import configureStore from 'redux-mock-store';
 import { MessagePage } from '../../components/group/MessagePage.jsx';
 
 describe('Add user form Component', () => {
@@ -22,5 +24,12 @@ describe('Add user form Component', () => {
     const goBackSpy = jest.spyOn(component.instance(), 'goBack');
     component.instance().goBack();
     expect(goBackSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should contain the method componentWillMount', () => {
+    const component = shallow(<MessagePage message={message} { ...props }/>);
+    const componentWillMountSpy = jest.spyOn(
+      component.instance(), 'componentWillMount');
+    component.instance().componentWillMount();
+    expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
   });
 });
