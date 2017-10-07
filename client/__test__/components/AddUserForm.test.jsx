@@ -3,7 +3,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store'
-import { AddUserForm } from '../../components/addUser/AddUserForm';
+import { AddUserForm } from '../../components/group/AddUserForm.jsx';
 
 describe('Add user form Component', () => {
   const props = {

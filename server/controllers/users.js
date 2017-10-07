@@ -186,6 +186,13 @@ export default {
   findAll(req, res) {
     return models.User
       .findAll({
+        include: [{
+          model: models.Group,
+          order: [['createdAt', 'DESC']],
+          required: false,
+          attributes: ['id'],
+          through: { attributes: [] }
+        }],
         attributes: ['id', 'username', 'email', 'phone']
       })
       .then((user) => {

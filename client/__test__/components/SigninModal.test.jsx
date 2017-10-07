@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import SigninModal from '../../components/modal/SigninModal';
+import SigninModal from '../../components/signin/SigninModal.jsx';
 
 describe('Sign in modal', () => {
   it('should render without crashing', () => {

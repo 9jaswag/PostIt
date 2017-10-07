@@ -1,7 +1,9 @@
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store'
-import { PostMessageForm } from '../../components/postMessage/PostMessageForm';
+import { PostMessageForm } from '../../components/group/PostMessageForm.jsx';
 
 describe('Post message form component', () => {
   const props = {
