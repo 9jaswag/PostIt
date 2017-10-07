@@ -132,11 +132,11 @@ export class SearchPage extends Component {
         { /* Sidebar*/ }
         <Sidebar />
         { /* Main page*/ }
-        <div className="col s12 m9 l10" style={{ marginTop: '2rem' }}>
+        <div className="col s12 m9 l10 margin-v-top">
           <div className="col s12">
             <div className="container">
-              <h5 className="center-align uppercase"
-                style={{ marginBottom: '2rem' }}>Search Users
+              <h5 className="center-align uppercase margin-v-bottom">
+                Search Users
               </h5>
               <div className="row">
                 <SearchForm onSubmit={ this.onSubmit }

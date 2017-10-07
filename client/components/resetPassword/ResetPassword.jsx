@@ -122,7 +122,7 @@ export class ResetPassword extends Component {
   render() {
     const requestResetForm = <div>
       <h4 className="center-align">Forgot password?</h4>
-      <section className="padding2 teal accent-4" style={{ marginTop: '3rem' }}>
+      <section className="padding2 teal accent-4 margin-v-top-3">
         <form action="" onSubmit={ this.submitRequest }>
           <div className="input-field col s12">
             <label htmlFor="email"
@@ -152,7 +152,7 @@ export class ResetPassword extends Component {
     </div>;
     const resetPasswordForm = <div>
       <h4 className="center-align">Reset password?</h4>
-      <section className="padding2 teal accent-4" style={{ marginTop: '3rem' }}>
+      <section className="padding2 teal accent-4 margin-v-top-3">
         <form action="" onSubmit={ this.submitReset }>
           <div className="input-field col s12">
             <label

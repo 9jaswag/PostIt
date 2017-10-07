@@ -161,8 +161,7 @@ export class GroupPage extends Component {
           <Sidebar />
           {/* Main Page */}
           <div className="col s12 m9 l10 no-padding">
-            <div className="col s12 m12 l7 middle"
-              style={{ marginTop: '2rem' }}>
+            <div className="col s12 m12 l7 middle margin-v-top">
               <h5 className="center-align uppercase">
                 { groupName ? `${groupName} Message Board` : null } </h5>
               <div className="row full-height">
@@ -192,8 +191,9 @@ export class GroupPage extends Component {
               <div className="row">
                 { /* Group Stats*/ }
                 <div className="col s12 m12 l12 teal accent-4">
-                  <h6 className="white-text center-align"
-                    style={{ marginBottom: '0rem' }}>GROUP STATISTICS</h6>
+                  <h6 className="white-text center-align margin-v-bottom-none">
+                    GROUP STATISTICS
+                  </h6>
                   <h6 className="white-text center-align">
                     { this.props.count } Members</h6>
                 </div>

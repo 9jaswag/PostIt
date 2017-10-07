@@ -57,7 +57,7 @@ export class HomePage extends Component {
           <div className="full-height fh home">
             <div className="row">
               <div className="col s12 m6 l6 teal accent-4 valign-wrapper full-height home">
-                <div style={{ display: 'block', margin: 'auto' }}>
+                <div className="centralize">
                   <h2 className="center-align text-white">PostIT</h2>
                   <h5 className="center-align text-white">
                     Prompt Messages, Prompt Delivery</h5>
@@ -68,8 +68,7 @@ export class HomePage extends Component {
                 </div>
               </div>
               <div className="col s12 m6 l6 valign-wrapper full-height hide-on-small-only">
-                <div className="center-align"
-                  style={{ display: 'block', margin: 'auto' }}>
+                <div className="center-align centralize">
                   { isAuthenticated ? userLinks : guestLinks }
                 </div>
               </div>

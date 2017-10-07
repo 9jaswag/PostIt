@@ -14,12 +14,13 @@ const MessageContent = ({ message }) => (
         { new Date(message.createdAt).toLocaleTimeString({ hour12: true })
         }</small>
       </h6>
-      <span className={ classnames('margin-h default-radius slim', {
-        'red darken-3': message.priority === 'critical',
-        'amber accent-4': message.priority === 'urgent',
-        'light-blue darken-3': message.priority === 'normal',
-      }) } style={{ padding: '.1rem .4rem' }}>{ message.priority }</span>
-      <p className="flow-text" style={{ marginTop: '2rem' }}>
+      <span className={
+        classnames('margin-h default-radius slim message-content-padding', {
+          'red darken-3': message.priority === 'critical',
+          'amber accent-4': message.priority === 'urgent',
+          'light-blue darken-3': message.priority === 'normal',
+        }) }>{ message.priority }</span>
+      <p className="flow-text margin-v-top">
         { message.message }
       </p>
     </div>

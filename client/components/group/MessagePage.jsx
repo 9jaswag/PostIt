@@ -53,7 +53,7 @@ export class MessagePage extends Component {
           <Sidebar />
           { /* Main Page*/ }
           <div className="col s12 m9 l10">
-            <div className="col s12" style={{ marginTop: '2rem' }}>
+            <div className="col s12 margin-v-top">
               <div className="container">
                 <div className="row full-height overflow-y-scroll margin-v2">
                   <button

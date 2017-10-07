@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const NotFound = () => <div
   className="s12 teal accent-4 center-align fh valign-wrapper">
-  <div className="center-align" style={{ display: 'block', margin: 'auto' }}>
+  <div className="center-align centralize">
     <h3 className="white-text">
       You're lost. Let's guide you <Link to="/">Home</Link>
     </h3>
