@@ -51,4 +51,13 @@ describe('Add user form Component', () => {
     component.instance().onSubmit(e);
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
   });
+  it('should contain the method isGroupMember', () => {
+    const component = shallow(<AddUserForm {...props}/>);
+    const userGroups = [
+      { id: 1 }
+    ];
+    const isGroupMemberSpy = jest.spyOn(component.instance(), 'isGroupMember');
+    component.instance().isGroupMember(userGroups);
+    expect(isGroupMemberSpy).toHaveBeenCalledTimes(1);
+  });
 });
