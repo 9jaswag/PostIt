@@ -121,7 +121,7 @@ export class AddUserForm extends Component {
   }
 
   /**
-   * Makes an action call to add a user to a group
+   * Makes an action call to add or remove a user from a group
    * @returns {void}
    * @memberof AddUserForm
    */
@@ -152,8 +152,7 @@ export class AddUserForm extends Component {
         );
       } else {
         this.props.history.push('/group');
-        Materialize.toast(
-          'Only group owner can remove users from group', 2000);
+        Materialize.toast('Only group owner can remove users from group', 2000);
       }
     }
     this.resetState();
