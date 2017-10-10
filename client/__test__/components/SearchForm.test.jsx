@@ -1,3 +1,5 @@
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import SearchForm from '../../components/search/SearchForm';

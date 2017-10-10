@@ -7,7 +7,8 @@ import { withRouter } from 'react-router-dom';
 import Sidebar from '../dashboard/Sidebar.jsx';
 import PostMessageForm from './PostMessageForm.jsx';
 import AddUserForm from './AddUserForm.jsx';
-import { passMessage, getMessages, updateReadBy } from '../../actions/messageActions';
+import getMessages,{ passMessage,
+  updateReadBy } from '../../actions/messageActions';
 import { getMemberCount } from '../../actions/groupActions';
 import MessageCard from '../group/MessageCard.jsx';
 
