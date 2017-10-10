@@ -7,10 +7,8 @@ import { withRouter } from 'react-router-dom';
 import Sidebar from '../dashboard/Sidebar.jsx';
 import PostMessageForm from './PostMessageForm.jsx';
 import AddUserForm from './AddUserForm.jsx';
-import getMessages from '../../actions/getMessages';
-import passMessage from '../../actions/passMessageAction';
-import updateReadBy from '../../actions/readbyAction';
-import { getMemberCount } from '../../actions/getGroups';
+import { passMessage, getMessages, updateReadBy } from '../../actions/messageActions';
+import { getMemberCount } from '../../actions/groupActions';
 import MessageCard from '../group/MessageCard.jsx';
 
 const propTypes = {

@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Sidebar from '../dashboard/Sidebar.jsx';
-import getGroups from '../../actions/getGroups';
-import getMessages from '../../actions/getMessages';
+import { getGroups, setGroupToStore } from '../../actions/groupActions';
+import getMessages from '../../actions/messageActions';
 import GroupCards from '../group/GroupCards.jsx';
-import { setGroupToStore } from '../../actions/groupIdAction';
 
 const propTypes = {
   getGroups: PropTypes.func.isRequired,

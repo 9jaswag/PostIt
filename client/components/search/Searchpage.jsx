@@ -6,7 +6,7 @@ import ReactPaginate from 'react-paginate';
 import Sidebar from '../dashboard/Sidebar.jsx';
 import SearchForm from './SearchForm.jsx';
 import RenderUser from './RenderUser.jsx';
-import searchUserAction from '../../actions/searchUserAction';
+import searchUserAction from '../../actions/groupActions';
 
 const propTypes = {
   searchUserAction: PropTypes.func.isRequired

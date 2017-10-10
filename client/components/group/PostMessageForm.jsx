@@ -6,8 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import postMessage from '../../actions/postMessageAction';
-import getMessages from '../../actions/getMessages';
+import getMessages, { postMessage } from '../../actions/messageActions';
 
 const propTypes = {
   postMessage: PropTypes.func.isRequired

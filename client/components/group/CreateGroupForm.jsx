@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import createGroup from '../../actions/createGroup';
+import createGroup from '../../actions/groupActions';
 
 const propTypes = {
   createGroup: PropTypes.func.isRequired

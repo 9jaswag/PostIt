@@ -1,5 +1,5 @@
 import expect from 'expect';
-import addUser, { findUser } from '../../actions/addUserAction';
+import { addUser, findUser } from '../../actions/groupActions';
 
 describe('Add User Action', () => {
   it('should contain addUser function', () => {

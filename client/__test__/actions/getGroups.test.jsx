@@ -3,9 +3,9 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
-import getGroups, { getMemberCount,
+import { getGroups, getMemberCount,
   setUserGroups,
-  setGroupMemberCount } from '../../actions/getGroups';
+  setGroupMemberCount } from '../../actions/groupActions';
 import * as types from '../../actions/types';
 import mockLocalStorage from '../../__mocks__/mockLocalStorage';
 

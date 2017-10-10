@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
-import addUser, { findUser } from '../../actions/addUserAction';
-import removeUser from '../../actions/removeUserAction';
-import { getMemberCount } from '../../actions/getGroups';
+import { addUser,
+  findUser,
+  getMemberCount,
+  removeUser } from '../../actions/groupActions';
 
 const propTypes = {
   findUser: PropTypes.func.isRequired,

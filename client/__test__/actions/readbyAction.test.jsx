@@ -1,5 +1,5 @@
 import expect from 'expect';
-import updateReadBy from '../../actions/readbyAction';
+import { updateReadBy } from '../../actions/messageActions';
 
 describe('Message Readby Action', () => {
   it('should return a function that updates the readby status of a message',

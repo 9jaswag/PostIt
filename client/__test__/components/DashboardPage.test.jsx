@@ -1,8 +1,11 @@
+/* global window */
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store'
-import { DashboardPage } from '../../components/dashboard/DashboardPage';
-import mockSessionStorage from '../../__mocks__/mockSessionStorage.js';
+import { DashboardPage } from '../../components/dashboard/DashboardPage.jsx';
+import mockSessionStorage from '../../__mocks__/mockSessionStorage';
 
 Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
 

@@ -1,5 +1,5 @@
 import expect from 'expect';
-import searchUserAction from '../../actions/searchUserAction';
+import { searchUserAction } from '../../actions/groupActions';
 
 describe('Search User Action', () => {
   it('should contain a searchUserAction function', () => {

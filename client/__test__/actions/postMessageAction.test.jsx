@@ -1,5 +1,5 @@
 import expect from 'expect';
-import postMessage from '../../actions/postMessageAction';
+import { postMessage } from '../../actions/messageActions';
 
 describe('Post message Action', () => {
   it('should contain postMessage function', () => {

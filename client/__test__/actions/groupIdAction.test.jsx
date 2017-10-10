@@ -1,6 +1,6 @@
 import expect from 'expect';
 import { SET_GROUP_DETAILS } from '../../actions/types';
-import setGroupId, { setGroupToStore } from '../../actions/groupIdAction';
+import { setGroupId, setGroupToStore } from '../../actions/groupActions';
 
 describe('set group id action creator', () => {
   it('should contain setGroupId object', () => {

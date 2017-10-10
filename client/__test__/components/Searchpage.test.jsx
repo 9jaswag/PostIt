@@ -1,7 +1,9 @@
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import configureStore from 'redux-mock-store'
-import { SearchPage } from '../../components/search/SearchPage';
+import configureStore from 'redux-mock-store';
+import { SearchPage } from '../../components/search/Searchpage.jsx';
 
 describe('Search Page component', () => {
   const props = {
