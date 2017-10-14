@@ -4,10 +4,13 @@
  */
 
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
 import customSort from '../../helpers/customSort';
 
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 export default {
   /**

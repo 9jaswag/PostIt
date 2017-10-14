@@ -88,8 +88,5 @@ export default (sequelize, DataTypes) => {
   User.prototype.verifyPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
   };
-
-  // instance method to find group count
-  // User.prototype.groupCount = function (message, username) {};
   return User;
 };
