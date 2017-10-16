@@ -20,7 +20,7 @@ const MessageContent = ({ message }) => (
           'amber accent-4': message.priority === 'urgent',
           'light-blue darken-3': message.priority === 'normal',
         }) }>{ message.priority }</span>
-      <p className="flow-text margin-v-top">
+      <p className="flow-text">
         { message.message }
       </p>
     </div>
