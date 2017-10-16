@@ -359,7 +359,7 @@ export default {
           if (currentTime - user.resetTime > 3600000) {
             return res.status(400).send(
               { status: false,
-                error: 'Token has expired. Please request for anotherpassword reset.'
+                error: 'Token has expired. Please request for another password reset.'
               });
           }
           // reset user password and delete token and resetTime
