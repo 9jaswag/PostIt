@@ -12,7 +12,6 @@ import customSort from '../../helpers/customSort';
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 
-
 export default {
   /**
    * Method to sign up users
@@ -65,7 +64,7 @@ export default {
     return models.User
       .create({
         username: req.body.username.trim().toLowerCase(),
-        password: bcrypt.hashSync(req.body.password, salt),
+        password: req.body.password,
         email: req.body.email.trim(),
         phone: req.body.phone.trim()
       })
@@ -149,28 +148,24 @@ export default {
               username: 'User does not exist'
             }
           });
-      } else if (user) {
-        const passwordHash = user.password;
-        if (!(bcrypt.compareSync(req.body.password, passwordHash))) {
-          return res.status(401)
-            .send({
-              success: false,
-              errors: {
-                password: 'Incorrect password!'
-              }
-            });
-        }
       }
-      // generate token
-      const token = jwt.sign({
-        userId: user.id,
-        userEmail: user.email,
-        userUsername: user.username,
-      }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-      return res.status(200)
-        .send({ success: true,
+      if (user && user.verifyPassword(req.body.password)) {
+        // generate token
+        const token = jwt.sign({
+          userId: user.id,
+          userEmail: user.email,
+          userUsername: user.username,
+        }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+        return res.status(200).send({ success: true,
           message: 'Sign in successful',
           data: { token } });
+      }
+      return res.status(401).send({
+        success: false,
+        errors: {
+          password: 'Incorrect password!'
+        }
+      });
     })
       .catch(error => res.status(400).send({
         success: false,
@@ -364,7 +359,7 @@ export default {
           if (currentTime - user.resetTime > 3600000) {
             return res.status(400).send(
               { status: false,
-                error: 'Token has expired. Please request for anotherpassword reset.'
+                error: 'Token has expired. Please request for another password reset.'
               });
           }
           // reset user password and delete token and resetTime

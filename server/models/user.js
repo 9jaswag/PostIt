@@ -1,5 +1,8 @@
-
 // User model
+import bcrypt from 'bcrypt';
+
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 export default (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -74,6 +77,16 @@ export default (sequelize, DataTypes) => {
     User.belongsToMany(models.Group,
       { through: 'UserGroup', foreignKey: 'userId' });
     User.hasMany(models.Message, { foreignKey: 'userId' });
+  };
+
+  //  hash user password before creating user
+  User.beforeCreate((user) => {
+    user.password = bcrypt.hashSync(user.password, salt);
+  });
+
+  // instance method to verify user password
+  User.prototype.verifyPassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
   };
   return User;
 };
