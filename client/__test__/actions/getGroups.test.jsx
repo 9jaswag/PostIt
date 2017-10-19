@@ -3,9 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import moxios from 'moxios';
 import expect from 'expect';
-import { getGroups, getMemberCount,
-  setUserGroups,
-  setGroupMemberCount } from '../../actions/groupActions';
+import { getGroups, getMemberCount } from '../../actions/groupActions';
 import * as types from '../../actions/types';
 import mockLocalStorage from '../../__mocks__/mockLocalStorage';
 
@@ -17,67 +15,51 @@ describe('Get groups action', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
-  it('should contain getGroups function', () => {
-    expect(getGroups()).toBeA('function');
-  });
-  it('should contain setUserGroups object', () => {
-    expect(setUserGroups()).toBeA('object');
-  });
-  it('should contain setGroupMemberCount object', () => {
-    expect(setGroupMemberCount()).toBeA('object');
-  });
-  it('should contain getMemberCount function', () => {
-    expect(getMemberCount()).toBeA('function');
-  });
-  it('it dispatches GET_USER_GROUPS action when getting user groups', () => {
-    moxios.stubRequest('/api/users/one', {
+  it('should dispatch GET_USER_GROUPS action', (done) => {
+    moxios.stubRequest('/api/v1/users/one', {
       status: 200,
       response: {
-        data: [
-          {
-            group: {
-              id: 1,
-              name: 'Factory',
-              description: "A group for HNG's Factory product"
-            },
-            unreadCount: 4
-          }
-        ]
+        data: [{
+          group: {
+            id: 1,
+            name: 'Andela',
+            description: 'A group for Andela'
+          },
+          unreadCount: 4
+        }]
       }
     });
+    done();
     const store = mockStore({});
-    const groups = [
-      {
-        group: {
-          id: 1,
-          name: 'Factory',
-          description: "A group for HNG's Factory product"
-        },
-        unreadCount: 4
-      }
-    ];
+    const groups = [{
+      group: {
+        id: 1,
+        name: 'Andela',
+        description: 'A group for Andela'
+      },
+      unreadCount: 4
+    }];
     const expectedActions = [
       { type: types.GET_USER_GROUPS, groups }
     ];
-    store.dispatch(getGroups(groups)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    store.dispatch(getGroups(groups));
+    expect(store.getActions()).toEqual(expectedActions);
   });
-  it('it dispatches SET_MEMBER_COUNT action when getting member count', () => {
-    moxios.stubRequest('/api/v1/group/1/count', {
+  it('should dispatch SET_MEMBER_COUNT action', (done) => {
+    moxios.stubRequest('/api/v1/group/2/count', {
       status: 200,
       response: {
         success: true,
         data: 2
       }
     });
+    done();
     const store = mockStore({});
     const count = 2;
     const expectedActions = [
       { type: types.SET_MEMBER_COUNT, count }
     ];
-    store.dispatch(getMemberCount(count)).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-    });
+    store.dispatch(getMemberCount(2));
+    expect(store.getActions()).toEqual(expectedActions);
   });
 });

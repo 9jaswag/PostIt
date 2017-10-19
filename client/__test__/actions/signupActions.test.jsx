@@ -40,7 +40,7 @@ describe('Sign up action', () => {
   });
   it('creates an action SET_CURRENT_USER on successful user sign up',
     (done) => {
-      moxios.stubRequest('/api/user/signup', {
+      moxios.stubRequest('/api/v1/user/signup', {
         status: 201,
         response: {
           success: true,
