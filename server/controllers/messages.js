@@ -59,7 +59,7 @@ export default {
           });
       })
       .catch((error) => {
-        res.status(400).send({ success: false, errors: error.message });
+        res.status(500).send({ success: false, errors: error.message });
       });
   }
 };

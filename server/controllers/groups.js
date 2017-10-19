@@ -70,7 +70,7 @@ export default {
           success: false,
           errors: { message: error.message }
         })))
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
         errors: { message: error.message }
       }));
@@ -135,7 +135,7 @@ export default {
               error: { message: error.message }
             }));
         })
-        .catch(error => res.status(400).send({
+        .catch(error => res.status(500).send({
           success: false,
           error: { message: error.message }
         }));
@@ -258,7 +258,7 @@ export default {
         }));
       // @todo handle these errors "notNull Violation: title cannot be null"
     })
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
         message: error.message
       }));
@@ -287,7 +287,7 @@ export default {
           }
         })
         .then(message => res.status(200).send({ success: true, data: message }))
-        .catch(error => res.status(400).send({
+        .catch(error => res.status(500).send({
           success: false,
           error: { message: error.message }
         }));
@@ -324,7 +324,7 @@ export default {
         removedUser
       }));
     })
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
         error: { message: error.message }
       }));
@@ -354,7 +354,7 @@ export default {
         data
       });
     })
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
         error: { message: error.message }
       }));

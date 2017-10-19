@@ -418,6 +418,19 @@ describe('Group controller test', () => {
           done();
         });
     });
+    it('should return 500 error', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/err/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+    });
   });
   describe('API route for getting group member count', () => {
     it('should return an error if no token is provided', (done) => {

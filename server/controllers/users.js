@@ -167,7 +167,7 @@ export default {
         }
       });
     })
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
         errors: { message: error.message }
       }));
@@ -198,7 +198,7 @@ export default {
         return res.status(200)
           .send({ details: req.userGroupInfo, data: { user } });
       })
-      .catch(error => res.send({
+      .catch(error => res.status(500).send({
         success: false,
         error: { message: error.message }
       }));
@@ -255,7 +255,7 @@ export default {
           })
         );
       })
-      .catch(error => res.status(400).send({ errors: error.message }));
+      .catch(error => res.status(500).send({ errors: error.message }));
   },
   /**
    * Method to search for users
@@ -284,7 +284,7 @@ export default {
         res.status(200).send({ success: true, data: user });
       })
       .catch((error) => {
-        res.status(400).send({ success: false, errors: error.message });
+        res.status(500).send({ success: false, errors: error.message });
       });
   },
   /**
@@ -380,7 +380,7 @@ export default {
               { success: false, error: error.message }));
         }
       })
-      .catch(error => res.status(400).send(
+      .catch(error => res.status(500).send(
         { status: false, error: error.message }
       ));
   }
