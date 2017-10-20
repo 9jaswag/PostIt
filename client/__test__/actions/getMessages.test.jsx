@@ -1,5 +1,6 @@
 import expect from 'expect';
 import thunk from 'redux-thunk';
+import moxios from 'moxios';
 import configureMockStore from 'redux-mock-store';
 import getMessages, { setMessages } from '../../actions/messageActions';
 import * as types from '../../actions/types';
@@ -26,20 +27,34 @@ describe('Get Messages Action', () => {
     store.dispatch(setMessages(messages));
     expect(store.getActions()).toEqual(expectedActions);
   });
-  it('should dispatch SET_MESSAGE action when called', () => {
+  it('should dispatch SET_MESSAGE action when called', (done) => {
+    moxios.stubRequest('/api/v1/group/1/messages', {
+      status: 200,
+      response: {
+        success: true,
+        data: [{
+          id: 1,
+          title: 'Fancy Title',
+          message: 'Awesome content',
+          priority: 'normal',
+          owner: 'chuks'
+        }]
+      }
+    });
     const store = mockStore({});
-    const messages = [{
-      id: 46,
-      title: 'htiw',
-      message: 'asjpo',
+    const messages = {
+      id: 1,
+      title: 'Fancy Title',
+      message: 'Awesome content',
       priority: 'normal',
-      author: 'chuks'
-    }];
+      owner: 'chuks'
+    };
     const expectedActions = [
       { type: types.SET_MESSAGE, messages }
     ];
-    store.dispatch(getMessages(messages)).then(() => {
+    store.dispatch(getMessages(1)).then((res) => {
       expect(store.getActions()).toEqual(expectedActions);
     });
+    done();
   });
 });

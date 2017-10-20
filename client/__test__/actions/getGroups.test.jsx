@@ -29,21 +29,22 @@ describe('Get groups action', () => {
         }]
       }
     });
-    done();
     const store = mockStore({});
     const groups = [{
       group: {
         id: 1,
         name: 'Andela',
-        description: 'A group for Andela'
+        description: 'A group for Andela',
       },
       unreadCount: 4
     }];
     const expectedActions = [
       { type: types.GET_USER_GROUPS, groups }
     ];
-    store.dispatch(getGroups(groups));
-    expect(store.getActions()).toEqual(expectedActions);
+    store.dispatch(getGroups(groups)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+    done();
   });
   it('should dispatch SET_MEMBER_COUNT action', (done) => {
     moxios.stubRequest('/api/v1/group/2/count', {
@@ -53,13 +54,14 @@ describe('Get groups action', () => {
         data: 2
       }
     });
-    done();
     const store = mockStore({});
     const count = 2;
     const expectedActions = [
       { type: types.SET_MEMBER_COUNT, count }
     ];
-    store.dispatch(getMemberCount(2));
-    expect(store.getActions()).toEqual(expectedActions);
+    store.dispatch(getMemberCount(2)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+    done();
   });
 });
