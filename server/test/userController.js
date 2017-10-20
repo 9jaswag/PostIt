@@ -54,6 +54,60 @@ describe('User Controller test', () => {
             done();
           });
       });
+    it('should return 400 error and error message with short password',
+      (done) => {
+        chai.request(app)
+          .post('/api/v1/user/signup')
+          .type('form')
+          .send({
+            username: 'chuks',
+            email: 'chuks@andela.com',
+            password: 'chuks',
+            phone: '2347033130448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.password.should.equals(
+              'Password length must be more than 6 characters');
+            done();
+          });
+      });
+    it('should return error message for failed phone validation',
+      (done) => {
+        chai.request(app)
+          .post('/api/v1/user/signup')
+          .type('form')
+          .send({
+            username: 'chuks',
+            email: 'chuks@andela.com',
+            password: 'chuks',
+            phone: '2347033err0448'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.phone.should.equals(
+              'Phone number cannot contain text');
+            done();
+          });
+      });
+    it('should return error message for empty phone field',
+      (done) => {
+        chai.request(app)
+          .post('/api/v1/user/signup')
+          .type('form')
+          .send({
+            username: 'chuks',
+            email: 'chuks@andela.com',
+            password: 'chuks',
+            phone: ''
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.errors.phone.should.equals(
+              'Phone field cannot be empty');
+            done();
+          });
+      });
     it('should return 400 error and error message with no username parameter',
       (done) => {
         chai.request(app)
@@ -451,6 +505,22 @@ describe('User Controller test', () => {
             done();
           });
       });
+    it('should return 404 error if user is not found',
+      (done) => {
+        chai.request(app)
+          .patch('/api/v1/user/reset')
+          .type('form')
+          .send({
+            email: 'dave@andela.com',
+            type: 'request'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.error.should.equals('No user with this email address');
+            resetToken = res.body.resetToken;
+            done();
+          });
+      });
     it('should send an email to the  user with reset link',
       (done) => {
         chai.request(app)
@@ -480,6 +550,52 @@ describe('User Controller test', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.message.should.equals('Password reset successful');
+          done();
+        });
+    });
+    it('should return 400 error if no password is provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/reset')
+        .type('form')
+        .send({
+          email: 'chuks@andela.com',
+          type: 'reset',
+          token: resetToken
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.should.equals('Provide a new password');
+          done();
+        });
+    });
+    it('should return 400 error if token is not provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/reset')
+        .type('form')
+        .send({
+          email: 'chuks@andela.com',
+          type: 'reset',
+          password: 'newpass'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.should.equals('No token is provided');
+          done();
+        });
+    });
+    it('should return 400 error if wrong token is not provided', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/reset')
+        .type('form')
+        .send({
+          email: 'chuks@andela.com',
+          type: 'reset',
+          password: 'newpass',
+          token: 'wrong token'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.error.should.equals('Invalid token');
           done();
         });
     });

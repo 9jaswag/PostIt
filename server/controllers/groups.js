@@ -65,10 +65,6 @@ export default {
           success: true,
           message: 'Your group has been created and you have been added to the group',
           data: { group, usergroup }
-        }))
-        .catch(error => res.status(400).send({
-          success: false,
-          errors: { message: error.message }
         })))
       .catch(error => res.status(500).send({
         success: false,

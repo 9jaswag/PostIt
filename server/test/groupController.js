@@ -197,6 +197,20 @@ describe('Group controller test', () => {
             done();
           });
       });
+    it('should return error if group id is missing', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/ /user')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 4
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.message.should.equals('a Group ID is required');
+          done();
+        });
+    });
     it('should add a user to the group', (done) => {
       chai.request(app)
         .post('/api/v1/group/1/user')

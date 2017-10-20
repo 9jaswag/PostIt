@@ -356,19 +356,25 @@ export default {
               { status: false, error: error.message }));
         }
         if (req.body.type === 'reset') {
+          if (!req.body.password) {
+            return res.status(400).send(
+              { status: false, error: 'Provide a new password' });
+          }
+          if (!req.body.token) {
+            return res.status(400).send(
+              { status: false, error: 'No token is provided' });
+          }
           const receivedToken = req.body.token;
           const currentTime = Date.now();
           const password = req.body.password;
           if (user.resetToken !== receivedToken) {
-            console.log(user.resetToken);
-            console.log(user.resetToken);
             return res.status(400).send(
               { status: false, error: 'Invalid token' });
           }
           if (currentTime - user.resetTime > 3600000) {
             return res.status(400).send(
               { status: false,
-                error: 'Token has expired. Please request for another password reset.'
+                error: 'Link has expired. Request for another reset link.'
               });
           }
           // reset user password and delete token and resetTime
