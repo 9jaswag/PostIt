@@ -9,6 +9,7 @@ process.env.NODE_ENV = 'test';
 const should = chai.should();
 chai.use(chaiHttp);
 let token;
+let resetToken;
 
 models.User.destroy({
   where: {},
@@ -410,7 +411,7 @@ describe('User Controller test', () => {
       });
   });
   describe('Reset password API route', () => {
-    it('should return 404 error with an error message if no email is provided',
+    it('should return 404 error if no email is provided',
       (done) => {
         chai.request(app)
           .patch('/api/v1/user/reset')
@@ -421,7 +422,7 @@ describe('User Controller test', () => {
             done();
           });
       });
-    it('should return 404 error with an error message if no request type is provided',
+    it('should return 404 error if no request type is provided',
       (done) => {
         chai.request(app)
           .patch('/api/v1/user/reset')
@@ -435,5 +436,52 @@ describe('User Controller test', () => {
             done();
           });
       });
+    it('should return 404 error if wrong request type is provided',
+      (done) => {
+        chai.request(app)
+          .patch('/api/v1/user/reset')
+          .type('form')
+          .send({
+            email: 'chuks@andela.com',
+            type: 'rejoin'
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.error.should.equals('Invalid request type');
+            done();
+          });
+      });
+    it('should send an email to the  user with reset link',
+      (done) => {
+        chai.request(app)
+          .patch('/api/v1/user/reset')
+          .type('form')
+          .send({
+            email: 'chuks@andela.com',
+            type: 'request'
+          })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.message.should.equals('Email sent');
+            resetToken = res.body.resetToken;
+            done();
+          });
+      });
+    it('should update the user\'s password', (done) => {
+      chai.request(app)
+        .patch('/api/v1/user/reset')
+        .type('form')
+        .send({
+          email: 'chuks@andela.com',
+          type: 'reset',
+          password: 'chukspass',
+          token: resetToken
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.message.should.equals('Password reset successful');
+          done();
+        });
+    });
   });
 });

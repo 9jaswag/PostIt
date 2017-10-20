@@ -303,6 +303,10 @@ export default {
         { status: false, error: 'Request type must be specified' }
       );
     }
+    if ((req.body.type !== 'request') && (req.body.type !== 'reset')) {
+      return res.status(400).send(
+        { status: false, error: 'Invalid request type' });
+    }
     const email = req.body.email;
     models.User.findOne({
       where: {
@@ -343,6 +347,9 @@ export default {
               };
               // send email
               sendEmailNotification(mailOptions);
+              if (process.env.NODE_ENV === 'test') {
+                res.status(200).send({ status: true, message: 'Email sent', resetToken });
+              }
               res.status(200).send({ status: true, message: 'Email sent' });
             })
             .catch(error => res.status(400).send(
@@ -353,6 +360,8 @@ export default {
           const currentTime = Date.now();
           const password = req.body.password;
           if (user.resetToken !== receivedToken) {
+            console.log(user.resetToken);
+            console.log(user.resetToken);
             return res.status(400).send(
               { status: false, error: 'Invalid token' });
           }
