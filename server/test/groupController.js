@@ -151,7 +151,7 @@ describe('Group controller test', () => {
           done();
         });
     });
-    it('should return an error if user id is provided does not exist',
+    it('should return an error if user id provided does not exist',
       (done) => {
         chai.request(app)
           .post('/api/v1/group/1/user')
@@ -166,7 +166,7 @@ describe('Group controller test', () => {
             done();
           });
       });
-    it('should return an error if group id is provided does not exist',
+    it('should return an error if group id provided does not exist',
       (done) => {
         chai.request(app)
           .post('/api/v1/group/7/user')
@@ -461,7 +461,7 @@ describe('Group controller test', () => {
           done();
         });
     });
-    it('should return an error if non-existent group is provide', (done) => {
+    it('should return an error if non-existent group is provided', (done) => {
       chai.request(app)
         .get('/api/v1/group/222/count')
         .type('form')
@@ -469,6 +469,16 @@ describe('Group controller test', () => {
         .end((err, res) => {
           res.should.have.status(404);
           res.body.message.should.equals('Group does not exist');
+          done();
+        });
+    });
+    it('should return an error if no group is provided', (done) => {
+      chai.request(app)
+        .get('/api/v1/group/ /count')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(500);
           done();
         });
     });
