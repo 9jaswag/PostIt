@@ -37,9 +37,28 @@ describe('Reset Password component', () => {
       preventDefault: jest.fn()
     };
     const component = shallow(<ResetPassword {...props}/>);
+    component.setState({ password: 'newpass', confirmPassword: 'newpass' });
     const submitResetSpy = jest.spyOn(component.instance(), 'submitReset');
     component.instance().submitReset(event);
     expect(submitResetSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should return error if passwords dont match', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    const component = shallow(<ResetPassword {...props}/>);
+    component.setState({ password: 'newpass', confirmPassword: 'strongpass' });
+    component.instance().submitReset(event);
+    expect(component.instance().state.error).toBe('Passwords do not match');
+  });
+  it('should return password validation error', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    const component = shallow(<ResetPassword {...props}/>);
+    component.setState({ password: 'stro', confirmPassword: 'stro' });
+    component.instance().submitReset(event);
+    expect(component.instance().state.error).toBe('Password must be 6 characters or more');
   });
   it('should contain the method componentWillMount', () => {
     const component = shallow(<ResetPassword {...props}/>);
@@ -49,7 +68,7 @@ describe('Reset Password component', () => {
     expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
     expect(component.find('h4').text()).toBe('Forgot password?');
   });
-  it('should render the reset form if state.initial is true', () => {
+  it('should render the request form if state.initial is true', () => {
     const component = shallow(<ResetPassword {...props}/>);
     component.setState({ initial: false, secondary: true });
     expect(component.find('h4').text()).toBe('Reset password?');

@@ -13,6 +13,11 @@ describe('Sign in form component test', () => {
     const component = shallow(<SigninForm {...props}/>);
     expect(component.node.type).toBe('form');
   });
+  it('should display errors', () => {
+    const component = shallow(<SigninForm {...props}/>);
+    component.setState({ errors: { message: 'an error' } });
+    expect(component.find('span').text()).toEqual('an error');
+  });
   it('should contain the method onChange', () => {
     const component = shallow(<SigninForm {...props}/>);
     const onChangeSpy = jest.spyOn(component.instance(), 'onChange');
@@ -30,6 +35,8 @@ describe('Sign in form component test', () => {
     const component = shallow(<SigninForm {...props}/>);
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
     component.instance().onSubmit(event);
+    const link = component.find('Link');
+    link.simulate('click');
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
   });
 });

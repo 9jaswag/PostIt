@@ -11,6 +11,11 @@ describe('Search Page component', () => {
   };
   it('should render without crashing', () => {
     const component = shallow(<SearchPage {...props}/>);
+    component.setState({ count: 5,
+      limit: 2,
+      users: [{
+        username: 'chuks',
+      }] });
     expect(component.node.type).toEqual('div');
   });
   it('should contain the method onChange', () => {
@@ -23,22 +28,31 @@ describe('Search Page component', () => {
     });
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
-  it('should contain the method onSubmit', () => {
-    const e = {
+  it('should return username validation error', () => {
+    const event = {
       preventDefault: jest.fn()
     };
     const component = shallow(<SearchPage {...props}/>);
+    component.instance().onSubmit(event);
+    expect(component.instance().state.errors).toBe('Enter a username');
+  });
+  it('should contain the method onSubmit', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    const component = shallow(<SearchPage {...props}/>);
+    component.setState({ username: 'chuks' });
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
-    component.instance().onSubmit(e);
+    component.instance().onSubmit(event);
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
   });
   it('should contain the method handlePagination', () => {
-    const e = {
+    const event = {
       target: { id: 3 }
     };
     const component = shallow(<SearchPage {...props}/>);
     const handlePaginationSpy = jest.spyOn(component.instance(), 'handlePagination');
-    component.instance().handlePagination(e);
+    component.instance().handlePagination(event);
     expect(handlePaginationSpy).toHaveBeenCalledTimes(1);
   });
   it('should contain the method searchUsers', () => {

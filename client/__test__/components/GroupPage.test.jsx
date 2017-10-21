@@ -25,10 +25,23 @@ describe('Group page Component', () => {
       userUsername: 'chuks'
     }
   };
-  // const renderer = new ShallowRenderer();
   it('should render without crashing', () => {
     const component = shallow(<GroupPage {...props}/>);
     expect(component.node.type).toEqual('div');
+  });
+  it('should not show group name', () => {
+    const prop = {
+      groupDetails: [],
+      getMessages: jest.fn(() => Promise.resolve()),
+      passMessage: jest.fn(),
+      updateReadBy: jest.fn(),
+      getMemberCount: jest.fn(),
+      user: {
+        userUsername: 'chuks'
+      }
+    };
+    const component = shallow(<GroupPage {...prop}/>);
+    expect(component.find('h5').text()).toBe(' ');
   });
   it('should contain the method componentDidMount', () => {
     const component = shallow(<GroupPage {...props}/>);
@@ -50,9 +63,72 @@ describe('Group page Component', () => {
       userId: 1
     }];
     const component = shallow(<GroupPage {...props}/>);
-    const filterMessagesSpy = jest.spyOn(component.instance(), 'filterMessages');
+    const filterMessagesSpy = jest.spyOn(
+      component.instance(), 'filterMessages');
     component.instance().filterMessages(messages);
     expect(filterMessagesSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should display unread messages', () => {
+    const messages = [{
+      id: 9,
+      title: 'true love',
+      message: 'true lovers',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['chuks'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
+    },
+    {
+      id: 1,
+      title: 'Title fight',
+      message: 'Title fighters',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['dave'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
+    }];
+    const component = shallow(<GroupPage {...props}/>);
+    component.setState({ displayState: 'unread' });
+    component.instance().filterMessages(messages);
+    expect(
+      component.instance().state.displayedMessage[0].title).toBe('Title fight');
+  });
+  it('should display archived messages', () => {
+    const messages = [{
+      id: 9,
+      title: 'true love',
+      message: 'true lovers',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['chuks'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
+    },
+    {
+      id: 1,
+      title: 'Title fight',
+      message: 'Title fighters',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['dave'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
+    }];
+    const component = shallow(<GroupPage {...props}/>);
+    component.setState({ displayState: 'archived' });
+    component.instance().filterMessages(messages);
+    expect(
+      component.instance().state.displayedMessage[0].title).toBe('true love');
   });
   it('should contain the method onChange', () => {
     const component = shallow(<GroupPage {...props}/>);
@@ -72,7 +148,7 @@ describe('Group page Component', () => {
         value: 'unread',
         name: 'filter-message',
         dataset: {
-          readby: 'chuks'
+          readby: 'dave'
         }
       }
     });

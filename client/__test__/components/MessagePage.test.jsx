@@ -32,4 +32,11 @@ describe('Add user form Component', () => {
     component.instance().componentWillMount();
     expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
   });
+  it('should redirect to group page', () => {
+    const component = shallow(<MessagePage { ...props }/>);
+    const componentWillMountSpy = jest.spyOn(
+      component.instance(), 'componentWillMount');
+    component.instance().componentWillMount();
+    expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
+  });
 });

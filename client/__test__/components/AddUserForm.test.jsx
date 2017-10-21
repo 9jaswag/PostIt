@@ -8,11 +8,19 @@ import { AddUserForm } from '../../components/group/AddUserForm.jsx';
 describe('Add user form Component', () => {
   const props = {
     findUser: jest.fn(() => Promise.resolve()),
-    addUser: jest.fn(() => Promise.resolve())
+    addUser: jest.fn(() => Promise.resolve()),
+    removeUser: jest.fn(() => Promise.resolve())
   };
   it('should render without crashing', () => {
     const component = shallow(<AddUserForm {...props}/>);
     expect(component.node.type).toEqual('div');
+  });
+  it('should display error if it exists', () => {
+    const component = shallow(<AddUserForm {...props}/>);
+    component.setState({ error: 'user already belongs to this group' });
+    expect(
+      component.find('span').text()
+    ).toEqual('user already belongs to this group');
   });
   it('should contain the method resetState', () => {
     const component = shallow(<AddUserForm {...props}/>);
@@ -25,6 +33,17 @@ describe('Add user form Component', () => {
     const filterUserSpy = jest.spyOn(component.instance(), 'filterUser');
     component.instance().filterUser('chuks', ['chuks', 'david']);
     expect(filterUserSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should set userToAdd in state', () => {
+    const component = shallow(<AddUserForm {...props}/>);
+    component.instance().filterUser('chuks', [{
+      username: 'chuks',
+      id: 1,
+      Groups: []
+    }]);
+    expect(component.instance().state.userToAdd).toEqual({
+      userId: 1, username: 'chuks', groups: [], isMember: false
+    });
   });
   it('should contain the method onChange', () => {
     const component = shallow(<AddUserForm {...props}/>);
@@ -41,6 +60,30 @@ describe('Add user form Component', () => {
       target: { name: 'username', value: 'troy34' }
     });
     expect(onClickSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should add the user to a group', () => {
+    const component = shallow(<AddUserForm {...props}/>);
+    component.setState({ userToAdd: {
+      userId: 1,
+      username: 'chuks',
+      isMember: false
+    } });
+    component.instance().onClick({
+      target: { name: 'username', value: 'troy34' }
+    });
+    expect(component.length).toBe(1);
+  });
+  it('should not add the user to a group', () => {
+    const component = shallow(<AddUserForm {...props}/>);
+    component.setState({ userToAdd: {
+      userId: 1,
+      username: 'chuks',
+      isMember: true
+    } });
+    component.instance().onClick({
+      target: { name: 'username', value: 'troy34' }
+    });
+    expect(component.length).toBe(1);
   });
   it('should contain the method onSubmit', () => {
     const component = shallow(<AddUserForm {...props}/>);

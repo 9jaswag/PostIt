@@ -52,7 +52,7 @@ describe('Get Messages Action', () => {
     const expectedActions = [
       { type: types.SET_MESSAGE, messages }
     ];
-    store.dispatch(getMessages(1)).then((res) => {
+    store.dispatch(getMessages(1)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
     done();

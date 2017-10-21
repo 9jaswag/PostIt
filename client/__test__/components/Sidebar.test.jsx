@@ -18,17 +18,29 @@ describe('Sidebar', () => {
     logout: jest.fn(() => Promise.resolve()),
     createGroup: jest.fn(() => Promise.resolve())
   };
-  const e = {
+  const event = {
     preventDefault: jest.fn()
   };
   it('should render without crashing', () => {
     const component = shallow(<Sidebar {...props}/>);
     expect(component.node.type).toEqual('section');
   });
+  it('should render without crashing', () => {
+    const prop = {
+      auth: {
+        isAuthenticated: false,
+        user: {}
+      },
+      logout: jest.fn(() => Promise.resolve()),
+      createGroup: jest.fn(() => Promise.resolve())
+    };
+    const component = shallow(<Sidebar {...prop}/>);
+    expect(component.node.type).toEqual('section');
+  });
   it('should contain the method logout', () => {
     const component = shallow(<Sidebar {...props}/>);
     const logoutSpy = jest.spyOn(component.instance(), 'logout');
-    component.instance().logout(e);
+    component.instance().logout(event);
     expect(logoutSpy).toHaveBeenCalledTimes(1);
   });
 });

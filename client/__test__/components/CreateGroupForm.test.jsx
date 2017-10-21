@@ -16,6 +16,11 @@ describe('Create group form', () => {
     const component = shallow(<CreateGroupForm {...props}/>);
     expect(component.node.type).toEqual('div');
   });
+  it('should display an error if any exists', () => {
+    const component = shallow(<CreateGroupForm {...props}/>);
+    component.setState({ errors: { group: 'group already exists' } });
+    expect(component.find('span').text()).toEqual('group already exists');
+  });
   it('should contain the method onChange', () => {
     const component = shallow(<CreateGroupForm {...props}/>);
     const onChangeSpy = jest.spyOn(component.instance(), 'onChange');

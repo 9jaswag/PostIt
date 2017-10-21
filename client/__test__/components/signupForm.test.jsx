@@ -28,8 +28,34 @@ describe('Signup form component test', () => {
       preventDefault: jest.fn()
     };
     const component = shallow(<SignupForm {...props}/>);
+    component.setState({ phone: '12345678901',
+      password: 'wertyuit',
+      username: 'chuks',
+      email: 'chuks@andela.com' });
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
     component.instance().onSubmit(event);
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should return phone validation error', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    const component = shallow(<SignupForm {...props}/>);
+    component.setState({ phone: '1234567', password: 'wertyui' });
+    component.instance().onSubmit(event);
+    expect(component.instance().state.errors).toEqual({
+      phone: 'Phone number must be 11 characters long'
+    });
+  });
+  it('should return password validation error', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    const component = shallow(<SignupForm {...props}/>);
+    component.setState({ phone: '12345678901', password: 'werty' });
+    component.instance().onSubmit(event);
+    expect(component.instance().state.errors).toEqual({
+      password: 'Password must be 6 characters or more'
+    });
   });
 });
