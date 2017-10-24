@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
+import swal from 'sweetalert';
 import { addUser,
   findUser,
   getMemberCount,
@@ -97,34 +98,61 @@ export class AddUserForm extends Component {
    */
   onClick() {
     this.setState({ error: '' });
+    // if user is not a group member
     if (this.state.userToAdd.userId && !this.state.userToAdd.isMember) {
       const groupId = this.props.groupId;
       const userToAdd = this.state.userToAdd;
-      this.props.addUser(groupId, userToAdd).then(
-        () => {
-          this.props.history.push('/group');
-          Materialize.toast(
-            `${userToAdd.username} has been added to the group`, 2000);
-          this.props.getMemberCount(groupId);
+      swal({
+        title: `Do you want to add ${userToAdd.username} to the group?`,
+        text: `${userToAdd.username} will be able to read group messages
+        and will receive notifications of new messages`,
+        icon: 'info',
+        button: 'Yes Please!'
+      }).then((willDelete) => {
+        if (willDelete) {
+          this.props.addUser(groupId, userToAdd).then(
+            () => {
+              this.props.history.push('/group');
+              Materialize.toast(
+                `${userToAdd.username} has been added to the group`, 2000);
+              this.props.getMemberCount(groupId);
+            }
+          );
+        } else {
+          swal(`${userToAdd.username} was not added to the group`);
         }
-      );
+      });
     } else if (this.state.userToAdd.userId && this.state.userToAdd.isMember) {
       if (this.props.groupOwner === this.props.currentUser) {
         const groupId = this.props.groupId;
         const userToAdd = this.state.userToAdd;
-        this.props.removeUser(groupId, userToAdd).then(
-          () => {
-            this.props.history.push('/group');
-            Materialize.toast(
-              `${userToAdd.username} has been removed from the group`, 2000);
-            this.props.getMemberCount(groupId);
+        swal({
+          title: `Do you want to remove ${userToAdd.username} from the group?`,
+          text: 'This action can not be undone',
+          icon: 'warning',
+          button: 'Yes Please!',
+          dangerMode: true
+        }).then((willDelete) => {
+          if (willDelete) {
+            this.props.removeUser(groupId, userToAdd).then(
+              () => {
+                this.props.history.push('/group');
+                Materialize.toast(
+                  `${userToAdd.username} has been removed from the group`,
+                  2000);
+                this.props.getMemberCount(groupId);
+              }
+            );
+          } else {
+            swal(`${userToAdd.username} was not removed from the group`);
           }
-        );
+        });
       } else {
         this.props.history.push('/group');
         Materialize.toast('Only group owner can remove users from group', 2000);
       }
     }
+    // reset state
     this.setState({
       username: '',
       fetchedUsers: [],
