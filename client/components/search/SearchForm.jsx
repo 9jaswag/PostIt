@@ -10,7 +10,7 @@ const SearchForm = ({ onSubmit,
   state }) => <form action="" onSubmit={ onSubmit }>
   <div className="row">
     <div className="input-field col s12">
-      <input placeholder="Enter a username and press enter"
+      <input placeholder="Enter a username"
         id="username"
         name="username"
         type="text"
