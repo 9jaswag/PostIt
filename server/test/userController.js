@@ -383,10 +383,10 @@ describe('User Controller test', () => {
           });
       });
   });
-  describe('API route to find all Users', () => {
+  describe('API route to find a User', () => {
     it('should return error if no token is provided', (done) => {
       chai.request(app)
-        .get('/api/v1/users')
+        .post('/api/v1/users/user')
         .type('form')
         .end((err, res) => {
           res.should.have.status(403);
@@ -397,13 +397,15 @@ describe('User Controller test', () => {
     });
     it('should return an array of user objects when token is valid', (done) => {
       chai.request(app)
-        .get('/api/v1/users/')
+        .post('/api/v1/users/user')
         .type('form')
+        .send({
+          username: 'chuks'
+        })
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.data.user.should.be.an('array');
-          res.body.data.user[0].should.be.an('object');
+          res.body.user.should.be.an('object');
           done();
         });
     });

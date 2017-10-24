@@ -35,7 +35,6 @@ export class SearchPage extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.searchUsers = this.searchUsers.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
   }
 
@@ -45,25 +44,14 @@ export class SearchPage extends Component {
    * @memberof Searchpage
    */
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-    this.setState({ errors: '' });
-  }
-  /**
-   * Method for searching for users
-   * @return {void}
-   * @memberof Searchpage
-   */
-  searchUsers() {
+    this.setState({ [event.target.name]: event.target.value, errors: '' });
     const payload = {
-      username: this.state.username.toLowerCase(),
+      username: event.target.value.toLowerCase(),
       offset: this.state.offset,
       limit: this.state.limit
     };
     this.props.searchUserAction(payload).then(
       (res) => {
-        if (res.data.data.length < 1) {
-          return this.setState({ errors: 'No user found' });
-        }
         this.setState(
           { users: res.data.data.rows, count: res.data.data.count }
         );
@@ -79,11 +67,11 @@ export class SearchPage extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    if (this.state.username.length === 0) {
-      this.setState({ errors: 'Enter a username' });
-    } else {
-      this.searchUsers();
-    }
+    // if (this.state.username.length === 0) {
+    //   this.setState({ errors: 'Enter a username' });
+    // } else {
+    //   this.searchUsers();
+    // }
   }
   /**
    * Method for handling the pagination of users

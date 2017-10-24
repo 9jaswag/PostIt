@@ -10,7 +10,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   // debug: true,
-  devtool: 'source-map',
+  devtool: 'sourcemap',
   resolve: {
     extensions: ['.js', '.jsx']
   },

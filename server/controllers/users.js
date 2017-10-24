@@ -178,25 +178,30 @@ export default {
    * @param {object} res response object
    * @return {object} returns an object containing an array of users
    */
-  findAll(req, res) {
+  findUser(req, res) {
+    if (!req.body.username) {
+      return res.status(400).send({
+        success: false,
+        message: 'Username is required'
+      });
+    }
     return models.User
-      .findAll({
+      .findOne({
         include: [{
           model: models.Group,
-          order: [['createdAt', 'DESC']],
           required: false,
           attributes: ['id'],
           through: { attributes: [] }
         }],
-        attributes: ['id', 'username', 'email', 'phone']
+        where: { username: req.body.username },
+        attributes: ['id', 'username']
       })
       .then((user) => {
-        if (user.length === 0) {
+        if (!user) {
           return res.status(200)
-            .send({ success: true, message: 'No users found' });
+            .send({ success: true, message: 'user not found' });
         }
-        return res.status(200)
-          .send({ details: req.userGroupInfo, data: { user } });
+        return res.status(200).send({ user });
       })
       .catch(error => res.status(500).send({
         success: false,

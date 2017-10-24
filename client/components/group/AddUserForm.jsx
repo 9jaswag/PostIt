@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
+import swal from 'sweetalert';
 import { addUser,
   findUser,
   getMemberCount,
@@ -32,27 +33,14 @@ export class AddUserForm extends Component {
     super(props);
     this.state = {
       username: '',
-      fetchedUsers: [],
       userToAdd: {},
       error: '',
       userExists: false
     };
     this.onChange = this.onChange.bind(this);
-    this.filterUser = this.filterUser.bind(this);
-    this.resetState = this.resetState.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.isGroupMember = this.isGroupMember.bind(this);
-  }
-
-  /**
-   * Resets the state of the component
-   * @method resetState
-   * @return {void}
-   * @memberof AddUserForm
-   */
-  resetState() {
-    this.setState({ username: '', fetchedUsers: [], userToAdd: {} });
   }
 
   /**
@@ -73,34 +61,6 @@ export class AddUserForm extends Component {
   }
 
   /**
-   * Filters the provided username from an array of users
-   * @method filterUser
-   * @param {string} username the username to be filtered
-   * @param {Array} usersArray the array of all users
-   * @returns {void}
-   * @memberof AddUserForm
-   */
-  filterUser(username, usersArray) {
-    usersArray.forEach((user) => {
-      if ((user.username === username)) {
-        const isMember = this.isGroupMember(user.Groups);
-        this.setState({
-          userToAdd: {
-            userId: user.id,
-            username: user.username,
-            groups: user.Groups,
-            isMember
-          },
-          error: ''
-        });
-      }
-      // else {
-      //   this.setState({ error: 'User not found' });
-      // }
-    });
-  }
-
-  /**
    * @param {object} event
    * @returns {void}
    * @memberof AddUserForm
@@ -108,14 +68,24 @@ export class AddUserForm extends Component {
   onChange(event) {
     this.setState({ error: '', userToAdd: {} });
     this.setState({ [event.target.name]: event.target.value });
-    if (this.state.username.length > 0) {
-      this.props.findUser().then(
+    if (event.target.value.length > 0) {
+      this.props.findUser(event.target.value).then(
         (res) => {
-          this.setState({ fetchedUsers: res.data.data.user });
-          this.filterUser(
-            this.state.username.toLowerCase(),
-            this.state.fetchedUsers
-          );
+          if (res.data.user) {
+            const user = res.data.user;
+            const isMember = this.isGroupMember(user.Groups);
+            this.setState({
+              userToAdd: {
+                userId: user.id,
+                username: user.username,
+                groups: user.Groups,
+                isMember
+              },
+              error: ''
+            });
+          } else {
+            this.setState({ error: 'User not found' });
+          }
         }
       );
     }
@@ -128,35 +98,66 @@ export class AddUserForm extends Component {
    */
   onClick() {
     this.setState({ error: '' });
+    // if user is not a group member
     if (this.state.userToAdd.userId && !this.state.userToAdd.isMember) {
       const groupId = this.props.groupId;
       const userToAdd = this.state.userToAdd;
-      this.props.addUser(groupId, userToAdd).then(
-        () => {
-          this.props.history.push('/group');
-          Materialize.toast(
-            `${userToAdd.username} has been added to the group`, 2000);
-          this.props.getMemberCount(groupId);
+      swal({
+        title: `Do you want to add ${userToAdd.username} to the group?`,
+        text: `${userToAdd.username} will be able to read group messages
+        and will receive notifications of new messages`,
+        icon: 'info',
+        button: 'Yes Please!'
+      }).then((willDelete) => {
+        if (willDelete) {
+          this.props.addUser(groupId, userToAdd).then(
+            () => {
+              this.props.history.push('/group');
+              Materialize.toast(
+                `${userToAdd.username} has been added to the group`, 2000);
+              this.props.getMemberCount(groupId);
+            }
+          );
+        } else {
+          swal(`${userToAdd.username} was not added to the group`);
         }
-      );
+      });
     } else if (this.state.userToAdd.userId && this.state.userToAdd.isMember) {
       if (this.props.groupOwner === this.props.currentUser) {
         const groupId = this.props.groupId;
         const userToAdd = this.state.userToAdd;
-        this.props.removeUser(groupId, userToAdd).then( // send group owner
-          () => {
-            this.props.history.push('/group');
-            Materialize.toast(
-              `${userToAdd.username} has been removed from the group`, 2000);
-            this.props.getMemberCount(groupId);
+        swal({
+          title: `Do you want to remove ${userToAdd.username} from the group?`,
+          text: 'This action can not be undone',
+          icon: 'warning',
+          button: 'Yes Please!',
+          dangerMode: true
+        }).then((willDelete) => {
+          if (willDelete) {
+            this.props.removeUser(groupId, userToAdd).then(
+              () => {
+                this.props.history.push('/group');
+                Materialize.toast(
+                  `${userToAdd.username} has been removed from the group`,
+                  2000);
+                this.props.getMemberCount(groupId);
+              }
+            );
+          } else {
+            swal(`${userToAdd.username} was not removed from the group`);
           }
-        );
+        });
       } else {
         this.props.history.push('/group');
         Materialize.toast('Only group owner can remove users from group', 2000);
       }
     }
-    this.resetState();
+    // reset state
+    this.setState({
+      username: '',
+      fetchedUsers: [],
+      userToAdd: {},
+      error: '' });
   }
   /**
    * Prevents form action if enter is pressed
@@ -193,7 +194,7 @@ export class AddUserForm extends Component {
             <div className="input-field col s12">
               <input id="username" name="username"
                 type="text" className="validate"
-                value={ this.state.username }
+                value= {this.state.username}
                 onChange= { this.onChange} required/>
               <label htmlFor="username">Enter username</label>
               { (this.state.userToAdd.userId) ? userChip : null }
