@@ -75,10 +75,11 @@ export const setGroupToStore = groupDetail => (dispatch) => {
  */
 
 /**
+ * @param {string} username - username to be found
  * @return {promise} returns an array of users info
  */
-export const findUser = () =>
-  () => axios.get('/api/v1/users');
+export const findUser = username =>
+  () => axios.post('/api/v1/users/user', { username });
 
 
 /**

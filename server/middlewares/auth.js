@@ -26,9 +26,7 @@ export default (req, res, next) => {
       req.decoded = decoded;
       const username = req.decoded.userUsername;
       models.User.findOne({
-        where: {
-          username
-        },
+        where: { username },
         attributes: ['id', 'username', 'email']
       })
         .then((user) => {

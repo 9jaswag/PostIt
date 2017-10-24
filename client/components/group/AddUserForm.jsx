@@ -32,27 +32,14 @@ export class AddUserForm extends Component {
     super(props);
     this.state = {
       username: '',
-      fetchedUsers: [],
       userToAdd: {},
       error: '',
       userExists: false
     };
     this.onChange = this.onChange.bind(this);
-    this.filterUser = this.filterUser.bind(this);
-    this.resetState = this.resetState.bind(this);
     this.onClick = this.onClick.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.isGroupMember = this.isGroupMember.bind(this);
-  }
-
-  /**
-   * Resets the state of the component
-   * @method resetState
-   * @return {void}
-   * @memberof AddUserForm
-   */
-  resetState() {
-    this.setState({ username: '', fetchedUsers: [], userToAdd: {} });
   }
 
   /**
@@ -73,34 +60,6 @@ export class AddUserForm extends Component {
   }
 
   /**
-   * Filters the provided username from an array of users
-   * @method filterUser
-   * @param {string} username the username to be filtered
-   * @param {Array} usersArray the array of all users
-   * @returns {void}
-   * @memberof AddUserForm
-   */
-  filterUser(username, usersArray) {
-    usersArray.forEach((user) => {
-      if ((user.username === username)) {
-        const isMember = this.isGroupMember(user.Groups);
-        this.setState({
-          userToAdd: {
-            userId: user.id,
-            username: user.username,
-            groups: user.Groups,
-            isMember
-          },
-          error: ''
-        });
-      }
-      // else {
-      //   this.setState({ error: 'User not found' });
-      // }
-    });
-  }
-
-  /**
    * @param {object} event
    * @returns {void}
    * @memberof AddUserForm
@@ -108,14 +67,24 @@ export class AddUserForm extends Component {
   onChange(event) {
     this.setState({ error: '', userToAdd: {} });
     this.setState({ [event.target.name]: event.target.value });
-    if (this.state.username.length > 0) {
-      this.props.findUser().then(
+    if (event.target.value.length > 0) {
+      this.props.findUser(event.target.value).then(
         (res) => {
-          this.setState({ fetchedUsers: res.data.data.user });
-          this.filterUser(
-            this.state.username.toLowerCase(),
-            this.state.fetchedUsers
-          );
+          if (res.data.user) {
+            const user = res.data.user;
+            const isMember = this.isGroupMember(user.Groups);
+            this.setState({
+              userToAdd: {
+                userId: user.id,
+                username: user.username,
+                groups: user.Groups,
+                isMember
+              },
+              error: ''
+            });
+          } else {
+            this.setState({ error: 'User not found' });
+          }
         }
       );
     }
@@ -143,7 +112,7 @@ export class AddUserForm extends Component {
       if (this.props.groupOwner === this.props.currentUser) {
         const groupId = this.props.groupId;
         const userToAdd = this.state.userToAdd;
-        this.props.removeUser(groupId, userToAdd).then( // send group owner
+        this.props.removeUser(groupId, userToAdd).then(
           () => {
             this.props.history.push('/group');
             Materialize.toast(
@@ -156,7 +125,11 @@ export class AddUserForm extends Component {
         Materialize.toast('Only group owner can remove users from group', 2000);
       }
     }
-    this.resetState();
+    this.setState({
+      username: '',
+      fetchedUsers: [],
+      userToAdd: {},
+      error: '' });
   }
   /**
    * Prevents form action if enter is pressed
@@ -193,7 +166,7 @@ export class AddUserForm extends Component {
             <div className="input-field col s12">
               <input id="username" name="username"
                 type="text" className="validate"
-                value={ this.state.username }
+                value= {this.state.username}
                 onChange= { this.onChange} required/>
               <label htmlFor="username">Enter username</label>
               { (this.state.userToAdd.userId) ? userChip : null }

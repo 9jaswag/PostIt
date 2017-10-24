@@ -14,7 +14,7 @@ export default (app) => {
   // API route to handle user sign in
   app.post('/api/v1/user/signin', controllers.users.login);
   // API to get all users
-  app.get('/api/v1/users', auth, controllers.users.findAll);
+  app.post('/api/v1/users/user', auth, controllers.users.findUser);
   // API route to search users
   app.get('/api/v1/user/search', auth, controllers.users.searchUsers);
   // API route to get a user and group details
