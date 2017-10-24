@@ -13,9 +13,7 @@ import { groupInitialState } from '../state';
 export default (state = groupInitialState, action = {}) => {
   switch (action.type) {
     case SET_GROUP_DETAILS:
-      return {
-        details: action.data
-      };
+      return action.groupDetails;
     default: return state;
   }
 };

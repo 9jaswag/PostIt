@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS } from './types';
+import { SET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS } from './types';
 
 /**
  * Action to create a group
@@ -7,22 +7,26 @@ import { GET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS } from './types';
 
 /**
  * @return {promise} returns an array containing info of the created group
- * @param {object} data object containing data required to create the group
+ * @param {object} groupDetails object containing details
+ * required to create the group
  */
-const createGroup = data =>
-  () => axios.post('/api/v1/group', data);
+const createGroup = groupDetails =>
+  () => axios.post('/api/v1/group', groupDetails);
 
 export default createGroup;
 
 /**
- * Action to get the groups a user belongs to
+ * Action creator to set a user's group to store
  */
 
-
 export const setUserGroups = groups => ({
-  type: GET_USER_GROUPS,
+  type: SET_USER_GROUPS,
   groups
 });
+
+/**
+ * Action to set a group's member count to store
+ */
 
 export const setGroupMemberCount = count => ({
   type: SET_MEMBER_COUNT,
@@ -59,11 +63,11 @@ export const getMemberCount = id =>
 
 /**
  * @return {object} returns object and action type
- * @param {string} data string containing group details
+ * @param {array} groupDetails array containing group details
  */
-export const setGroupId = data => ({
+export const setGroupId = groupDetails => ({
   type: SET_GROUP_DETAILS,
-  data
+  groupDetails
 });
 
 export const setGroupToStore = groupDetail => (dispatch) => {
@@ -83,9 +87,9 @@ export const findUser = username =>
 
 
 /**
- * @return {promise} returns an arraay containing info of the added user
  * @param {number} id
  * @param {number} userId 
+ * @return {promise} returns an arraay containing info of the added user
  */
 export const addUser = (id, userId) =>
   () => axios.post(`/api/v1/group/${id}/user`, userId);
@@ -96,9 +100,9 @@ export const addUser = (id, userId) =>
 
 
 /**
- * @return {promise} calls the api to remove a user with the user's detail
  * @param {number} id
  * @param {number} userId 
+ * @return {promise} calls the api to remove a user with the user's detail
  */
 export const removeUser = (id, userId) =>
   () => axios.patch(`/api/v1/group/${id}/remove`, userId);

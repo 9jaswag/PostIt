@@ -41,30 +41,9 @@ export class GroupPage extends Component {
       memberCount: 0
     };
 
-    this.onLoad = this.onLoad.bind(this);
     this.onClick = this.onClick.bind(this);
     this.filterMessages = this.filterMessages.bind(this);
     this.onChange = this.onChange.bind(this);
-  }
-  /**
-   * Gets the messages belonging to a group
-   * @method onLoad
-   * @return {void}
-   * @memberof GroupPage
-   */
-  onLoad() {
-    if (this.props.groupDetails) {
-      const groupId = this.props.groupDetails[0];
-      this.props.getMessages(groupId).then(
-        () => {
-          this.setState({ messages: this.props.messages });
-          this.filterMessages(this.props.messages);
-        }
-      );
-      this.props.getMemberCount(groupId);
-    } else {
-      this.props.history.push('/dashboard');
-    }
   }
   /**
    * @param {object} event
@@ -111,16 +90,40 @@ export class GroupPage extends Component {
     }
   }
   /**
+   * Calls the onLoad method on component mount
+   * @method componentDidMount
+   * @return {void}
+   * @memberof GroupPage
+   */
+  componentDidMount() {
+    if (this.props.groupDetails) {
+      const groupId = this.props.groupDetails[0];
+      this.props.getMessages(groupId).then(
+        () => {
+          this.setState({ messages: this.props.messages }, () => {
+            this.filterMessages(this.props.messages);
+          });
+        }
+      );
+      this.props.getMemberCount(groupId);
+    } else {
+      this.props.history.push('/dashboard');
+    }
+  }
+  /**
    * Filters the messages based on their 'read' state
    * @method componentWillReceiveProps
    * @param {object} nextProps new props coming into the component
    * @return {void}
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      messages: nextProps.messages
-    });
-    this.filterMessages(nextProps.messages);
+    if (nextProps.messages.length > this.props.messages.length) {
+      this.setState({
+        messages: nextProps.messages
+      }, () => {
+        this.filterMessages(nextProps.messages);
+      });
+    }
   }
   /**
    * @param {object} event
@@ -129,15 +132,6 @@ export class GroupPage extends Component {
    */
   onChange(event) {
     this.setState({ displayState: event.target.value });
-    this.onLoad();
-  }
-  /**
-   * Calls the onLoad method on component mount
-   * @method componentDidMount
-   * @return {void}
-   * @memberof GroupPage
-   */
-  componentDidMount() {
     this.onLoad();
   }
   /**
@@ -217,10 +211,10 @@ export class GroupPage extends Component {
 GroupPage.propTypes = propTypes;
 
 const mapStateToProps = state => ({
-  groupDetails: state.groupDetails.details,
+  groupDetails: state.groupDetails,
   user: state.auth.user,
   count: state.groupMemberCount,
-  messages: state.message.groupMessages
+  messages: state.message
 });
 
 export default connect(

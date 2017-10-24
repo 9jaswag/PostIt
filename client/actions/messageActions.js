@@ -29,11 +29,11 @@ export default getMessages;
 
 /**
  * @return {object} returns object and action type
- * @param {object} data object containing message detail
+ * @param {object} messageObject object containing message detail
  */
-export const passMessage = data => ({
+export const passMessage = messageObject => ({
   type: PASS_MESSAGE,
-  data
+  messageObject
 });
 
 /**
@@ -44,10 +44,10 @@ export const passMessage = data => ({
 /**
  * @return {promise} returns an array with server response
  * @param {number} id
- * @param {object} data
+ * @param {object} messageDetails
  */
-export const postMessage = (id, data) =>
-  () => axios.post(`/api/v1/group/${id}/message`, data);
+export const postMessage = (id, messageDetails) =>
+  () => axios.post(`/api/v1/group/${id}/message`, messageDetails);
 
 /**
  * Action to update readby for a particular message
@@ -56,7 +56,7 @@ export const postMessage = (id, data) =>
 
 /**
  * @return {promise} returns a promise containing server response
- * @param {string} data string containing updated readby information
+ * @param {string} readBy string contreadByining updated readby information
  */
-export const updateReadBy = data =>
-  () => axios.patch('/api/v1/message/readby', data);
+export const updateReadBy = readBy =>
+  () => axios.patch('/api/v1/message/readby', readBy);
