@@ -35,6 +35,7 @@ export class SearchPage extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.searchUsers = this.searchUsers.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
   }
 
@@ -44,9 +45,20 @@ export class SearchPage extends Component {
    * @memberof Searchpage
    */
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value, errors: '' });
+    this.setState({ [event.target.name]: event.target.value,
+      errors: '' }, () => {
+      this.searchUsers();
+    });
+  }
+
+  /**
+   * Method for searching for users
+   * @return {void}
+   * @memberof Searchpage
+   */
+  searchUsers() {
     const payload = {
-      username: event.target.value.toLowerCase(),
+      username: this.state.username.toLowerCase(),
       offset: this.state.offset,
       limit: this.state.limit
     };
@@ -67,11 +79,6 @@ export class SearchPage extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    // if (this.state.username.length === 0) {
-    //   this.setState({ errors: 'Enter a username' });
-    // } else {
-    //   this.searchUsers();
-    // }
   }
   /**
    * Method for handling the pagination of users
@@ -96,9 +103,7 @@ export class SearchPage extends Component {
     const { count, limit, users } = this.state;
     // render users
     const renderUsers = users.map((user, index) => (
-      <div className="col s12" key={ index }>
-        <RenderUser user={ user }/>
-      </div>
+      <RenderUser user={ user } key={ index }/>
     ));
     // get page numbers
     const pageCount = count / limit;

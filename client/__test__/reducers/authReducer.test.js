@@ -17,9 +17,9 @@ describe('auth reducer', () => {
     const action = {
       type: types.SET_CURRENT_USER,
       user: {
-        userId: 1,
-        userEmail: 'chuks@andela.com',
-        userUsername: 'chuks'
+        id: 1,
+        email: 'chuks@andela.com',
+        username: 'chuks'
       }
     };
     const expectedAction = {

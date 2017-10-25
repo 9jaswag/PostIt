@@ -52,10 +52,10 @@ export class GroupPage extends Component {
    */
   onClick(event) {
     // get message readby, update readby and redirect to message
-    if (!event.target.dataset.readby.includes(this.props.user.userUsername)) {
+    if (!event.target.dataset.readby.includes(this.props.user.username)) {
       const data = {
         id: Number(event.target.dataset.id),
-        readby: this.props.user.userUsername };
+        readby: this.props.user.username };
       this.props.updateReadBy(data);
     }
     sessionStorage.setItem('message', event.target.dataset.message);
@@ -76,12 +76,12 @@ export class GroupPage extends Component {
           displayedMessage.push(message);
         }
         if (this.state.displayState === 'unread') {
-          if (!message.readby.includes(this.props.user.userUsername)) {
+          if (!message.readby.includes(this.props.user.username)) {
             displayedMessage.push(message);
           }
         }
         if (this.state.displayState === 'archived') {
-          if (message.readby.includes(this.props.user.userUsername)) {
+          if (message.readby.includes(this.props.user.username)) {
             displayedMessage.push(message);
           }
         }
@@ -131,8 +131,9 @@ export class GroupPage extends Component {
    * @memberof GroupPage
    */
   onChange(event) {
-    this.setState({ displayState: event.target.value });
-    this.onLoad();
+    this.setState({ displayState: event.target.value }, () => {
+      this.filterMessages(this.props.messages);
+    });
   }
   /**
    * @returns {string} The HTML markup for the GroupPage

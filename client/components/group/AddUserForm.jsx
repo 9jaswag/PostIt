@@ -213,7 +213,7 @@ AddUserForm.propTypes = propTypes;
 
 const mapStateToProps = state => ({
   groupOwner: state.groupDetails[2],
-  currentUser: state.auth.user.userUsername,
+  currentUser: state.auth.user.username,
   groupId: state.groupDetails[0]
 });
 

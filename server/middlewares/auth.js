@@ -24,14 +24,15 @@ export default (req, res, next) => {
     } else {
       // if everything is good, save to request for use in other routes
       req.decoded = decoded;
-      const username = req.decoded.userUsername;
+      const username = req.decoded.username;
       models.User.findOne({
         where: { username },
         attributes: ['id', 'username', 'email']
       })
         .then((user) => {
           if (!user) {
-            return res.status(403).send({ sucess: false, error: 'User does not exist' });
+            return res.status(403).send({
+              sucess: false, error: 'User does not exist' });
           }
           next();
         });
