@@ -212,9 +212,9 @@ export class AddUserForm extends Component {
 AddUserForm.propTypes = propTypes;
 
 const mapStateToProps = state => ({
-  groupOwner: state.groupDetails.details[2],
+  groupOwner: state.groupDetails[2],
   currentUser: state.auth.user.userUsername,
-  groupId: state.groupDetails.details[0]
+  groupId: state.groupDetails[0]
 });
 
 export default connect(

@@ -9,10 +9,10 @@ describe('group reducer', () => {
   it('should return an initial state', () => {
     expect(groupMemberCount(undefined, {})).toEqual(0);
   });
-  it('should handle GET_USER_GROUPS', () => {
+  it('should handle SET_USER_GROUPS', () => {
     const initialState = [];
     const action = {
-      type: types.GET_USER_GROUPS,
+      type: types.SET_USER_GROUPS,
       groups: [
         {
           id: 1,

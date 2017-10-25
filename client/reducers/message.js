@@ -12,9 +12,9 @@ import { PASS_MESSAGE, SET_MESSAGE } from '../actions/types';
 export default (state = {}, action = {}) => {
   switch (action.type) {
     case PASS_MESSAGE:
-      return Object.assign({}, state, { message: action.data });
+      return Object.assign({}, state, { message: action.messageObject });
     case SET_MESSAGE:
-      return Object.assign({}, state, { groupMessages: action.messages });
+      return action.messages;
     default: return state;
   }
 };

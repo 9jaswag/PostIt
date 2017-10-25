@@ -15,7 +15,7 @@ describe('Get groups action', () => {
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
-  it('should dispatch GET_USER_GROUPS action', (done) => {
+  it('should dispatch SET_USER_GROUPS action', (done) => {
     moxios.stubRequest('/api/v1/users/one', {
       status: 200,
       response: {
@@ -39,7 +39,7 @@ describe('Get groups action', () => {
       unreadCount: 4
     }];
     const expectedActions = [
-      { type: types.GET_USER_GROUPS, groups }
+      { type: types.SET_USER_GROUPS, groups }
     ];
     store.dispatch(getGroups(groups)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
