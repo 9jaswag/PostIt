@@ -71,10 +71,10 @@ export default {
       .then((user) => {
         const token = jwt
           .sign({
-            userId: user.id,
-            userEmail: user.email,
-            userUsername: user.username,
-            userPhone: user.phone
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            phone: user.phone
           }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
         return res.status(201)
           .send({ success: true,
@@ -152,9 +152,9 @@ export default {
       if (user && user.verifyPassword(req.body.password)) {
         // generate token
         const token = jwt.sign({
-          userId: user.id,
-          userEmail: user.email,
-          userUsername: user.username,
+          id: user.id,
+          email: user.email,
+          username: user.username,
         }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
         return res.status(200).send({ success: true,
           message: 'Sign in successful',
@@ -214,7 +214,7 @@ export default {
    * @return {object} returns an object containing an array of user objects
    */
   findCurrentUser(req, res) {
-    const username = req.decoded.userUsername;
+    const username = req.decoded.username;
     models.User
       .find({
         include: [{

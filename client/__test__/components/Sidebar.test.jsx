@@ -10,9 +10,9 @@ describe('Sidebar', () => {
     auth: {
       isAuthenticated: true,
       user: {
-        userId: 1,
-        userEmail: 'chuks.opia@andela.com',
-        userUsername: 'chuks'
+        id: 1,
+        email: 'chuks.opia@andela.com',
+        username: 'chuks'
       }
     },
     logout: jest.fn(() => Promise.resolve()),

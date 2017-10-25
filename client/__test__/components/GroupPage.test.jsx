@@ -22,7 +22,7 @@ describe('Group page Component', () => {
     updateReadBy: jest.fn(),
     getMemberCount: jest.fn(),
     user: {
-      userUsername: 'chuks'
+      username: 'chuks'
     }
   };
   it('should render without crashing', () => {
@@ -37,7 +37,7 @@ describe('Group page Component', () => {
       updateReadBy: jest.fn(),
       getMemberCount: jest.fn(),
       user: {
-        userUsername: 'chuks'
+        username: 'chuks'
       }
     };
     const component = shallow(<GroupPage {...prop}/>);

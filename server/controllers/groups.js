@@ -29,9 +29,9 @@ export default {
     if (!req.body.name || req.body.name.trim() === '') {
       hasError = true;
       errors.name = 'Please choose a group name';
-    } if (!req.decoded.userUsername) {
+    } if (!req.decoded.username) {
       hasError = true;
-      errors.userUsername = 'Please enter a group owner';
+      errors.username = 'Please enter a group owner';
     } if (!req.body.description || req.body.description.trim() === '') {
       hasError = true;
       errors.description = 'Please enter a description of the group';
@@ -53,12 +53,12 @@ export default {
     return models.Group
       .create({
         name: req.body.name,
-        owner: req.decoded.userUsername,
+        owner: req.decoded.username,
         description: req.body.description
       })
       .then(group => models.UserGroup
         .create({
-          userId: req.decoded.userId,
+          userId: req.decoded.id,
           groupId: group.id
         })
         .then(usergroup => res.status(201).send({
@@ -151,13 +151,13 @@ export default {
       return res.status(400).send({ success: false,
         error: { message: 'Message can not be empty' } });
     } else if (
-      !req.decoded.userUsername || req.decoded.userUsername.trim() === '') {
+      !req.decoded.username || req.decoded.username.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Readby cannot be empty' } });
-    } else if (!req.decoded.userUsername) {
+    } else if (!req.decoded.username) {
       return res.status(400).send({ success: false,
         error: { message: 'Message must have an author' } });
-    } else if (!req.decoded.userId) {
+    } else if (!req.decoded.id) {
       return res.status(400).send({ success: false,
         error: { message: 'Message must have a User ID' } });
     }
@@ -175,10 +175,10 @@ export default {
           title: req.body.title,
           message: req.body.message,
           priority: req.body.priority || 'normal',
-          author: req.decoded.userUsername,
-          readby: [req.decoded.userUsername],
+          author: req.decoded.username,
+          readby: [req.decoded.username],
           groupId: req.params.group_id,
-          userId: req.decoded.userId
+          userId: req.decoded.id
         })
         .then((message) => {
           // send response to client before attempting to send notification
@@ -193,7 +193,7 @@ export default {
             // get users email and send message
             getUserEmails(req.params.group_id).then((users) => {
               users.map((user) => {
-                if (user.email !== req.decoded.userEmail) {
+                if (user.email !== req.decoded.email) {
                   // setup email data
                   const mailOptions = {
                     from: 'PostIT',
@@ -221,7 +221,7 @@ export default {
             getUserEmails(req.params.group_id).then((users) => {
               users.map((user) => {
                 // send email
-                if (user.email !== req.decoded.userEmail) {
+                if (user.email !== req.decoded.email) {
                   const mailOptions = {
                     from: 'PostIT',
                     to: user.email,
@@ -233,7 +233,7 @@ export default {
                   sendEmailNotification(mailOptions);
                 }
                 // send sms
-                if (user.phone !== req.decoded.userPhone) {
+                if (user.phone !== req.decoded.phone) {
                   nexmo.message.sendSms(
                     '2347033130448',
                     user.phone, req.body.message, (err, res) => {
