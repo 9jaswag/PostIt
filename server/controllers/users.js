@@ -271,21 +271,24 @@ export default {
             }
           })
             .then(() => {
-              // setup email data 
-              const mailOptions = {
-                from: 'PostIT',
-                to: email,
+              const messageOptions = {
                 subject: 'Password Request on PostIT',
-                text: `You have requested a password reset on your PostIT
-                account.\n Please click on the following link, or
-                paste this intoyour browser to complete the process:\n
-                ${`http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}`}\n
-                If you did not request this, please ignore this email.\n`
+                message: `<div><p>Hello there!,</p>
+                <p>You have requested a password reset on your PostIT
+                account. If you requested it, click the button below or
+                copy the link into your browser.</p>
+                <p>If this is not you, please disregard this email</p>
+                <p style="padding: 1rem;"></p>
+                <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}">Login</a>\n\n
+                <p style="padding: 1rem 0rem;">Link: http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}</p>
+                <p>PostIT</p>
+                </div>`
               };
               // send email
-              sendEmailNotification(mailOptions);
+              sendEmailNotification(email, messageOptions);
               if (process.env.NODE_ENV === 'test') {
-                res.status(200).send({ status: true, message: 'Email sent', resetToken });
+                res.status(200).send({
+                  status: true, message: 'Email sent', resetToken });
               }
               res.status(200).send({ status: true, message: 'Email sent' });
             })

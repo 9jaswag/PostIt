@@ -6,7 +6,7 @@ import nodemailer from 'nodemailer';
  * message body and message content
  * @return {void}
  */
-const sendEmailNotification = (mailOptions) => {
+const sendEmailNotification = (email, options) => {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
     service: 'gmail', // secure:true for port 465, secure:false for port 587
@@ -16,6 +16,13 @@ const sendEmailNotification = (mailOptions) => {
       pass: process.env.PASSWORD
     }
   });
+
+  const mailOptions = {
+    from: 'PostIT',
+    to: email,
+    subject: options.subject,
+    html: options.message
+  };
 
   // send email
   transporter.sendMail(mailOptions, (error, info) => {

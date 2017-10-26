@@ -145,22 +145,28 @@ export default {
             data: { message }
           });
 
+          const messageBody = `<div><p>Hello there!,</p>
+            <p>You have a new ${req.body.priority} message on PostIT</p>
+            <p style="color:red;"><strong>
+            Message Title</strong>: ${req.body.title}</p>
+            <p>Login to view your message now</p>\n\n
+            <p style="padding: 1rem;"></p>
+            <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${req.headers.host}">Login</a>\n\n
+            <p style="padding: 1rem;"></p>
+            <p>PostIT</p>
+            </div>`;
+
           // send Email notification
           if (req.body.priority.toLowerCase() === 'urgent') {
             // get users email and send message
             getUserEmails(req.params.group_id).then((users) => {
               users.map((user) => {
                 if (user.email !== req.decoded.email) {
-                  // setup email data
-                  const mailOptions = {
-                    from: 'PostIT',
-                    to: user.email,
+                  const messageOptions = {
                     subject: `${req.body.priority} message on PostIT`,
-                    text: `You have a new ${req.body.priority}
-                    message on PostIT.Login to check it now.\n
-                    Message: ${req.body.message}`
+                    message: messageBody
                   };
-                  sendEmailNotification(mailOptions);
+                  sendEmailNotification(user.email, messageOptions);
                 }
                 return user;
               });
@@ -172,22 +178,18 @@ export default {
             apiSecret: process.env.API_SECRET,
           });
 
-            // send sms Notification
+            // send email and SMS Notification
           if (req.body.priority.toLowerCase() === 'critical') {
             // get user email and phone details
             getUserEmails(req.params.group_id).then((users) => {
               users.map((user) => {
                 // send email
                 if (user.email !== req.decoded.email) {
-                  const mailOptions = {
-                    from: 'PostIT',
-                    to: user.email,
+                  const messageOptions = {
                     subject: `${req.body.priority} message on PostIT`,
-                    text: `You have a new ${req.body.priority}
-                    message on PostIT. Login to check it now.\n
-                    Message: ${req.body.message}`
+                    message: messageBody
                   };
-                  sendEmailNotification(mailOptions);
+                  sendEmailNotification(user.email, messageOptions);
                 }
                 // send sms
                 if (user.phone !== req.decoded.phone) {
