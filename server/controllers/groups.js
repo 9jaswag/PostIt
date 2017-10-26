@@ -6,6 +6,7 @@ import Nexmo from 'nexmo';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
 import getUserEmails from '../../helpers/getUserEmails';
+import validator from '../../helpers/validator';
 
 /**
  * Function for sending email notification to users
@@ -24,25 +25,9 @@ export default {
    * of the newly created group
    */
   create(req, res) {
-    const errors = { };
-    let hasError = false;
-    if (!req.body.name || req.body.name.trim() === '') {
-      hasError = true;
-      errors.name = 'Please choose a group name';
-    } if (!req.decoded.username) {
-      hasError = true;
-      errors.username = 'Please enter a group owner';
-    } if (!req.body.description || req.body.description.trim() === '') {
-      hasError = true;
-      errors.description = 'Please enter a description of the group';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
+    if (validator(req, res, 'creategroup') !== 'validated') return;
     models.Group.findOne({
-      where: {
-        name: req.body.name
-      }
+      where: { name: req.body.name }
     }).then((group) => {
       if (group) {
         return res.status(400)
@@ -78,26 +63,16 @@ export default {
    * @return {object} returns an object confirming user has been added to group
    */
   addUser(req, res) {
-    if (!req.body.userId) {
-      return res.status(400)
-        .send({ success: false, error: { message: 'a User ID is required' } });
-    } else if (!req.params.group_id || req.params.group_id.trim() === '') {
-      return res.status(400)
-        .send({ success: false, message: 'a Group ID is required' });
-    }
+    if (validator(req, res, 'adduser') !== 'validated') return;
     models.Group.findOne({
-      where: {
-        id: req.params.group_id
-      }
+      where: { id: req.params.group_id }
     }).then((group) => {
       if (!group) {
         return res.status(401)
           .send({ success: false, error: { message: 'Group does not exist' } });
       }
       models.User.findOne({
-        where: {
-          id: req.body.userId
-        }
+        where: { id: req.body.userId }
       }).then((user) => {
         if (!user) {
           return res.status(401)
@@ -144,27 +119,9 @@ export default {
    * @return {object} returns an object containing details of the posted message
    */
   postMessage(req, res) {
-    if (!req.body.title || req.body.title.trim() === '') {
-      return res.status(400).send({ success: false,
-        error: { message: 'Message title can not be empty' } });
-    } else if (!req.body.message || req.body.message.trim() === '') {
-      return res.status(400).send({ success: false,
-        error: { message: 'Message can not be empty' } });
-    } else if (
-      !req.decoded.username || req.decoded.username.trim() === '') {
-      return res.status(400).send({ success: false,
-        error: { message: 'Readby cannot be empty' } });
-    } else if (!req.decoded.username) {
-      return res.status(400).send({ success: false,
-        error: { message: 'Message must have an author' } });
-    } else if (!req.decoded.id) {
-      return res.status(400).send({ success: false,
-        error: { message: 'Message must have a User ID' } });
-    }
+    if (validator(req, res, 'postmessage') !== 'validated') return;
     models.Group.findOne({
-      where: {
-        id: req.params.group_id
-      }
+      where: { id: req.params.group_id }
     }).then((group) => {
       if (!group) {
         return res.status(401).send({ success: false,

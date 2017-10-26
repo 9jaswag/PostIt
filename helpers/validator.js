@@ -102,9 +102,9 @@ const validator = (req, res, type) => {
     if (!req.body.name || req.body.name.trim() === '') {
       hasError = true;
       errors.name = 'Please choose a group name';
-    } if (!req.decoded.userUsername) {
+    } if (!req.decoded.username) {
       hasError = true;
-      errors.userUsername = 'Please enter a group owner';
+      errors.username = 'Please enter a group owner';
     } if (!req.body.description || req.body.description.trim() === '') {
       hasError = true;
       errors.description = 'Please enter a description of the group';
@@ -134,13 +134,13 @@ const validator = (req, res, type) => {
       return res.status(400).send({ success: false,
         error: { message: 'Message can not be empty' } });
     } else if (
-      !req.decoded.userUsername || req.decoded.userUsername.trim() === '') {
+      !req.decoded.username || req.decoded.username.trim() === '') {
       return res.status(400).send({ success: false,
         error: { message: 'Readby cannot be empty' } });
-    } else if (!req.decoded.userUsername) {
+    } else if (!req.decoded.username) {
       return res.status(400).send({ success: false,
         error: { message: 'Message must have an author' } });
-    } else if (!req.decoded.userId) {
+    } else if (!req.decoded.id) {
       return res.status(400).send({ success: false,
         error: { message: 'Message must have a User ID' } });
     }
