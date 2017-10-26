@@ -395,6 +395,31 @@ describe('User Controller test', () => {
           done();
         });
     });
+    it('should return error if username is not provided', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/user')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.message.should.equals('Username is required');
+          done();
+        });
+    });
+    it('should return message if user is not found', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/user')
+        .type('form')
+        .send({
+          username: 'funsho'
+        })
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.message.should.equals('user not found');
+          done();
+        });
+    });
     it('should return an array of user objects when token is valid', (done) => {
       chai.request(app)
         .post('/api/v1/users/user')
@@ -424,21 +449,18 @@ describe('User Controller test', () => {
           done();
         });
     });
-    // it('should return the logged in user\'s group info when token is valid',
-    //   (done) => {
-    //     chai.request(app)
-    //       .get('/api/v1/users/one')
-    //       .type('form')
-    //       .set('x-access-token', token)
-    //       .end((err, res) => {
-    //         if (!err) {
-    //           res.should.have.status(200);
-    //           // res.body.data.should.be.an('object');
-    //           // res.body.data[0].should.have.property('unreadCount');
-    //         }
-    //         done();
-    //       });
-    //   });
+    it('should return tan error if user does not exist',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/users/one')
+          .type('form')
+          .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJjaHVrcy5vcGlhQGFuZGVsYS5jb20iLCJ1c2VybmFtZSI6ImNoaW9tYSIsInBob25lIjoiMjM0NzAzMjMyMDQ0OCIsImlhdCI6MTUwOTAxODQ1MCwiZXhwIjoxNTA5MTA0ODUwfQ.u_dQL3jndkzMA-1TrYwswdRtvDpzSQ2H7ll845Go_QI')
+          .end((err, res) => {
+            res.should.have.status(403);
+            res.body.error.should.equals('User does not exist');
+            done();
+          });
+      });
   });
   describe('Search user API route', () => {
     it('should return an error if no token is provided', (done) => {

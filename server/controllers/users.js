@@ -171,7 +171,7 @@ export default {
       })
       .then((user) => {
         if (!user) {
-          return res.status(404).send({
+          return res.status(403).send({
             success: false,
             errors: 'User does not exist'
           });
