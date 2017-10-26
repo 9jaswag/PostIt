@@ -2,8 +2,17 @@
 /* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import configureStore from 'redux-mock-store'
-import { Sidebar } from '../../components/dashboard/Sidebar.jsx';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import ConnectedSidebar,
+{ Sidebar } from '../../components/dashboard/Sidebar.jsx';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
+  auth: { user: {} },
+  groups: []
+});
 
 describe('Sidebar', () => {
   const props = {
@@ -42,5 +51,10 @@ describe('Sidebar', () => {
     const logoutSpy = jest.spyOn(component.instance(), 'logout');
     component.instance().logout(event);
     expect(logoutSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should render the connected component', () => {
+    const component = shallow(<ConnectedSidebar
+      store={store} { ...props }/>);
+    expect(component.length).toBe(1);
   });
 });

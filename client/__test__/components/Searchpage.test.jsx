@@ -28,14 +28,6 @@ describe('Search Page component', () => {
     });
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
-  it('should return username validation error', () => {
-    const event = {
-      preventDefault: jest.fn()
-    };
-    const component = shallow(<SearchPage {...props}/>);
-    component.instance().onSubmit(event);
-    expect(component.instance().state.errors).toBe('Enter a username');
-  });
   it('should contain the method onSubmit', () => {
     const event = {
       preventDefault: jest.fn()

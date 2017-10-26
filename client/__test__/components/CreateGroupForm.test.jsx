@@ -9,7 +9,7 @@ describe('Create group form', () => {
   const props = {
     createGroup: jest.fn(() => Promise.resolve()),
   };
-  const e = {
+  const event = {
     preventDefault: jest.fn()
   };
   it('should render without crashing', () => {
@@ -34,7 +34,7 @@ describe('Create group form', () => {
   it('should contain the method onSubmit', () => {
     const component = shallow(<CreateGroupForm {...props}/>);
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
-    component.instance().onSubmit(e);
+    component.instance().onSubmit(event);
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
   });
 });

@@ -58,4 +58,22 @@ describe('Signup form component test', () => {
       password: 'Password must be 6 characters or more'
     });
   });
+  it('should show username error', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    const component = shallow(<SignupForm {...props}/>);
+    component.setState({ errors: { username: 'Username does not exist' } });
+    component.instance().onSubmit(event);
+    expect(component.find('.red-text').length).toBe(1);
+  });
+  it('should show email error', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    const component = shallow(<SignupForm {...props}/>);
+    component.setState({ errors: { email: 'email does not exist' } });
+    component.instance().onSubmit(event);
+    expect(component.find('.red-text').length).toBe(1);
+  });
 });
