@@ -239,6 +239,21 @@ describe('Group controller test', () => {
           done();
         });
     });
+    it('should return an error if no group is provided', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/ /message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'critical'
+        })
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+    });
     it('should return an error message if message title is not provided',
       (done) => {
         chai.request(app)
@@ -348,6 +363,21 @@ describe('Group controller test', () => {
           done();
         });
     });
+    it('should return an error if group id provided does not exist',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/group/e/messages')
+          .type('form')
+          .set('x-access-token', token)
+          .send({
+            userId: 2
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.message.should.equals('a Group ID is required');
+            done();
+          });
+      });
     it('should return an error message if group id provided does not exist',
       (done) => {
         chai.request(app)

@@ -225,6 +225,7 @@ export default {
    * @return {object} returns an object containing an array of messages
    */
   fetchMessage(req, res) {
+    if (validator(req, res, 'fetchmessage') !== 'validated') return;
     models.Group.findOne({
       where: {
         id: req.params.group_id

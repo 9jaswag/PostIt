@@ -119,7 +119,8 @@ const validator = (req, res, type) => {
     if (!req.body.userId) {
       return res.status(400)
         .send({ success: false, error: { message: 'a User ID is required' } });
-    } else if (!req.params.group_id || req.params.group_id.trim() === '') {
+    } else if (!req.params.group_id
+      || req.params.group_id.trim() === '' || isNaN(req.params.group_id)) {
       return res.status(400)
         .send({ success: false, message: 'a Group ID is required' });
     }
@@ -143,6 +144,15 @@ const validator = (req, res, type) => {
     } else if (!req.decoded.id) {
       return res.status(400).send({ success: false,
         error: { message: 'Message must have a User ID' } });
+    }
+    return 'validated';
+  }
+
+  if (type === 'fetchmessage') {
+    if (!req.params.group_id ||
+      req.params.group_id.trim() === '' || isNaN(req.params.group_id)) {
+      return res.status(400)
+        .send({ success: false, message: 'a Group ID is required' });
     }
     return 'validated';
   }
