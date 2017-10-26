@@ -318,6 +318,23 @@ describe('Group controller test', () => {
           done();
         });
     });
+    it('should send email if message is urgent', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'urgent'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.data.message.priority.should.equals('urgent');
+          res.body.message.should.equals('Message sent');
+          done();
+        });
+    });
   });
   describe('API route for feching messages', () => {
     it('should return an error if no token is provided', (done) => {

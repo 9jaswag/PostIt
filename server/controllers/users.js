@@ -170,12 +170,6 @@ export default {
         attributes: ['id', 'username', 'email', 'phone']
       })
       .then((user) => {
-        if (!user) {
-          return res.status(403).send({
-            success: false,
-            errors: 'User does not exist'
-          });
-        }
         let mapCounter = 0;
         const groupsWithCount = [];
         user.Groups.map(group =>

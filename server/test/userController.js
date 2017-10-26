@@ -449,18 +449,6 @@ describe('User Controller test', () => {
           done();
         });
     });
-    it('should return tan error if user does not exist',
-      (done) => {
-        chai.request(app)
-          .get('/api/v1/users/one')
-          .type('form')
-          .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJjaHVrcy5vcGlhQGFuZGVsYS5jb20iLCJ1c2VybmFtZSI6ImNoaW9tYSIsInBob25lIjoiMjM0NzAzMjMyMDQ0OCIsImlhdCI6MTUwOTAxODQ1MCwiZXhwIjoxNTA5MTA0ODUwfQ.u_dQL3jndkzMA-1TrYwswdRtvDpzSQ2H7ll845Go_QI')
-          .end((err, res) => {
-            res.should.have.status(403);
-            res.body.error.should.equals('User does not exist');
-            done();
-          });
-      });
   });
   describe('Search user API route', () => {
     it('should return an error if no token is provided', (done) => {
