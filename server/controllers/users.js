@@ -8,6 +8,8 @@ import bcrypt from 'bcrypt';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
 import customSort from '../../helpers/customSort';
+import validator from '../../helpers/validator';
+import sequelizeError from '../../helpers/sequelizeError';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -21,46 +23,27 @@ export default {
    */
   signup(req, res) {
     const errors = { };
-    let hasError = false;
     // validation checks
-    if (!req.body.username || req.body.username.trim() === '') {
-      hasError = true;
-      errors.username = 'Username field cannot be empty';
-    } if (!req.body.password || req.body.password.trim() === '') {
-      hasError = true;
-      errors.password = 'Password field cannot be empty';
-    } else if (req.body.password.length < 6) {
-      hasError = true;
-      errors.password = 'Password length must be more than 6 characters';
-    } if (!req.body.email || req.body.email.trim() === '') {
-      hasError = true;
-      errors.email = 'Email address field cannot be empty';
-    } if (!req.body.phone || req.body.phone.trim() === '') {
-      hasError = true;
-      errors.phone = 'Phone field cannot be empty';
-    } else if (isNaN(req.body.phone)) {
-      hasError = true;
-      errors.phone = 'Phone number cannot contain text';
+    if (validator(req, res, 'signup') !== 'validated') {
+      return;
     }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
+    // check if username exists
+    models.User.findOne({ where: { username: req.body.username } })
+      .then((user) => {
+        if (user) {
+          errors.username = 'Username already exists';
+          return res.status(409).send({ success: false, errors });
+        }
+      });
     // check if email already exists
-    models.User.findOne({
-      where: {
-        email: req.body.email,
-      }
-    }).then((user) => {
-      if (user) {
-        hasError = true;
-        errors.email = 'Email address already exists';
-        return res.status(400)
-          .send({
-            success: false,
-            errors
-          });
-      }
-    });
+    models.User.findOne({ where: { email: req.body.email } })
+      .then((user) => {
+        if (user) {
+          errors.email = 'Email address already exists';
+          return res.status(409)
+            .send({ success: false, errors });
+        }
+      });
     return models.User
       .create({
         username: req.body.username.trim().toLowerCase(),
@@ -81,39 +64,10 @@ export default {
             message: 'Sign up succesful.',
             data: { token } });
       })
-      .catch((error) => {
-        if (error.errors[0].message === 'Username already exists') {
-          hasError = true;
-          errors.username = 'Username already exists';
-        }
-        if (error.errors[0].message === 'Email can not be empty') {
-          hasError = true;
-          errors.email = 'Email field can not be empty';
-        }
-        if (error.errors[0].message === 'Enter a valid email address') {
-          hasError = true;
-          errors.email = 'Email address is invalid';
-        }
-        if (error.errors[0].message === 'Validation notEmpty on phone failed') {
-          hasError = true;
-          errors.phone = 'Phone field can not be empty';
-        }
-        if (error.errors[0].message === 'Phone number already exists') {
-          hasError = true;
-          errors.phone = 'Phone number already exists';
-        }
-        if (error.errors[0].message
-          === 'Formatted phone number must have 13 characters') {
-          hasError = true;
-          errors.phone = 'Formatted phone number must have 13 characters';
-        }
-        if (error.errors[0].message ===
-          'Only numeric characters are allowed as phone numbers') {
-          hasError = true;
-          errors.phone = 'Only numeric characters are allowed as phone numbers';
-        }
-        return res.status(400).send({ success: false, errors });
-      }
+      .catch(error => res.status(500).send({
+        success: false,
+        errors: sequelizeError(error)
+      })
       );
   },
   /**
@@ -123,17 +77,8 @@ export default {
    * @return {object} returns an object containing user token
    */
   login(req, res) {
-    const errors = { };
-    let hasError = false;
-    if (!req.body.username) {
-      hasError = true;
-      errors.username = 'Username field cannot be empty';
-    } else if (!req.body.password) {
-      hasError = true;
-      errors.password = 'Password field cannot be empty';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
+    if (validator(req, res, 'signin') !== 'validated') {
+      return;
     }
     return models.User.findOne({
       where: {
@@ -144,9 +89,7 @@ export default {
         return res.status(401)
           .send({
             success: false,
-            errors: {
-              username: 'User does not exist'
-            }
+            errors: { username: 'User does not exist' }
           });
       }
       if (user && user.verifyPassword(req.body.password)) {
@@ -155,6 +98,7 @@ export default {
           id: user.id,
           email: user.email,
           username: user.username,
+          phone: user.phone
         }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
         return res.status(200).send({ success: true,
           message: 'Sign in successful',
@@ -162,9 +106,7 @@ export default {
       }
       return res.status(401).send({
         success: false,
-        errors: {
-          password: 'Incorrect password!'
-        }
+        errors: { password: 'Incorrect password!' }
       });
     })
       .catch(error => res.status(500).send({
@@ -299,18 +241,8 @@ export default {
    * @return {object} returns a user object
    */
   resetUserPassword(req, res) {
-    if (!(req.body.email)) {
-      return res.status(400).send(
-        { status: false, error: 'No email address provided' });
-    }
-    if (!(req.body.type)) {
-      return res.status(400).send(
-        { status: false, error: 'Request type must be specified' }
-      );
-    }
-    if ((req.body.type !== 'request') && (req.body.type !== 'reset')) {
-      return res.status(400).send(
-        { status: false, error: 'Invalid request type' });
+    if (validator(req, res, 'requestreset') !== 'validated') {
+      return;
     }
     const email = req.body.email;
     models.User.findOne({

@@ -187,7 +187,7 @@ describe('User Controller test', () => {
             phone: '2347033130448'
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(409);
             res.body.errors.username.should.equals('Username already exists');
             done();
           });
@@ -204,7 +204,7 @@ describe('User Controller test', () => {
             phone: '2347033130448'
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(409);
             res.body.errors.email.should.equals('Email address already exists');
             done();
           });
@@ -221,7 +221,7 @@ describe('User Controller test', () => {
             phone: '2347033130448'
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(500);
             res.body.errors.email.should.equals('Email address is invalid');
             done();
           });
