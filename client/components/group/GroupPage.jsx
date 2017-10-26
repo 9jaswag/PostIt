@@ -143,9 +143,9 @@ export class GroupPage extends Component {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails[1];
     const messageCards = displayedMessage.map(message =>
-      <div className="margin-v" key={message.id}>
-        <MessageCard onClick={ this.onClick } message={ message }/>
-      </div>
+      <MessageCard onClick={ this.onClick }
+        message={ message }
+        key={message.id}/>
     );
     return (
       <div>

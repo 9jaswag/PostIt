@@ -5,8 +5,4 @@ const initialState = {
   user: {}
 };
 
-export const groupInitialState = {
-  details: ''
-};
-
 export default initialState;
