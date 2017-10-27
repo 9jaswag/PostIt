@@ -37,4 +37,15 @@ describe('Create group form', () => {
     component.instance().onSubmit(event);
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
   });
+  it('should have an empty error state if group is not created', () => {
+    props.createGroup = jest.fn(() => Promise.reject({
+      data: {
+        success: false,
+        errors: 'No cant do'
+      }
+    }));
+    const component = shallow(<CreateGroupForm {...props}/>);
+    component.instance().onSubmit(event);
+    expect(component.instance().state.errors).toEqual({});
+  });
 });

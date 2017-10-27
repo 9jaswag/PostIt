@@ -45,4 +45,19 @@ describe('Post message form component', () => {
       store={store} { ...props }/>);
     expect(component.length).toBe(1);
   });
+  it('should have an empty state if message is not sent', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    props.postMessage = jest.fn(() => Promise.reject({
+      status: 403,
+      data: {
+        success: false,
+        message: 'No cant do'
+      }
+    }));
+    const component = shallow(<PostMessageForm {...props}/>);
+    component.instance().onSubmit(event);
+    expect(component.instance().state.message).toEqual('');
+  });
 });

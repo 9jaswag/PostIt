@@ -3,7 +3,8 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { ResetPassword } from '../../components/resetPassword/ResetPassword';
+import
+{ ResetPassword } from '../../components/resetPassword/ResetPassword.jsx';
 
 describe('Reset Password component', () => {
   const props = {
@@ -77,5 +78,28 @@ describe('Reset Password component', () => {
     const component = shallow(<ResetPassword {...props}/>);
     component.setState({ initial: true, secondary: false });
     expect(component.find('h4').text()).toBe('Forgot password?');
+  });
+  it('should handle error on password reset', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    props.resetPassword = jest.fn(() => Promise.reject({
+      response: { data: { error: 'Email exists' } }
+    }));
+    const component = shallow(<ResetPassword {...props}/>);
+    component.setState({ password: 'newpass', confirmPassword: 'newpass' });
+    component.instance().submitReset(event);
+    expect(component.instance().state.error).toEqual('');
+  });
+  it('should contain the method submitRequest', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    props.resetPassword = jest.fn(() => Promise.reject({
+      response: { data: { error: 'Email exists' } }
+    }));
+    const component = shallow(<ResetPassword {...props}/>);
+    component.instance().submitRequest(event);
+    expect(component.instance().state.error).toEqual('');
   });
 });
