@@ -3,13 +3,13 @@
  * handles every user related task
  */
 
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
 import customSort from '../../helpers/customSort';
 import validator from '../../helpers/validator';
 import sequelizeError from '../../helpers/sequelizeError';
+import generateToken from '../../helpers/generateToken';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -50,13 +50,7 @@ export default {
         phone: req.body.phone.trim()
       })
       .then((user) => {
-        const token = jwt
-          .sign({
-            id: user.id,
-            email: user.email,
-            username: user.username,
-            phone: user.phone
-          }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+        const token = generateToken(user);
         return res.status(201)
           .send({ success: true,
             message: 'Sign up succesful.',
@@ -90,12 +84,7 @@ export default {
       }
       if (user && user.verifyPassword(req.body.password)) {
         // generate token
-        const token = jwt.sign({
-          id: user.id,
-          email: user.email,
-          username: user.username,
-          phone: user.phone
-        }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+        const token = generateToken(user);
         return res.status(200).send({ success: true,
           message: 'Sign in successful',
           data: { token } });
