@@ -24,7 +24,7 @@ export default {
    * @return {object} returns an object containing details
    * of the newly created group
    */
-  create(req, res) {
+  createGroup(req, res) {
     if (validator(req, res, 'creategroup') !== 'validated') return;
     models.Group.findOne({
       where: { name: req.body.name }
@@ -127,90 +127,99 @@ export default {
         return res.status(401).send({ success: false,
           error: { message: 'That group does not exist' } });
       }
-      return models.Message
-        .create({
-          title: req.body.title,
-          message: req.body.message,
-          priority: req.body.priority || 'normal',
-          author: req.decoded.username,
-          readby: [req.decoded.username],
-          groupId: req.params.group_id,
-          userId: req.decoded.id
-        })
-        .then((message) => {
+      models.UserGroup.findOne({
+        where: { userId: req.decoded.id, groupId: req.params.group_id }
+      }).then((groupMember) => {
+        if (!groupMember) {
+          return res.status(403).send({
+            success: false,
+            message: 'Only group members can post messages to group' });
+        }
+        return models.Message
+          .create({
+            title: req.body.title,
+            message: req.body.message,
+            priority: req.body.priority || 'normal',
+            author: req.decoded.username,
+            readby: [req.decoded.username],
+            groupId: req.params.group_id,
+            userId: req.decoded.id
+          })
+          .then((message) => {
           // send response to client before attempting to send notification
-          res.status(201).send({
-            success: true,
-            message: 'Message sent',
-            data: { message }
-          });
-
-          const messageBody = `<div><p>Hello there!,</p>
-            <p>You have a new ${req.body.priority} message on PostIT</p>
-            <p style="color:red;"><strong>
-            Message Title</strong>: ${req.body.title}</p>
-            <p>Login to view your message now</p>\n\n
-            <p style="padding: 1rem;"></p>
-            <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${req.headers.host}">Login</a>\n\n
-            <p style="padding: 1rem;"></p>
-            <p>PostIT</p>
-            </div>`;
-
-          // send Email notification
-          if (req.body.priority.toLowerCase() === 'urgent') {
-            // get users email and send message
-            getUserEmails(req.params.group_id).then((users) => {
-              users.map((user) => {
-                if (user.email !== req.decoded.email) {
-                  const messageOptions = {
-                    subject: `${req.body.priority} message on PostIT`,
-                    message: messageBody
-                  };
-                  sendEmailNotification(user.email, messageOptions);
-                }
-                return user;
-              });
+            res.status(201).send({
+              success: true,
+              message: 'Message sent',
+              data: { message }
             });
-          }
 
-          const nexmo = new Nexmo({
-            apiKey: process.env.API_KEY,
-            apiSecret: process.env.API_SECRET,
-          });
+            const messageBody = `<div><p>Hello there!,</p>
+              <p>You have a new ${req.body.priority} message on PostIT</p>
+              <p style="color:red;"><strong>
+              Message Title</strong>: ${req.body.title}</p>
+              <p>Login to view your message now</p>\n\n
+              <p style="padding: 1rem;"></p>
+              <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${req.headers.host}">Login</a>\n\n
+              <p style="padding: 1rem;"></p>
+              <p>PostIT</p>
+              </div>`;
+
+            // send Email notification
+            if (req.body.priority.toLowerCase() === 'urgent') {
+            // get users email and send message
+              getUserEmails(req.params.group_id).then((users) => {
+                users.map((user) => {
+                  if (user.email !== req.decoded.email) {
+                    const messageOptions = {
+                      subject: `${req.body.priority} message on PostIT`,
+                      message: messageBody
+                    };
+                    sendEmailNotification(user.email, messageOptions);
+                  }
+                  return user;
+                });
+              });
+            }
+
+            const nexmo = new Nexmo({
+              apiKey: process.env.API_KEY,
+              apiSecret: process.env.API_SECRET,
+            });
 
             // send email and SMS Notification
-          if (req.body.priority.toLowerCase() === 'critical') {
+            if (req.body.priority.toLowerCase() === 'critical') {
             // get user email and phone details
-            getUserEmails(req.params.group_id).then((users) => {
-              users.map((user) => {
+              getUserEmails(req.params.group_id).then((users) => {
+                users.map((user) => {
                 // send email
-                if (user.email !== req.decoded.email) {
-                  const messageOptions = {
-                    subject: `${req.body.priority} message on PostIT`,
-                    message: messageBody
-                  };
-                  sendEmailNotification(user.email, messageOptions);
-                }
-                // send sms
-                if (user.phone !== req.decoded.phone) {
-                  nexmo.message.sendSms(
-                    '2347033130448',
-                    user.phone, req.body.message, (err, res) => {
-                      if (err) {
-                        return err;
-                      }
-                      return res;
-                    });
-                }
-                return user;
+                  if (user.email !== req.decoded.email) {
+                    const messageOptions = {
+                      subject: `${req.body.priority} message on PostIT`,
+                      message: messageBody
+                    };
+                    sendEmailNotification(user.email, messageOptions);
+                  }
+                  // send sms
+                  if (user.phone !== req.decoded.phone) {
+                    nexmo.message.sendSms(
+                      '2347033130448',
+                      user.phone, req.body.message, (err, res) => {
+                        if (err) {
+                          return err;
+                        }
+                        return res;
+                      });
+                  }
+                  return user;
+                });
               });
-            });
-          }
-        })
-        .catch(error => res.status(400).send({
-          success: false,
-          error: { message: error.message }
-        }));
+            }
+          })
+          .catch(error => res.status(400).send({
+            success: false,
+            error: { message: error.message }
+          }));
+      });
       // @todo handle these errors "notNull Violation: title cannot be null"
     })
       .catch(error => res.status(500).send({
@@ -316,3 +325,7 @@ export default {
       }));
   }
 };
+
+// return res.status(403).send({
+//   success: false,
+//   message: 'Only group members can post messages to group' });

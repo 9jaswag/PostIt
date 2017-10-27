@@ -24,9 +24,7 @@ export default {
   signup(req, res) {
     const errors = { };
     // validation checks
-    if (validator(req, res, 'signup') !== 'validated') {
-      return;
-    }
+    if (validator(req, res, 'signup') !== 'validated') return;
     // check if username exists
     models.User.findOne({ where: { username: req.body.username } })
       .then((user) => {
@@ -77,9 +75,7 @@ export default {
    * @return {object} returns an object containing user token
    */
   login(req, res) {
-    if (validator(req, res, 'signin') !== 'validated') {
-      return;
-    }
+    if (validator(req, res, 'signin') !== 'validated') return;
     return models.User.findOne({
       where: {
         username: req.body.username.toLowerCase(),
@@ -235,9 +231,7 @@ export default {
    * @return {object} returns a user object
    */
   resetUserPassword(req, res) {
-    if (validator(req, res, 'requestreset') !== 'validated') {
-      return;
-    }
+    if (validator(req, res, 'requestreset') !== 'validated') return;
     const email = req.body.email;
     models.User.findOne({
       where: {

@@ -52,6 +52,14 @@ export class PostMessageForm extends Component {
         this.props.getMessages(this.props.groupId);
         Materialize.toast('Message posted', 2000);
         this.props.history.push('/group');
+      },
+      ({ response }) => {
+        Materialize.toast(response.data.message, 2000);
+        this.setState({
+          message: '',
+          priority: 'normal',
+          title: '',
+        });
       }
     );
   }

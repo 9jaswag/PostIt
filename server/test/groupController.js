@@ -314,6 +314,23 @@ describe('Group controller test', () => {
             done();
           });
       });
+    it('should return error if user isn\'t group member', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/message')
+        .type('form')
+        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJkYXZlQGFuZGVsYS5jb20iLCJ1c2VybmFtZSI6ImRhdmUiLCJwaG9uZSI6IjIzNDcwMzMxMzA0NDkiLCJpYXQiOjE1MDkxMTg5MjEsImV4cCI6MTUwOTIwNTMyMX0.hx48G9Csm_G6v2OWCBFPPaJkJYsEeIhLtJ0VvWiJCb0')
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'critical'
+        })
+        .end((err, res) => {
+          res.should.have.status(403);
+          res.body.message.should.equals(
+            'Only group members can post messages to group');
+          done();
+        });
+    });
     it('should send message if all parameters are provided', (done) => {
       chai.request(app)
         .post('/api/v1/group/1/message')
