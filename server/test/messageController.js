@@ -45,8 +45,8 @@ describe('Message controller test', () => {
         password: 'chukspass',
       })
       .end((err, res) => {
-        res.body.data.should.have.property('token');
-        token = res.body.data.token;
+        res.body.should.have.property('token');
+        token = res.body.token;
         done();
       });
   });

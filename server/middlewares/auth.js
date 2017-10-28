@@ -31,7 +31,7 @@ export default (req, res, next) => {
       })
         .then((user) => {
           if (!user) {
-            return res.status(403).send({
+            return res.status(404).send({
               sucess: false, error: 'User does not exist' });
           }
           next();

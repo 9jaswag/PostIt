@@ -30,7 +30,7 @@ export default {
       where: { name: req.body.name }
     }).then((group) => {
       if (group) {
-        return res.status(400)
+        return res.status(409)
           .send({ success: false,
             errors: { group: 'Group already exists' } });
       }
@@ -48,7 +48,7 @@ export default {
         })
         .then(usergroup => res.status(201).send({
           success: true,
-          message: 'Your group has been created and you have been added to the group',
+          message: 'Your group has been created.',
           data: { group, usergroup }
         })))
       .catch(error => res.status(500).send({
@@ -68,14 +68,14 @@ export default {
       where: { id: req.params.group_id }
     }).then((group) => {
       if (!group) {
-        return res.status(401)
+        return res.status(404)
           .send({ success: false, error: { message: 'Group does not exist' } });
       }
       models.User.findOne({
         where: { id: req.body.userId }
       }).then((user) => {
         if (!user) {
-          return res.status(401)
+          return res.status(404)
             .send(
               { success: false, error: { message: 'User does not exist' }
               });
@@ -99,7 +99,7 @@ export default {
           }).then(usergroup => res.status(201).send({
             success: true,
             message: 'User successfully added to group',
-            data: { usergroup }
+            group: usergroup
           }))
             .catch(error => res.status(400).send({
               success: false,

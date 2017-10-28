@@ -36,7 +36,7 @@ models.UserGroup.destroy({
   restartIdentity: true
 });
 
-describe('User Controller test', () => {
+describe('User Controller Test', () => {
   describe('User signup API route', () => {
     it('should register a new user when complete parameters are provided',
       (done) => {
@@ -321,8 +321,8 @@ describe('User Controller test', () => {
           password: 'chukspass',
         })
         .end((err, res) => {
-          res.body.data.should.have.property('token');
-          token = res.body.data.token;
+          res.body.should.have.property('token');
+          token = res.body.token;
           done();
         });
     });
@@ -462,7 +462,7 @@ describe('User Controller test', () => {
           done();
         });
     });
-    it('should return logged in user object with group info when token is valid',
+    it('should return user object with group info when token is valid',
       (done) => {
         chai.request(app)
           .get('/api/v1/user/search?username=chuks')
@@ -470,8 +470,8 @@ describe('User Controller test', () => {
           .set('x-access-token', token)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.data.count.should.equals(1);
-            res.body.data.should.be.an('object');
+            res.body.user.count.should.equals(1);
+            res.body.user.should.be.an('object');
             done();
           });
       });
@@ -528,7 +528,8 @@ describe('User Controller test', () => {
           })
           .end((err, res) => {
             res.should.have.status(400);
-            res.body.error.should.equals('No user with this email address');
+            res.body.errors.username.should.equals(
+              'No user with this email address');
             resetToken = res.body.resetToken;
             done();
           });

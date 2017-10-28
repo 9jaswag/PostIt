@@ -22,45 +22,44 @@ export default {
    * @return {object} returns an object containing user token
    */
   signup(req, res) {
-    const errors = { };
-    // validation checks
+    const errors = {};
     if (validator(req, res, 'signup') !== 'validated') return;
     // check if username exists
     models.User.findOne({ where: { username: req.body.username } })
-      .then((user) => {
-        if (user) {
+      .then((foundUser) => {
+        if (foundUser) {
           errors.username = 'Username already exists';
-          return res.status(409).send({ success: false, errors });
+          return res.status(409).send({
+            success: false, errors });
         }
+        // check if email exists
+        models.User.findOne({ where: { email: req.body.email } })
+          .then((foundEmail) => {
+            if (foundEmail) {
+              errors.email = 'Email address already exists';
+              return res.status(409).send({
+                success: false, errors });
+            }
+          });
+        return models.User.create({
+          username: req.body.username.trim().toLowerCase(),
+          password: req.body.password,
+          email: req.body.email.trim(),
+          phone: req.body.phone.trim()
+        })
+          .then((user) => {
+            const token = generateToken(user);
+            return res.status(201).send({
+              success: true,
+              message: 'Sign up succesful.',
+              token
+            });
+          })
+          .catch(error => res.status(500).send({
+            success: false,
+            errors: sequelizeError(error)
+          }));
       });
-    // check if email already exists
-    models.User.findOne({ where: { email: req.body.email } })
-      .then((user) => {
-        if (user) {
-          errors.email = 'Email address already exists';
-          return res.status(409)
-            .send({ success: false, errors });
-        }
-      });
-    return models.User
-      .create({
-        username: req.body.username.trim().toLowerCase(),
-        password: req.body.password,
-        email: req.body.email.trim(),
-        phone: req.body.phone.trim()
-      })
-      .then((user) => {
-        const token = generateToken(user);
-        return res.status(201)
-          .send({ success: true,
-            message: 'Sign up succesful.',
-            data: { token } });
-      })
-      .catch(error => res.status(500).send({
-        success: false,
-        errors: sequelizeError(error)
-      })
-      );
   },
   /**
    * Method to sign in users
@@ -76,7 +75,7 @@ export default {
       }
     }).then((user) => {
       if (!user) {
-        return res.status(401)
+        return res.status(404)
           .send({
             success: false,
             errors: { username: 'User does not exist' }
@@ -87,7 +86,7 @@ export default {
         const token = generateToken(user);
         return res.status(200).send({ success: true,
           message: 'Sign in successful',
-          data: { token } });
+          token });
       }
       return res.status(401).send({
         success: false,
@@ -128,11 +127,11 @@ export default {
           return res.status(200)
             .send({ success: true, message: 'user not found' });
         }
-        return res.status(200).send({ user });
+        return res.status(200).send({ success: true, user });
       })
       .catch(error => res.status(500).send({
         success: false,
-        error: { message: error.message }
+        errors: { message: error.message }
       }));
   },
   /** Method to get the details of current logged in user
@@ -143,7 +142,7 @@ export default {
   findCurrentUser(req, res) {
     const username = req.decoded.username;
     models.User
-      .find({
+      .findOne({
         include: [{
           model: models.Group,
           order: [['createdAt', 'DESC']],
@@ -159,29 +158,27 @@ export default {
         const groupsWithCount = [];
         user.Groups.map(group =>
           // get messages that belong to each group
-          models.Message.findAll({
-            where: { groupId: group.id },
-            attributes: ['readby']
-          }).then((messages) => {
-            let unreadCount = 0;
-            messages.forEach((message) => {
-              // if message has not been read by user, increment counter
-              if (!message.readby.includes(username)) {
-                unreadCount += 1;
+          group.getMessages({ attributes: ['readby'] })
+            .then((messages) => {
+              let unreadCount = 0;
+              messages.forEach((message) => {
+                // if message has not been read by user, increment counter
+                if (!message.readby.includes(username)) unreadCount += 1;
+              });
+              groupsWithCount.push({ group, unreadCount });
+              mapCounter += 1;
+              if (mapCounter === user.Groups.length) {
+                // sort array to return by id and send response
+                res.status(200).send({
+                  success: true,
+                  groups: groupsWithCount.sort(customSort)
+                });
               }
-            });
-            groupsWithCount.push({ group, unreadCount });
-            mapCounter += 1;
-            if (mapCounter === user.Groups.length) {
-              // send response
-              // sort array to return by id
-              return res.status(200).send(
-                { data: groupsWithCount.sort(customSort) });
-            }
-          })
+            })
         );
       })
-      .catch(error => res.status(500).send({ errors: error.message }));
+      .catch(error => res.status(500).send({ success: false,
+        error: error.message }));
   },
   /**
    * Method to search for users
@@ -207,10 +204,10 @@ export default {
       attributes: ['id', 'username', 'email', 'phone'],
     })
       .then((user) => {
-        res.status(200).send({ success: true, data: user });
+        res.status(200).send({ success: true, user });
       })
       .catch((error) => {
-        res.status(500).send({ success: false, errors: error.message });
+        res.status(500).send({ success: false, error: error.message });
       });
   },
   /**
@@ -223,15 +220,14 @@ export default {
     if (validator(req, res, 'requestreset') !== 'validated') return;
     const email = req.body.email;
     models.User.findOne({
-      where: {
-        email
-      },
+      where: { email },
       attributes: ['id', 'email', 'resetToken', 'resetTime']
     })
       .then((user) => {
         if (!user) {
           return res.status(400).send(
-            { status: false, error: 'No user with this email address' }
+            { success: false,
+              errors: { username: 'No user with this email address' } }
           );
         }
         if (req.body.type === 'request') {
@@ -243,9 +239,7 @@ export default {
             resetToken,
             resetTime
           }, {
-            where: {
-              email
-            }
+            where: { email }
           })
             .then(() => {
               const messageOptions = {
@@ -265,17 +259,17 @@ export default {
               sendEmailNotification(email, messageOptions);
               if (process.env.NODE_ENV === 'test') {
                 res.status(200).send({
-                  status: true, message: 'Email sent', resetToken });
+                  success: true, message: 'Email sent', resetToken });
               }
-              res.status(200).send({ status: true, message: 'Email sent' });
+              res.status(200).send({ success: true, message: 'Email sent' });
             })
             .catch(error => res.status(400).send(
-              { status: false, error: error.message }));
+              { success: false, error: error.message }));
         }
         if (req.body.type === 'reset') {
           if (!req.body.password) {
             return res.status(400).send(
-              { status: false, error: 'Provide a new password' });
+              { success: false, error: 'Provide a new password' });
           }
           if (!req.body.token) {
             return res.status(400).send(
@@ -300,9 +294,7 @@ export default {
             resetToken: null,
             resetTime: null
           }, {
-            where: {
-              email
-            }
+            where: { email }
           })
             .then(() => {
               res.status(200).send(

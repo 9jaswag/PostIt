@@ -9,6 +9,7 @@ process.env.NODE_ENV = 'test';
 const should = chai.should();
 chai.use(chaiHttp);
 let token;
+let userToken;
 
 models.User.destroy({
   where: {},
@@ -46,8 +47,8 @@ describe('Group controller test', () => {
         password: 'chukspass',
       })
       .end((err, res) => {
-        res.body.data.should.have.property('token');
-        token = res.body.data.token;
+        res.body.should.have.property('token');
+        token = res.body.token;
         done();
       });
   });
@@ -181,7 +182,7 @@ describe('Group controller test', () => {
             done();
           });
       });
-    it('should return an error if user id is provided already belongs to the group',
+    it('should return an error if user already belongs to the group',
       (done) => {
         chai.request(app)
           .post('/api/v1/group/1/user')
@@ -217,17 +218,33 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          userId: 4
+          userId: 3
         })
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.data.usergroup.userId.should.equals(4);
+          res.body.data.usergroup.userId.should.equals(3);
           res.body.data.usergroup.groupId.should.equals(1);
           done();
         });
     });
   });
   describe('API route for posting message to a particular group', () => {
+    before((done) => {
+      chai.request(app)
+        .post('/api/v1/user/signup')
+        .type('form')
+        .send({
+          username: 'funsho',
+          email: 'funsho@andela.com',
+          password: 'funshopass',
+          phone: '2347033130559'
+        })
+        .end((err, res) => {
+          res.body.should.have.property('token');
+          userToken = res.body.token;
+          done();
+        });
+    });
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
         .post('/api/v1/group/1/message')
@@ -318,7 +335,7 @@ describe('Group controller test', () => {
       chai.request(app)
         .post('/api/v1/group/1/message')
         .type('form')
-        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJkYXZlQGFuZGVsYS5jb20iLCJ1c2VybmFtZSI6ImRhdmUiLCJwaG9uZSI6IjIzNDcwMzMxMzA0NDkiLCJpYXQiOjE1MDkxMTg5MjEsImV4cCI6MTUwOTIwNTMyMX0.hx48G9Csm_G6v2OWCBFPPaJkJYsEeIhLtJ0VvWiJCb0')
+        .set('x-access-token', userToken)
         .send({
           title: 'A message title',
           message: 'a message body',
