@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Sidebar from '../dashboard/Sidebar.jsx';
 import PostMessageForm from './PostMessageForm.jsx';
 import AddUserForm from './AddUserForm.jsx';
-import getMessages,{ passMessage,
+import getMessages, { passMessage,
   updateReadBy } from '../../actions/messageActions';
 import { getMemberCount } from '../../actions/groupActions';
 import MessageCard from '../group/MessageCard.jsx';
@@ -90,7 +90,7 @@ export class GroupPage extends Component {
     }
   }
   /**
-   * Calls the onLoad method on component mount
+   * Gets the group's message and member count on component mount
    * @method componentDidMount
    * @return {void}
    * @memberof GroupPage

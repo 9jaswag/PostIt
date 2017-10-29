@@ -192,4 +192,12 @@ describe('Group page Component', () => {
       store={store} { ...props }/>);
     expect(component.length).toBe(1);
   });
+  it('should return error if group is not found', () => {
+    props.getMessages = jest.fn(() => Promise.reject({
+      data: { error: 'No group found' }
+    }));
+    const component = shallow(<GroupPage {...props}/>);
+    component.instance().componentDidMount();
+    expect(component.instance().state.messages).toEqual([]);
+  });
 });

@@ -588,4 +588,4 @@ describe('Group controller test', () => {
     });
   });
 });
-// fetch message when non group member tries to view message
+
