@@ -34,27 +34,6 @@ export default {
           .send({ success: false,
             errors: { group: 'Group already exists' } });
       }
-      // return models.Group
-      //   .create({
-      //     name: req.body.name,
-      //     owner: req.decoded.username,
-      //     description: req.body.description
-      //   })
-      //   .then(createdGroup => models.UserGroup
-      //     .create({
-      //       userId: req.decoded.id,
-      //       groupId: group.id
-      //     })
-      //     .then(usergroup => res.status(201).send({
-      //       success: true,
-      //       message: 'Your group has been created.',
-      //       createdGroup,
-      //       usergroup
-      //     })))
-      //   .catch(error => res.status(500).send({
-      //     success: false,
-      //     errors: { message: error.message }
-      //   }));
     });
     return models.Group
       .create({
