@@ -99,7 +99,7 @@ export class SignupForm extends Component {
               type="text"
               className="validate"
               value={ this.state.username }
-              onChange={ this.onChange } required />
+              onChange={ this.onChange } required autoComplete="off"/>
             <label htmlFor="username">Username</label>
             { errors.username && <span className="red-text">
               { errors.username }</span>}
@@ -108,7 +108,7 @@ export class SignupForm extends Component {
             <input id="phone" name="phone"
               type="tel" className="validate"
               value={ this.state.phone }
-              onChange={ this.onChange } required />
+              onChange={ this.onChange } required autoComplete="off"/>
             <label htmlFor="phone">Phone Number</label>
             { errors.phone && <span className="red-text">
               { errors.phone }</span>}
@@ -120,7 +120,7 @@ export class SignupForm extends Component {
               type="email"
               className="validate"
               value={ this.state.email }
-              onChange={ this.onChange } required />
+              onChange={ this.onChange } required autoComplete="off" />
             <label htmlFor="email" data-error="Invalid Format">Email</label>
             { errors.email && <span className="red-text">
               { errors.email }</span>}
@@ -130,7 +130,7 @@ export class SignupForm extends Component {
               type="password"
               className="validate"
               value={ this.state.password }
-              onChange={ this.onChange } required />
+              onChange={ this.onChange } required autoComplete="off" />
             <label htmlFor="password">Password</label>
             { errors.password && <span className="red-text">
               { errors.password }</span>}

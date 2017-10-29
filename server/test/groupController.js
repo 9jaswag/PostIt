@@ -109,7 +109,7 @@ describe('Group controller test', () => {
             description: 'A little group description'
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(409);
             res.body.errors.group.should.equals('Group already exists');
             done();
           });
@@ -162,8 +162,8 @@ describe('Group controller test', () => {
             userId: 8
           })
           .end((err, res) => {
-            res.should.have.status(401);
-            res.body.error.message.should.equals('User does not exist');
+            res.should.have.status(404);
+            res.body.error.should.equals('User does not exist');
             done();
           });
       });
@@ -177,8 +177,8 @@ describe('Group controller test', () => {
             userId: 2
           })
           .end((err, res) => {
-            res.should.have.status(401);
-            res.body.error.message.should.equals('Group does not exist');
+            res.should.have.status(404);
+            res.body.error.should.equals('Group does not exist');
             done();
           });
       });
@@ -192,8 +192,8 @@ describe('Group controller test', () => {
             userId: 1
           })
           .end((err, res) => {
-            res.should.have.status(400);
-            res.body.error.message.should.equals(
+            res.should.have.status(409);
+            res.body.error.should.equals(
               'User already belongs to this group');
             done();
           });
@@ -222,13 +222,13 @@ describe('Group controller test', () => {
         })
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.data.usergroup.userId.should.equals(3);
-          res.body.data.usergroup.groupId.should.equals(1);
+          res.body.group.userId.should.equals(3);
+          res.body.group.groupId.should.equals(1);
           done();
         });
     });
   });
-  describe('API route for posting message to a particular group', () => {
+  describe('API route for posting message to a group', () => {
     before((done) => {
       chai.request(app)
         .post('/api/v1/user/signup')
@@ -310,8 +310,8 @@ describe('Group controller test', () => {
             message: 'a message body'
           })
           .end((err, res) => {
-            res.should.have.status(401);
-            res.body.error.message.should.equals('That group does not exist');
+            res.should.have.status(404);
+            res.body.error.should.equals('That group does not exist');
             done();
           });
       });
@@ -342,8 +342,8 @@ describe('Group controller test', () => {
           priority: 'critical'
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
+          res.should.have.status(401);
+          res.body.error.should.equals(
             'Only group members can post messages to group');
           done();
         });
@@ -397,7 +397,7 @@ describe('Group controller test', () => {
           done();
         });
     });
-    it('should return an error if group id provided does not exist',
+    it('should return an error if wrong group id type is provided',
       (done) => {
         chai.request(app)
           .get('/api/v1/group/e/messages')
@@ -408,7 +408,7 @@ describe('Group controller test', () => {
           })
           .end((err, res) => {
             res.should.have.status(400);
-            res.body.message.should.equals('a Group ID is required');
+            res.body.error.should.equals('a Group ID is required');
             done();
           });
       });
@@ -419,8 +419,20 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .end((err, res) => {
+            res.should.have.status(404);
+            res.body.error.should.equals('Group does not exist');
+            done();
+          });
+      });
+    it('should return an an error if user isn\'t a group member',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/group/1/messages')
+          .type('form')
+          .set('x-access-token', userToken)
+          .end((err, res) => {
             res.should.have.status(401);
-            res.body.error.message.should.equals('Group does not exist');
+            res.body.error.should.equals('Only group members visit a group');
             done();
           });
       });
@@ -432,8 +444,8 @@ describe('Group controller test', () => {
           .set('x-access-token', token)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.data.should.be.an('array');
-            res.body.data[0].should.be.an('object');
+            res.body.message.should.be.an('array');
+            res.body.message[0].should.be.an('object');
             done();
           });
       });
@@ -462,7 +474,7 @@ describe('Group controller test', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.error.message.should.equals(
+          res.body.error.should.equals(
             'User and group id must be provided');
           done();
         });
@@ -478,7 +490,7 @@ describe('Group controller test', () => {
           })
           .end((err, res) => {
             res.should.have.status(401);
-            res.body.error.message.should.equals(
+            res.body.error.should.equals(
               'User or group does not exist');
             done();
           });
@@ -494,7 +506,7 @@ describe('Group controller test', () => {
           })
           .end((err, res) => {
             res.should.have.status(401);
-            res.body.error.message.should.equals(
+            res.body.error.should.equals(
               'User or group does not exist');
             done();
           });
@@ -549,7 +561,7 @@ describe('Group controller test', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(404);
-          res.body.message.should.equals('Group does not exist');
+          res.body.error.should.equals('Group does not exist');
           done();
         });
     });
@@ -570,9 +582,10 @@ describe('Group controller test', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.data.should.equals(2);
+          res.body.group.should.equals(2);
           done();
         });
     });
   });
 });
+// fetch message when non group member tries to view message

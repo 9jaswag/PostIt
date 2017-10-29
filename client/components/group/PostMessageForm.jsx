@@ -54,7 +54,7 @@ export class PostMessageForm extends Component {
         this.props.history.push('/group');
       },
       ({ response }) => {
-        Materialize.toast(response.data.message, 2000);
+        Materialize.toast(response.data.error, 2000);
         this.setState({
           message: '',
           priority: 'normal',
@@ -80,7 +80,6 @@ export class PostMessageForm extends Component {
   render() {
     return (
       <div>
-        { /* Post Message Modal Structure */}
         <div className="modal-content">
           <div className="row">
             <div className="col s12">
@@ -97,7 +96,7 @@ export class PostMessageForm extends Component {
                   name="title"
                   value={ this.state.title }
                   onChange= { this.onChange }
-                  className="validate form" required/>
+                  className="validate form" required autoComplete="off"/>
                 <label htmlFor="title">Message Title</label>
               </div>
             </div>
@@ -107,7 +106,8 @@ export class PostMessageForm extends Component {
                   rows="10" id="message"
                   name="message" value={ this.state.message }
                   onChange= { this.onChange }
-                  className="materialize-textarea form" required></textarea>
+                  className="materialize-textarea form" required
+                  autoComplete="off"></textarea>
                 <label htmlFor="message">Message body</label>
               </div>
             </div>

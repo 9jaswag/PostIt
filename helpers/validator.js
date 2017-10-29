@@ -152,7 +152,7 @@ const validator = (req, res, type) => {
     if (!req.params.group_id ||
       req.params.group_id.trim() === '' || isNaN(req.params.group_id)) {
       return res.status(400)
-        .send({ success: false, message: 'a Group ID is required' });
+        .send({ success: false, error: 'a Group ID is required' });
     }
     return 'validated';
   }

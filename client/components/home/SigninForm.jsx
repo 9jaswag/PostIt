@@ -94,7 +94,7 @@ export class SigninForm extends Component {
               type="text"
               className="validate signin"
               value={ this.state.username }
-              onChange={ this.onChange } required />
+              onChange={ this.onChange } required autoComplete="off" />
             <label htmlFor="username">Username</label>
           </div>
         </div>
@@ -105,7 +105,7 @@ export class SigninForm extends Component {
               type="password"
               className="validate signin"
               value={ this.state.password }
-              onChange={ this.onChange } required />
+              onChange={ this.onChange } required autoComplete="off" />
             <label htmlFor="password">Password</label>
           </div>
         </div>

@@ -65,7 +65,7 @@ export class SearchPage extends Component {
     this.props.searchUserAction(payload).then(
       (res) => {
         this.setState(
-          { users: res.data.data.rows, count: res.data.data.count }
+          { users: res.data.user.rows, count: res.data.user.count }
         );
       }
     );

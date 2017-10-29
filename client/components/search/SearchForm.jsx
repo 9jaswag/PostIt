@@ -16,7 +16,8 @@ const SearchForm = ({ onSubmit,
         type="text"
         value={ state.username }
         onChange={ onChange }
-        className="validate"/>
+        className="validate"
+        autoComplete="off"/>
       <label htmlFor="username">Search</label>
     </div>
     <div className="col l12">{ state.errors && <span

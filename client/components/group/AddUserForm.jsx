@@ -195,7 +195,7 @@ export class AddUserForm extends Component {
               <input id="username" name="username"
                 type="text" className="validate"
                 value= {this.state.username}
-                onChange= { this.onChange} required/>
+                onChange= { this.onChange} required autoComplete="off"/>
               <label htmlFor="username">Enter username</label>
               { (this.state.userToAdd.userId) ? userChip : null }
               { (this.state.userToAdd.userId) ? showPrompt : null }

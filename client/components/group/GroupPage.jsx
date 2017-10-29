@@ -103,6 +103,10 @@ export class GroupPage extends Component {
           this.setState({ messages: this.props.messages }, () => {
             this.filterMessages(this.props.messages);
           });
+        },
+        ({ response }) => {
+          Materialize.toast(response.data.error, 2000);
+          this.props.history.push('/dashboard');
         }
       );
       this.props.getMemberCount(groupId);

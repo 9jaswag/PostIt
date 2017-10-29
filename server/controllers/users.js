@@ -261,7 +261,7 @@ export default {
                 res.status(200).send({
                   success: true, message: 'Email sent', resetToken });
               }
-              res.status(200).send({ success: true, message: 'Email sent' });
+              res.status(200).send({ success: true, message: 'Email sent. Check your inbox' });
             })
             .catch(error => res.status(400).send(
               { success: false, error: error.message }));
