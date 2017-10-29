@@ -62,9 +62,9 @@ export class HomePage extends Component {
                   <h5 className="center-align text-white">
                     Prompt Messages, Prompt Delivery</h5>
                   { /* Modal Buttons for mobile only*/ }
-                  <div className="show-on-small hide-on-med-and-up center-align margin-v2">
+                  {/* <div className="show-on-small hide-on-med-and-up center-align margin-v2">
                     { isAuthenticated ? userLinks : guestLinks }
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="col s12 m6 l6 valign-wrapper full-height hide-on-small-only">
