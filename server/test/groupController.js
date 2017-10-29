@@ -227,6 +227,20 @@ describe('Group controller test', () => {
           done();
         });
     });
+    it('should add an error if user does not exist', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/user')
+        .type('form')
+        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJjaHVrc0BhbmRlbGEuY29tIiwidXNlcm5hbWUiOiJjaGlvbWFzIiwicGhvbmUiOiIyMzQ3MDMzMTMwNDQ5IiwiaWF0IjoxNTA5MjkwNTEyLCJleHAiOjE1MDkzNzY5MTJ9.XOpSii1aJptCsuLl8VtYSUB93Tb_APklicQiVVhegVE')
+        .send({
+          userId: 3
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.error.should.equals('User does not exist');
+          done();
+        });
+    });
   });
   describe('API route for posting message to a group', () => {
     before((done) => {
@@ -380,6 +394,23 @@ describe('Group controller test', () => {
         .end((err, res) => {
           res.should.have.status(201);
           res.body.data.message.priority.should.equals('urgent');
+          res.body.message.should.equals('Message sent');
+          done();
+        });
+    });
+    it('should send email if message is critical', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'critical'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.data.message.priority.should.equals('critical');
           res.body.message.should.equals('Message sent');
           done();
         });

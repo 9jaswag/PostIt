@@ -382,6 +382,21 @@ describe('User Controller Test', () => {
             done();
           });
       });
+    it('should return an error message is password is less than 6 characters',
+      (done) => {
+        chai.request(app)
+          .post('/api/v1/user/signin')
+          .type('form')
+          .send({
+            username: 'chuks',
+            password: 'chuks'
+          })
+          .end((err, res) => {
+            res.body.errors.password.should.equals(
+              'Password length must be more than 6 characters');
+            done();
+          });
+      });
   });
   describe('API route to find a User', () => {
     it('should return error if no token is provided', (done) => {
