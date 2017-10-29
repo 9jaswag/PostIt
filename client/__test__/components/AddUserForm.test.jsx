@@ -108,35 +108,4 @@ describe('Add user form Component', () => {
       store={store} { ...props }/>);
     expect(component.length).toBe(1);
   });
-  // it('should show user add prompt', () => {
-  //   const component = shallow(<AddUserForm {...props}/>);
-  //   component.instance().onChange({
-  //     target: { name: 'username', value: 'troy34' }
-  //   });
-  //   component.setState({
-  //     userToAdd: { userId: 1, username: 'troy34', isMember: false }
-  //   });
-  //   const userChip = component.find('.chip');
-  //   console.log(userChip);
-  //   userChip.simulate('click');
-  //   component.instance().onClick();
-  //   const confirmButton = component.find('.swal-button');
-  //   console.log(confirmButton.length);
-  //   // confirmButton.simulate('click');
-  // });
-  // it('should show user delete prompt', () => {
-  //   const component = shallow(<AddUserForm {...props}/>);
-  //   component.instance().onChange({
-  //     target: { name: 'username', value: 'troy34' }
-  //   });
-  //   component.setState({
-  //     userToAdd: { userId: 1, username: 'troy34', isMember: true }
-  //   });
-  //   const userChip = component.find('.chip');
-  //   console.log(userChip);
-  //   component.instance().onClick();
-  //   const confirmButton = component.find('.swal-button');
-  //   console.log(confirmButton.length);
-  //   confirmButton.simulate('click');
-  // });
 });
