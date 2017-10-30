@@ -451,6 +451,16 @@ describe('User Controller Test', () => {
     });
   });
   describe('API route to fetch logged in user group info', () => {
+    before((done) => {
+      setTimeout(done, 10000);
+      chai.request(app)
+        .get('/api/v1/users/one')
+        .type('form')
+        .set('x-access-token', token)
+        .end(() => {
+          done();
+        });
+    });
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
         .get('/api/v1/users/one')
