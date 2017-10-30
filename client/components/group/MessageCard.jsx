@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom';
  * MessageCard component.
  * @returns {string} The HTML markup for the MessageCard component
  */
-const MessageCard = ({ onClick, message }) => (
-  <div className="teal darken-1 hoverable custom-card tooltipped"
+const MessageCard = ({ onClick, message, loopKey }) => (
+  <div className="teal darken-1 hoverable custom-card tooltipped margin-v"
     data-position="top"
     data-delay="50"
-    data-tooltip="click message title to view message">
+    data-tooltip="click message title to view message"
+    key={ loopKey }>
     <div className="white-text">
       <Link to="/message" className="pointer normal text-white block"
         onClick={ onClick } data-id={ message.id }
@@ -22,11 +23,12 @@ const MessageCard = ({ onClick, message }) => (
         { new Date(message.createdAt).toLocaleTimeString({ hour12: true })
         }</small>
       </span>
-      <span className={ classnames('margin-h default-radius slim', {
-        'red darken-3': message.priority === 'critical',
-        'amber accent-4': message.priority === 'urgent',
-        'light-blue darken-3': message.priority === 'normal',
-      }) } style={{ padding: '.3rem .5rem', fontSize: '10px' }}>
+      <span className={
+        classnames('margin-h default-radius slim message-card-style', {
+          'red darken-3': message.priority === 'critical',
+          'amber accent-4': message.priority === 'urgent',
+          'light-blue darken-3': message.priority === 'normal',
+        }) }>
         { message.priority }
       </span>
       <div className="inline-block">

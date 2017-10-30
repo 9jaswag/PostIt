@@ -179,6 +179,22 @@ $red: #e74c3c;
   margin-bottom: 1rem;
 }
 
+.margin-v-top {
+  margin-top: 2rem;
+}
+
+.margin-v-top-3 {
+  margin-top: 3rem;
+}
+
+.margin-v-bottom {
+  margin-bottom: 2rem;
+}
+
+.margin-v-bottom-none {
+  margin-bottom: 0;
+}
+
 .margin-v2 {
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -451,4 +467,22 @@ h5.center-align.form {
 
 .footer h6 {
   font-size: 1.4rem;  
+}
+
+.message-content-padding {
+  padding: 0.1rem 0.4rem;
+}
+
+.centralize {
+  display: block;
+  margin: auto;
+}
+
+.message-card-style {
+  padding: 0.3rem 0.5rem;
+  font-size: 10px;
+}
+
+.card-content.white-text p {
+  margin-top: 3rem;
 }

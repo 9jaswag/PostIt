@@ -14,7 +14,7 @@ export default (app) => {
   // API route to handle user sign in
   app.post('/api/v1/user/signin', controllers.users.login);
   // API to get all users
-  app.get('/api/v1/users', auth, controllers.users.findAll);
+  app.post('/api/v1/users/user', auth, controllers.users.findUser);
   // API route to search users
   app.get('/api/v1/user/search', auth, controllers.users.searchUsers);
   // API route to get a user and group details
@@ -28,7 +28,7 @@ export default (app) => {
   app.patch('/api/v1/user/reset', controllers.users.resetUserPassword);
 
   // API to create new group
-  app.post('/api/v1/group', auth, controllers.groups.create);
+  app.post('/api/v1/group', auth, controllers.groups.createGroup);
   // API route for users to add other users to groups:
   app.post('/api/v1/group/:group_id/user', auth, controllers.groups.addUser);
   app.patch(

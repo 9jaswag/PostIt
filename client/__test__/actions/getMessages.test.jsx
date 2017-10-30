@@ -1,45 +1,50 @@
-import expect from 'expect';
-import thunk from 'redux-thunk';
+/* global window */
 import configureMockStore from 'redux-mock-store';
-import getMessages, { setMessages } from '../../actions/getMessages';
+import thunk from 'redux-thunk';
+import moxios from 'moxios';
+import expect from 'expect';
+import getMessages from '../../actions/messageActions';
 import * as types from '../../actions/types';
+import mockLocalStorage from '../../__mocks__/mockLocalStorage';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+window.localStorage = mockLocalStorage;
 
-describe('Get Messages Action', () => {
-  it('should contain getMessages function', () => {
-    expect(getMessages()).toBeA('function');
-  });
-  it('should dispatch an action creator', () => {
+describe('Get messages action', () => {
+  beforeEach(() => moxios.install());
+  afterEach(() => moxios.uninstall());
+
+  it('should dispatch SET_MESSAGE action when called', (done) => {
+    moxios.stubRequest('/api/v1/group/1/messages', {
+      status: 200,
+      response: {
+        success: true,
+        data: [{
+          id: 1,
+          title: 'Mwanzo of Awesomeness ',
+          message: 'this is it',
+          priority: 'urgent',
+          author: 'chuks',
+          readby: ['chuks']
+        }]
+      }
+    });
     const store = mockStore({});
     const messages = [{
-      id: 46,
-      title: 'htiw',
-      message: 'asjpo',
-      priority: 'normal',
-      author: 'chuks'
+      id: 1,
+      title: 'Mwanzo of Awesomeness ',
+      message: 'this is it',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['chuks']
     }];
     const expectedActions = [
       { type: types.SET_MESSAGE, messages }
     ];
-    store.dispatch(setMessages(messages));
-    expect(store.getActions()).toEqual(expectedActions);
-  });
-  it('should dispatch SET_MESSAGE action when called', () => {
-    const store = mockStore({});
-    const messages = [{
-      id: 46,
-      title: 'htiw',
-      message: 'asjpo',
-      priority: 'normal',
-      author: 'chuks'
-    }];
-    const expectedActions = [
-      { type: types.SET_MESSAGE, messages }
-    ];
-    store.dispatch(getMessages(messages)).then(() => {
+    store.dispatch(getMessages(1)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
+    done();
   });
 });

@@ -6,6 +6,7 @@ import Nexmo from 'nexmo';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
 import getUserEmails from '../../helpers/getUserEmails';
+import validator from '../../helpers/validator';
 
 /**
  * Function for sending email notification to users
@@ -23,29 +24,13 @@ export default {
    * @return {object} returns an object containing details
    * of the newly created group
    */
-  create(req, res) {
-    const errors = { };
-    let hasError = false;
-    if (!req.body.name || req.body.name.trim() === '') {
-      hasError = true;
-      errors.name = 'Please choose a group name';
-    } if (!req.decoded.userUsername) {
-      hasError = true;
-      errors.userUsername = 'Please enter a group owner';
-    } if (!req.body.description || req.body.description.trim() === '') {
-      hasError = true;
-      errors.description = 'Please enter a description of the group';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
+  createGroup(req, res) {
+    if (validator(req, res, 'creategroup') !== 'validated') return;
     models.Group.findOne({
-      where: {
-        name: req.body.name
-      }
+      where: { name: req.body.name }
     }).then((group) => {
       if (group) {
-        return res.status(400)
+        return res.status(409)
           .send({ success: false,
             errors: { group: 'Group already exists' } });
       }
@@ -53,24 +38,20 @@ export default {
     return models.Group
       .create({
         name: req.body.name,
-        owner: req.decoded.userUsername,
+        owner: req.decoded.username,
         description: req.body.description
       })
       .then(group => models.UserGroup
         .create({
-          userId: req.decoded.userId,
+          userId: req.decoded.id,
           groupId: group.id
         })
         .then(usergroup => res.status(201).send({
           success: true,
-          message: 'Your group has been created and you have been added to the group',
+          message: 'Your group has been created.',
           data: { group, usergroup }
-        }))
-        .catch(error => res.status(400).send({
-          success: false,
-          errors: { message: error.message }
         })))
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
         errors: { message: error.message }
       }));
@@ -82,31 +63,22 @@ export default {
    * @return {object} returns an object confirming user has been added to group
    */
   addUser(req, res) {
-    if (!req.body.userId) {
-      return res.status(400)
-        .send({ success: false, error: { message: 'a User ID is required' } });
-    } else if (!req.params.group_id || req.params.group_id.trim() === '') {
-      return res.status(400)
-        .send({ success: false, message: 'a Group ID is required' });
-    }
+    if (validator(req, res, 'adduser') !== 'validated') return;
     models.Group.findOne({
-      where: {
-        id: req.params.group_id
-      }
+      where: { id: req.params.group_id }
     }).then((group) => {
       if (!group) {
-        return res.status(401)
-          .send({ success: false, error: { message: 'Group does not exist' } });
+        return res.status(404)
+          .send({ success: false,
+            error: 'Group does not exist' });
       }
       models.User.findOne({
-        where: {
-          id: req.body.userId
-        }
+        where: { id: req.body.userId }
       }).then((user) => {
         if (!user) {
-          return res.status(401)
+          return res.status(404)
             .send(
-              { success: false, error: { message: 'User does not exist' }
+              { success: false, error: 'User does not exist'
               });
         }
       });
@@ -119,8 +91,8 @@ export default {
         })
         .then((user) => {
           if (user) {
-            return res.status(400).send({ success: false,
-              error: { message: 'User already belongs to this group' } });
+            return res.status(409).send({ success: false,
+              error: 'User already belongs to this group' });
           }
           models.UserGroup.create({
             userId: req.body.userId,
@@ -128,16 +100,16 @@ export default {
           }).then(usergroup => res.status(201).send({
             success: true,
             message: 'User successfully added to group',
-            data: { usergroup }
+            group: usergroup
           }))
             .catch(error => res.status(400).send({
               success: false,
-              error: { message: error.message }
+              error: error.message
             }));
         })
-        .catch(error => res.status(400).send({
+        .catch(error => res.status(500).send({
           success: false,
-          error: { message: error.message }
+          error: error.message
         }));
     });
   },
@@ -148,119 +120,112 @@ export default {
    * @return {object} returns an object containing details of the posted message
    */
   postMessage(req, res) {
-    if (!req.body.title || req.body.title.trim() === '') {
-      return res.status(400).send({ success: false,
-        error: { message: 'Message title can not be empty' } });
-    } else if (!req.body.message || req.body.message.trim() === '') {
-      return res.status(400).send({ success: false,
-        error: { message: 'Message can not be empty' } });
-    } else if (
-      !req.decoded.userUsername || req.decoded.userUsername.trim() === '') {
-      return res.status(400).send({ success: false,
-        error: { message: 'Readby cannot be empty' } });
-    } else if (!req.decoded.userUsername) {
-      return res.status(400).send({ success: false,
-        error: { message: 'Message must have an author' } });
-    } else if (!req.decoded.userId) {
-      return res.status(400).send({ success: false,
-        error: { message: 'Message must have a User ID' } });
-    }
+    if (validator(req, res, 'postmessage') !== 'validated') return;
     models.Group.findOne({
-      where: {
-        id: req.params.group_id
-      }
+      where: { id: req.params.group_id }
     }).then((group) => {
       if (!group) {
-        return res.status(401).send({ success: false,
-          error: { message: 'That group does not exist' } });
+        return res.status(404).send({ success: false,
+          error: 'That group does not exist' });
       }
-      return models.Message
-        .create({
-          title: req.body.title,
-          message: req.body.message,
-          priority: req.body.priority || 'normal',
-          author: req.decoded.userUsername,
-          readby: [req.decoded.userUsername],
-          groupId: req.params.group_id,
-          userId: req.decoded.userId
-        })
-        .then((message) => {
+      models.UserGroup.findOne({
+        where: { userId: req.decoded.id, groupId: req.params.group_id }
+      }).then((groupMember) => {
+        if (!groupMember) {
+          return res.status(401).send({
+            success: false,
+            error: 'Only group members can post messages to group' });
+        }
+        return models.Message
+          .create({
+            title: req.body.title,
+            message: req.body.message,
+            priority: req.body.priority || 'normal',
+            author: req.decoded.username,
+            readby: [req.decoded.username],
+            groupId: req.params.group_id,
+            userId: req.decoded.id
+          })
+          .then((message) => {
           // send response to client before attempting to send notification
-          res.status(201).send({
-            success: true,
-            message: 'Message sent',
-            data: { message }
-          });
+            res.status(201).send({
+              success: true,
+              message: 'Message sent',
+              data: { message }
+            });
 
-          // send Email notification
-          if (req.body.priority.toLowerCase() === 'urgent') {
+            const messageBody = `<div><p>Hello there!,</p>
+              <p>You have a new ${req.body.priority} message on PostIT</p>
+              <p style="color:red;"><strong>
+              Message Title</strong>: ${req.body.title}</p>
+              <p>Login to view your message now</p>\n\n
+              <p style="padding: 1rem;"></p>
+              <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${req.headers.host}">Login</a>\n\n
+              <p style="padding: 1rem;"></p>
+              <p>PostIT</p>
+              </div>`;
+
+            // send Email notification
+            if (req.body.priority.toLowerCase() === 'urgent') {
             // get users email and send message
-            getUserEmails(req.params.group_id).then((users) => {
-              users.map((user) => {
-                if (user.email !== req.decoded.userEmail) {
-                  // setup email data
-                  const mailOptions = {
-                    from: 'PostIT',
-                    to: user.email,
-                    subject: `${req.body.priority} message on PostIT`,
-                    text: `You have a new ${req.body.priority}
-                    message on PostIT.Login to check it now.\n
-                    Message: ${req.body.message}`
-                  };
-                  sendEmailNotification(mailOptions);
-                }
-                return user;
+              getUserEmails(req.params.group_id).then((users) => {
+                users.map((user) => {
+                  if (user.email !== req.decoded.email) {
+                    const messageOptions = {
+                      subject: `${req.body.priority} message on PostIT`,
+                      message: messageBody
+                    };
+                    sendEmailNotification(user.email, messageOptions);
+                  }
+                  return user;
+                });
               });
+            }
+
+            const nexmo = new Nexmo({
+              apiKey: process.env.API_KEY,
+              apiSecret: process.env.API_SECRET,
             });
-          }
 
-          const nexmo = new Nexmo({
-            apiKey: process.env.API_KEY,
-            apiSecret: process.env.API_SECRET,
-          });
-
-            // send sms Notification
-          if (req.body.priority.toLowerCase() === 'critical') {
+            // send email and SMS Notification
+            if (req.body.priority.toLowerCase() === 'critical') {
             // get user email and phone details
-            getUserEmails(req.params.group_id).then((users) => {
-              users.map((user) => {
+              getUserEmails(req.params.group_id).then((users) => {
+                users.map((user) => {
                 // send email
-                if (user.email !== req.decoded.userEmail) {
-                  const mailOptions = {
-                    from: 'PostIT',
-                    to: user.email,
-                    subject: `${req.body.priority} message on PostIT`,
-                    text: `You have a new ${req.body.priority}
-                    message on PostIT. Login to check it now.\n
-                    Message: ${req.body.message}`
-                  };
-                  sendEmailNotification(mailOptions);
-                }
-                // send sms
-                if (user.phone !== req.decoded.userPhone) {
-                  nexmo.message.sendSms(
-                    '2347033130448',
-                    user.phone, req.body.message, (err, res) => {
-                      if (err) {
-                        return err;
-                      }
-                      return res;
-                    });
-                }
-                return user;
+                  if (user.email !== req.decoded.email) {
+                    const messageOptions = {
+                      subject: `${req.body.priority} message on PostIT`,
+                      message: messageBody
+                    };
+                    sendEmailNotification(user.email, messageOptions);
+                  }
+                  // send sms
+                  if (user.phone !== req.decoded.phone) {
+                    nexmo.message.sendSms(
+                      '2347033130448',
+                      user.phone, req.body.message, (err, res) => {
+                        if (err) {
+                          return err;
+                        }
+                        return res;
+                      });
+                  }
+                  return user;
+                });
               });
-            });
-          }
-        })
-        .catch(error => res.status(400).send({
-          success: false,
-          error: { message: error.message }
-        }));
+            }
+          })
+          .catch(error => res.status(400).send({
+            success: false,
+            error: error.message
+          }));
+      });
       // @todo handle these errors "notNull Violation: title cannot be null"
     })
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
-        message: error.message
+        error: error.message
       }));
   },
   /**
@@ -270,27 +235,37 @@ export default {
    * @return {object} returns an object containing an array of messages
    */
   fetchMessage(req, res) {
+    if (validator(req, res, 'fetchmessage') !== 'validated') return;
+    // check if group exists
     models.Group.findOne({
-      where: {
-        id: req.params.group_id
-      }
+      where: { id: req.params.group_id }
     }).then((group) => {
       if (!group) {
-        return res.status(401).send({ success: false,
-          error: { message: 'Group does not exist' } });
+        return res.status(404).send({ success: false,
+          error: 'Group does not exist' });
       }
-      return models.Message
-        .findAll({
-          order: [['createdAt', 'DESC']],
-          where: {
-            groupId: req.params.group_id
-          }
-        })
-        .then(message => res.status(200).send({ success: true, data: message }))
-        .catch(error => res.status(400).send({
-          success: false,
-          error: { message: error.message }
-        }));
+      // check if user is group member
+      models.UserGroup.findOne({
+        where: { userId: req.decoded.id, groupId: req.params.group_id }
+      }).then((groupMember) => {
+        if (!groupMember) {
+          return res.status(401).send({
+            success: false,
+            error: 'Only group members visit a group' });
+        }
+        return models.Message
+          .findAll({
+            order: [['createdAt', 'DESC']],
+            where: { groupId: req.params.group_id }
+          })
+          .then(message => res.status(200).send({
+            success: true,
+            message }))
+          .catch(error => res.status(500).send({
+            success: false,
+            error: error.message
+          }));
+      });
     });
   },
   /**
@@ -302,17 +277,18 @@ export default {
   removeUser(req, res) {
     if (!(req.params.group_id) || !(req.body.userId)) {
       return res.status(401).send({ success: false,
-        error: { message: 'User and group id must be provided' } });
+        error: 'User and group id must be provided' });
     }
+    // cheeck if user and group exists
     models.UserGroup.findOne({
       where: {
         userId: req.body.userId,
         groupId: req.params.group_id
       }
-    }).then((user) => {
-      if (!user) {
+    }).then((userGroup) => {
+      if (!userGroup) {
         return res.status(401).send({ success: false,
-          error: { message: 'User or group does not exist' } });
+          error: 'User or group does not exist' });
       }
       models.UserGroup.destroy({
         where: {
@@ -324,9 +300,9 @@ export default {
         removedUser
       }));
     })
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
-        error: { message: error.message }
+        error: error.message
       }));
   },
   /**
@@ -338,25 +314,23 @@ export default {
   getMemberCount(req, res) {
     if (!(req.params.group_id)) {
       return res.status(401).send({ success: false,
-        error: { message: 'Group id must be provided' } });
+        error: 'Group id must be provided' });
     }
     return models.UserGroup.count({
-      where: {
-        groupId: req.params.group_id
-      }
-    }).then((data) => {
-      if (!data) {
+      where: { groupId: req.params.group_id }
+    }).then((group) => {
+      if (!group) {
         return res.status(404).send(
-          { success: false, message: 'Group does not exist' });
+          { success: false, error: 'Group does not exist' });
       }
       return res.status(200).send({
         success: true,
-        data
+        group
       });
     })
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
-        error: { message: error.message }
+        error: error.message
       }));
   }
 };

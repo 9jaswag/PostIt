@@ -3,6 +3,7 @@
  * handles every message related task
  */
 import models from '../models';
+import validator from '../../helpers/validator';
 
 export default {
   /**
@@ -13,32 +14,16 @@ export default {
    * of the message that was updated
    */
   updateReadBy(req, res) {
-    const errors = { };
-    let hasError = false;
+    const errors = {};
     // validation
-    if (!req.body.id) {
-      hasError = true;
-      errors.id = 'Message ID not supplied';
-    }
-    if (!req.body.readby) {
-      hasError = true;
-      errors.readby = 'Read By not supplied';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
+    if (validator(req, res, 'updatereadby') !== 'validated') return;
     models.Message.findOne({
-      where: {
-        id: req.body.id
-      },
+      where: { id: req.body.id },
       attributes: ['id', 'readby'],
     })
       .then((message) => {
         if (!message) {
-          hasError = true;
           errors.message = 'Message does not exist';
-        }
-        if (hasError) {
           return res.status(400).send({ success: false, errors });
         }
         if (message.readby.includes(req.body.readby)) {
@@ -59,7 +44,7 @@ export default {
           });
       })
       .catch((error) => {
-        res.status(400).send({ success: false, errors: error.message });
+        res.status(500).send({ success: false, errors: error.message });
       });
   }
 };

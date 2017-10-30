@@ -9,6 +9,7 @@ process.env.NODE_ENV = 'test';
 const should = chai.should();
 chai.use(chaiHttp);
 let token;
+let userToken;
 
 models.User.destroy({
   where: {},
@@ -46,8 +47,8 @@ describe('Group controller test', () => {
         password: 'chukspass',
       })
       .end((err, res) => {
-        res.body.data.should.have.property('token');
-        token = res.body.data.token;
+        res.body.should.have.property('token');
+        token = res.body.token;
         done();
       });
   });
@@ -61,9 +62,9 @@ describe('Group controller test', () => {
           description: 'A little group description'
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
@@ -108,7 +109,7 @@ describe('Group controller test', () => {
             description: 'A little group description'
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(409);
             res.body.errors.group.should.equals('Group already exists');
             done();
           });
@@ -134,9 +135,9 @@ describe('Group controller test', () => {
         .post('/api/v1/group/1/user')
         .type('form')
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
@@ -151,7 +152,7 @@ describe('Group controller test', () => {
           done();
         });
     });
-    it('should return an error if user id is provided does not exist',
+    it('should return an error if user id provided does not exist',
       (done) => {
         chai.request(app)
           .post('/api/v1/group/1/user')
@@ -161,12 +162,12 @@ describe('Group controller test', () => {
             userId: 8
           })
           .end((err, res) => {
-            res.should.have.status(401);
-            res.body.error.message.should.equals('User does not exist');
+            res.should.have.status(404);
+            res.body.error.should.equals('User does not exist');
             done();
           });
       });
-    it('should return an error if group id is provided does not exist',
+    it('should return an error if group id provided does not exist',
       (done) => {
         chai.request(app)
           .post('/api/v1/group/7/user')
@@ -176,12 +177,12 @@ describe('Group controller test', () => {
             userId: 2
           })
           .end((err, res) => {
-            res.should.have.status(401);
-            res.body.error.message.should.equals('Group does not exist');
+            res.should.have.status(404);
+            res.body.error.should.equals('Group does not exist');
             done();
           });
       });
-    it('should return an error if user id is provided already belongs to the group',
+    it('should return an error if user already belongs to the group',
       (done) => {
         chai.request(app)
           .post('/api/v1/group/1/user')
@@ -191,37 +192,96 @@ describe('Group controller test', () => {
             userId: 1
           })
           .end((err, res) => {
-            res.should.have.status(400);
-            res.body.error.message.should.equals(
+            res.should.have.status(409);
+            res.body.error.should.equals(
               'User already belongs to this group');
             done();
           });
       });
-    it('should add a user to the group', (done) => {
+    it('should return error if group id is missing', (done) => {
       chai.request(app)
-        .post('/api/v1/group/1/user')
+        .post('/api/v1/group/ /user')
         .type('form')
         .set('x-access-token', token)
         .send({
           userId: 4
         })
         .end((err, res) => {
+          res.should.have.status(400);
+          res.body.message.should.equals('a Group ID is required');
+          done();
+        });
+    });
+    it('should add a user to the group', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/user')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 3
+        })
+        .end((err, res) => {
           res.should.have.status(201);
-          res.body.data.usergroup.userId.should.equals(4);
-          res.body.data.usergroup.groupId.should.equals(1);
+          res.body.group.userId.should.equals(3);
+          res.body.group.groupId.should.equals(1);
+          done();
+        });
+    });
+    it('should add an error if user does not exist', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/user')
+        .type('form')
+        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJkYXZlQGFuZGVsYS5jb20iLCJ1c2VybmFtZSI6ImZ1bnNobyIsInBob25lIjoiMjM0NzAzMzEzMDQ0OSIsImlhdCI6MTUwOTM3OTc0NSwiZXhwIjoxNTA5NDY2MTQ1fQ.NEvoneKy-wxpjl6ZzfOeJdlNbvXto8IAMfDrJDHCXPA')
+        .send({
+          userId: 3
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          res.body.error.should.equals('User does not exist');
           done();
         });
     });
   });
-  describe('API route for posting message to a particular group', () => {
+  describe('API route for posting message to a group', () => {
+    before((done) => {
+      chai.request(app)
+        .post('/api/v1/user/signup')
+        .type('form')
+        .send({
+          username: 'funsho',
+          email: 'funsho@andela.com',
+          password: 'funshopass',
+          phone: '2347033130559'
+        })
+        .end((err, res) => {
+          res.body.should.have.property('token');
+          userToken = res.body.token;
+          done();
+        });
+    });
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
         .post('/api/v1/group/1/message')
         .type('form')
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
+          done();
+        });
+    });
+    it('should return an error if no group is provided', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/ /message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'critical'
+        })
+        .end((err, res) => {
+          res.should.have.status(500);
           done();
         });
     });
@@ -264,8 +324,8 @@ describe('Group controller test', () => {
             message: 'a message body'
           })
           .end((err, res) => {
-            res.should.have.status(401);
-            res.body.error.message.should.equals('That group does not exist');
+            res.should.have.status(404);
+            res.body.error.should.equals('That group does not exist');
             done();
           });
       });
@@ -285,6 +345,23 @@ describe('Group controller test', () => {
             done();
           });
       });
+    it('should return error if user isn\'t group member', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/message')
+        .type('form')
+        .set('x-access-token', userToken)
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'critical'
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Only group members can post messages to group');
+          done();
+        });
+    });
     it('should send message if all parameters are provided', (done) => {
       chai.request(app)
         .post('/api/v1/group/1/message')
@@ -304,6 +381,40 @@ describe('Group controller test', () => {
           done();
         });
     });
+    it('should send email if message is urgent', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'urgent'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.data.message.priority.should.equals('urgent');
+          res.body.message.should.equals('Message sent');
+          done();
+        });
+    });
+    it('should send email if message is critical', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/message')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          title: 'A message title',
+          message: 'a message body',
+          priority: 'critical'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.data.message.priority.should.equals('critical');
+          res.body.message.should.equals('Message sent');
+          done();
+        });
+    });
   });
   describe('API route for feching messages', () => {
     it('should return an error if no token is provided', (done) => {
@@ -311,12 +422,27 @@ describe('Group controller test', () => {
         .get('/api/v1/group/1/messages')
         .type('form')
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
+    it('should return an error if wrong group id type is provided',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/group/e/messages')
+          .type('form')
+          .set('x-access-token', token)
+          .send({
+            userId: 2
+          })
+          .end((err, res) => {
+            res.should.have.status(400);
+            res.body.error.should.equals('a Group ID is required');
+            done();
+          });
+      });
     it('should return an error message if group id provided does not exist',
       (done) => {
         chai.request(app)
@@ -324,8 +450,20 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .end((err, res) => {
+            res.should.have.status(404);
+            res.body.error.should.equals('Group does not exist');
+            done();
+          });
+      });
+    it('should return an an error if user isn\'t a group member',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/group/1/messages')
+          .type('form')
+          .set('x-access-token', userToken)
+          .end((err, res) => {
             res.should.have.status(401);
-            res.body.error.message.should.equals('Group does not exist');
+            res.body.error.should.equals('Only group members visit a group');
             done();
           });
       });
@@ -337,8 +475,8 @@ describe('Group controller test', () => {
           .set('x-access-token', token)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.data.should.be.an('array');
-            res.body.data[0].should.be.an('object');
+            res.body.message.should.be.an('array');
+            res.body.message[0].should.be.an('object');
             done();
           });
       });
@@ -352,9 +490,9 @@ describe('Group controller test', () => {
           userId: 1,
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
@@ -367,7 +505,7 @@ describe('Group controller test', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.error.message.should.equals(
+          res.body.error.should.equals(
             'User and group id must be provided');
           done();
         });
@@ -383,7 +521,7 @@ describe('Group controller test', () => {
           })
           .end((err, res) => {
             res.should.have.status(401);
-            res.body.error.message.should.equals(
+            res.body.error.should.equals(
               'User or group does not exist');
             done();
           });
@@ -399,7 +537,7 @@ describe('Group controller test', () => {
           })
           .end((err, res) => {
             res.should.have.status(401);
-            res.body.error.message.should.equals(
+            res.body.error.should.equals(
               'User or group does not exist');
             done();
           });
@@ -418,6 +556,19 @@ describe('Group controller test', () => {
           done();
         });
     });
+    it('should return 500 error', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/err/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: 1
+        })
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+    });
   });
   describe('API route for getting group member count', () => {
     it('should return an error if no token is provided', (done) => {
@@ -428,20 +579,30 @@ describe('Group controller test', () => {
           userId: 1,
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
-    it('should return an error if non-existent group is provide', (done) => {
+    it('should return an error if non-existent group is provided', (done) => {
       chai.request(app)
         .get('/api/v1/group/222/count')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(404);
-          res.body.message.should.equals('Group does not exist');
+          res.body.error.should.equals('Group does not exist');
+          done();
+        });
+    });
+    it('should return an error if no group is provided', (done) => {
+      chai.request(app)
+        .get('/api/v1/group/ /count')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(500);
           done();
         });
     });
@@ -452,9 +613,10 @@ describe('Group controller test', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.data.should.equals(2);
+          res.body.group.should.equals(2);
           done();
         });
     });
   });
 });
+

@@ -1,8 +1,8 @@
 /* global expect */
 /* global jest */
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import MessageCard from '../../components/group/MessageCard.jsx';
+import { shallow } from 'enzyme';
+import MessageContent from '../../components/group/MessageContent.jsx';
 
 describe('Create group modal', () => {
   const props = {
@@ -24,7 +24,7 @@ describe('Create group modal', () => {
   };
   it('should render without crashing', () => {
     const component = shallow(
-      <MessageCard onClick={ props.onClick } message={ props.message } />);
+      <MessageContent message={ props.message } />);
     expect(component.node.type).toEqual('div');
   });
 });

@@ -37,7 +37,7 @@ export const logout = () => dispatch =>
  */
 const Login = userData =>
   dispatch => axios.post('/api/v1/user/signin', userData).then((response) => {
-    const token = response.data.data.token;
+    const token = response.data.token;
     localStorage.setItem('jwtToken', token);
     setAuthToken(token);
     dispatch(setCurrentUser(jwt.decode(token)));

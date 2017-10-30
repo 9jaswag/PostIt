@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import createGroup from '../../actions/createGroup';
+import createGroup from '../../actions/groupActions';
 
 const propTypes = {
   createGroup: PropTypes.func.isRequired
@@ -74,7 +74,7 @@ export class CreateGroupForm extends Component {
                 id="name"
                 className="validate"
                 onChange={ this.onChange }
-                value={ this.state.name } required />
+                value={ this.state.name } required autoComplete="off" />
               <label htmlFor="name">Group Name</label>
               { errors.group && <span className="red-text">
                 { errors.group }</span>}
@@ -87,7 +87,8 @@ export class CreateGroupForm extends Component {
                 id="description"
                 className="validate"
                 onChange={ this.onChange }
-                value={ this.state.description } data-length="80" required/>
+                value={ this.state.description } data-length="80" required
+                autoComplete="off"/>
               <label htmlFor="description">Group Description</label>
             </div>
           </div>

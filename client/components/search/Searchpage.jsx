@@ -3,10 +3,10 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import Sidebar from '../sidebar/Sidebar.jsx';
+import Sidebar from '../dashboard/Sidebar.jsx';
 import SearchForm from './SearchForm.jsx';
 import RenderUser from './RenderUser.jsx';
-import searchUserAction from '../../actions/searchUserAction';
+import { searchUserAction } from '../../actions/groupActions';
 
 const propTypes = {
   searchUserAction: PropTypes.func.isRequired
@@ -45,9 +45,12 @@ export class SearchPage extends Component {
    * @memberof Searchpage
    */
   onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-    this.setState({ errors: '' });
+    this.setState({ [event.target.name]: event.target.value,
+      errors: '' }, () => {
+      this.searchUsers();
+    });
   }
+
   /**
    * Method for searching for users
    * @return {void}
@@ -61,11 +64,8 @@ export class SearchPage extends Component {
     };
     this.props.searchUserAction(payload).then(
       (res) => {
-        if (res.data.data.length < 1) {
-          return this.setState({ errors: 'No user found' });
-        }
         this.setState(
-          { users: res.data.data.rows, count: res.data.data.count }
+          { users: res.data.user.rows, count: res.data.user.count }
         );
       }
     );
@@ -79,11 +79,6 @@ export class SearchPage extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    if (this.state.username.length === 0) {
-      this.setState({ errors: 'Enter a username' });
-    } else {
-      this.searchUsers();
-    }
   }
   /**
    * Method for handling the pagination of users
@@ -108,9 +103,7 @@ export class SearchPage extends Component {
     const { count, limit, users } = this.state;
     // render users
     const renderUsers = users.map((user, index) => (
-      <div className="col s12" key={ index }>
-        <RenderUser user={ user }/>
-      </div>
+      <RenderUser user={ user } key={ index }/>
     ));
     // get page numbers
     const pageCount = count / limit;
@@ -132,11 +125,11 @@ export class SearchPage extends Component {
         { /* Sidebar*/ }
         <Sidebar />
         { /* Main page*/ }
-        <div className="col s12 m9 l10" style={{ marginTop: '2rem' }}>
+        <div className="col s12 m9 l10 margin-v-top">
           <div className="col s12">
             <div className="container">
-              <h5 className="center-align uppercase"
-                style={{ marginBottom: '2rem' }}>Search Users
+              <h5 className="center-align uppercase margin-v-bottom">
+                Search Users
               </h5>
               <div className="row">
                 <SearchForm onSubmit={ this.onSubmit }
