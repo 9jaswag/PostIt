@@ -18,11 +18,7 @@ export default (req, res, next) => {
   token = req.body.token || req.query.token || req.headers['x-access-token'];
   jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
     if (err) {
-      if (err.message === 'jwt expired') {
-        res.status(401).send({ error: 'Access token has expired' });
-      } else {
-        res.status(401).send({ error: 'Invalid access token.' });
-      }
+      res.status(401).send({ error: 'Invalid access token.' });
     } else {
       // if everything is good, save to request for use in other routes
       req.decoded = decoded;
