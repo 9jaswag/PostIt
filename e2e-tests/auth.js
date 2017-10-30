@@ -71,5 +71,19 @@ module.exports = {
       .click('a.waves-effect.waves-light.btn.one-whole.logout')
       .assert.urlEquals('http://localhost:9000/')
       .end();
-  }
+  },
+  'a second user can sign up': (browser) => {
+    browser
+      .url('http://localhost:9000/')
+      .waitForElementVisible('body', 3000)
+      .click('a.waves-effect.waves-light.btn.modal-trigger.signup-modal')
+      .setValue('input#username', 'chuks')
+      .setValue('input#password', 'password')
+      .setValue('input#email', 'chuks@email.com')
+      .setValue('input#phone', '07077123444')
+      .click('input.btn.signup')
+      .pause(1000)
+      .assert.urlEquals('http://localhost:9000/dashboard')
+      .end();
+  },
 };

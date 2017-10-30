@@ -13,5 +13,17 @@ export default (sequelize, DataTypes) => {
     }
   });
 
+  // instance method to verify user is group member before they can perform action in group
+  UserGroup.prototype.isGroupMember = function (userId, groupId) {
+    UserGroup.findOne({
+      where: { userId, groupId }
+    }).then((groupMember) => {
+      if (!groupMember) {
+        return false;
+      }
+      return true;
+    });
+  };
+
   return UserGroup;
 };
