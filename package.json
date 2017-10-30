@@ -13,7 +13,7 @@
     "build-css": "node-sass --include-path scss ./template/styles/main.scss ./template/styles/style.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "test:client": "jest",
+    "test:client": "jest /client",
     "prebuild": "rimraf build && mkdir build",
     "build": "npm run build:client && npm run build:server",
     "build:dev": "webpack --config webpack.config.prod.js -w",
