@@ -62,9 +62,9 @@ describe('Group controller test', () => {
           description: 'A little group description'
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
@@ -135,9 +135,9 @@ describe('Group controller test', () => {
         .post('/api/v1/group/1/user')
         .type('form')
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
@@ -231,7 +231,7 @@ describe('Group controller test', () => {
       chai.request(app)
         .post('/api/v1/group/1/user')
         .type('form')
-        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJjaHVrc0BhbmRlbGEuY29tIiwidXNlcm5hbWUiOiJjaGlvbWFzIiwicGhvbmUiOiIyMzQ3MDMzMTMwNDQ5IiwiaWF0IjoxNTA5MjkwNTEyLCJleHAiOjE1MDkzNzY5MTJ9.XOpSii1aJptCsuLl8VtYSUB93Tb_APklicQiVVhegVE')
+        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJkYXZlQGFuZGVsYS5jb20iLCJ1c2VybmFtZSI6ImZ1bnNobyIsInBob25lIjoiMjM0NzAzMzEzMDQ0OSIsImlhdCI6MTUwOTM3OTc0NSwiZXhwIjoxNTA5NDY2MTQ1fQ.NEvoneKy-wxpjl6ZzfOeJdlNbvXto8IAMfDrJDHCXPA')
         .send({
           userId: 3
         })
@@ -264,9 +264,9 @@ describe('Group controller test', () => {
         .post('/api/v1/group/1/message')
         .type('form')
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
@@ -422,9 +422,9 @@ describe('Group controller test', () => {
         .get('/api/v1/group/1/messages')
         .type('form')
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
@@ -490,9 +490,9 @@ describe('Group controller test', () => {
           userId: 1,
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
@@ -579,9 +579,9 @@ describe('Group controller test', () => {
           userId: 1,
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });

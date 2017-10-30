@@ -2,7 +2,8 @@ import nodemailer from 'nodemailer';
 
 /**
  * Function for sending email notification to users
- * @param {object} mailOptions email data including user's email,
+ * @param {string} email - email the message is to be sent to
+ * @param {object} options email data including user's email,
  * message body and message content
  * @return {void}
  */

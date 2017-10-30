@@ -60,9 +60,9 @@ describe('Message controller test', () => {
           readby: 'chuks'
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
