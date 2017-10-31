@@ -22,7 +22,7 @@ const store = mockStore({
 describe('Dashboard page Component', () => {
   const props = {
     getGroups: jest.fn(() => Promise.resolve()),
-    setGroupId: jest.fn(),
+    setGroupDetail: jest.fn(),
     setGroupToStore: jest.fn(),
     getMessages: jest.fn(() => Promise.resolve()),
     groups: [{
@@ -42,7 +42,7 @@ describe('Dashboard page Component', () => {
   it('should not display any group', () => {
     const prop = {
       getGroups: jest.fn(() => Promise.resolve()),
-      setGroupId: jest.fn(),
+      setGroupDetail: jest.fn(),
       setGroupToStore: jest.fn(),
       getMessages: jest.fn(() => Promise.resolve()),
       groups: [],

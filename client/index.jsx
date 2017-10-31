@@ -11,7 +11,7 @@ import store from './store';
 import setAuthToken from './utilities/setAuthToken';
 import App from './components/App.jsx';
 import { setCurrentUser } from './actions/signinAction';
-import { setGroupId } from './actions/groupActions';
+import { setGroupDetail } from './actions/groupActions';
 import { passMessage } from './actions/messageActions';
 import './styles/main.scss';
 
@@ -21,7 +21,7 @@ if (localStorage.jwtToken) {
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)));
 }
 if (sessionStorage.groupDetails) {
-  store.dispatch(setGroupId(sessionStorage.groupDetails.split(',')));
+  store.dispatch(setGroupDetail(sessionStorage.groupDetails.split(',')));
 }
 if (sessionStorage.message) {
   store.dispatch(passMessage(sessionStorage.message));
