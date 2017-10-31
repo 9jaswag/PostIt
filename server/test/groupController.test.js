@@ -11,31 +11,6 @@ chai.use(chaiHttp);
 let token;
 let userToken;
 
-models.User.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.Message.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.Group.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.UserGroup.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-
 describe('Group controller test', () => {
   before((done) => {
     // runs before all tests in this block
@@ -116,20 +91,6 @@ describe('Group controller test', () => {
       });
   });
   describe('API route for adding users to a group', () => {
-    before((done) => {
-      chai.request(app)
-        .post('/api/v1/user/signup')
-        .type('form')
-        .send({
-          username: 'dave',
-          email: 'dave@andela.com',
-          password: 'davepass',
-          phone: '2347033130449'
-        })
-        .end(() => {
-          done();
-        });
-    });
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
         .post('/api/v1/group/1/user')
@@ -613,7 +574,7 @@ describe('Group controller test', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.body.group.should.equals(2);
+          res.body.group.should.equals(3);
           done();
         });
     });

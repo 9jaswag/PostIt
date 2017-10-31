@@ -10,31 +10,6 @@ const should = chai.should();
 chai.use(chaiHttp);
 let token;
 
-models.User.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.Message.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.Group.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.UserGroup.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-
 describe('Message controller test', () => {
   before((done) => {
     chai.request(app)
@@ -99,7 +74,7 @@ describe('Message controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          id: 1,
+          id: 4,
           readby: 'chuks'
         })
         .end((err, res) => {
