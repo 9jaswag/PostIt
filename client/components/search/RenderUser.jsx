@@ -1,6 +1,8 @@
 import React from 'react';
+
 /**
- * RenderUser component
+ * @function RenderUser
+ * @description the RenderUser component
  * @param {object} param0 object containing user's detail
  * @returns {string} The HTML markup for the Render component
  */

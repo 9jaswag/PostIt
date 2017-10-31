@@ -6,6 +6,7 @@ import { SET_CURRENT_USER } from './types';
 
 
 /**
+ * @description action cretor that sets current user to store
  * @return {object} returns object containing user's detail and action type
  * @param {object} user object of currently logged in user
  */
@@ -15,6 +16,8 @@ export const setCurrentUser = user => ({
 });
 
 /**
+ * @function userSignupRequest
+ * @description async action to handle user signup
  * @return {promise} returns server response
  * @param {object} userData object containing data submitted by user
  */

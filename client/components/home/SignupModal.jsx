@@ -9,12 +9,15 @@ const propTypes = {
 };
 
 /**
+ * @description the signup modal component
  * @export
  * @class SignupModal
  * @extends {Component}
  */
 export class SignupModal extends Component {
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the SignupModal
    * @memberof SignupModal
    */

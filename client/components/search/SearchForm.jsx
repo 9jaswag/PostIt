@@ -1,7 +1,8 @@
 import React from 'react';
 
 /**
- * Search form component
+ * @function SearchForm
+ * @description the Search form component
  * @param {object} param0
  * @returns {string} The HTML markup for the SearchForm
  */

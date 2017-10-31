@@ -10,13 +10,14 @@ const propTypes = {
 };
 
 /**
+ * @description the ResetPassword component
  * @export
  * @class ResetPassword
  * @extends {Component}
  */
 export class ResetPassword extends Component {
   /**
-   * Creates an instance of ResetPassword.
+   * @description constructor that creates an instance of ResetPassword.
    * @param {any} props
    * @memberof ResetPassword
    */
@@ -36,6 +37,8 @@ export class ResetPassword extends Component {
   }
 
   /**
+   * @method onChange
+   * @description class method that sets user input to state
    * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
@@ -46,7 +49,9 @@ export class ResetPassword extends Component {
   }
 
   /**
-   * Makes an action call to request for a password reset
+   * @method submitRequest
+   * @description class method that makes an action call
+   * to request for a password reset
    * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
@@ -70,7 +75,9 @@ export class ResetPassword extends Component {
   }
 
   /**
-   * Makes an action call to update the user's password on the database
+   * @method submitReset
+   * @description class method that makes an action call
+   * to update the user's password
    * @param {object} event
    * @returns {void}
    * @memberof ResetPassword
@@ -102,7 +109,9 @@ export class ResetPassword extends Component {
   }
 
   /**
-   * Set state to determine the form to show based on the page's URL
+   * @method componentWillMount
+   * @description class method that sets state to determine the form to show
+   * based on the page's URL
    * @method componentWillMount
    * @return {void}
    * @memberof DashboardPage
@@ -116,6 +125,8 @@ export class ResetPassword extends Component {
   }
 
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the ResetPassword component
    * @memberof ResetPassword
    */

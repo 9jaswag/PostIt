@@ -13,13 +13,14 @@ const propTypes = {
 };
 
 /**
+ * @description the SearchPage component
  * @export
  * @class Searchpage
  * @extends {Component}
  */
 export class SearchPage extends Component {
   /**
-   * Creates an instance of Searchpage.
+   * @description constructor that creates an instance of Searchpage.
    * @param {any} props
    * @memberof Searchpage
    */
@@ -40,6 +41,9 @@ export class SearchPage extends Component {
   }
 
   /**
+   * @method onChange
+   * @description class method for setting user's input to state
+   * and call the search action
    * @param {object} event
    * @returns {void}
    * @memberof Searchpage
@@ -52,7 +56,8 @@ export class SearchPage extends Component {
   }
 
   /**
-   * Method for searching for users
+   * @method searchUsers
+   * @description class method for searching for users
    * @return {void}
    * @memberof Searchpage
    */
@@ -72,7 +77,9 @@ export class SearchPage extends Component {
   }
 
   /**
-   * Makes an action call to search for users
+   * @method onSubmit
+   * @description class method that prevents form action on
+   * form submit
    * @param {object} event
    * @returns {void}
    * @memberof Searchpage
@@ -81,8 +88,8 @@ export class SearchPage extends Component {
     event.preventDefault();
   }
   /**
-   * Method for handling the pagination of users
    * @method handlePagination
+   * @description class method for handling the pagination of users
    * @param {Number} page the selected page number
    * @return {void}
    * @memberof Searchpage
@@ -96,6 +103,8 @@ export class SearchPage extends Component {
   }
 
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the Searchpage component
    * @memberof Searchpage
    */
