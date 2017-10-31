@@ -29,10 +29,10 @@ export class SearchPage extends Component {
     this.state = {
       username: '',
       users: [],
-      errors: '',
-      count: 0,
+      error: '',
       offset: 0,
-      limit: 2
+      limit: 2,
+      pagination: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -62,6 +62,7 @@ export class SearchPage extends Component {
    * @memberof Searchpage
    */
   searchUsers() {
+    this.setState({ error: '' });
     const payload = {
       username: this.state.username.toLowerCase(),
       offset: this.state.offset,
@@ -70,8 +71,11 @@ export class SearchPage extends Component {
     this.props.searchUserAction(payload).then(
       (res) => {
         this.setState(
-          { users: res.data.user.rows, count: res.data.user.count }
+          { users: res.data.users, pagination: res.data.pagination, error: '' }
         );
+      },
+      ({ response }) => {
+        this.setState({ error: response.data.error, users: [] });
       }
     );
   }
@@ -109,13 +113,13 @@ export class SearchPage extends Component {
    * @memberof Searchpage
    */
   render() {
-    const { count, limit, users } = this.state;
+    const { users, pagination, error } = this.state;
     // render users
     const renderUsers = users.map((user, index) => (
       <RenderUser user={ user } key={ index }/>
     ));
     // get page numbers
-    const pageCount = count / limit;
+    const pageCount = pagination.numberOfPages;
     // remder page numbers
     const renderPageNumbers = <ReactPaginate
       previousLabel={<i className="material-icons pointer">chevron_left</i>}
@@ -148,6 +152,7 @@ export class SearchPage extends Component {
               <div className="row">
                 <div className="col s12">
                   { renderUsers }
+                  { error && <p className="red-text">{ error }</p> }
                 </div>
                 <div className="col s12">
                   <ul className="pagination center-align">

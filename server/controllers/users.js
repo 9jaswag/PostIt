@@ -10,6 +10,7 @@ import customSort from '../../helpers/customSort';
 import validator from '../../helpers/validator';
 import sequelizeError from '../../helpers/sequelizeError';
 import generateToken from '../../helpers/generateToken';
+import paginate from '../../helpers/paginate';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -204,8 +205,14 @@ export default {
       where: { username: { $like: `%${username}%` } },
       attributes: ['id', 'username', 'email', 'phone'],
     })
-      .then((user) => {
-        res.status(200).send({ success: true, user });
+      .then((users) => {
+        // res.status(200).send({ success: true, user });
+        if (users.count > 0) {
+          return res.status(200).send({ success: true,
+            users: users.rows,
+            pagination: paginate(users.count, limit) });
+        }
+        res.status(404).send({ error: 'User was not found' });
       })
       .catch((error) => {
         res.status(500).send({ success: false, error: error.message });
