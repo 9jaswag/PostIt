@@ -23,7 +23,8 @@
     "e2e-setup": "selenium-standalone install",
     "e2e-server": "selenium-standalone start",
     "test:e2e": "sequelize db:migrate:undo:all && sequelize db:migrate && nightwatch",
-    "migration": "sequelize db:migrate:undo:all && sequelize db:migrate"
+    "migration": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "seed": "NODE_ENV=test sequelize db:seed:all"
   },
   "repository": {
     "type": "git",
