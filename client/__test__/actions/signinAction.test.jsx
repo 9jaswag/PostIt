@@ -38,9 +38,7 @@ describe('Sign in action', () => {
         response: {
           success: true,
           message: 'Sign in succesful.',
-          data: {
-            token: '0SX6NVMqqQpgdUebW3iRBJz8oerTtfzYUm4ADESM7fk'
-          }
+          token: '0SX6NVMqqQpgdUebW3iRBJz8oerTtfzYUm4ADESM7fk'
         }
       });
       const expectedActions = [

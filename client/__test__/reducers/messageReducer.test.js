@@ -2,15 +2,15 @@
 import message from '../../reducers/message';
 import * as types from '../../actions/types';
 
-describe('group detail reducer', () => {
-  const initialState = {};
+describe('message reducer', () => {
+  const initialState = [];
   it('should return an initial state', () => {
     expect(message(undefined, {})).toEqual(initialState);
   });
   it('should handle PASS_MESSAGE:', () => {
     const action = {
       type: types.PASS_MESSAGE,
-      data: {
+      messageObject: {
         title: 'The End',
         message: 'this is the end'
       }
@@ -34,10 +34,8 @@ describe('group detail reducer', () => {
       }
     };
     const expectedAction = {
-      groupMessages: {
-        title: 'The End',
-        message: 'this is the end'
-      }
+      title: 'The End',
+      message: 'this is the end'
     };
     expect(
       message(initialState, action)

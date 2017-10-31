@@ -68,21 +68,19 @@ export class DashboardPage extends Component {
       group={ group }
       key={ group.group.id }/>);
     return (
-      <div>
-        <div className="row">
-          { /* Sidebar*/ }
-          <Sidebar />
-          { /* Main page*/ }
-          <div className="col s12 m9 l10 margin-v-top">
-            <div className="col s12 m12 l12">
-              <h5 className="center-align uppercase margin-v-bottom">
-                My Groups
-              </h5>
-              { /* Group cards*/ }
-              { (groups.length > 0) ? groupCards : <h6
-                className="center-align margin-v2">
-                No Groups Available. Create one from the sidebar</h6> }
-            </div>
+      <div className="row">
+        { /* Sidebar*/ }
+        <Sidebar />
+        { /* Main page*/ }
+        <div className="col s12 m9 l10 margin-v-top">
+          <div className="col s12 m12 l12">
+            <h5 className="center-align uppercase margin-v-bottom">
+              My Groups
+            </h5>
+            { /* Group cards*/ }
+            { (groups.length > 0) ? groupCards : <h6
+              className="center-align margin-v2">
+              No Groups Available. Create one from the sidebar</h6> }
           </div>
         </div>
       </div>

@@ -2,8 +2,16 @@
 /* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import configureStore from 'redux-mock-store'
-import { PostMessageForm } from '../../components/group/PostMessageForm.jsx';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import ConnectedPostMessageForm,
+{ PostMessageForm } from '../../components/group/PostMessageForm.jsx';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
+  auth: { user: {} }
+});
 
 describe('Post message form component', () => {
   const props = {
@@ -24,12 +32,32 @@ describe('Post message form component', () => {
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
   it('should contain the method onSubmit', () => {
-    const e = {
+    const event = {
       preventDefault: jest.fn()
     };
     const component = shallow(<PostMessageForm {...props}/>);
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
-    component.instance().onSubmit(e);
+    component.instance().onSubmit(event);
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should render the connected component', () => {
+    const component = shallow(<ConnectedPostMessageForm
+      store={store} { ...props }/>);
+    expect(component.length).toBe(1);
+  });
+  it('should have an empty state if message is not sent', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    props.postMessage = jest.fn(() => Promise.reject({
+      status: 403,
+      data: {
+        success: false,
+        message: 'No cant do'
+      }
+    }));
+    const component = shallow(<PostMessageForm {...props}/>);
+    component.instance().onSubmit(event);
+    expect(component.instance().state.message).toEqual('');
   });
 });

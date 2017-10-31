@@ -45,8 +45,8 @@ describe('Message controller test', () => {
         password: 'chukspass',
       })
       .end((err, res) => {
-        res.body.data.should.have.property('token');
-        token = res.body.data.token;
+        res.body.should.have.property('token');
+        token = res.body.token;
         done();
       });
   });
@@ -60,9 +60,9 @@ describe('Message controller test', () => {
           readby: 'chuks'
         })
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });

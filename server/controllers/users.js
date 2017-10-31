@@ -3,11 +3,13 @@
  * handles every user related task
  */
 
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
 import customSort from '../../helpers/customSort';
+import validator from '../../helpers/validator';
+import sequelizeError from '../../helpers/sequelizeError';
+import generateToken from '../../helpers/generateToken';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -20,101 +22,44 @@ export default {
    * @return {object} returns an object containing user token
    */
   signup(req, res) {
-    const errors = { };
-    let hasError = false;
-    // validation checks
-    if (!req.body.username || req.body.username.trim() === '') {
-      hasError = true;
-      errors.username = 'Username field cannot be empty';
-    } if (!req.body.password || req.body.password.trim() === '') {
-      hasError = true;
-      errors.password = 'Password field cannot be empty';
-    } else if (req.body.password.length < 6) {
-      hasError = true;
-      errors.password = 'Password length must be more than 6 characters';
-    } if (!req.body.email || req.body.email.trim() === '') {
-      hasError = true;
-      errors.email = 'Email address field cannot be empty';
-    } if (!req.body.phone || req.body.phone.trim() === '') {
-      hasError = true;
-      errors.phone = 'Phone field cannot be empty';
-    } else if (isNaN(req.body.phone)) {
-      hasError = true;
-      errors.phone = 'Phone number cannot contain text';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
-    // check if email already exists
-    models.User.findOne({
-      where: {
-        email: req.body.email,
-      }
-    }).then((user) => {
-      if (user) {
-        hasError = true;
-        errors.email = 'Email address already exists';
-        return res.status(400)
-          .send({
-            success: false,
-            errors
-          });
-      }
-    });
-    return models.User
-      .create({
-        username: req.body.username.trim().toLowerCase(),
-        password: req.body.password,
-        email: req.body.email.trim(),
-        phone: req.body.phone.trim()
-      })
-      .then((user) => {
-        const token = jwt
-          .sign({
-            id: user.id,
-            email: user.email,
-            username: user.username,
-            phone: user.phone
-          }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-        return res.status(201)
-          .send({ success: true,
-            message: 'Sign up succesful.',
-            data: { token } });
-      })
-      .catch((error) => {
-        if (error.errors[0].message === 'Username already exists') {
-          hasError = true;
+    const errors = {};
+    if (validator(req, res, 'signup') !== 'validated') return;
+    // check if username exists
+    models.User.findOne({ where: { username: req.body.username } })
+      .then((foundUser) => {
+        if (foundUser) {
           errors.username = 'Username already exists';
+          return res.status(409).send({
+            success: false, errors });
         }
-        if (error.errors[0].message === 'Email can not be empty') {
-          hasError = true;
-          errors.email = 'Email field can not be empty';
-        }
-        if (error.errors[0].message === 'Enter a valid email address') {
-          hasError = true;
-          errors.email = 'Email address is invalid';
-        }
-        if (error.errors[0].message === 'Validation notEmpty on phone failed') {
-          hasError = true;
-          errors.phone = 'Phone field can not be empty';
-        }
-        if (error.errors[0].message === 'Phone number already exists') {
-          hasError = true;
-          errors.phone = 'Phone number already exists';
-        }
-        if (error.errors[0].message
-          === 'Formatted phone number must have 13 characters') {
-          hasError = true;
-          errors.phone = 'Formatted phone number must have 13 characters';
-        }
-        if (error.errors[0].message ===
-          'Only numeric characters are allowed as phone numbers') {
-          hasError = true;
-          errors.phone = 'Only numeric characters are allowed as phone numbers';
-        }
-        return res.status(400).send({ success: false, errors });
-      }
-      );
+        // check if email exists
+        models.User.findOne({ where: { email: req.body.email } })
+          .then((foundEmail) => {
+            if (foundEmail) {
+              errors.email = 'Email address already exists';
+              return res.status(409).send({
+                success: false, errors });
+            }
+          });
+        return models.User.create({
+          username: req.body.username.trim().toLowerCase(),
+          password: req.body.password,
+          email: req.body.email.trim(),
+          phone: req.body.phone.trim()
+        })
+          .then((user) => {
+            const token = generateToken(user);
+            return res.status(201).send({
+              success: true,
+              message: 'Sign up succesful.',
+              token
+            });
+          })
+          .catch(error => res.status(500).send({
+            success: false,
+            errors: sequelizeError(error)
+          }));
+      });
   },
   /**
    * Method to sign in users
@@ -123,48 +68,29 @@ export default {
    * @return {object} returns an object containing user token
    */
   login(req, res) {
-    const errors = { };
-    let hasError = false;
-    if (!req.body.username) {
-      hasError = true;
-      errors.username = 'Username field cannot be empty';
-    } else if (!req.body.password) {
-      hasError = true;
-      errors.password = 'Password field cannot be empty';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
+    if (validator(req, res, 'signin') !== 'validated') return;
     return models.User.findOne({
       where: {
         username: req.body.username.toLowerCase(),
       }
     }).then((user) => {
       if (!user) {
-        return res.status(401)
+        return res.status(404)
           .send({
             success: false,
-            errors: {
-              username: 'User does not exist'
-            }
+            errors: { username: 'User does not exist' }
           });
       }
       if (user && user.verifyPassword(req.body.password)) {
         // generate token
-        const token = jwt.sign({
-          id: user.id,
-          email: user.email,
-          username: user.username,
-        }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+        const token = generateToken(user);
         return res.status(200).send({ success: true,
           message: 'Sign in successful',
-          data: { token } });
+          token });
       }
       return res.status(401).send({
         success: false,
-        errors: {
-          password: 'Incorrect password!'
-        }
+        errors: { password: 'Incorrect password!' }
       });
     })
       .catch(error => res.status(500).send({
@@ -201,11 +127,11 @@ export default {
           return res.status(200)
             .send({ success: true, message: 'user not found' });
         }
-        return res.status(200).send({ user });
+        return res.status(200).send({ success: true, user });
       })
       .catch(error => res.status(500).send({
         success: false,
-        error: { message: error.message }
+        errors: { message: error.message }
       }));
   },
   /** Method to get the details of current logged in user
@@ -216,7 +142,7 @@ export default {
   findCurrentUser(req, res) {
     const username = req.decoded.username;
     models.User
-      .find({
+      .findOne({
         include: [{
           model: models.Group,
           order: [['createdAt', 'DESC']],
@@ -228,39 +154,31 @@ export default {
         attributes: ['id', 'username', 'email', 'phone']
       })
       .then((user) => {
-        if (!user) {
-          return res.status(404).send({
-            success: false,
-            errors: 'User does not exist'
-          });
-        }
         let mapCounter = 0;
         const groupsWithCount = [];
         user.Groups.map(group =>
           // get messages that belong to each group
-          models.Message.findAll({
-            where: { groupId: group.id },
-            attributes: ['readby']
-          }).then((messages) => {
-            let unreadCount = 0;
-            messages.forEach((message) => {
-              // if message has not been read by user, increment counter
-              if (!message.readby.includes(username)) {
-                unreadCount += 1;
+          group.getMessages({ attributes: ['readby'] })
+            .then((messages) => {
+              let unreadCount = 0;
+              messages.forEach((message) => {
+                // if message has not been read by user, increment counter
+                if (!message.readby.includes(username)) unreadCount += 1;
+              });
+              groupsWithCount.push({ group, unreadCount });
+              mapCounter += 1;
+              if (mapCounter === user.Groups.length) {
+                // sort array to return by id and send response
+                res.status(200).send({
+                  success: true,
+                  groups: groupsWithCount.sort(customSort)
+                });
               }
-            });
-            groupsWithCount.push({ group, unreadCount });
-            mapCounter += 1;
-            if (mapCounter === user.Groups.length) {
-              // send response
-              // sort array to return by id
-              return res.status(200).send(
-                { data: groupsWithCount.sort(customSort) });
-            }
-          })
+            })
         );
       })
-      .catch(error => res.status(500).send({ errors: error.message }));
+      .catch(error => res.status(500).send({ success: false,
+        error: error.message }));
   },
   /**
    * Method to search for users
@@ -286,10 +204,10 @@ export default {
       attributes: ['id', 'username', 'email', 'phone'],
     })
       .then((user) => {
-        res.status(200).send({ success: true, data: user });
+        res.status(200).send({ success: true, user });
       })
       .catch((error) => {
-        res.status(500).send({ success: false, errors: error.message });
+        res.status(500).send({ success: false, error: error.message });
       });
   },
   /**
@@ -299,30 +217,17 @@ export default {
    * @return {object} returns a user object
    */
   resetUserPassword(req, res) {
-    if (!(req.body.email)) {
-      return res.status(400).send(
-        { status: false, error: 'No email address provided' });
-    }
-    if (!(req.body.type)) {
-      return res.status(400).send(
-        { status: false, error: 'Request type must be specified' }
-      );
-    }
-    if ((req.body.type !== 'request') && (req.body.type !== 'reset')) {
-      return res.status(400).send(
-        { status: false, error: 'Invalid request type' });
-    }
+    if (validator(req, res, 'requestreset') !== 'validated') return;
     const email = req.body.email;
     models.User.findOne({
-      where: {
-        email
-      },
+      where: { email },
       attributes: ['id', 'email', 'resetToken', 'resetTime']
     })
       .then((user) => {
         if (!user) {
           return res.status(400).send(
-            { status: false, error: 'No user with this email address' }
+            { success: false,
+              errors: { username: 'No user with this email address' } }
           );
         }
         if (req.body.type === 'request') {
@@ -334,36 +239,37 @@ export default {
             resetToken,
             resetTime
           }, {
-            where: {
-              email
-            }
+            where: { email }
           })
             .then(() => {
-              // setup email data 
-              const mailOptions = {
-                from: 'PostIT',
-                to: email,
+              const messageOptions = {
                 subject: 'Password Request on PostIT',
-                text: `You have requested a password reset on your PostIT
-                account.\n Please click on the following link, or
-                paste this intoyour browser to complete the process:\n
-                ${`http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}`}\n
-                If you did not request this, please ignore this email.\n`
+                message: `<div><p>Hello there!,</p>
+                <p>You have requested a password reset on your PostIT
+                account. If you requested it, click the button below or
+                copy the link into your browser.</p>
+                <p>If this is not you, please disregard this email</p>
+                <p style="padding: 1rem;"></p>
+                <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}">Login</a>\n\n
+                <p style="padding: 1rem 0rem;">Link: http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}</p>
+                <p>PostIT</p>
+                </div>`
               };
               // send email
-              sendEmailNotification(mailOptions);
+              sendEmailNotification(email, messageOptions);
               if (process.env.NODE_ENV === 'test') {
-                res.status(200).send({ status: true, message: 'Email sent', resetToken });
+                res.status(200).send({
+                  success: true, message: 'Email sent', resetToken });
               }
-              res.status(200).send({ status: true, message: 'Email sent' });
+              res.status(200).send({ success: true, message: 'Email sent. Check your inbox' });
             })
             .catch(error => res.status(400).send(
-              { status: false, error: error.message }));
+              { success: false, error: error.message }));
         }
         if (req.body.type === 'reset') {
           if (!req.body.password) {
             return res.status(400).send(
-              { status: false, error: 'Provide a new password' });
+              { success: false, error: 'Provide a new password' });
           }
           if (!req.body.token) {
             return res.status(400).send(
@@ -388,9 +294,7 @@ export default {
             resetToken: null,
             resetTime: null
           }, {
-            where: {
-              email
-            }
+            where: { email }
           })
             .then(() => {
               res.status(200).send(

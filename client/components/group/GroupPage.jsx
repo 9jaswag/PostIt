@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Sidebar from '../dashboard/Sidebar.jsx';
 import PostMessageForm from './PostMessageForm.jsx';
 import AddUserForm from './AddUserForm.jsx';
-import getMessages,{ passMessage,
+import getMessages, { passMessage,
   updateReadBy } from '../../actions/messageActions';
 import { getMemberCount } from '../../actions/groupActions';
 import MessageCard from '../group/MessageCard.jsx';
@@ -90,7 +90,7 @@ export class GroupPage extends Component {
     }
   }
   /**
-   * Calls the onLoad method on component mount
+   * Gets the group's message and member count on component mount
    * @method componentDidMount
    * @return {void}
    * @memberof GroupPage
@@ -103,6 +103,10 @@ export class GroupPage extends Component {
           this.setState({ messages: this.props.messages }, () => {
             this.filterMessages(this.props.messages);
           });
+        },
+        ({ response }) => {
+          Materialize.toast(response.data.error, 2000);
+          this.props.history.push('/dashboard');
         }
       );
       this.props.getMemberCount(groupId);
@@ -143,9 +147,9 @@ export class GroupPage extends Component {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails[1];
     const messageCards = displayedMessage.map(message =>
-      <div className="margin-v" key={message.id}>
-        <MessageCard onClick={ this.onClick } message={ message }/>
-      </div>
+      <MessageCard onClick={ this.onClick }
+        message={ message }
+        key={message.id}/>
     );
     return (
       <div>

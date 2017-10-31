@@ -39,4 +39,15 @@ describe('Sign in form component test', () => {
     link.simulate('click');
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
   });
+  it('should return error for login', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    props.Login = jest.fn(() => Promise.reject({
+      errors: { username: 'not exist' }
+    }));
+    const component = shallow(<SigninForm {...props}/>);
+    component.instance().onSubmit(event);
+    expect(component.instance().state.username).toEqual('');
+  });
 });

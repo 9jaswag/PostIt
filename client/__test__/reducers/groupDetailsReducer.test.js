@@ -7,18 +7,14 @@ describe('group detail reducer', () => {
     details: ''
   };
   it('should return an initial state', () => {
-    expect(groupDetails(undefined, {})).toEqual(
-      { details: initialState.details }
-    );
+    expect(groupDetails(undefined, {})).toEqual([]);
   });
   it('should handle SET_GROUP_DETAILS:', () => {
     const action = {
       type: types.SET_GROUP_DETAILS,
-      data: [1, 'Grouppie']
+      groupDetails: [1, 'Grouppie']
     };
-    const expectedAction = {
-      details: [1, 'Grouppie']
-    };
+    const expectedAction = [1, 'Grouppie'];
     expect(
       groupDetails(initialState, action)
     ).toEqual(expectedAction);

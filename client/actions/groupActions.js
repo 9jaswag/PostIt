@@ -39,7 +39,7 @@ export const setGroupMemberCount = count => ({
  */
 export const getGroups = () =>
   dispatch => axios.get('/api/v1/users/one').then((res) => {
-    dispatch(setUserGroups(res.data.data));
+    dispatch(setUserGroups(res.data.groups));
   });
 
 /**
@@ -53,7 +53,7 @@ export const getGroups = () =>
  */
 export const getMemberCount = id =>
   dispatch => axios.get(`/api/v1/group/${id}/count`).then((res) => {
-    dispatch(setGroupMemberCount(res.data.data));
+    dispatch(setGroupMemberCount(res.data.group));
   });
 
 /**

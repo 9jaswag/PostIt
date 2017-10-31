@@ -45,9 +45,7 @@ describe('Sign up action', () => {
         response: {
           success: true,
           message: 'Sign up succesful.',
-          data: {
-            token: 'iSX6NVMqqQpgdUebW3iRBJz8oerTtfzYUm4ADESM7fk'
-          }
+          token: 'iSX6NVMqqQpgdUebW3iRBJz8oerTtfzYUm4ADESM7fk'
         }
       });
       const store = mockStore({});

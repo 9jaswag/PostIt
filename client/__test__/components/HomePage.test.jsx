@@ -5,8 +5,16 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { mount, shallow } from 'enzyme';
 import TestUtils from 'react-dom/test-utils';
-import configureStore from 'redux-mock-store'
-import { HomePage } from '../../components/home/HomePage';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import ConnectedHomePage,
+{ HomePage } from '../../components/home/HomePage';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
+  auth: {}
+});
 
 
 describe('Homepage Component', () => {
@@ -38,5 +46,10 @@ describe('Homepage Component', () => {
     const component = shallow(<HomePage {...props}/>);
     expect(component.find('.dashboard').node.props.children).toEqual(
       'Dashboard');
+  });
+  it('should render the connected component', () => {
+    const component = shallow(<ConnectedHomePage
+      store={store} { ...props }/>);
+    expect(component.length).toBe(1);
   });
 });

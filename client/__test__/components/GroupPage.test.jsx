@@ -5,11 +5,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
-// import ShallowRenderer from 'react-test-renderer/shallow';
-import configureStore from 'redux-mock-store'
-import { GroupPage } from '../../components/group/GroupPage.jsx';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import StatefulGroupPage,
+{ GroupPage } from '../../components/group/GroupPage.jsx';
 import { Sidebar } from '../../components/dashboard/Sidebar.jsx';
 import mockSessionStorage from '../../__mocks__/mockSessionStorage';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
+  groupDetails: [1],
+  auth: { user: {} },
+  groupMemberCount: 4,
+  message: []
+});
 
 Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
 
@@ -23,7 +33,8 @@ describe('Group page Component', () => {
     getMemberCount: jest.fn(),
     user: {
       username: 'chuks'
-    }
+    },
+    messages: []
   };
   it('should render without crashing', () => {
     const component = shallow(<GroupPage {...props}/>);
@@ -45,7 +56,8 @@ describe('Group page Component', () => {
   });
   it('should contain the method componentDidMount', () => {
     const component = shallow(<GroupPage {...props}/>);
-    const componentDidMountSpy = jest.spyOn(component.instance(), 'componentDidMount');
+    const componentDidMountSpy = jest.spyOn(
+      component.instance(), 'componentDidMount');
     component.instance().componentDidMount();
     expect(componentDidMountSpy).toHaveBeenCalledTimes(1);
   });
@@ -174,5 +186,18 @@ describe('Group page Component', () => {
       component.instance(), 'componentWillReceiveProps');
     component.instance().componentWillReceiveProps(nextProps);
     expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should render the connected component', () => {
+    const component = shallow(<StatefulGroupPage
+      store={store} { ...props }/>);
+    expect(component.length).toBe(1);
+  });
+  it('should return error if group is not found', () => {
+    props.getMessages = jest.fn(() => Promise.reject({
+      data: { error: 'No group found' }
+    }));
+    const component = shallow(<GroupPage {...props}/>);
+    component.instance().componentDidMount();
+    expect(component.instance().state.messages).toEqual([]);
   });
 });

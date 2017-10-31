@@ -36,7 +36,7 @@ models.UserGroup.destroy({
   restartIdentity: true
 });
 
-describe('User Controller test', () => {
+describe('User Controller Test', () => {
   describe('User signup API route', () => {
     it('should register a new user when complete parameters are provided',
       (done) => {
@@ -187,7 +187,7 @@ describe('User Controller test', () => {
             phone: '2347033130448'
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(409);
             res.body.errors.username.should.equals('Username already exists');
             done();
           });
@@ -204,7 +204,7 @@ describe('User Controller test', () => {
             phone: '2347033130448'
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(409);
             res.body.errors.email.should.equals('Email address already exists');
             done();
           });
@@ -221,7 +221,7 @@ describe('User Controller test', () => {
             phone: '2347033130448'
           })
           .end((err, res) => {
-            res.should.have.status(400);
+            res.should.have.status(500);
             res.body.errors.email.should.equals('Email address is invalid');
             done();
           });
@@ -321,8 +321,8 @@ describe('User Controller test', () => {
           password: 'chukspass',
         })
         .end((err, res) => {
-          res.body.data.should.have.property('token');
-          token = res.body.data.token;
+          res.body.should.have.property('token');
+          token = res.body.token;
           done();
         });
     });
@@ -382,6 +382,21 @@ describe('User Controller test', () => {
             done();
           });
       });
+    it('should return an error message is password is less than 6 characters',
+      (done) => {
+        chai.request(app)
+          .post('/api/v1/user/signin')
+          .type('form')
+          .send({
+            username: 'chuks',
+            password: 'chuks'
+          })
+          .end((err, res) => {
+            res.body.errors.password.should.equals(
+              'Password length must be more than 6 characters');
+            done();
+          });
+      });
   });
   describe('API route to find a User', () => {
     it('should return error if no token is provided', (done) => {
@@ -389,9 +404,34 @@ describe('User Controller test', () => {
         .post('/api/v1/users/user')
         .type('form')
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
+          done();
+        });
+    });
+    it('should return error if username is not provided', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/user')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.message.should.equals('Username is required');
+          done();
+        });
+    });
+    it('should return message if user is not found', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/user')
+        .type('form')
+        .send({
+          username: 'funsho'
+        })
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.message.should.equals('user not found');
           done();
         });
     });
@@ -411,34 +451,29 @@ describe('User Controller test', () => {
     });
   });
   describe('API route to fetch logged in user group info', () => {
+    before((done) => {
+      setTimeout(done, 10000);
+      chai.request(app)
+        .get('/api/v1/users/one')
+        .type('form')
+        .set('x-access-token', token)
+        .end(() => {
+          done();
+        });
+    });
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
         .get('/api/v1/users/one')
         .type('form')
         .end((err, res) => {
           if (!err) {
-            res.should.have.status(403);
+            res.should.have.status(401);
             res.body.message.should.equals(
-              'User not authenticated. Failed to authenticate token.');
+              'Invalid access token.');
           }
           done();
         });
     });
-    // it('should return the logged in user\'s group info when token is valid',
-    //   (done) => {
-    //     chai.request(app)
-    //       .get('/api/v1/users/one')
-    //       .type('form')
-    //       .set('x-access-token', token)
-    //       .end((err, res) => {
-    //         if (!err) {
-    //           res.should.have.status(200);
-    //           // res.body.data.should.be.an('object');
-    //           // res.body.data[0].should.have.property('unreadCount');
-    //         }
-    //         done();
-    //       });
-    //   });
   });
   describe('Search user API route', () => {
     it('should return an error if no token is provided', (done) => {
@@ -446,13 +481,13 @@ describe('User Controller test', () => {
         .get('/api/v1/user/search')
         .type('form')
         .end((err, res) => {
-          res.should.have.status(403);
-          res.body.message.should.equals(
-            'User not authenticated. Failed to authenticate token.');
+          res.should.have.status(401);
+          res.body.error.should.equals(
+            'Invalid access token.');
           done();
         });
     });
-    it('should return logged in user object with group info when token is valid',
+    it('should return user object with group info when token is valid',
       (done) => {
         chai.request(app)
           .get('/api/v1/user/search?username=chuks')
@@ -460,8 +495,8 @@ describe('User Controller test', () => {
           .set('x-access-token', token)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.data.count.should.equals(1);
-            res.body.data.should.be.an('object');
+            res.body.user.count.should.equals(1);
+            res.body.user.should.be.an('object');
             done();
           });
       });
@@ -518,7 +553,8 @@ describe('User Controller test', () => {
           })
           .end((err, res) => {
             res.should.have.status(400);
-            res.body.error.should.equals('No user with this email address');
+            res.body.errors.username.should.equals(
+              'No user with this email address');
             resetToken = res.body.resetToken;
             done();
           });

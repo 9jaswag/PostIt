@@ -63,8 +63,8 @@ export class ResetPassword extends Component {
         Materialize.toast(res.data.message, 2000);
         this.props.history.push('/');
       },
-      (err) => {
-        this.setState({ error: err.response.data.error });
+      ({ response }) => {
+        this.setState({ error: response.data.errors.username });
       }
     );
   }
@@ -133,7 +133,8 @@ export class ResetPassword extends Component {
               id="email"
               className="validate"
               value={ this.state.email }
-              onChange={ this.onChange }/>
+              onChange={ this.onChange }
+              required autoComplete="off"/>
             <input type="submit"
               value="Submit"
               className="btn waves-effect waves-light one-whole"/>

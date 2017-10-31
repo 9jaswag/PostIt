@@ -17,7 +17,7 @@ export const setMessages = messages => ({
  */
 const getMessages = id =>
   dispatch => axios.get(`/api/v1/group/${id}/messages`).then((res) => {
-    dispatch(setMessages(res.data.data));
+    dispatch(setMessages(res.data.message));
   });
 
 export default getMessages;

@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom';
  * MessageCard component.
  * @returns {string} The HTML markup for the MessageCard component
  */
-const MessageCard = ({ onClick, message }) => (
-  <div className="teal darken-1 hoverable custom-card tooltipped"
+const MessageCard = ({ onClick, message, loopKey }) => (
+  <div className="teal darken-1 hoverable custom-card tooltipped margin-v"
     data-position="top"
     data-delay="50"
-    data-tooltip="click message title to view message">
+    data-tooltip="click message title to view message"
+    key={ loopKey }>
     <div className="white-text">
       <Link to="/message" className="pointer normal text-white block"
         onClick={ onClick } data-id={ message.id }

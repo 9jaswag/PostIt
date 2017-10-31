@@ -16,7 +16,7 @@ describe('set group id action creator', () => {
     const groupId = 5;
     const expectedAction = [{
       type: SET_GROUP_DETAILS,
-      data: groupId
+      groupDetails: groupId
     }];
     store.dispatch(setGroupToStore(groupId));
     expect(store.getActions()).toEqual(expectedAction);
