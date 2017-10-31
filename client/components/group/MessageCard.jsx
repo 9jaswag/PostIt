@@ -3,7 +3,8 @@ import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 
 /**
- * MessageCard component.
+ * @function MessageCard
+ * @description the MessageCard component.
  * @returns {string} The HTML markup for the MessageCard component
  */
 const MessageCard = ({ onClick, message, loopKey }) => (

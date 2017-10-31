@@ -7,7 +7,7 @@ import validator from '../../helpers/validator';
 
 export default {
   /**
-   * Method to update a message's readby
+   * @description Method to update a message's readby
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing details

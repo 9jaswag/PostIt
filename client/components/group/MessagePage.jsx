@@ -5,13 +5,14 @@ import Sidebar from '../dashboard/Sidebar.jsx';
 import MessageContent from './MessageContent.jsx';
 
 /**
+ * @description the MessagePage component
  * @export
  * @class MessagePage
  * @extends {Component}
  */
 export class MessagePage extends Component {
   /**
-   * Creates an instance of MessagePage.
+   * @description constructor that creates an instance of MessagePage.
    * @param {any} props
    * @memberof MessagePage
    */
@@ -20,16 +21,18 @@ export class MessagePage extends Component {
     this.goBack = this.goBack.bind(this);
   }
   /**
-   * Takes the user to the previous page
    * @method goBack
+   * @description class method that takes the user to the previous page
    * @return {void}
+   * @memberof MessagePage
    */
   goBack() {
     this.props.history.push('/group');
   }
   /**
-   * Checks if a message is passed before the component is rendered
    * @method componentDidMount
+   * @description class method that checks if a message
+   * is passed before the component is rendered
    * @return {void}
    * @memberof MessagePage
    */
@@ -39,6 +42,8 @@ export class MessagePage extends Component {
     }
   }
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the MessagePage component
    * @memberof MessagePage
    */

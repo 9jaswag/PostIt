@@ -1,7 +1,8 @@
 import React from 'react';
 
 /**
- * GroupCards component.
+ * @function GroupCards
+ * @description the GroupCards component.
  * @returns {string} The HTML markup for the GroupCards component
  */
 const GroupCards = ({ onClick, group }) => (

@@ -19,13 +19,14 @@ const propTypes = {
 };
 
 /**
+ * @description the Add User Form component
  * @export
  * @class AddUserForm
  * @extends {Component}
  */
 export class AddUserForm extends Component {
   /**
-   * Creates an instance of AddUserForm.
+   * @description constructor that creates an instance of AddUserForm.
    * @param {any} props
    * @memberof AddUserForm
    */
@@ -44,9 +45,11 @@ export class AddUserForm extends Component {
   }
 
   /**
-   * isGroupMember method - checks if the user belongs to a group
+   * @method isGroupMember
+   * @description class method that checks if a user belongs to a group
    * @param {Array} userGroups - an array of groups the user belongs to
    * @return {bool} - returns a boolean
+   * @memberof AddUserForm
    */
   isGroupMember(userGroups) {
     let isMember = false;
@@ -61,6 +64,8 @@ export class AddUserForm extends Component {
   }
 
   /**
+   * @method onChange
+   * @description class method that handles user input in the add user form
    * @param {object} event
    * @returns {void}
    * @memberof AddUserForm
@@ -92,7 +97,9 @@ export class AddUserForm extends Component {
   }
 
   /**
-   * Makes an action call to add or remove a user from a group
+   * @method onClick
+   * @description a class method that makes an action call 
+   * to add or remove a user from a group on click of the username chip
    * @returns {void}
    * @memberof AddUserForm
    */
@@ -159,8 +166,10 @@ export class AddUserForm extends Component {
       userToAdd: {},
       error: '' });
   }
+
   /**
-   * Prevents form action if enter is pressed
+   * @method onSubmit
+   * @description class method that prevents form action if enter is pressed
    * @param {object} event
    * @returns {void}
    * @memberof AddUserForm
@@ -170,6 +179,8 @@ export class AddUserForm extends Component {
   }
 
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the AddUserForm
    * @memberof AddUserForm
    */

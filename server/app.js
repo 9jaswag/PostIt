@@ -1,9 +1,8 @@
 import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
-// import webpack from 'webpack';
 import path from 'path';
-import apiRoutes from './routes';
+import routes from './routes';
 
 require('dotenv').config();
 
@@ -24,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const router = express.Router();
 
 // Require routes
-apiRoutes(app);
+routes(app);
 
 // PathLocationStrategy for all GET requests
 app.get('/*', (req, res) => {

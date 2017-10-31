@@ -13,13 +13,14 @@ const propTypes = {
 };
 
 /**
+ * @description the Dashboard Page component
  * @export
  * @class DashboardPage
  * @extends {Component}
  */
 export class DashboardPage extends Component {
   /**
-   * Creates an instance of DashboardPage.
+   * @description constructor that creates an instance of DashboardPage.
    * @param {any} props
    * @memberof DashboardPage
    */
@@ -28,6 +29,8 @@ export class DashboardPage extends Component {
     this.onClick = this.onClick.bind(this);
   }
   /**
+   * @method onClick
+   * @description class method that handles the click of a group card
    * @param {object} event
    * @returns {void}
    * @memberof DashboardPage
@@ -48,8 +51,8 @@ export class DashboardPage extends Component {
     this.props.history.push('/group');
   }
   /**
-   * Gets the user's groups on component mount
    * @method componentDidMount
+   * @description class method that gets the user's groups on component mount
    * @return {void}
    * @memberof DashboardPage
    */
@@ -58,6 +61,8 @@ export class DashboardPage extends Component {
   }
 
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the DashboardPage
    * @memberof DashboardPage
    */

@@ -13,13 +13,14 @@ const propTypes = {
 };
 
 /**
+ * @description the PostMessageForm Component
  * @export
  * @class PostMessageForm
  * @extends {Component}
  */
 export class PostMessageForm extends Component {
   /**
-   * Creates an instance of PostMessageForm.
+   * @description constructor that creates an instance of PostMessageForm.
    * @param {any} props
    * @memberof PostMessageForm
    */
@@ -35,7 +36,9 @@ export class PostMessageForm extends Component {
   }
 
   /**
-   * Makes an action call to post a message to a group
+   * @method onSubmit
+   * @description class method that makes an action call
+   * to post a message to a group on form submit
    * @param {object} event
    * @returns {void}
    * @memberof PostMessageForm
@@ -65,6 +68,9 @@ export class PostMessageForm extends Component {
   }
 
   /**
+   * @method onChange
+   * @description class method that sets user input to state
+   * in the post message form
    * @param {object} event
    * @returns {void}
    * @memberof PostMessageForm
@@ -74,6 +80,8 @@ export class PostMessageForm extends Component {
   }
 
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the PostMessageForm component
    * @memberof PostMessageForm
    */
