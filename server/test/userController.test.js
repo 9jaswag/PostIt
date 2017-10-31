@@ -495,8 +495,8 @@ describe('User Controller Test', () => {
           .set('x-access-token', token)
           .end((err, res) => {
             res.should.have.status(200);
-            res.body.user.count.should.equals(1);
-            res.body.user.should.be.an('object');
+            res.body.pagination.count.should.equals(1);
+            res.body.users[0].should.be.an('object');
             done();
           });
       });

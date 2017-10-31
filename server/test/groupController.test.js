@@ -231,7 +231,7 @@ describe('Group controller test', () => {
       chai.request(app)
         .post('/api/v1/group/1/user')
         .type('form')
-        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJkYXZlQGFuZGVsYS5jb20iLCJ1c2VybmFtZSI6ImZ1bnNobyIsInBob25lIjoiMjM0NzAzMzEzMDQ0OSIsImlhdCI6MTUwOTM3OTc0NSwiZXhwIjoxNTA5NDY2MTQ1fQ.NEvoneKy-wxpjl6ZzfOeJdlNbvXto8IAMfDrJDHCXPA')
+        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiZHZzZW9zekBhbmRlbGEuY29tIiwidXNlcm5hbWUiOiJkdnNlb3N6IiwicGhvbmUiOiIyMzQ5MTMyMjMyNDQzIiwiaWF0IjoxNTA5NDc4ODc0LCJleHAiOjE1MDk1NjUyNzR9._3Pxmz2zRSbef3sVh1oqLFlHRXrG3xuDIVIdOPREVv8')
         .send({
           userId: 3
         })
