@@ -16,7 +16,7 @@ const salt = bcrypt.genSaltSync(saltRounds);
 
 export default {
   /**
-   * Method to sign up users
+   * @description Method to sign up users
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing user token
@@ -62,7 +62,7 @@ export default {
       });
   },
   /**
-   * Method to sign in users
+   * @description Method to sign in users
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing user token
@@ -99,7 +99,7 @@ export default {
       }));
   },
   /**
-   * Method to get a list all users
+   * @description Method to get a list all users
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing an array of users
@@ -134,7 +134,8 @@ export default {
         errors: { message: error.message }
       }));
   },
-  /** Method to get the details of current logged in user
+  /**
+   * @description Method to get the details of current logged in user
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing an array of user objects
@@ -181,7 +182,7 @@ export default {
         error: error.message }));
   },
   /**
-   * Method to search for users
+   * @description Method to search for users
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing an array of user objects
@@ -211,7 +212,7 @@ export default {
       });
   },
   /**
-   * Method to reset users password
+   * @description Method to reset users password
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns a user object

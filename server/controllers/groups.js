@@ -8,17 +8,9 @@ import sendEmailNotification from '../../helpers/sendEmailNotification';
 import getUserEmails from '../../helpers/getUserEmails';
 import validator from '../../helpers/validator';
 
-/**
- * Function for sending email notification to users
- * @param {string} email user's email
- * @param {string} message message to be sent
- * @param {string} priority message's priority
- * @return {void}
- */
-
 export default {
   /**
-   * Method to create a new group
+   * @description Method to create a new group
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing details
@@ -57,7 +49,7 @@ export default {
       }));
   },
   /**
-   * Method to add a user to a group
+   * @description Method to add a user to a group
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object confirming user has been added to group
@@ -114,7 +106,7 @@ export default {
     });
   },
   /**
-   * Method to post a message to a group
+   * @description Method to post a message to a group
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing details of the posted message
@@ -229,7 +221,7 @@ export default {
       }));
   },
   /**
-   * Method to get messages belonging to a group
+   * @description Method to get messages belonging to a group
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing an array of messages
@@ -269,7 +261,7 @@ export default {
     });
   },
   /**
-   * Method to remove users from a group
+   * @description Method to remove users from a group
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing an array of messages
@@ -306,7 +298,7 @@ export default {
       }));
   },
   /**
-   * Method to get the member count for a group
+   * @description Method to get the member count for a group
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing an array of messages

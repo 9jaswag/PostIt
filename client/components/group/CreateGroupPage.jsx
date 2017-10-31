@@ -3,7 +3,8 @@ import CreateGroupForm from './CreateGroupForm.jsx';
 import Sidebar from '../dashboard/Sidebar.jsx';
 
 /**
- * CreateGroupPage component.
+ * @function CreateGroupPage
+ * @description the Create Group Page component.
  * @returns {string} The HTML markup for the CreateGroupPage component
  */
 const CreateGroupPage = () => <div className="row">

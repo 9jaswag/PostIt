@@ -19,14 +19,15 @@ const propTypes = {
   updateReadBy: PropTypes.func.isRequired
 };
 
-/**
+/** 
+ * @description the Group Page component
  * @export
  * @class GroupPage
  * @extends {Component}
  */
 export class GroupPage extends Component {
   /**
-   * Creates an instance of GroupPage.
+   * @description constructor that creates an instance of GroupPage.
    * @param {any} props
    * @memberof GroupPage
    */
@@ -46,6 +47,9 @@ export class GroupPage extends Component {
     this.onChange = this.onChange.bind(this);
   }
   /**
+   * @method onClick
+   * @description class method that updates the read status of a message
+   * when clicked
    * @param {object} event
    * @returns {void}
    * @memberof GroupPage
@@ -63,10 +67,12 @@ export class GroupPage extends Component {
     $('.tooltipped').tooltip('remove');
   }
   /**
-   * Filters the messages based on their 'read' state
    * @method filterMessages
+   * @description class method that filters the messages based on their
+   * 'read' state
    * @param {Array} messages an array of messages
    * @return {void}
+   * @memberof GroupPage
    */
   filterMessages(messages) {
     const displayedMessage = [];
@@ -90,7 +96,9 @@ export class GroupPage extends Component {
     }
   }
   /**
-   * Gets the group's message and member count on component mount
+   * @method componentDidMount
+   * @description class method that gets the group's message
+   * and member count on component mount
    * @method componentDidMount
    * @return {void}
    * @memberof GroupPage
@@ -115,10 +123,11 @@ export class GroupPage extends Component {
     }
   }
   /**
-   * Filters the messages based on their 'read' state
    * @method componentWillReceiveProps
+   * @description class method that gets the new messages from store
    * @param {object} nextProps new props coming into the component
    * @return {void}
+   * @memberof GroupPage
    */
   componentWillReceiveProps(nextProps) {
     if (nextProps.messages.length > this.props.messages.length) {
@@ -130,6 +139,9 @@ export class GroupPage extends Component {
     }
   }
   /**
+   * @method onChange
+   * @description class method that handles the component's filter
+   * message select box changes
    * @param {object} event
    * @returns {void}
    * @memberof GroupPage
@@ -140,6 +152,8 @@ export class GroupPage extends Component {
     });
   }
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the GroupPage
    * @memberof GroupPage
    */

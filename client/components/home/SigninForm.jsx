@@ -9,13 +9,14 @@ const propTypes = {
 };
 
 /**
+ * @description Signin Form component
  * @export
  * @class SigninForm
  * @extends {Component}
  */
 export class SigninForm extends Component {
   /**
-   * Creates an instance of SigninForm.
+   * @description constructor that creates an instance of SigninForm.
    * @param {any} props
    * @memberof SigninForm
    */
@@ -32,8 +33,9 @@ export class SigninForm extends Component {
     this.removeBackdrop = this.removeBackdrop.bind(this);
   }
   /**
-   * Removes the modal backdrop that remains after modal closes
    * @method removeBackdrop
+   * @description class method that removes the modal backdrop
+   * which remains after modal closes
    * @return {void}
    * @memberof SigninForm
    */
@@ -43,6 +45,8 @@ export class SigninForm extends Component {
   }
 
   /**
+   * @method onChange
+   * @description class method that sets user input to store
    * @param {object} event
    * @returns {void}
    * @memberof SigninForm
@@ -52,7 +56,8 @@ export class SigninForm extends Component {
   }
 
   /**
-   * Makes an action call to sign in a user
+   * @method onSubmit
+   * @description class method that makes an action call to sign in a user
    * @param {object} event
    * @returns {void}
    * @memberof SigninForm
@@ -76,6 +81,8 @@ export class SigninForm extends Component {
   }
 
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the SigninForm component
    * @memberof SigninForm
    */

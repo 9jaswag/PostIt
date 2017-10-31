@@ -9,6 +9,7 @@ import models from '../models';
 let token;
 
 /**
+ * @description authentication middleware
  * @param {object} req request object
  * @param {object} res response object
  * @param {function} next next middleware function

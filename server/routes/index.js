@@ -26,7 +26,6 @@ export default (app) => {
   app.patch('/api/v1/message/readby', auth, controllers.messages.updateReadBy);
   // API route to reset user's password
   app.patch('/api/v1/user/reset', controllers.users.resetUserPassword);
-
   // API to create new group
   app.post('/api/v1/group', auth, controllers.groups.createGroup);
   // API route for users to add other users to groups:
@@ -34,8 +33,8 @@ export default (app) => {
   app.patch(
     '/api/v1/group/:group_id/remove', auth, controllers.groups.removeUser
   );
-  app.get('/api/v1/group/:group_id/count', auth, controllers.groups.getMemberCount);
-
+  app.get('/api/v1/group/:group_id/count', auth,
+    controllers.groups.getMemberCount);
   // API for logged in users to post messages to a group
   app.post(
     '/api/v1/group/:group_id/message', auth, controllers.groups.postMessage);

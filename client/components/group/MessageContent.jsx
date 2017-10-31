@@ -2,7 +2,8 @@ import React from 'react';
 import classnames from 'classnames';
 
 /**
- * MessageContent component.
+ * @function MessageContent
+ * @description the MessageContent component.
  * @returns {string} The HTML markup for the MessageContent component
  */
 const MessageContent = ({ message }) => (

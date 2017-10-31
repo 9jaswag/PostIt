@@ -10,16 +10,18 @@ const propTypes = {
 };
 
 /**
+ * @description the Sidebar component
  * @export
  * @class Sidebar
  * @extends {Component}
  */
 export class Sidebar extends Component {
   /**
-   * Method for logging out a user
    * @method logout
+   * @description class method for logging out a user
    * @param {object} event
    * @return {void}
+   * @memberof Sidebar
    */
   logout(event) {
     event.preventDefault();
@@ -32,6 +34,8 @@ export class Sidebar extends Component {
   }
 
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the Sidebar component
    * @memberof Sidebar
    */
