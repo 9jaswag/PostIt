@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import SigninForm from './SigninForm.jsx';
 
 /**
- * SigninModal component.
+ * @function SigninModal
+ * @description the SigninModal component.
  * @returns {string} The HTML markup for the SigninModal component
  */
 const SigninModal = () => <div>

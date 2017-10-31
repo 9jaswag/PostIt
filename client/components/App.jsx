@@ -15,12 +15,15 @@ import NotFound from '../components/notFound/NotFound.jsx';
 import requireAuth from '../utilities/requireAuth.jsx';
 
 /**
+ * @description the App root component
  * @export
  * @class App
  * @extends {Component}
  */
 class App extends Component {
   /**
+   * @method render
+   * @description class method that renders the matched component
    * @returns {component} returns a component that matches a provided path
    * @memberof App
    */

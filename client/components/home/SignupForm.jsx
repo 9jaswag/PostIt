@@ -7,7 +7,8 @@ const propTypes = {
 };
 
 /**
- * Function for formatting user's phone number
+ * @function formatPhoneNumber
+ * @description Function for formatting user's phone number
  * into Nigerian international format
  * @param {number} number phone number to be formatted
  * @return {number} returns an international formatted phone number
@@ -15,13 +16,14 @@ const propTypes = {
 const formatPhoneNumber = number => `234${number.slice(1)}`;
 
 /**
+ * @description the signup form component
  * @export
  * @class SignupForm
  * @extends {Component}
  */
 export class SignupForm extends Component {
   /**
-   * Creates an instance of SignupForm.
+   * @description constructor that creates an instance of SignupForm.
    * @param {any} props
    * @memberof SignupForm
    */
@@ -44,6 +46,8 @@ export class SignupForm extends Component {
    */
 
   /**
+   * @method onChange
+   * @description class method that sets user input to store
    * @return {void}
    * @param {KeyboardEvent} event
    */
@@ -52,7 +56,8 @@ export class SignupForm extends Component {
   }
 
   /**
-   * Makes an action call to sign up a user
+   * @method onSubmit
+   * @description class method that makes an action call to sign up a user
    * @return {void}
    * @param {KeyboardEvent} event
    */
@@ -85,6 +90,8 @@ export class SignupForm extends Component {
   }
 
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the SignupForm component
    * @memberof SignupForm
    */
