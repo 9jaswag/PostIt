@@ -11,31 +11,6 @@ chai.use(chaiHttp);
 let token;
 let resetToken;
 
-models.User.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.Message.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.Group.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-models.UserGroup.destroy({
-  where: {},
-  cascade: true,
-  truncate: true,
-  restartIdentity: true
-});
-
 describe('User Controller Test', () => {
   describe('User signup API route', () => {
     it('should register a new user when complete parameters are provided',
@@ -451,16 +426,6 @@ describe('User Controller Test', () => {
     });
   });
   describe('API route to fetch logged in user group info', () => {
-    before((done) => {
-      setTimeout(done, 10000);
-      chai.request(app)
-        .get('/api/v1/users/one')
-        .type('form')
-        .set('x-access-token', token)
-        .end(() => {
-          done();
-        });
-    });
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
         .get('/api/v1/users/one')
@@ -471,6 +436,18 @@ describe('User Controller Test', () => {
             res.body.message.should.equals(
               'Invalid access token.');
           }
+          done();
+        });
+    });
+    it('should return a user\'s group with unread messages ', (done) => {
+      chai.request(app)
+        .get('/api/v1/users/one')
+        .type('form')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.groups[0].group.name.should.equals('Group 1');
+          res.body.groups[0].unreadCount.should.equals(1);
           done();
         });
     });

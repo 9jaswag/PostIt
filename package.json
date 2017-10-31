@@ -7,7 +7,7 @@
     "start:dev": "nodemon --exec babel-node ./server/bin/www",
     "start": "babel-node ./server/bin/www",
     "start:prod": "node ./build/server/bin/www",
-    "db-setup": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
+    "db-setup": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && npm run seed",
     "test": "npm run db-setup && NODE_ENV=test nyc mocha --compilers js:babel-core/register server/test/userController.test server/test/groupController.test server/test/messageController.test server/test/helpers.test --timeout 50000",
     "lint": "esw server --color",
     "build-css": "node-sass --include-path scss ./template/styles/main.scss ./template/styles/style.css",
@@ -23,7 +23,8 @@
     "e2e-setup": "selenium-standalone install",
     "e2e-server": "selenium-standalone start",
     "test:e2e": "sequelize db:migrate:undo:all && sequelize db:migrate && nightwatch",
-    "migration": "sequelize db:migrate:undo:all && sequelize db:migrate"
+    "migration": "sequelize db:migrate:undo:all && sequelize db:migrate",
+    "seed": "NODE_ENV=test sequelize db:seed:all"
   },
   "repository": {
     "type": "git",
