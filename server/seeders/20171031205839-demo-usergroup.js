@@ -25,6 +25,12 @@ module.exports = {
         groupId: 1,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        userId: 4,
+        groupId: 2,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ], {}),
 

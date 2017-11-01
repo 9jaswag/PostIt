@@ -477,6 +477,18 @@ describe('User Controller Test', () => {
             done();
           });
       });
+    it('should return error if user is not found',
+      (done) => {
+        chai.request(app)
+          .get('/api/v1/user/search?username=john')
+          .type('form')
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.should.have.status(404);
+            res.body.error.should.equals('User was not found');
+            done();
+          });
+      });
   });
   describe('Reset password API route', () => {
     it('should return 404 error if no email is provided',

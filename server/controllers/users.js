@@ -212,7 +212,7 @@ export default {
             users: users.rows,
             pagination: paginate(users.count, limit) });
         }
-        res.status(404).send({ error: 'User was not found' });
+        res.status(404).send({ success: false, error: 'User was not found' });
       })
       .catch((error) => {
         res.status(500).send({ success: false, error: error.message });

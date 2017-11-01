@@ -2,6 +2,7 @@
 
 import chaiHttp from 'chai-http';
 import chai from 'chai';
+import jwt from 'jsonwebtoken';
 import app from '../app';
 import models from '../models';
 
@@ -10,6 +11,7 @@ const should = chai.should();
 chai.use(chaiHttp);
 let token;
 let userToken;
+let fakeToken;
 
 describe('Group controller test', () => {
   before((done) => {
@@ -91,6 +93,15 @@ describe('Group controller test', () => {
       });
   });
   describe('API route for adding users to a group', () => {
+    before((done) => {
+      fakeToken = jwt.sign({
+        id: 'user.id',
+        email: 'user.email',
+        username: 'user.username',
+        phone: 'user.phone'
+      }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+      done();
+    });
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
         .post('/api/v1/group/1/user')
@@ -192,7 +203,7 @@ describe('Group controller test', () => {
       chai.request(app)
         .post('/api/v1/group/1/user')
         .type('form')
-        .set('x-access-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsImVtYWlsIjoiZHZzZW9zekBhbmRlbGEuY29tIiwidXNlcm5hbWUiOiJkdnNlb3N6IiwicGhvbmUiOiIyMzQ5MTMyMjMyNDQzIiwiaWF0IjoxNTA5NDc4ODc0LCJleHAiOjE1MDk1NjUyNzR9._3Pxmz2zRSbef3sVh1oqLFlHRXrG3xuDIVIdOPREVv8')
+        .set('x-access-token', fakeToken)
         .send({
           userId: 3
         })

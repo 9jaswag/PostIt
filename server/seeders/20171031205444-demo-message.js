@@ -18,7 +18,7 @@ module.exports = {
         message: 'Message content',
         priority: 'normal',
         author: 'user2',
-        readby: '{"user2"}',
+        readby: '{"user2", "chuks"}',
         groupId: 2,
         userId: 2,
         createdAt: new Date(),
