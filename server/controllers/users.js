@@ -100,10 +100,10 @@ export default {
       }));
   },
   /**
-   * @description Method to get a list all users
+   * @description Method to get a single users
    * @param {object} req request object
    * @param {object} res response object
-   * @return {object} returns an object containing an array of users
+   * @return {object} returns an object containing a user's detail
    */
   findUser(req, res) {
     if (!req.body.username) {
@@ -210,7 +210,7 @@ export default {
         if (users.count > 0) {
           return res.status(200).send({ success: true,
             users: users.rows,
-            pagination: paginate(users.count, limit) });
+            pagination: paginate(users.count, limit, offset) });
         }
         res.status(404).send({ success: false, error: 'User was not found' });
       })
