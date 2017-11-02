@@ -10,13 +10,13 @@
 const paginate = (count, limit, offset) => {
   const numberOfPages = Math.ceil(count / limit);
   const currentPage = Math.floor(offset / limit) + 1;
-  const pageSize = (count - offset) > limit ? parseInt(
+  const usersDisplayed = (count - offset) > limit ? parseInt(
     limit, 10) : parseInt(count - offset, 10);
   return {
     count,
     numberOfPages,
     currentPage,
-    pageSize,
+    usersDisplayed,
     usersPerPage: parseInt(limit, 10)
   };
 };
