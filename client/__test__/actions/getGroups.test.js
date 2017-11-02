@@ -16,7 +16,7 @@ describe('Get groups action', () => {
   afterEach(() => moxios.uninstall());
 
   it('should dispatch SET_USER_GROUPS action', (done) => {
-    moxios.stubRequest('/api/v1/users/one', {
+    moxios.stubRequest('/api/v1/user/group', {
       status: 200,
       response: {
         data: [{

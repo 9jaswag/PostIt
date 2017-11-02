@@ -13,12 +13,12 @@ export default (app) => {
   app.post('/api/v1/user/signup', controllers.users.signup);
   // API route to handle user sign in
   app.post('/api/v1/user/signin', controllers.users.login);
-  // API to get all users
-  app.post('/api/v1/users/user', auth, controllers.users.findUser);
+  // API to find a user
+  app.post('/api/v1/user/find', auth, controllers.users.findUser);
   // API route to search users
   app.get('/api/v1/user/search', auth, controllers.users.searchUsers);
   // API route to get a user and group details
-  app.get('/api/v1/users/one', auth, controllers.users.findCurrentUser);
+  app.get('/api/v1/user/group', auth, controllers.users.findCurrentUser);
   // API for logged in users to retrieve messages in their group
   app.get(
     '/api/v1/group/:group_id/messages', auth, controllers.groups.fetchMessage);

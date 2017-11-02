@@ -41,7 +41,7 @@ export const setGroupMemberCount = count => ({
  * @return {promise} returns an array of groups
  */
 export const getGroups = () =>
-  dispatch => axios.get('/api/v1/users/one').then((res) => {
+  dispatch => axios.get('/api/v1/user/group').then((res) => {
     dispatch(setUserGroups(res.data.groups));
   });
 
@@ -83,7 +83,7 @@ export const setGroupToStore = groupDetail => (dispatch) => {
  * @return {promise} returns a user
  */
 export const findUser = username =>
-  () => axios.post('/api/v1/users/user', { username });
+  () => axios.post('/api/v1/user/find', { username });
 
 
 /**
