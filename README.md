@@ -38,7 +38,7 @@ The **client** directory houses the front-end implementation in ReactJS (Redux)
 7. To start app, navigate to the root directory of the app and run ```node run start:dev``` in development ( This is start up the app with ```nodemon``` watching for changes )  or ```npm start``` in production.
 
 ## API documentation
-You can find the Documentation for the PostIt Restful API [here](https://docs.postit11.apiary.io/).
+You can find the Documentation for the PostIt Restful API [here](http://docs.postit11.apiary.io/).
 
 ## Test
 This app uses ```Mocha```, ```Chai-Http``` for API tests, ```Jest```, ```Enzyme``` for frontend tests and ```Nightwatch``` for end-to-end tests
