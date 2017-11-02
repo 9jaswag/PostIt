@@ -12,7 +12,8 @@
     "localStorage": true,
     "sessionStorage": true,
     "Materialize": true,
-    "location": true
+    "location": true,
+    "window": true
   },
   "rules": {
     "class-methods-use-this": ["error", { "exceptMethods": 

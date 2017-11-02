@@ -115,8 +115,8 @@ export class SearchPage extends Component {
   render() {
     const { users, pagination, error } = this.state;
     // render users
-    const renderUsers = users.map((user, index) => (
-      <RenderUser user={ user } key={ index }/>
+    const renderUsers = users.map(user => (
+      <RenderUser user={ user } key={ user.id }/>
     ));
     // get page numbers
     const pageCount = pagination.numberOfPages;

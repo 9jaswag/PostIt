@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
+import shortid from 'shortid';
 
 /**
  * @function MessageCard
@@ -40,8 +41,9 @@ const MessageCard = ({ onClick, message, loopKey }) => (
         {/* Dropdown Structure */}
         <ul id='readby' className='dropdown-content teal darken-1'>
           {
-            message.readby.map((user, index) => <span
-              key={index} className="normal chip">@{ user } </span>)
+            message.readby.map(user => <span
+              key={shortid.generate()}
+              className="normal chip">@{ user } </span>)
           }
         </ul>
       </div>
