@@ -57,10 +57,10 @@ export class GroupPage extends Component {
   onClick(event) {
     // get message readby, update readby and redirect to message
     if (!event.target.dataset.readby.includes(this.props.user.username)) {
-      const data = {
+      const readBy = {
         id: Number(event.target.dataset.id),
         readby: this.props.user.username };
-      this.props.updateReadBy(data);
+      this.props.updateReadBy(readBy);
     }
     sessionStorage.setItem('message', event.target.dataset.message);
     this.props.passMessage(event.target.dataset.message);
@@ -99,7 +99,6 @@ export class GroupPage extends Component {
    * @method componentDidMount
    * @description class method that gets the group's message
    * and member count on component mount
-   * @method componentDidMount
    * @return {void}
    * @memberof GroupPage
    */
