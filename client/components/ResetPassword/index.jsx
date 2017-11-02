@@ -135,7 +135,7 @@ export class ResetPassword extends Component {
       <h4 className="center-align">Forgot password?</h4>
       <section className="padding2 teal accent-4 margin-v-top-3">
         <form action="" onSubmit={ this.submitRequest }>
-          <div className="input-field col s12">
+          <div className="input-field center-align col s12">
             <label htmlFor="email"
               style={{ color: 'white' }}>Enter your email address
             </label>
@@ -148,7 +148,7 @@ export class ResetPassword extends Component {
               required autoComplete="off"/>
             <input type="submit"
               value="Submit"
-              className="btn waves-effect waves-light one-whole"/>
+              className="btn one-whole display-block"/>
           </div>
           <div className="center-align margin-v">
             { this.state.error && <span
@@ -176,7 +176,7 @@ export class ResetPassword extends Component {
               id="password"
               className="validate"
               value={ this.state.password }
-              onChange={ this.onChange }/>
+              onChange={ this.onChange } required/>
           </div>
           <div className="input-field col s12">
             <label
@@ -188,12 +188,12 @@ export class ResetPassword extends Component {
               id="confirmPassword"
               className="validate"
               value={ this.state.confirmPassword }
-              onChange={ this.onChange }/>
+              onChange={ this.onChange } required/>
           </div>
           <div className="input-field col s12">
             <input type="submit"
               value="Reset password"
-              className="btn waves-effect waves-light one-whole"/>
+              className="btn one-whole display-block"/>
           </div>
           <div className="center-align margin-v">
             { this.state.error && <span
