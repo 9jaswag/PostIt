@@ -9,9 +9,9 @@ import DashboardPage from './dashboard/DashboardPage.jsx';
 import GroupPage from './group/GroupPage.jsx';
 import SearchPage from './search/Searchpage.jsx';
 import MessagePage from './group/MessagePage.jsx';
-import ResetPassword from './resetPassword/ResetPassword.jsx';
+import ResetPassword from './ResetPassword';
 import CreateGroupPage from './group/CreateGroupPage.jsx';
-import NotFound from '../components/notFound/NotFound.jsx';
+import NotFound from './NotFound';
 import requireAuth from '../utilities/requireAuth.jsx';
 
 /**

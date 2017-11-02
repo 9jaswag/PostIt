@@ -74,7 +74,7 @@ export class AddUserForm extends Component {
     this.setState({ error: '', userToAdd: {} });
     this.setState({ [event.target.name]: event.target.value });
     if (event.target.value.length > 0) {
-      this.props.findUser(event.target.value).then(
+      this.props.findUser(event.target.value.toLowerCase()).then(
         (res) => {
           if (res.data.user) {
             const user = res.data.user;
@@ -197,7 +197,9 @@ export class AddUserForm extends Component {
       <div>
         <div className="row form">
           <div className="col s12">
-            <h5 className="center-align form">Add New User To Group</h5>
+            <h5 className="center-align form margin-v-bottom-none">
+              Add New User To Group
+            </h5>
           </div>
         </div>
         <form action="" className="col s12" onSubmit={ this.onSubmit }>

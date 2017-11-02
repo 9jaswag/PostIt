@@ -91,7 +91,9 @@ export class PostMessageForm extends Component {
         <div className="modal-content">
           <div className="row">
             <div className="col s12">
-              <h5 className="center-align form">Post New Broadcast Message</h5>
+              <h5 className="center-align form margin-v-bottom-none">
+                Post New Broadcast Message
+              </h5>
             </div>
           </div>
           <form action="" className="col s12" onSubmit= { this.onSubmit }>
