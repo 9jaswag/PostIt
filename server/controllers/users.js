@@ -11,6 +11,7 @@ import validator from '../../helpers/validator';
 import sequelizeError from '../../helpers/sequelizeError';
 import generateToken from '../../helpers/generateToken';
 import paginate from '../../helpers/paginate';
+import { resetPasswordEmailTemplate } from '../../helpers/emailTemplate';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -250,18 +251,16 @@ export default {
             where: { email }
           })
             .then(() => {
+              // message content
+              const messageBody = resetPasswordEmailTemplate(
+                req.headers.host,
+                resetToken,
+                email,
+                new Date().getFullYear()
+              );
               const messageOptions = {
                 subject: 'Password Request on PostIT',
-                message: `<div><p>Hello there!,</p>
-                <p>You have requested a password reset on your PostIT
-                account. If you requested it, click the button below or
-                copy the link into your browser.</p>
-                <p>If this is not you, please disregard this email</p>
-                <p style="padding: 1rem;"></p>
-                <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}">Login</a>\n\n
-                <p style="padding: 1rem 0rem;">Link: http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}</p>
-                <p>PostIT</p>
-                </div>`
+                message: messageBody
               };
               // send email
               sendEmailNotification(email, messageOptions);

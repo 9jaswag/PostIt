@@ -7,6 +7,7 @@ import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
 import getUserEmails from '../../helpers/getUserEmails';
 import validator from '../../helpers/validator';
+import emailTemplate from '../../helpers/emailTemplate';
 
 export default {
   /**
@@ -145,17 +146,13 @@ export default {
               message: 'Message sent',
               data: { message }
             });
-
-            const messageBody = `<div><p>Hello there!,</p>
-              <p>You have a new ${req.body.priority} message on PostIT</p>
-              <p style="color:red;"><strong>
-              Message Title</strong>: ${req.body.title}</p>
-              <p>Login to view your message now</p>\n\n
-              <p style="padding: 1rem;"></p>
-              <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${req.headers.host}">Login</a>\n\n
-              <p style="padding: 1rem;"></p>
-              <p>PostIT</p>
-              </div>`;
+            // message content
+            const messageBody = emailTemplate(
+              req.body.priority,
+              req.headers.host,
+              req.body.title,
+              new Date().getFullYear()
+            );
 
             // send Email notification
             if (req.body.priority.toLowerCase() === 'urgent') {
