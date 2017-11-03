@@ -1,6 +1,8 @@
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import { SignupModal } from '../../components/modal/SignupModal';
+import { SignupModal } from '../../components/home/SignupModal.jsx';
 
 describe('Create group modal', () => {
   const props = {

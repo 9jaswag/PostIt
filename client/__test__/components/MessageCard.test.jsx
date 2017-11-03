@@ -1,6 +1,8 @@
+/* global expect */
+/* global jest */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import MessageCard from '../../components/message/MessageCard';
+import MessageCard from '../../components/group/MessageCard.jsx';
 
 describe('Create group modal', () => {
   const props = {

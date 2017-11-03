@@ -5,3 +5,5 @@
 .env
 coverage/
 /dist
+.nyc_output/
+/build

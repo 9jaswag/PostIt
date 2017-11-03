@@ -1,8 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Karla');
+
+
 // sass variables
 $green: #18bc9c;
 $white: #ffffff;
 $darkBlue: #2c3e50;
 $red: #e74c3c;
+
+* {
+  font-family: 'Karla', sans-serif;
+}
+
+html {
+  font-size: 16px;
+}
 
 .fixed {
   position: fixed;
@@ -179,6 +190,22 @@ $red: #e74c3c;
   margin-bottom: 1rem;
 }
 
+.margin-v-top {
+  margin-top: 2rem;
+}
+
+.margin-v-top-3 {
+  margin-top: 3rem;
+}
+
+.margin-v-bottom {
+  margin-bottom: 2rem;
+}
+
+.margin-v-bottom-none {
+  margin-bottom: 0;
+}
+
 .margin-v2 {
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -202,6 +229,10 @@ $red: #e74c3c;
 /*padding class*/
 .no-padding{
   padding: 0 !important;
+}
+
+.padding-v-bottom-none {
+  padding-bottom: 0;
 }
 
 .padding05 {
@@ -383,10 +414,6 @@ input[type='submit'].login-input {
   font-size: 15px;
 }
 
-.custom-card span {
-  font-size: 13px;
-}
-
 // Override Materialize classes
 .dropdown-content {
   padding: 1rem;
@@ -416,7 +443,7 @@ input#title.form, textarea#message.form, .row.form {
     margin-bottom: 0px;
 }
 h5.center-align.form {
-    font-size: 20px;
+    font-size: 1.2rem;
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
@@ -451,4 +478,22 @@ h5.center-align.form {
 
 .footer h6 {
   font-size: 1.4rem;  
+}
+
+.message-content-padding {
+  padding: 0.1rem 0.4rem;
+}
+
+.centralize {
+  display: block;
+  margin: auto;
+}
+
+.message-card-style {
+  padding: 0.3rem 0.5rem;
+  font-size: 10px;
+}
+
+.card-content.white-text p {
+  margin-top: 3rem;
 }

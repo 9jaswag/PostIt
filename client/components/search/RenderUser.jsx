@@ -1,11 +1,13 @@
 import React from 'react';
+
 /**
- * RenderUser component
+ * @function RenderUser
+ * @description the RenderUser component
  * @param {object} param0 object containing user's detail
  * @returns {string} The HTML markup for the Render component
  */
-const RenderUser = ({ user }) => <div className="card-panel hoverable">
-  <div className="row">
+const RenderUser = ({ user, loopKey }) => <div className="card-panel hoverable">
+  <div className="row" key={ loopKey }>
     <div className="col s12">
       <span className="bold">Username:</span>
       <span className="bold margin-h">@{ user.username }</span>

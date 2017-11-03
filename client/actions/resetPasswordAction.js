@@ -1,14 +1,13 @@
-/**
- * Action to reset user's password
- */
 
 import axios from 'axios';
 
 /**
+ * @function resetPassword
+ * @description async action to reset user's password
  * @return {promise} returns a promise containing server response
- * @param {string} data string containing updated readby information
+ * @param {string} userData string containing the user's information
  */
-const resetPassword = data =>
-  () => axios.patch('/api/v1/user/reset', data);
+const resetPassword = userData =>
+  () => axios.patch('/api/v1/user/reset', userData);
 
 export default resetPassword;

@@ -1,3 +1,5 @@
+/* global jest */
+/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
@@ -7,12 +9,17 @@ describe('Create group form', () => {
   const props = {
     createGroup: jest.fn(() => Promise.resolve()),
   };
-  const e = {
+  const event = {
     preventDefault: jest.fn()
   };
   it('should render without crashing', () => {
     const component = shallow(<CreateGroupForm {...props}/>);
     expect(component.node.type).toEqual('div');
+  });
+  it('should display an error if any exists', () => {
+    const component = shallow(<CreateGroupForm {...props}/>);
+    component.setState({ errors: { group: 'group already exists' } });
+    expect(component.find('span').text()).toEqual('group already exists');
   });
   it('should contain the method onChange', () => {
     const component = shallow(<CreateGroupForm {...props}/>);
@@ -27,7 +34,18 @@ describe('Create group form', () => {
   it('should contain the method onSubmit', () => {
     const component = shallow(<CreateGroupForm {...props}/>);
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
-    component.instance().onSubmit(e);
+    component.instance().onSubmit(event);
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should have an empty error state if group is not created', () => {
+    props.createGroup = jest.fn(() => Promise.reject({
+      data: {
+        success: false,
+        errors: 'No cant do'
+      }
+    }));
+    const component = shallow(<CreateGroupForm {...props}/>);
+    component.instance().onSubmit(event);
+    expect(component.instance().state.errors).toEqual({});
   });
 });
