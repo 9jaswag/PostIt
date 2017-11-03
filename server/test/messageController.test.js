@@ -4,6 +4,8 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 import models from '../models';
+import userData from './data/userData';
+import messageData from './data/messageData';
 
 process.env.NODE_ENV = 'test';
 const should = chai.should();
@@ -11,13 +13,15 @@ chai.use(chaiHttp);
 let token;
 
 describe('Message controller test', () => {
+  const { user } = userData;
+  const { message } = messageData;
   before((done) => {
     chai.request(app)
       .post('/api/v1/user/signin')
       .type('form')
       .send({
-        username: 'chuks',
-        password: 'chukspass',
+        username: user.username,
+        password: user.password
       })
       .end((err, res) => {
         res.body.should.have.property('token');
@@ -31,8 +35,8 @@ describe('Message controller test', () => {
         .patch('/api/v1/message/readby')
         .type('form')
         .send({
-          id: 1,
-          readby: 'chuks'
+          id: user.id,
+          readby: user.username
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -59,8 +63,8 @@ describe('Message controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          id: 122,
-          readby: 'chuks'
+          id: user.nonExistingId,
+          readby: user.username
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -74,8 +78,8 @@ describe('Message controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          id: 4,
-          readby: 'chuks'
+          id: user.thirdId,
+          readby: user.username
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -89,7 +93,7 @@ describe('Message controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          id: 1,
+          id: message.id,
           readby: 'deji'
         })
         .end((err, res) => {
