@@ -3,7 +3,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
-import { SigninForm } from '../../components/signin/SigninForm';
+import { SigninForm } from '../../components/home/SigninForm.jsx';
 
 describe('Sign in form component test', () => {
   const props = {
@@ -12,6 +12,11 @@ describe('Sign in form component test', () => {
   it('should render without crashing', () => {
     const component = shallow(<SigninForm {...props}/>);
     expect(component.node.type).toBe('form');
+  });
+  it('should display errors', () => {
+    const component = shallow(<SigninForm {...props}/>);
+    component.setState({ errors: { message: 'an error' } });
+    expect(component.find('span').text()).toEqual('an error');
   });
   it('should contain the method onChange', () => {
     const component = shallow(<SigninForm {...props}/>);
@@ -30,6 +35,19 @@ describe('Sign in form component test', () => {
     const component = shallow(<SigninForm {...props}/>);
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
     component.instance().onSubmit(event);
+    const link = component.find('Link');
+    link.simulate('click');
     expect(onSubmitSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should return error for login', () => {
+    const event = {
+      preventDefault: jest.fn()
+    };
+    props.Login = jest.fn(() => Promise.reject({
+      errors: { username: 'not exist' }
+    }));
+    const component = shallow(<SigninForm {...props}/>);
+    component.instance().onSubmit(event);
+    expect(component.instance().state.username).toEqual('');
   });
 });

@@ -12,7 +12,8 @@
     "localStorage": true,
     "sessionStorage": true,
     "Materialize": true,
-    "location": true
+    "location": true,
+    "window": true
   },
   "rules": {
     "class-methods-use-this": ["error", { "exceptMethods": 
@@ -20,7 +21,8 @@
       "componentWillUnmount",
       "componentDidMount",
       "render",
-      "onSubmit"
+      "onSubmit",
+      "isExpired"
       ] }],
     "one-var": 0,
     "one-var-declaration-per-line": 0,

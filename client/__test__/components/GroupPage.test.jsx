@@ -5,11 +5,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
-// import ShallowRenderer from 'react-test-renderer/shallow';
-import configureStore from 'redux-mock-store'
-import { GroupPage } from '../../components/group/GroupPage';
-import { Sidebar } from '../../components/sidebar/Sidebar';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import StatefulGroupPage,
+{ GroupPage } from '../../components/group/GroupPage.jsx';
+import { Sidebar } from '../../components/dashboard/Sidebar.jsx';
 import mockSessionStorage from '../../__mocks__/mockSessionStorage';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const store = mockStore({
+  groupDetails: [1],
+  auth: { user: {} },
+  groupMemberCount: 4,
+  message: []
+});
 
 Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
 
@@ -22,17 +32,32 @@ describe('Group page Component', () => {
     updateReadBy: jest.fn(),
     getMemberCount: jest.fn(),
     user: {
-      userUsername: 'chuks'
-    }
+      username: 'chuks'
+    },
+    messages: []
   };
-  // const renderer = new ShallowRenderer();
   it('should render without crashing', () => {
     const component = shallow(<GroupPage {...props}/>);
     expect(component.node.type).toEqual('div');
   });
+  it('should not show group name', () => {
+    const prop = {
+      groupDetails: [],
+      getMessages: jest.fn(() => Promise.resolve()),
+      passMessage: jest.fn(),
+      updateReadBy: jest.fn(),
+      getMemberCount: jest.fn(),
+      user: {
+        username: 'chuks'
+      }
+    };
+    const component = shallow(<GroupPage {...prop}/>);
+    expect(component.find('h5').text()).toBe(' ');
+  });
   it('should contain the method componentDidMount', () => {
     const component = shallow(<GroupPage {...props}/>);
-    const componentDidMountSpy = jest.spyOn(component.instance(), 'componentDidMount');
+    const componentDidMountSpy = jest.spyOn(
+      component.instance(), 'componentDidMount');
     component.instance().componentDidMount();
     expect(componentDidMountSpy).toHaveBeenCalledTimes(1);
   });
@@ -50,9 +75,72 @@ describe('Group page Component', () => {
       userId: 1
     }];
     const component = shallow(<GroupPage {...props}/>);
-    const filterMessagesSpy = jest.spyOn(component.instance(), 'filterMessages');
+    const filterMessagesSpy = jest.spyOn(
+      component.instance(), 'filterMessages');
     component.instance().filterMessages(messages);
     expect(filterMessagesSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should display unread messages', () => {
+    const messages = [{
+      id: 9,
+      title: 'true love',
+      message: 'true lovers',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['chuks'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
+    },
+    {
+      id: 1,
+      title: 'Title fight',
+      message: 'Title fighters',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['dave'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
+    }];
+    const component = shallow(<GroupPage {...props}/>);
+    component.setState({ displayState: 'unread' });
+    component.instance().filterMessages(messages);
+    expect(
+      component.instance().state.displayedMessage[0].title).toBe('Title fight');
+  });
+  it('should display archived messages', () => {
+    const messages = [{
+      id: 9,
+      title: 'true love',
+      message: 'true lovers',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['chuks'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
+    },
+    {
+      id: 1,
+      title: 'Title fight',
+      message: 'Title fighters',
+      priority: 'urgent',
+      author: 'chuks',
+      readby: ['dave'],
+      createdAt: '2017-08-27T19:49:14.760Z',
+      updatedAt: '2017-08-27T19:49:14.760Z',
+      groupId: 1,
+      userId: 1
+    }];
+    const component = shallow(<GroupPage {...props}/>);
+    component.setState({ displayState: 'archived' });
+    component.instance().filterMessages(messages);
+    expect(
+      component.instance().state.displayedMessage[0].title).toBe('true love');
   });
   it('should contain the method onChange', () => {
     const component = shallow(<GroupPage {...props}/>);
@@ -72,7 +160,7 @@ describe('Group page Component', () => {
         value: 'unread',
         name: 'filter-message',
         dataset: {
-          readby: 'chuks'
+          readby: 'dave'
         }
       }
     });
@@ -98,5 +186,18 @@ describe('Group page Component', () => {
       component.instance(), 'componentWillReceiveProps');
     component.instance().componentWillReceiveProps(nextProps);
     expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should render the connected component', () => {
+    const component = shallow(<StatefulGroupPage
+      store={store} { ...props }/>);
+    expect(component.length).toBe(1);
+  });
+  it('should return error if group is not found', () => {
+    props.getMessages = jest.fn(() => Promise.reject({
+      data: { error: 'No group found' }
+    }));
+    const component = shallow(<GroupPage {...props}/>);
+    component.instance().componentDidMount();
+    expect(component.instance().state.messages).toEqual([]);
   });
 });

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 /**
- * Function for setting auth token in header
+ * @function setAuthToken
+ * @description Function for setting auth token in header
  * @param {string} token
  * @return {void}
- * 
  */
 const setAuthToken = (token) => {
   if (token) {

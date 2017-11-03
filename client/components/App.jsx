@@ -8,19 +8,22 @@ import HomePage from './home/HomePage.jsx';
 import DashboardPage from './dashboard/DashboardPage.jsx';
 import GroupPage from './group/GroupPage.jsx';
 import SearchPage from './search/Searchpage.jsx';
-import MessagePage from './message/MessagePage.jsx';
-import ResetPassword from './resetPassword/ResetPassword.jsx';
+import MessagePage from './group/MessagePage.jsx';
+import ResetPassword from './ResetPassword';
 import CreateGroupPage from './group/CreateGroupPage.jsx';
-import NotFound from '../components/notFound/NotFound.jsx';
+import NotFound from './NotFound';
 import requireAuth from '../utilities/requireAuth.jsx';
 
 /**
+ * @description the App root component
  * @export
  * @class App
  * @extends {Component}
  */
 class App extends Component {
   /**
+   * @method render
+   * @description class method that renders the matched component
    * @returns {component} returns a component that matches a provided path
    * @memberof App
    */

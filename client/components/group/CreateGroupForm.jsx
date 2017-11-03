@@ -2,20 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import createGroup from '../../actions/createGroup';
+import createGroup from '../../actions/groupActions';
 
 const propTypes = {
   createGroup: PropTypes.func.isRequired
 };
 
 /**
+ * @description the Create Group Form component
  * @export
  * @class CreateGroupForm
  * @extends {Component}
  */
 export class CreateGroupForm extends Component {
   /**
-   * Creates an instance of CreateGroupForm.
+   * @description constructor that creates an instance of CreateGroupForm.
    * @param {any} props
    * @memberof CreateGroupForm
    */
@@ -32,6 +33,8 @@ export class CreateGroupForm extends Component {
   }
 
   /**
+   * @method onChange
+   * @description class method that sets user input to state
    * @param {object} event
    * @returns {void}
    * @memberof CreateGroupForm
@@ -41,7 +44,8 @@ export class CreateGroupForm extends Component {
   }
 
   /**
-   * Makes an action call to create a new group
+   * @method onSubmit
+   * @description class method that makes an action call to create a new group
    * @param {object} event
    * @returns {void}
    * @memberof CreateGroupForm
@@ -58,7 +62,10 @@ export class CreateGroupForm extends Component {
         { errors: response.data.errors, isLoading: false })
     );
   }
+
   /**
+   * @method render
+   * @description class method that renders the component
    * @returns {string} The HTML markup for the CreateGroupForm
    * @memberof CreateGroupForm
    */
@@ -74,7 +81,7 @@ export class CreateGroupForm extends Component {
                 id="name"
                 className="validate"
                 onChange={ this.onChange }
-                value={ this.state.name } required />
+                value={ this.state.name } required autoComplete="off" />
               <label htmlFor="name">Group Name</label>
               { errors.group && <span className="red-text">
                 { errors.group }</span>}
@@ -87,7 +94,8 @@ export class CreateGroupForm extends Component {
                 id="description"
                 className="validate"
                 onChange={ this.onChange }
-                value={ this.state.description } data-length="80" required/>
+                value={ this.state.description } data-length="80" required
+                autoComplete="off"/>
               <label htmlFor="description">Group Description</label>
             </div>
           </div>

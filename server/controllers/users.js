@@ -3,213 +3,149 @@
  * handles every user related task
  */
 
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
 import customSort from '../../helpers/customSort';
+import validator from '../../helpers/validator';
+import sequelizeError from '../../helpers/sequelizeError';
+import generateToken from '../../helpers/generateToken';
+import paginate from '../../helpers/paginate';
+import { resetPasswordEmailTemplate } from '../../helpers/emailTemplate';
 
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 
-
 export default {
   /**
-   * Method to sign up users
+   * @description Method to sign up users
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing user token
    */
   signup(req, res) {
-    const errors = { };
-    let hasError = false;
-    // validation checks
-    if (!req.body.username || req.body.username.trim() === '') {
-      hasError = true;
-      errors.username = 'Username field cannot be empty';
-    } if (!req.body.password || req.body.password.trim() === '') {
-      hasError = true;
-      errors.password = 'Password field cannot be empty';
-    } else if (req.body.password.length < 6) {
-      hasError = true;
-      errors.password = 'Password length must be more than 6 characters';
-    } if (!req.body.email || req.body.email.trim() === '') {
-      hasError = true;
-      errors.email = 'Email address field cannot be empty';
-    } if (!req.body.phone || req.body.phone.trim() === '') {
-      hasError = true;
-      errors.phone = 'Phone field cannot be empty';
-    } else if (isNaN(req.body.phone)) {
-      hasError = true;
-      errors.phone = 'Phone number cannot contain text';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
-    // check if email already exists
-    models.User.findOne({
-      where: {
-        email: req.body.email,
-      }
-    }).then((user) => {
-      if (user) {
-        hasError = true;
-        errors.email = 'Email address already exists';
-        return res.status(400)
-          .send({
-            success: false,
-            errors
-          });
-      }
-    });
-    return models.User
-      .create({
-        username: req.body.username.trim().toLowerCase(),
-        password: bcrypt.hashSync(req.body.password, salt),
-        email: req.body.email.trim(),
-        phone: req.body.phone.trim()
-      })
-      .then((user) => {
-        const token = jwt
-          .sign({
-            userId: user.id,
-            userEmail: user.email,
-            userUsername: user.username,
-            userPhone: user.phone
-          }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-        return res.status(201)
-          .send({ success: true,
-            message: 'Sign up succesful.',
-            data: { token } });
-      })
-      .catch((error) => {
-        if (error.errors[0].message === 'Username already exists') {
-          hasError = true;
+    const errors = {};
+    if (validator(req, res, 'signup') !== 'validated') return;
+    // check if username exists
+    models.User.findOne({ where: { username: req.body.username } })
+      .then((foundUser) => {
+        if (foundUser) {
           errors.username = 'Username already exists';
+          return res.status(409).send({
+            success: false, errors });
         }
-        if (error.errors[0].message === 'Email can not be empty') {
-          hasError = true;
-          errors.email = 'Email field can not be empty';
-        }
-        if (error.errors[0].message === 'Enter a valid email address') {
-          hasError = true;
-          errors.email = 'Email address is invalid';
-        }
-        if (error.errors[0].message === 'Validation notEmpty on phone failed') {
-          hasError = true;
-          errors.phone = 'Phone field can not be empty';
-        }
-        if (error.errors[0].message === 'Phone number already exists') {
-          hasError = true;
-          errors.phone = 'Phone number already exists';
-        }
-        if (error.errors[0].message
-          === 'Formatted phone number must have 13 characters') {
-          hasError = true;
-          errors.phone = 'Formatted phone number must have 13 characters';
-        }
-        if (error.errors[0].message ===
-          'Only numeric characters are allowed as phone numbers') {
-          hasError = true;
-          errors.phone = 'Only numeric characters are allowed as phone numbers';
-        }
-        return res.status(400).send({ success: false, errors });
-      }
-      );
+        // check if email exists
+        models.User.findOne({ where: { email: req.body.email } })
+          .then((foundEmail) => {
+            if (foundEmail) {
+              errors.email = 'Email address already exists';
+              return res.status(409).send({
+                success: false, errors });
+            }
+          });
+        return models.User.create({
+          username: req.body.username.trim().toLowerCase(),
+          password: req.body.password,
+          email: req.body.email.trim(),
+          phone: req.body.phone.trim()
+        })
+          .then((user) => {
+            const token = generateToken(user);
+            return res.status(201).send({
+              success: true,
+              message: 'Sign up succesful.',
+              token
+            });
+          })
+          .catch(error => res.status(500).send({
+            success: false,
+            errors: sequelizeError(error)
+          }));
+      });
   },
   /**
-   * Method to sign in users
+   * @description Method to sign in users
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing user token
    */
   login(req, res) {
-    const errors = { };
-    let hasError = false;
-    if (!req.body.username) {
-      hasError = true;
-      errors.username = 'Username field cannot be empty';
-    } else if (!req.body.password) {
-      hasError = true;
-      errors.password = 'Password field cannot be empty';
-    }
-    if (hasError) {
-      return res.status(400).send({ success: false, errors });
-    }
+    if (validator(req, res, 'signin') !== 'validated') return;
     return models.User.findOne({
       where: {
         username: req.body.username.toLowerCase(),
       }
     }).then((user) => {
       if (!user) {
-        return res.status(401)
+        return res.status(404)
           .send({
             success: false,
-            errors: {
-              username: 'User does not exist'
-            }
+            errors: { username: 'User does not exist' }
           });
-      } else if (user) {
-        const passwordHash = user.password;
-        if (!(bcrypt.compareSync(req.body.password, passwordHash))) {
-          return res.status(401)
-            .send({
-              success: false,
-              errors: {
-                password: 'Incorrect password!'
-              }
-            });
-        }
       }
-      // generate token
-      const token = jwt.sign({
-        userId: user.id,
-        userEmail: user.email,
-        userUsername: user.username,
-      }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-      return res.status(200)
-        .send({ success: true,
+      if (user && user.verifyPassword(req.body.password)) {
+        // generate token
+        const token = generateToken(user);
+        return res.status(200).send({ success: true,
           message: 'Sign in successful',
-          data: { token } });
+          token });
+      }
+      return res.status(401).send({
+        success: false,
+        errors: { password: 'Incorrect password!' }
+      });
     })
-      .catch(error => res.status(400).send({
+      .catch(error => res.status(500).send({
         success: false,
         errors: { message: error.message }
       }));
   },
   /**
-   * Method to get a list all users
+   * @description Method to get a single users
    * @param {object} req request object
    * @param {object} res response object
-   * @return {object} returns an object containing an array of users
+   * @return {object} returns an object containing a user's detail
    */
-  findAll(req, res) {
+  findUser(req, res) {
+    if (!req.body.username) {
+      return res.status(400).send({
+        success: false,
+        message: 'Username is required'
+      });
+    }
     return models.User
-      .findAll({
-        attributes: ['id', 'username', 'email', 'phone']
+      .findOne({
+        include: [{
+          model: models.Group,
+          required: false,
+          attributes: ['id'],
+          through: { attributes: [] }
+        }],
+        where: { username: req.body.username },
+        attributes: ['id', 'username']
       })
       .then((user) => {
-        if (user.length === 0) {
+        if (!user) {
           return res.status(200)
-            .send({ success: true, message: 'No users found' });
+            .send({ success: true, message: 'user not found' });
         }
-        return res.status(200)
-          .send({ details: req.userGroupInfo, data: { user } });
+        return res.status(200).send({ success: true, user });
       })
-      .catch(error => res.send({
+      .catch(error => res.status(500).send({
         success: false,
-        error: { message: error.message }
+        errors: { message: error.message }
       }));
   },
-  /** Method to get the details of current logged in user
+  /**
+   * @description Method to get the details of current logged in user
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing an array of user objects
    */
   findCurrentUser(req, res) {
-    const username = req.decoded.userUsername;
+    const username = req.decoded.username;
     models.User
-      .find({
+      .findOne({
         include: [{
           model: models.Group,
           order: [['createdAt', 'DESC']],
@@ -221,42 +157,34 @@ export default {
         attributes: ['id', 'username', 'email', 'phone']
       })
       .then((user) => {
-        if (!user) {
-          return res.status(404).send({
-            success: false,
-            errors: 'User does not exist'
-          });
-        }
         let mapCounter = 0;
         const groupsWithCount = [];
         user.Groups.map(group =>
           // get messages that belong to each group
-          models.Message.findAll({
-            where: { groupId: group.id },
-            attributes: ['readby']
-          }).then((messages) => {
-            let unreadCount = 0;
-            messages.forEach((message) => {
-              // if message has not been read by user, increment counter
-              if (!message.readby.includes(username)) {
-                unreadCount += 1;
+          group.getMessages({ attributes: ['readby'] })
+            .then((messages) => {
+              let unreadCount = 0;
+              messages.forEach((message) => {
+                // if message has not been read by user, increment counter
+                if (!message.readby.includes(username)) unreadCount += 1;
+              });
+              groupsWithCount.push({ group, unreadCount });
+              mapCounter += 1;
+              if (mapCounter === user.Groups.length) {
+                // sort array to return by id and send response
+                res.status(200).send({
+                  success: true,
+                  groups: groupsWithCount.sort(customSort)
+                });
               }
-            });
-            groupsWithCount.push({ group, unreadCount });
-            mapCounter += 1;
-            if (mapCounter === user.Groups.length) {
-              // send response
-              // sort array to return by id
-              return res.status(200).send(
-                { data: groupsWithCount.sort(customSort) });
-            }
-          })
+            })
         );
       })
-      .catch(error => res.status(400).send({ errors: error.message }));
+      .catch(error => res.status(500).send({ success: false,
+        error: error.message }));
   },
   /**
-   * Method to search for users
+   * @description Method to search for users
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns an object containing an array of user objects
@@ -278,40 +206,37 @@ export default {
       where: { username: { $like: `%${username}%` } },
       attributes: ['id', 'username', 'email', 'phone'],
     })
-      .then((user) => {
-        res.status(200).send({ success: true, data: user });
+      .then((users) => {
+        // res.status(200).send({ success: true, user });
+        if (users.count > 0) {
+          return res.status(200).send({ success: true,
+            users: users.rows,
+            pagination: paginate(users.count, limit, offset) });
+        }
+        res.status(404).send({ success: false, error: 'User was not found' });
       })
       .catch((error) => {
-        res.status(400).send({ success: false, errors: error.message });
+        res.status(500).send({ success: false, error: error.message });
       });
   },
   /**
-   * Method to reset users password
+   * @description Method to reset users password
    * @param {object} req request object
    * @param {object} res response object
    * @return {object} returns a user object
    */
   resetUserPassword(req, res) {
-    if (!(req.body.email)) {
-      return res.status(400).send(
-        { status: false, error: 'No email address provided' });
-    }
-    if (!(req.body.type)) {
-      return res.status(400).send(
-        { status: false, error: 'Request type must be specified' }
-      );
-    }
+    if (validator(req, res, 'requestreset') !== 'validated') return;
     const email = req.body.email;
     models.User.findOne({
-      where: {
-        email
-      },
+      where: { email },
       attributes: ['id', 'email', 'resetToken', 'resetTime']
     })
       .then((user) => {
         if (!user) {
           return res.status(400).send(
-            { status: false, error: 'No user with this email address' }
+            { success: false,
+              errors: { username: 'No user with this email address' } }
           );
         }
         if (req.body.type === 'request') {
@@ -323,30 +248,40 @@ export default {
             resetToken,
             resetTime
           }, {
-            where: {
-              email
-            }
+            where: { email }
           })
             .then(() => {
-              // setup email data 
-              const mailOptions = {
-                from: 'PostIT',
-                to: email,
+              // message content
+              const messageBody = resetPasswordEmailTemplate(
+                req.headers.host,
+                resetToken,
+                email,
+                new Date().getFullYear()
+              );
+              const messageOptions = {
                 subject: 'Password Request on PostIT',
-                text: `You have requested a password reset on your PostIT
-                account.\n Please click on the following link, or
-                paste this intoyour browser to complete the process:\n
-                ${`http://${req.headers.host}/resetpassword/?token=${resetToken}&email=${email}`}\n
-                If you did not request this, please ignore this email.\n`
+                message: messageBody
               };
               // send email
-              sendEmailNotification(mailOptions);
-              res.status(200).send({ status: true, message: 'Email sent' });
+              sendEmailNotification(email, messageOptions);
+              if (process.env.NODE_ENV === 'test') {
+                res.status(200).send({
+                  success: true, message: 'Email sent', resetToken });
+              }
+              res.status(200).send({ success: true, message: 'Email sent. Check your inbox' });
             })
             .catch(error => res.status(400).send(
-              { status: false, error: error.message }));
+              { success: false, error: error.message }));
         }
         if (req.body.type === 'reset') {
+          if (!req.body.password) {
+            return res.status(400).send(
+              { success: false, error: 'Provide a new password' });
+          }
+          if (!req.body.token) {
+            return res.status(400).send(
+              { status: false, error: 'No token is provided' });
+          }
           const receivedToken = req.body.token;
           const currentTime = Date.now();
           const password = req.body.password;
@@ -357,7 +292,7 @@ export default {
           if (currentTime - user.resetTime > 3600000) {
             return res.status(400).send(
               { status: false,
-                error: 'Token has expired. Please request for anotherpassword reset.'
+                error: 'Link has expired. Request for another reset link.'
               });
           }
           // reset user password and delete token and resetTime
@@ -366,9 +301,7 @@ export default {
             resetToken: null,
             resetTime: null
           }, {
-            where: {
-              email
-            }
+            where: { email }
           })
             .then(() => {
               res.status(200).send(
@@ -378,7 +311,7 @@ export default {
               { success: false, error: error.message }));
         }
       })
-      .catch(error => res.status(400).send(
+      .catch(error => res.status(500).send(
         { status: false, error: error.message }
       ));
   }
