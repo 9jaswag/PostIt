@@ -13,7 +13,7 @@ let resetToken;
 
 describe('User Controller Test', () => {
   describe('User signup API route', () => {
-    it('should register a new user when complete parameters are provided',
+    it('should register a new user when all parameters are provided',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -26,6 +26,7 @@ describe('User Controller Test', () => {
           })
           .end((err, res) => {
             res.should.have.status(201);
+            res.body.message.should.equals('Sign up succesful.');
             done();
           });
       });
@@ -83,7 +84,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with no username parameter',
+    it('should return error message for empty username parameter',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -100,7 +101,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with no email parameter',
+    it('should return error message for empty email parameter',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -117,7 +118,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with no password parameter',
+    it('should return error message for empty password parameter',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -134,7 +135,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with no phone parameter',
+    it('should return error message for empty phone parameter',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -150,7 +151,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with a duplicate username',
+    it('should return error message for a duplicate username',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -167,7 +168,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with a duplicate email address',
+    it('should return error message for a duplicate email address',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -184,7 +185,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with an invalid email address',
+    it('should return error message for an invalid email address',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -201,7 +202,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with an empty username field',
+    it('should return an error message for an empty username string',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -219,7 +220,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with an empty email field',
+    it('should return an error message for an empty email string',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -237,7 +238,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with an empty password field',
+    it('should return an error message for an empty password string',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -255,7 +256,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 400 error and error message with an empty phone field',
+    it('should return an error message for an empty phone string',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signup')
@@ -284,6 +285,7 @@ describe('User Controller Test', () => {
         })
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.message.should.equals('Sign in successful');
           done();
         });
     });
@@ -301,7 +303,7 @@ describe('User Controller Test', () => {
           done();
         });
     });
-    it('should return an error message when no username is provided',
+    it('should return an error message if no username is provided',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signin')
@@ -315,7 +317,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return an error message when no password is provided',
+    it('should return an error message if no password is provided',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signin')
@@ -329,7 +331,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return an error message when non-existent username is provided',
+    it('should return an error message if non-existent username is provided',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signin')
@@ -343,7 +345,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return an error message when wrong password is provided',
+    it('should return an error message if wrong password is provided',
       (done) => {
         chai.request(app)
           .post('/api/v1/user/signin')
@@ -376,7 +378,7 @@ describe('User Controller Test', () => {
   describe('API route to find a User', () => {
     it('should return error if no token is provided', (done) => {
       chai.request(app)
-        .post('/api/v1/users/user')
+        .post('/api/v1/user/find')
         .type('form')
         .end((err, res) => {
           res.should.have.status(401);
@@ -387,7 +389,7 @@ describe('User Controller Test', () => {
     });
     it('should return error if username is not provided', (done) => {
       chai.request(app)
-        .post('/api/v1/users/user')
+        .post('/api/v1/user/find')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
@@ -398,7 +400,7 @@ describe('User Controller Test', () => {
     });
     it('should return message if user is not found', (done) => {
       chai.request(app)
-        .post('/api/v1/users/user')
+        .post('/api/v1/user/find')
         .type('form')
         .send({
           username: 'funsho'
@@ -412,7 +414,7 @@ describe('User Controller Test', () => {
     });
     it('should return an array of user objects when token is valid', (done) => {
       chai.request(app)
-        .post('/api/v1/users/user')
+        .post('/api/v1/user/find')
         .type('form')
         .send({
           username: 'chuks'
@@ -428,7 +430,7 @@ describe('User Controller Test', () => {
   describe('API route to fetch logged in user group info', () => {
     it('should return an error if no token is provided', (done) => {
       chai.request(app)
-        .get('/api/v1/users/one')
+        .get('/api/v1/user/group')
         .type('form')
         .end((err, res) => {
           if (!err) {
@@ -441,11 +443,12 @@ describe('User Controller Test', () => {
     });
     it('should return a user\'s group with unread messages ', (done) => {
       chai.request(app)
-        .get('/api/v1/users/one')
+        .get('/api/v1/user/group')
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.groups[0].should.have.property('group');
           res.body.groups[0].group.name.should.equals('Group 1');
           res.body.groups[0].unreadCount.should.equals(1);
           done();
@@ -474,6 +477,7 @@ describe('User Controller Test', () => {
             res.should.have.status(200);
             res.body.pagination.count.should.equals(1);
             res.body.users[0].should.be.an('object');
+            res.body.users[0].username.should.equals('chuks');
             done();
           });
       });
@@ -491,7 +495,7 @@ describe('User Controller Test', () => {
       });
   });
   describe('Reset password API route', () => {
-    it('should return 404 error if no email is provided',
+    it('should return an error if no email is provided',
       (done) => {
         chai.request(app)
           .patch('/api/v1/user/reset')
@@ -502,7 +506,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 404 error if no request type is provided',
+    it('should return an error if no request type is provided',
       (done) => {
         chai.request(app)
           .patch('/api/v1/user/reset')
@@ -516,7 +520,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 404 error if wrong request type is provided',
+    it('should return an error if wrong request type is provided',
       (done) => {
         chai.request(app)
           .patch('/api/v1/user/reset')
@@ -531,7 +535,7 @@ describe('User Controller Test', () => {
             done();
           });
       });
-    it('should return 404 error if user is not found',
+    it('should return an error if user is not found',
       (done) => {
         chai.request(app)
           .patch('/api/v1/user/reset')
@@ -580,7 +584,7 @@ describe('User Controller Test', () => {
           done();
         });
     });
-    it('should return 400 error if no password is provided', (done) => {
+    it('should return an error if no password is provided', (done) => {
       chai.request(app)
         .patch('/api/v1/user/reset')
         .type('form')
@@ -595,7 +599,7 @@ describe('User Controller Test', () => {
           done();
         });
     });
-    it('should return 400 error if token is not provided', (done) => {
+    it('should return an error if no reset token is provided', (done) => {
       chai.request(app)
         .patch('/api/v1/user/reset')
         .type('form')
@@ -610,7 +614,7 @@ describe('User Controller Test', () => {
           done();
         });
     });
-    it('should return 400 error if wrong token is not provided', (done) => {
+    it('should return an error if wrong reset token is provided', (done) => {
       chai.request(app)
         .patch('/api/v1/user/reset')
         .type('form')

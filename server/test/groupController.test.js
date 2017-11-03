@@ -194,6 +194,7 @@ describe('Group controller test', () => {
         })
         .end((err, res) => {
           res.should.have.status(201);
+          res.body.message.should.equals('User successfully added to group');
           res.body.group.userId.should.equals(3);
           res.body.group.groupId.should.equals(1);
           done();
