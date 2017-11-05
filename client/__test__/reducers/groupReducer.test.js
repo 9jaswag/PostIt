@@ -1,3 +1,4 @@
+import expect from 'expect';
 import groups, { groupMemberCount } from '../../reducers/groups';
 import mockData from '../../__mocks__/mockData';
 

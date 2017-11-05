@@ -1,4 +1,3 @@
-/* global localStorage */
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthToken from '../utilities/setAuthToken';

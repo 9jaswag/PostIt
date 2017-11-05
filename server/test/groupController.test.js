@@ -4,7 +4,6 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import jwt from 'jsonwebtoken';
 import app from '../app';
-import models from '../models';
 import userData from './data/userData';
 import groupData from './data/groupData';
 import messageData from './data/messageData';

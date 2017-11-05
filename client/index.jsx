@@ -1,6 +1,3 @@
-/* global sessionStorage */
-/* global localStorage */
-/* global document */
 import 'babel-polyfill'
 import React from 'react';
 import ReactDOM from 'react-dom';
