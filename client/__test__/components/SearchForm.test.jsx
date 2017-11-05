@@ -19,6 +19,6 @@ describe('Search Form component', () => {
       onClick={ props.onClick }
       onSubmit={ props.onSubmit }
       state={ props.state } />);
-    expect(component.find('.red-text').length).toBe(1);
+    expect(component.find('.error').length).toBe(1);
   });
 });

@@ -91,7 +91,7 @@ export class SigninForm extends Component {
     return (
       <form action="" className="col s12" onSubmit= { this.onSubmit }>
         <div className="row center-align">
-          { errors.message && <span className="red-text">
+          { errors.message && <span className="error">
             { errors.message }</span>}
         </div>
         <div className="row">

@@ -22,7 +22,7 @@ const SearchForm = ({ onSubmit,
       <label htmlFor="username">Search</label>
     </div>
     <div className="col l12">{ state.errors && <span
-      className="red-text">{ state.errors }</span>}</div>
+      className="error">{ state.errors }</span>}</div>
   </div>
 </form>;
 

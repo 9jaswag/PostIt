@@ -213,7 +213,7 @@ export class AddUserForm extends Component {
               { (this.state.userToAdd.userId) ? userChip : null }
               { (this.state.userToAdd.userId) ? showPrompt : null }
               { this.state.error ? <span
-                className="red-text">{ this.state.error }</span> : null}
+                className="error">{ this.state.error }</span> : null}
             </div>
           </div>
         </form>

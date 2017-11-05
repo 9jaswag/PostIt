@@ -108,7 +108,7 @@ export class SignupForm extends Component {
               value={ this.state.username }
               onChange={ this.onChange } required autoComplete="off"/>
             <label htmlFor="username">Username</label>
-            { errors.username && <span className="red-text">
+            { errors.username && <span className="error">
               { errors.username }</span>}
           </div>
           <div className="input-field col s6">
@@ -117,7 +117,7 @@ export class SignupForm extends Component {
               value={ this.state.phone }
               onChange={ this.onChange } required autoComplete="off"/>
             <label htmlFor="phone">Phone Number</label>
-            { errors.phone && <span className="red-text">
+            { errors.phone && <span className="error">
               { errors.phone }</span>}
           </div>
         </div>
@@ -129,7 +129,7 @@ export class SignupForm extends Component {
               value={ this.state.email }
               onChange={ this.onChange } required autoComplete="off" />
             <label htmlFor="email" data-error="Invalid Format">Email</label>
-            { errors.email && <span className="red-text">
+            { errors.email && <span className="error">
               { errors.email }</span>}
           </div>
           <div className="input-field col s6">
@@ -139,7 +139,7 @@ export class SignupForm extends Component {
               value={ this.state.password }
               onChange={ this.onChange } required autoComplete="off" />
             <label htmlFor="password">Password</label>
-            { errors.password && <span className="red-text">
+            { errors.password && <span className="error">
               { errors.password }</span>}
           </div>
         </div>

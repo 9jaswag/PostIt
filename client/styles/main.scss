@@ -6,6 +6,7 @@ $green: #18bc9c;
 $white: #ffffff;
 $darkBlue: #2c3e50;
 $red: #e74c3c;
+$ashBlack: rgba(0, 0, 0, 0.1);
 
 * {
   font-family: 'Karla', sans-serif;
@@ -305,7 +306,7 @@ input[type='submit'].login-input {
 
 /*classes for the message board page*/
 .message-card {
-  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 15px $ashBlack;
   padding: 1rem 2rem;
   margin-bottom: 1rem;
 }
@@ -507,5 +508,14 @@ h5.center-align.form {
 }
 
 .box-shadow {
-  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 15px $ashBlack;
+}
+
+.error {
+  background: #F44336;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  font-size: 0.8rem;
+  text-align: center;
 }

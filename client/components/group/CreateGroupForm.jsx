@@ -53,14 +53,20 @@ export class CreateGroupForm extends Component {
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
-    this.props.createGroup(this.state).then(
-      () => {
-        this.props.history.push('/dashboard');
-        Materialize.toast('Group created successfully', 2000);
-      },
-      ({ response }) => this.setState(
-        { errors: response.data.errors, isLoading: false })
-    );
+    if (this.state.description.length < 61) {
+      this.props.createGroup(this.state).then(
+        () => {
+          this.props.history.push('/dashboard');
+          Materialize.toast('Group created successfully', 2000);
+        },
+        ({ response }) => this.setState(
+          { errors: response.data.errors, isLoading: false })
+      );
+    } else {
+      this.setState({ errors: {
+        description: 'Group description must be 60 characters or less'
+      } });
+    }
   }
 
   /**
@@ -83,7 +89,7 @@ export class CreateGroupForm extends Component {
                 onChange={ this.onChange }
                 value={ this.state.name } required autoComplete="off" />
               <label htmlFor="name">Group Name</label>
-              { errors.group && <span className="red-text">
+              { errors.group && <span className="error">
                 { errors.group }</span>}
             </div>
           </div>
@@ -94,9 +100,11 @@ export class CreateGroupForm extends Component {
                 id="description"
                 className="validate"
                 onChange={ this.onChange }
-                value={ this.state.description } data-length="80" required
+                value={ this.state.description } data-length="60" required
                 autoComplete="off"/>
               <label htmlFor="description">Group Description</label>
+              { errors.description && <span className="error">
+                { errors.description }</span>}
             </div>
           </div>
           <div className="row">
