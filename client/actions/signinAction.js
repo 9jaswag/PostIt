@@ -1,12 +1,6 @@
-/* global localStorage */
-/* global sessionStorage */
-/**
- * Action to handle sign in/logout
- */
 
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
-// import { withRouter } from 'react-router-dom';
 import setAuthToken from '../utilities/setAuthToken';
 import { SET_CURRENT_USER } from './types';
 

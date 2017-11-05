@@ -1,6 +1,3 @@
-/* global window */
-/* global jest */
-/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
@@ -8,47 +5,25 @@ import thunk from 'redux-thunk';
 import ConnectedDashboardPage,
 { DashboardPage } from '../../components/dashboard/DashboardPage.jsx';
 import mockSessionStorage from '../../__mocks__/mockSessionStorage';
+import mockData from '../../__mocks__/mockData';
 
 Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const store = mockStore({
-  auth: { user: {} },
-  groups: []
-});
+const { dashboardPage } = mockData.componentData;
+const store = mockStore(dashboardPage.store);
 
 
 describe('Dashboard page Component', () => {
-  const props = {
-    getGroups: jest.fn(() => Promise.resolve()),
-    setGroupDetail: jest.fn(),
-    setGroupToStore: jest.fn(),
-    getMessages: jest.fn(() => Promise.resolve()),
-    groups: [{
-      group: {
-        id: 2,
-        name: 'HNG',
-        description: "A group for HNG's Factory product"
-      },
-      unreadCount: 0
-    }],
-    history: { push: jest.fn() }
-  };
+  const props = dashboardPage.props;
   it('should render without crashing', () => {
     const component = shallow(<DashboardPage {...props}/>);
     expect(component.node.type).toEqual('div');
   });
   it('should not display any group', () => {
-    const prop = {
-      getGroups: jest.fn(() => Promise.resolve()),
-      setGroupDetail: jest.fn(),
-      setGroupToStore: jest.fn(),
-      getMessages: jest.fn(() => Promise.resolve()),
-      groups: [],
-      history: { push: jest.fn() }
-    };
-    const component = shallow(<DashboardPage {...prop}/>);
+    props.groups = [];
+    const component = shallow(<DashboardPage {...props}/>);
     expect(component.node.type).toEqual('div');
   });
   it('should contain the method componentDidMount', () => {
@@ -61,11 +36,7 @@ describe('Dashboard page Component', () => {
   it('should contain the method onClick', () => {
     const component = shallow(<DashboardPage {...props}/>);
     const onClickSpy = jest.spyOn(component.instance(), 'onClick');
-    component.instance().onClick({
-      target: {
-        dataset: { id: 3 }
-      }
-    });
+    component.instance().onClick(dashboardPage.onClickEvent);
     expect(onClickSpy).toHaveBeenCalledTimes(1);
   });
   it('should render the connected component', () => {

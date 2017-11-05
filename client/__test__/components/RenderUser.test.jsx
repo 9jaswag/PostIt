@@ -1,16 +1,11 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import RenderUser from '../../components/search/RenderUser';
+import { shallow } from 'enzyme';
+import RenderUser from '../../components/search/RenderUser.jsx';
+import mockData from '../../__mocks__/mockData';
 
-describe('Create group modal', () => {
-  const props = {
-    user: {
-      username: 'chuks',
-      email: 'chuks@andela.com',
-      phone: '2347033130449',
-      Groups: []
-    }
-  };
+describe('Render user component', () => {
+  const { renderUser } = mockData.componentData;
+  const props = renderUser.props;
   it('should render without crashing', () => {
     const component = shallow(<RenderUser user={ props.user } />);
     expect(component.node.type).toEqual('div');

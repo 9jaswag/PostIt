@@ -5,6 +5,9 @@ import chai from 'chai';
 import jwt from 'jsonwebtoken';
 import app from '../app';
 import models from '../models';
+import userData from './data/userData';
+import groupData from './data/groupData';
+import messageData from './data/messageData';
 
 process.env.NODE_ENV = 'test';
 const should = chai.should();
@@ -14,14 +17,17 @@ let userToken;
 let fakeToken;
 
 describe('Group controller test', () => {
+  const { user } = userData;
+  const { group } = groupData;
+  const { message } = messageData;
   before((done) => {
     // runs before all tests in this block
     chai.request(app)
       .post('/api/v1/user/signin')
       .type('form')
       .send({
-        username: 'chuks',
-        password: 'chukspass',
+        username: user.username,
+        password: user.password
       })
       .end((err, res) => {
         res.body.should.have.property('token');
@@ -35,8 +41,8 @@ describe('Group controller test', () => {
         .post('/api/v1/group')
         .type('form')
         .send({
-          name: 'Andela Bootcamp',
-          description: 'A little group description'
+          name: group.name,
+          description: group.description
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -64,8 +70,8 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          name: 'Andela Bootcamp',
-          description: 'A little group description'
+          name: group.name,
+          description: group.description
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -82,8 +88,8 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            name: 'Andela Bootcamp',
-            description: 'A little group description'
+            name: group.name,
+            description: group.description
           })
           .end((err, res) => {
             res.should.have.status(409);
@@ -95,10 +101,10 @@ describe('Group controller test', () => {
   describe('API route for adding users to a group', () => {
     before((done) => {
       fakeToken = jwt.sign({
-        id: 'user.id',
-        email: 'user.email',
-        username: 'user.username',
-        phone: 'user.phone'
+        id: user.id,
+        email: user.secondEmail,
+        username: user.secondUsername,
+        phone: user.secondPhone
       }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
       done();
     });
@@ -131,7 +137,7 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            userId: 8
+            userId: user.wrongId
           })
           .end((err, res) => {
             res.should.have.status(404);
@@ -146,7 +152,7 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            userId: 2
+            userId: user.id
           })
           .end((err, res) => {
             res.should.have.status(404);
@@ -161,7 +167,7 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            userId: 1
+            userId: user.id
           })
           .end((err, res) => {
             res.should.have.status(409);
@@ -176,7 +182,7 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          userId: 4
+          userId: user.id
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -190,7 +196,7 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          userId: 3
+          userId: user.secondId
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -206,7 +212,7 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', fakeToken)
         .send({
-          userId: 3
+          userId: user.secondId
         })
         .end((err, res) => {
           res.should.have.status(404);
@@ -221,10 +227,10 @@ describe('Group controller test', () => {
         .post('/api/v1/user/signup')
         .type('form')
         .send({
-          username: 'funsho',
-          email: 'funsho@andela.com',
-          password: 'funshopass',
-          phone: '2347033130559'
+          username: user.thirdUsername,
+          email: user.thirdEmail,
+          password: user.password,
+          phone: user.thirdPhone
         })
         .end((err, res) => {
           res.body.should.have.property('token');
@@ -249,9 +255,9 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          title: 'A message title',
-          message: 'a message body',
-          priority: 'critical'
+          title: message.title,
+          message: message.message,
+          priority: message.criticalPriority
         })
         .end((err, res) => {
           res.should.have.status(500);
@@ -278,7 +284,7 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            title: 'A message title'
+            title: message.title
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -293,8 +299,8 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            title: 'A message title',
-            message: 'a message body'
+            title: message.title,
+            message: message.message
           })
           .end((err, res) => {
             res.should.have.status(404);
@@ -309,8 +315,8 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            title: 'A message title',
-            message: 'a message body'
+            title: message.title,
+            message: message.message
           })
           .end((err, res) => {
             res.should.have.status(201);
@@ -324,9 +330,9 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', userToken)
         .send({
-          title: 'A message title',
-          message: 'a message body',
-          priority: 'critical'
+          title: message.title,
+          message: message.message,
+          priority: message.criticalPriority
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -341,9 +347,9 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          title: 'A message title',
-          message: 'a message body',
-          priority: 'critical'
+          title: message.title,
+          message: message.message,
+          priority: message.criticalPriority
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -360,9 +366,9 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          title: 'A message title',
-          message: 'a message body',
-          priority: 'urgent'
+          title: message.title,
+          message: message.message,
+          priority: message.urgentPriority
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -377,9 +383,9 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          title: 'A message title',
-          message: 'a message body',
-          priority: 'critical'
+          title: message.title,
+          message: message.message,
+          priority: message.criticalPriority
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -408,7 +414,7 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            userId: 2
+            userId: user.id
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -460,7 +466,7 @@ describe('Group controller test', () => {
         .patch('/api/v1/group/1/remove')
         .type('form')
         .send({
-          userId: 1,
+          userId: user.id,
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -474,8 +480,7 @@ describe('Group controller test', () => {
         .patch('/api/v1/group/1/remove')
         .type('form')
         .set('x-access-token', token)
-        .send({
-        })
+        .send({})
         .end((err, res) => {
           res.should.have.status(401);
           res.body.error.should.equals(
@@ -490,7 +495,7 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            userId: 1
+            userId: user.id
           })
           .end((err, res) => {
             res.should.have.status(401);
@@ -506,7 +511,7 @@ describe('Group controller test', () => {
           .type('form')
           .set('x-access-token', token)
           .send({
-            userId: 111
+            userId: user.nonExistingId
           })
           .end((err, res) => {
             res.should.have.status(401);
@@ -521,7 +526,7 @@ describe('Group controller test', () => {
         .type('form')
         .set('x-access-token', token)
         .send({
-          userId: 1
+          userId: user.id
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -529,16 +534,18 @@ describe('Group controller test', () => {
           done();
         });
     });
-    it('should return 500 error', (done) => {
+    it('should return 500 error if invalid group type is provided', (done) => {
       chai.request(app)
         .patch('/api/v1/group/err/remove')
         .type('form')
         .set('x-access-token', token)
         .send({
-          userId: 1
+          userId: user.id
         })
         .end((err, res) => {
           res.should.have.status(500);
+          res.body.error.should.equals(
+            'invalid input syntax for integer: "err"');
           done();
         });
     });
@@ -549,7 +556,7 @@ describe('Group controller test', () => {
         .get('/api/v1/group/1/count')
         .type('form')
         .send({
-          userId: 1,
+          userId: user.id,
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -576,6 +583,8 @@ describe('Group controller test', () => {
         .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(500);
+          res.body.error.should.equals(
+            'invalid input syntax for integer: " "');
           done();
         });
     });

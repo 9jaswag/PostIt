@@ -1,27 +1,11 @@
-/* global expect */
-/* global jest */
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import MessageCard from '../../components/group/MessageCard.jsx';
+import mockData from '../../__mocks__/mockData';
 
 describe('Create group modal', () => {
-  const props = {
-    onClick: jest.fn(),
-    message: {
-      id: 9,
-      title: 'true love',
-      message: 'true lovers',
-      priority: 'urgent',
-      author: 'chuks',
-      readby: [
-        'chuks'
-      ],
-      createdAt: '2017-08-27T19:49:14.760Z',
-      updatedAt: '2017-08-27T19:49:14.760Z',
-      groupId: 1,
-      userId: 1
-    }
-  };
+  const { messageCard } = mockData.componentData;
+  const props = messageCard.props;
   it('should render without crashing', () => {
     const component = shallow(
       <MessageCard onClick={ props.onClick } message={ props.message } />);

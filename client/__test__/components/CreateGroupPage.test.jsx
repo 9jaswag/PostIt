@@ -1,7 +1,6 @@
-/* global expect */
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import CreateGroupPage from '../../components/group/CreateGroupPage';
+import { shallow } from 'enzyme';
+import CreateGroupPage from '../../components/group/CreateGroupPage.jsx';
 
 describe('create group page', () => {
   it('should render without crashing', () => {

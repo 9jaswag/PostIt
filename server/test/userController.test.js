@@ -4,6 +4,7 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 import models from '../models';
+import userData from './data/userData';
 
 process.env.NODE_ENV = 'test';
 const should = chai.should();
@@ -12,6 +13,7 @@ let token;
 let resetToken;
 
 describe('User Controller Test', () => {
+  const { user } = userData;
   describe('User signup API route', () => {
     it('should register a new user when all parameters are provided',
       (done) => {
@@ -19,10 +21,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'chuks',
-            email: 'chuks@andela.com',
-            password: 'chukspass',
-            phone: '2347033130448'
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            phone: user.phone
           })
           .end((err, res) => {
             res.should.have.status(201);
@@ -36,10 +38,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'chuks',
-            email: 'chuks@andela.com',
-            password: 'chuks',
-            phone: '2347033130448'
+            username: user.username,
+            email: user.email,
+            password: user.shortPassword,
+            phone: user.phone
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -54,10 +56,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'chuks',
-            email: 'chuks@andela.com',
-            password: 'chuks',
-            phone: '2347033err0448'
+            username: user.username,
+            email: user.password,
+            password: user.password,
+            phone: user.phoneText
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -72,10 +74,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'chuks',
-            email: 'chuks@andela.com',
-            password: 'chuks',
-            phone: ''
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            phone: user.emptyString
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -90,9 +92,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            email: 'chuks@andela.com',
-            password: 'chukspass',
-            phone: '2347033130448'
+            username: user.emptyString,
+            email: user.email,
+            password: user.password,
+            phone: user.phone
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -107,9 +110,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'chuks',
-            password: 'chukspass',
-            phone: '2347033130448'
+            username: user.username,
+            email: user.emptyString,
+            password: user.password,
+            phone: user.phone
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -124,30 +128,15 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'chuks',
-            email: 'chuks@andela.com',
-            phone: '2347033130448'
+            username: user.username,
+            password: user.emptyString,
+            email: user.email,
+            phone: user.phone
           })
           .end((err, res) => {
             res.should.have.status(400);
             res.body.errors.password.should.equals(
               'Password field cannot be empty');
-            done();
-          });
-      });
-    it('should return error message for empty phone parameter',
-      (done) => {
-        chai.request(app)
-          .post('/api/v1/user/signup')
-          .type('form')
-          .send({
-            username: 'chuks',
-            email: 'chuks@andela.com',
-            password: 'chukspass'
-          })
-          .end((err, res) => {
-            res.should.have.status(400);
-            res.body.errors.phone.should.equals('Phone field cannot be empty');
             done();
           });
       });
@@ -157,10 +146,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'chuks',
-            email: 'chukss@andela.com',
-            password: 'chukspass',
-            phone: '2347033130448'
+            username: user.username,
+            email: user.secondEmail,
+            password: user.password,
+            phone: user.secondPhone
           })
           .end((err, res) => {
             res.should.have.status(409);
@@ -174,10 +163,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'dave',
-            email: 'chuks@andela.com',
-            password: 'chukspass',
-            phone: '2347033130448'
+            username: user.secondUsername,
+            email: user.email,
+            password: user.password,
+            phone: user.secondPhone
           })
           .end((err, res) => {
             res.should.have.status(409);
@@ -191,10 +180,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'funsho',
-            email: 'funshoandela.com',
-            password: 'funshopass',
-            phone: '2347033130448'
+            username: user.secondUsername,
+            email: user.invalidEmail,
+            password: user.password,
+            phone: user.secondPhone
           })
           .end((err, res) => {
             res.should.have.status(500);
@@ -208,10 +197,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: '  ',
-            email: 'dave@andela.com',
-            password: 'davepass',
-            phone: '2347033130448'
+            username: user.emptyString,
+            email: user.secondEmail,
+            password: user.password,
+            phone: user.secondPhone
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -226,10 +215,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'dave',
-            email: '   ',
-            password: 'davepass',
-            phone: '2347033130448'
+            username: user.secondUsername,
+            email: user.emptyString,
+            password: user.password,
+            phone: user.secondPhone
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -244,10 +233,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'dave',
-            email: 'dave@andela.com',
-            password: '   ',
-            phone: '2347033130448'
+            username: user.secondUsername,
+            email: user.secondPhone,
+            password: user.emptyString,
+            phone: user.secondPhone
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -262,10 +251,10 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signup')
           .type('form')
           .send({
-            username: 'dave',
-            email: 'dave@andela.com',
-            password: 'davepass',
-            phone: '  '
+            username: user.secondUsername,
+            email: user.secondEmail,
+            password: user.password,
+            phone: user.emptyString
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -280,8 +269,8 @@ describe('User Controller Test', () => {
         .post('/api/v1/user/signin')
         .type('form')
         .send({
-          username: 'chuks',
-          password: 'chukspass',
+          username: user.username,
+          password: user.password,
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -294,8 +283,8 @@ describe('User Controller Test', () => {
         .post('/api/v1/user/signin')
         .type('form')
         .send({
-          username: 'chuks',
-          password: 'chukspass',
+          username: user.username,
+          password: user.password,
         })
         .end((err, res) => {
           res.body.should.have.property('token');
@@ -309,7 +298,7 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signin')
           .type('form')
           .send({
-            password: 'chukspass',
+            password: user.password,
           })
           .end((err, res) => {
             res.body.errors.username.should.equals(
@@ -323,7 +312,7 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signin')
           .type('form')
           .send({
-            username: 'chuks',
+            username: user.username,
           })
           .end((err, res) => {
             res.body.errors.password.should.equals(
@@ -337,8 +326,8 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signin')
           .type('form')
           .send({
-            username: 'chukss',
-            password: 'chukspass'
+            username: user.secondUsername,
+            password: user.password
           })
           .end((err, res) => {
             res.body.errors.username.should.equals('User does not exist');
@@ -351,8 +340,8 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signin')
           .type('form')
           .send({
-            username: 'chuks',
-            password: 'chukspasss'
+            username: user.username,
+            password: user.secondPhone
           })
           .end((err, res) => {
             res.body.errors.password.should.equals('Incorrect password!');
@@ -365,8 +354,8 @@ describe('User Controller Test', () => {
           .post('/api/v1/user/signin')
           .type('form')
           .send({
-            username: 'chuks',
-            password: 'chuks'
+            username: user.username,
+            password: user.shortPassword
           })
           .end((err, res) => {
             res.body.errors.password.should.equals(
@@ -403,7 +392,7 @@ describe('User Controller Test', () => {
         .post('/api/v1/user/find')
         .type('form')
         .send({
-          username: 'funsho'
+          username: user.secondUsername
         })
         .set('x-access-token', token)
         .end((err, res) => {
@@ -417,7 +406,7 @@ describe('User Controller Test', () => {
         .post('/api/v1/user/find')
         .type('form')
         .send({
-          username: 'chuks'
+          username: user.username
         })
         .set('x-access-token', token)
         .end((err, res) => {
@@ -470,7 +459,7 @@ describe('User Controller Test', () => {
     it('should return user object with group info when token is valid',
       (done) => {
         chai.request(app)
-          .get('/api/v1/user/search?username=chuks')
+          .get(`/api/v1/user/search?username=${user.username}`)
           .type('form')
           .set('x-access-token', token)
           .end((err, res) => {
@@ -484,7 +473,7 @@ describe('User Controller Test', () => {
     it('should return error if user is not found',
       (done) => {
         chai.request(app)
-          .get('/api/v1/user/search?username=john')
+          .get(`/api/v1/user/search?username=${user.secondUsername}`)
           .type('form')
           .set('x-access-token', token)
           .end((err, res) => {
@@ -512,7 +501,7 @@ describe('User Controller Test', () => {
           .patch('/api/v1/user/reset')
           .type('form')
           .send({
-            email: 'chuks@andela.com'
+            email: user.email
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -526,8 +515,8 @@ describe('User Controller Test', () => {
           .patch('/api/v1/user/reset')
           .type('form')
           .send({
-            email: 'chuks@andela.com',
-            type: 'rejoin'
+            email: user.email,
+            type: user.wrongRequestType
           })
           .end((err, res) => {
             res.should.have.status(400);
@@ -541,7 +530,7 @@ describe('User Controller Test', () => {
           .patch('/api/v1/user/reset')
           .type('form')
           .send({
-            email: 'dave@andela.com',
+            email: user.secondEmail,
             type: 'request'
           })
           .end((err, res) => {
@@ -558,8 +547,8 @@ describe('User Controller Test', () => {
           .patch('/api/v1/user/reset')
           .type('form')
           .send({
-            email: 'chuks@andela.com',
-            type: 'request'
+            email: user.email,
+            type: user.requestReset
           })
           .end((err, res) => {
             res.should.have.status(200);
@@ -573,9 +562,9 @@ describe('User Controller Test', () => {
         .patch('/api/v1/user/reset')
         .type('form')
         .send({
-          email: 'chuks@andela.com',
-          type: 'reset',
-          password: 'chukspass',
+          email: user.email,
+          type: user.resetRequestType,
+          password: user.password,
           token: resetToken
         })
         .end((err, res) => {
@@ -589,8 +578,8 @@ describe('User Controller Test', () => {
         .patch('/api/v1/user/reset')
         .type('form')
         .send({
-          email: 'chuks@andela.com',
-          type: 'reset',
+          email: user.email,
+          type: user.resetRequestType,
           token: resetToken
         })
         .end((err, res) => {
@@ -604,9 +593,9 @@ describe('User Controller Test', () => {
         .patch('/api/v1/user/reset')
         .type('form')
         .send({
-          email: 'chuks@andela.com',
-          type: 'reset',
-          password: 'newpass'
+          email: user.email,
+          type: user.resetRequestType,
+          password: user.password
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -619,10 +608,10 @@ describe('User Controller Test', () => {
         .patch('/api/v1/user/reset')
         .type('form')
         .send({
-          email: 'chuks@andela.com',
-          type: 'reset',
-          password: 'newpass',
-          token: 'wrong token'
+          email: user.email,
+          type: user.resetRequestType,
+          password: user.password,
+          token: user.wrongToken
         })
         .end((err, res) => {
           res.should.have.status(400);

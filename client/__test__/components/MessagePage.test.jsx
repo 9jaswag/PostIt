@@ -1,32 +1,19 @@
-/* global jest */
-/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { MessagePage as MessageContainer } from '../../components/group/MessagePage.jsx';
-import MessagePage from '../../components/group/MessagePage.jsx';
+import MessagePage, { MessagePage as MessageContainer }
+  from '../../components/group/MessagePage.jsx';
+import mockData from '../../__mocks__/mockData';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const store = mockStore({
-  message: {
-    message: {
-      title: 'hi'
-    }
-  }
-});
+const { messagePage } = mockData.componentData;
+const store = mockStore(messagePage.store);
 
 describe('Add user form Component', () => {
-  const message = {
-    title: 'Message Title',
-    message: ' body',
-    priority: 'normal',
-    createdAt: '2017-08-19T16:37:06.603Z'
-  };
-  const props = {
-    history: { push: jest.fn() }
-  };
+  const message = messagePage.message;
+  const props = messagePage.props;
   it('should render without crashing', () => {
     const component = shallow(<MessageContainer
       message={message} { ...props }/>);
@@ -47,7 +34,7 @@ describe('Add user form Component', () => {
     component.instance().componentWillMount();
     expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
   });
-  it('should redirect to group page', () => {
+  it('should redirect to group page if message not provided', () => {
     const component = shallow(<MessageContainer
       { ...props }/>);
     const componentWillMountSpy = jest.spyOn(
@@ -55,10 +42,4 @@ describe('Add user form Component', () => {
     component.instance().componentWillMount();
     expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
   });
-  // it('should render the connected component', () => {
-  //   const component = shallow(<MessagePage
-  //     store={store}
-  //     message={message} { ...props }/>);
-  //   expect(component.node.type).toEqual('div');
-  // });
 });
