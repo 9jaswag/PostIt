@@ -57,6 +57,10 @@ html {
   background-color: $green;
 }
 
+.bkg-white {
+  background-color: $white;
+}
+
 .text-white {
   color: $white;
 }
@@ -196,6 +200,10 @@ html {
 
 .margin-v-top-3 {
   margin-top: 3rem;
+}
+
+.margin-v-top-5 {
+  margin-top: 5rem;
 }
 
 .margin-v-bottom {
@@ -496,4 +504,8 @@ h5.center-align.form {
 
 .card-content.white-text p {
   margin-top: 3rem;
+}
+
+.box-shadow {
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
 }
