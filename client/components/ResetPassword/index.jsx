@@ -131,14 +131,12 @@ export class ResetPassword extends Component {
    * @memberof ResetPassword
    */
   render() {
-    const requestResetForm = <div>
-      <h4 className="center-align">Forgot password?</h4>
-      <section className="padding2 teal accent-4 margin-v-top-3">
+    const requestResetForm = <div className="container">
+      <h4 className="center-align text-white">Forgot password?</h4>
+      <section className="padding bkg-white box-shadow margin-v-top-3">
         <form action="" onSubmit={ this.submitRequest }>
           <div className="input-field center-align col s12">
-            <label htmlFor="email"
-              style={{ color: 'white' }}>Enter your email address
-            </label>
+            <label htmlFor="email">Enter your email address</label>
             <input type="email"
               name="email"
               id="email"
@@ -156,21 +154,18 @@ export class ResetPassword extends Component {
           </div>
         </form>
         <div className="col s12 margin-v">
-          <Link className="text-white" to="/">
+          <Link className="text-green" to="/">
             I think I remember my password
           </Link>
         </div>
       </section>
     </div>;
-    const resetPasswordForm = <div>
-      <h4 className="center-align">Reset password?</h4>
-      <section className="padding2 teal accent-4 margin-v-top-3">
+    const resetPasswordForm = <div className="container">
+      <h4 className="center-align text-white">Reset password?</h4>
+      <section className="padding bkg-white box-shadow margin-v-top-3">
         <form action="" onSubmit={ this.submitReset }>
           <div className="input-field col s12">
-            <label
-              htmlFor="password"
-              style={{ color: 'white' }}>Enter your new password
-            </label>
+            <label htmlFor="password">Enter your new password</label>
             <input type="password"
               name="password"
               id="password"
@@ -179,10 +174,7 @@ export class ResetPassword extends Component {
               onChange={ this.onChange } required/>
           </div>
           <div className="input-field col s12">
-            <label
-              htmlFor="confirmPassword"
-              style={{ color: 'white' }}>Confirm new password
-            </label>
+            <label htmlFor="confirmPassword">Confirm new password</label>
             <input type="password"
               name="confirmPassword"
               id="confirmPassword"
@@ -201,15 +193,15 @@ export class ResetPassword extends Component {
           </div>
         </form>
         <div className="col s12 margin-v">
-          <Link className="text-white" to="/">
+          <Link className="text-green" to="/">
             I think I remember my password
           </Link>
         </div>
       </section>
     </div>;
     return (
-      <div>
-        <div className="container margin-v4">
+      <div className="teal accent-4 fh">
+        <div className="container margin-v-top-5">
           { this.state.initial && requestResetForm }
           { this.state.secondary && resetPasswordForm }
         </div>
