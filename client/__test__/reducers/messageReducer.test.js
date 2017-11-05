@@ -1,42 +1,20 @@
-/* global expect */
 import message from '../../reducers/message';
-import * as types from '../../actions/types';
+import mockData from '../../__mocks__/mockData';
 
 describe('message reducer', () => {
-  const initialState = [];
+  const { reducer } = mockData;
+  const initialState = reducer.emptyInitialState;
   it('should return an initial state', () => {
     expect(message(undefined, {})).toEqual(initialState);
   });
   it('should handle PASS_MESSAGE:', () => {
-    const action = {
-      type: types.PASS_MESSAGE,
-      messageObject: {
-        title: 'The End',
-        message: 'this is the end'
-      }
-    };
-    const expectedAction = {
-      message: {
-        title: 'The End',
-        message: 'this is the end'
-      }
-    };
-    expect(
-      message(initialState, action)
-    ).toEqual(expectedAction);
+    const action = reducer.passMessage;
+    const expectedAction = reducer.passMessageAction;
+    expect(message(initialState, action)).toEqual(expectedAction);
   });
   it('should handle SET_MESSAGE:', () => {
-    const action = {
-      type: types.SET_MESSAGE,
-      messages: {
-        title: 'The End',
-        message: 'this is the end'
-      }
-    };
-    const expectedAction = {
-      title: 'The End',
-      message: 'this is the end'
-    };
+    const action = reducer.setMessage;
+    const expectedAction = reducer.setMessageAction;
     expect(
       message(initialState, action)
     ).toEqual(expectedAction);

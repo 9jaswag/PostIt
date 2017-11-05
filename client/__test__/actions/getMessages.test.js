@@ -6,39 +6,24 @@ import expect from 'expect';
 import getMessages from '../../actions/messageActions';
 import * as types from '../../actions/types';
 import mockLocalStorage from '../../__mocks__/mockLocalStorage';
+import mockData from '../../__mocks__/mockData';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 window.localStorage = mockLocalStorage;
 
 describe('Get messages action', () => {
+  const { action } = mockData;
   beforeEach(() => moxios.install());
   afterEach(() => moxios.uninstall());
 
   it('should dispatch SET_MESSAGE action when called', (done) => {
     moxios.stubRequest('/api/v1/group/1/messages', {
       status: 200,
-      response: {
-        success: true,
-        data: [{
-          id: 1,
-          title: 'Mwanzo of Awesomeness ',
-          message: 'this is it',
-          priority: 'urgent',
-          author: 'chuks',
-          readby: ['chuks']
-        }]
-      }
+      response: action.getMessagesResponse
     });
     const store = mockStore({});
-    const messages = [{
-      id: 1,
-      title: 'Mwanzo of Awesomeness ',
-      message: 'this is it',
-      priority: 'urgent',
-      author: 'chuks',
-      readby: ['chuks']
-    }];
+    const messages = action.messageDetails;
     const expectedActions = [
       { type: types.SET_MESSAGE, messages }
     ];

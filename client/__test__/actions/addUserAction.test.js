@@ -3,24 +3,20 @@ import moxios from 'moxios';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
 import { addUser, findUser } from '../../actions/groupActions';
+import mockData from '../../__mocks__/mockData';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
+const { action } = mockData;
 
 describe('Add User Action', () => {
-  it('should contain addUser function', () => {
-    expect(addUser()).toBeA('function');
-  });
-  it('should contain findUser function', () => {
-    expect(findUser()).toBeA('function');
-  });
   it('should dispatch no action creator', (done) => {
     moxios.stubRequest('/api/v1/group/1/user', {
       status: 200,
       response: {}
     });
     const store = mockStore({});
-    const expectedActions = [];
+    const expectedActions = action.emptyAction;
 
     store.dispatch(addUser()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
@@ -36,7 +32,7 @@ describe('Find User Action', () => {
       response: {}
     });
     const store = mockStore({});
-    const expectedActions = [];
+    const expectedActions = action.emptyAction;
 
     store.dispatch(findUser()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);

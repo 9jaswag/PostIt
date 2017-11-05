@@ -1,20 +1,11 @@
-/* global jest */
-/* global expect */
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import SearchForm from '../../components/search/SearchForm.jsx';
+import mockData from '../../__mocks__/mockData';
 
-describe('Create group modal', () => {
-  const props = {
-    onClick: jest.fn(),
-    onSubmit: jest.fn(),
-    state: {
-      group: {
-        username: '',
-        errors: '',
-      }
-    }
-  };
+describe('Search Form component', () => {
+  const { searchForm } = mockData.componentData;
+  const props = searchForm.props;
   it('should render without crashing', () => {
     const component = shallow(<SearchForm
       onClick={ props.onClick }

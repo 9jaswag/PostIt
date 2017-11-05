@@ -1,5 +1,3 @@
-/* global jest */
-/* global expect */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -8,22 +6,17 @@ import TestUtils from 'react-dom/test-utils';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import ConnectedHomePage,
-{ HomePage } from '../../components/home/HomePage';
+{ HomePage } from '../../components/home/HomePage.jsx';
+import mockData from '../../__mocks__/mockData';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const store = mockStore({
-  auth: {}
-});
+const { homePage } = mockData.componentData;
+const store = mockStore(homePage.store);
 
 
 describe('Homepage Component', () => {
-  const props = {
-    userSignupRequest: jest.fn(),
-    auth: {
-      isAuthenticated: true
-    }
-  };
+  const props = homePage.props;
   it('should render without crashing', () => {
     const component = shallow(<HomePage {...props}/>);
     expect(component.node.type).toEqual('div');

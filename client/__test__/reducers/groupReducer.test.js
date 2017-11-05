@@ -1,39 +1,27 @@
-/* global expect */
 import groups, { groupMemberCount } from '../../reducers/groups';
-import * as types from '../../actions/types';
+import mockData from '../../__mocks__/mockData';
 
+const { reducer } = mockData;
 describe('group reducer', () => {
   it('should return an initial state', () => {
-    expect(groups(undefined, {})).toEqual([]);
+    expect(groups(undefined, {})).toEqual(reducer.emptyInitialState);
   });
+  it('should handle SET_USER_GROUPS', () => {
+    const action = reducer.setUserGroup;
+    const expectedAction = reducer.setUserGroup.groups;
+    expect(
+      groups(reducer.emptyInitialState, action)
+    ).toEqual(expectedAction);
+  });
+});
+
+describe('groupMemberCount reducer', () => {
   it('should return an initial state', () => {
     expect(groupMemberCount(undefined, {})).toEqual(0);
   });
-  it('should handle SET_USER_GROUPS', () => {
-    const initialState = [];
-    const action = {
-      type: types.SET_USER_GROUPS,
-      groups: [
-        {
-          id: 1,
-          name: 'group name'
-        }
-      ]
-    };
-    const expectedAction = [{
-      id: 1,
-      name: 'group name'
-    }];
-    expect(
-      groups(initialState, action)
-    ).toEqual(expectedAction);
-  });
   it('should handle SET_MEMBER_COUNT', () => {
-    const action = {
-      type: types.SET_MEMBER_COUNT,
-      count: 3
-    };
-    const expectedAction = 3;
+    const action = reducer.setMemberCount;
+    const expectedAction = reducer.setMemberCount.count;
     expect(groupMemberCount(0, action)).toEqual(expectedAction);
   });
 });

@@ -13,7 +13,9 @@
     "sessionStorage": true,
     "Materialize": true,
     "location": true,
-    "window": true
+    "window": true,
+    "expect": true,
+    "jest": true
   },
   "rules": {
     "class-methods-use-this": ["error", { "exceptMethods": 

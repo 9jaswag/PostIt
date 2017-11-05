@@ -1,22 +1,18 @@
-/* global jest */
-/* global expect */
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import ConnectedPostMessageForm,
 { PostMessageForm } from '../../components/group/PostMessageForm.jsx';
+import mockData from '../../__mocks__/mockData';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const store = mockStore({
-  auth: { user: {} }
-});
+const { postMessage } = mockData.componentData;
+const store = mockStore(postMessage.store);
 
 describe('Post message form component', () => {
-  const props = {
-    postMessage: jest.fn(() => Promise.resolve())
-  };
+  const props = postMessage.props;
   it('should render without crashing', () => {
     const component = shallow(<PostMessageForm {...props}/>);
     expect(component.node.type).toEqual('div');
@@ -24,17 +20,11 @@ describe('Post message form component', () => {
   it('should contain the method onChange', () => {
     const component = shallow(<PostMessageForm {...props}/>);
     const onChangeSpy = jest.spyOn(component.instance(), 'onChange');
-    component.instance().onChange({
-      target: {
-        name: 'priority', value: 'normal'
-      }
-    });
+    component.instance().onChange(postMessage.onChangeTarget);
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
   it('should contain the method onSubmit', () => {
-    const event = {
-      preventDefault: jest.fn()
-    };
+    const event = mockData.eventObject;
     const component = shallow(<PostMessageForm {...props}/>);
     const onSubmitSpy = jest.spyOn(component.instance(), 'onSubmit');
     component.instance().onSubmit(event);
@@ -46,16 +36,9 @@ describe('Post message form component', () => {
     expect(component.length).toBe(1);
   });
   it('should have an empty state if message is not sent', () => {
-    const event = {
-      preventDefault: jest.fn()
-    };
-    props.postMessage = jest.fn(() => Promise.reject({
-      status: 403,
-      data: {
-        success: false,
-        message: 'No cant do'
-      }
-    }));
+    const event = mockData.eventObject;
+    props.postMessage = jest.fn(() => Promise.reject(
+      postMessage.failedRequest));
     const component = shallow(<PostMessageForm {...props}/>);
     component.instance().onSubmit(event);
     expect(component.instance().state.message).toEqual('');

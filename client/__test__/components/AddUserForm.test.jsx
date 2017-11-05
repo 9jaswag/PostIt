@@ -1,47 +1,32 @@
-/* global jest */
-/* global expect */
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import ConnectedAddUserForm,
 { AddUserForm } from '../../components/group/AddUserForm.jsx';
+import mockData from '../../__mocks__/mockData';
 
+
+const { addUser } = mockData.componentData;
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const store = mockStore({
-  auth: { user: { username: 'chuks' } },
-  groupDetails: [1, 'HNG', 'chuks']
-});
+const store = mockStore(addUser.userStore);
 
 describe('Add user form Component', () => {
-  const props = {
-    groupId: 1,
-    findUser: jest.fn(() => Promise.resolve({ data: { user: {
-      id: 1,
-      username: 'troy34',
-      Groups: []
-    } } })),
-    addUser: jest.fn(() => Promise.resolve()),
-    removeUser: jest.fn(() => Promise.resolve())
-  };
+  const props = addUser.props;
   it('should render without crashing', () => {
     const component = shallow(<AddUserForm {...props}/>);
     expect(component.node.type).toEqual('div');
   });
   it('should display error if it exists', () => {
     const component = shallow(<AddUserForm {...props}/>);
-    component.setState({ error: 'user already belongs to this group' });
-    expect(
-      component.find('span').text()
-    ).toEqual('user already belongs to this group');
+    component.setState(addUser.errorResponse);
+    expect(component.find('span').text()).toEqual(addUser.errorResponse.error);
   });
   it('should contain the method onChange', () => {
     const component = shallow(<AddUserForm {...props}/>);
     const onChangeSpy = jest.spyOn(component.instance(), 'onChange');
-    component.instance().onChange({
-      target: { name: 'username', value: 'troy34' }
-    });
+    component.instance().onChange(addUser.onChangeTarget);
     component.instance().props.findUser();
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
@@ -93,13 +78,10 @@ describe('Add user form Component', () => {
     component.instance().isGroupMember(userGroups);
     expect(isGroupMemberSpy).toHaveBeenCalledTimes(1);
   });
-  it('should return empty userToAdd state if no user is found error', () => {
+  it('should return empty userToAdd state if no user is found', () => {
     props.findUser = jest.fn(() => Promise.resolve({ data: {} }));
     const component = shallow(<AddUserForm {...props}/>);
-    component.instance().onChange({
-      target: { name: 'username', value: 'troy34' }
-    });
-    component.instance().props.findUser();
+    component.instance().onChange(addUser.onChangeTarget);
     component.instance().props.findUser();
     expect(component.instance().state.userToAdd).toEqual({});
   });
