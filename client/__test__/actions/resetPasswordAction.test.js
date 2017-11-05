@@ -8,7 +8,7 @@ import mockData from '../../__mocks__/mockData';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Search User Action', () => {
+describe('Reset password Action', () => {
   const { action } = mockData;
   it('should dispatch no action creator', (done) => {
     moxios.stubRequest('/api/v1/user/reset', {

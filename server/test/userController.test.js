@@ -3,7 +3,6 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
-import models from '../models';
 import userData from './data/userData';
 
 process.env.NODE_ENV = 'test';

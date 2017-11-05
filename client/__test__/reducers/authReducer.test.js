@@ -1,4 +1,4 @@
-/* global expect */
+import expect from 'expect';
 import auth from '../../reducers/auth';
 import mockData from '../../__mocks__/mockData';
 

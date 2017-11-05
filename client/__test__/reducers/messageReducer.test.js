@@ -1,3 +1,4 @@
+import expect from 'expect';
 import message from '../../reducers/message';
 import mockData from '../../__mocks__/mockData';
 
