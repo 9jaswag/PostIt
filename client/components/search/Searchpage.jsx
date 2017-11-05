@@ -152,7 +152,7 @@ export class SearchPage extends Component {
               <div className="row">
                 <div className="col s12">
                   { renderUsers }
-                  { error && <p className="red-text">{ error }</p> }
+                  { error && <span className="error">{ error }</span> }
                 </div>
                 <div className="col s12">
                   <ul className="pagination center-align">

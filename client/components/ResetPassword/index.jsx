@@ -150,7 +150,7 @@ export class ResetPassword extends Component {
           </div>
           <div className="center-align margin-v">
             { this.state.error && <span
-              className="red-text">{ this.state.error }</span>}
+              className="error">{ this.state.error }</span>}
           </div>
         </form>
         <div className="col s12 margin-v">
@@ -189,7 +189,7 @@ export class ResetPassword extends Component {
           </div>
           <div className="center-align margin-v">
             { this.state.error && <span
-              className="red-text">{ this.state.error }</span>}
+              className="error">{ this.state.error }</span>}
           </div>
         </form>
         <div className="col s12 margin-v">

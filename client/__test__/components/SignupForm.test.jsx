@@ -45,13 +45,13 @@ describe('Signup form component test', () => {
     const component = shallow(<SignupForm {...props}/>);
     component.setState(signupForm.usernameError);
     component.instance().onSubmit(event);
-    expect(component.find('.red-text').length).toBe(1);
+    expect(component.find('.error').length).toBe(1);
   });
   it('should show email error', () => {
     const component = shallow(<SignupForm {...props}/>);
     component.setState(signupForm.emailError);
     component.instance().onSubmit(event);
-    expect(component.find('.red-text').length).toBe(1);
+    expect(component.find('.error').length).toBe(1);
   });
   it('should have error on failed signup', () => {
     props.userSignupRequest = jest.fn(() => Promise.reject(
