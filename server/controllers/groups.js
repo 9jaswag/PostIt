@@ -265,7 +265,7 @@ export default {
    */
   removeUser(req, res) {
     if (!(req.params.group_id) || !(req.body.userId)) {
-      return res.status(401).send({ success: false,
+      return res.status(400).send({ success: false,
         error: 'User and group id must be provided' });
     }
     // cheeck if user and group exists
@@ -276,7 +276,7 @@ export default {
       }
     }).then((userGroup) => {
       if (!userGroup) {
-        return res.status(401).send({ success: false,
+        return res.status(404).send({ success: false,
           error: 'User or group does not exist' });
       }
       models.UserGroup.destroy({
