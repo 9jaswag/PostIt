@@ -7,7 +7,6 @@ import userData from './data/userData';
 import messageData from './data/messageData';
 
 process.env.NODE_ENV = 'test';
-const should = chai.should();
 chai.use(chaiHttp);
 let token;
 
@@ -28,8 +27,8 @@ describe('Message controller test', () => {
         done();
       });
   });
-  describe('API route for updating message readby', () => {
-    it('should return an error if no token is provided', (done) => {
+  describe('Update readby route', () => {
+    it('should return status 401 if token is not in request header', (done) => {
       chai.request(app)
         .patch('/api/v1/message/readby')
         .type('form')
@@ -39,12 +38,11 @@ describe('Message controller test', () => {
         })
         .end((err, res) => {
           res.should.have.status(401);
-          res.body.error.should.equals(
-            'Invalid access token.');
+          res.body.error.should.equals('Invalid access token.');
           done();
         });
     });
-    it('should return an error if no parameter is provided', (done) => {
+    it('should return status 400 if no parameter is provided', (done) => {
       chai.request(app)
         .patch('/api/v1/message/readby')
         .type('form')
@@ -56,7 +54,7 @@ describe('Message controller test', () => {
           done();
         });
     });
-    it('should return an error if the message does not exist', (done) => {
+    it('should return status 400 if message does not exist', (done) => {
       chai.request(app)
         .patch('/api/v1/message/readby')
         .type('form')
@@ -71,7 +69,7 @@ describe('Message controller test', () => {
           done();
         });
     });
-    it('should return an error if user has read the message', (done) => {
+    it('should return status 409 if user has read the message', (done) => {
       chai.request(app)
         .patch('/api/v1/message/readby')
         .type('form')
@@ -81,7 +79,7 @@ describe('Message controller test', () => {
           readby: user.username
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           res.body.errors.should.equal('User has read this message');
           done();
         });
@@ -97,6 +95,7 @@ describe('Message controller test', () => {
         })
         .end((err, res) => {
           res.should.have.status(200);
+          res.body.message.readby.includes('deji').should.equal(true);
           done();
         });
     });
