@@ -1,7 +1,3 @@
-/**
- * Component for form that adds a new user to a group
- */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,12 +6,18 @@ import { withRouter } from 'react-router-dom';
 import swal from 'sweetalert';
 import { addUser,
   findUser,
-  getMemberCount,
   removeUser } from '../../actions/groupActions';
 
 const propTypes = {
   findUser: PropTypes.func.isRequired,
-  addUser: PropTypes.func.isRequired
+  addUser: PropTypes.func.isRequired,
+  foundUser: PropTypes.object.isRequired,
+  groupId: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired,
+  groupOwner: PropTypes.string.isRequired,
+  currentUser: PropTypes.string.isRequired,
+  removeUser: PropTypes.func.isRequired,
+  groupMemberCount: PropTypes.number.isRequired
 };
 
 /**
@@ -45,25 +47,6 @@ export class AddUserForm extends Component {
   }
 
   /**
-   * @method isGroupMember
-   * @description class method that checks if a user belongs to a group
-   * @param {Array} userGroups - an array of groups the user belongs to
-   * @return {bool} - returns a boolean
-   * @memberof AddUserForm
-   */
-  isGroupMember(userGroups) {
-    let isMember = false;
-    if (userGroups) {
-      userGroups.forEach((group) => {
-        if (group.id === parseInt(this.props.groupId, 10)) {
-          isMember = true;
-        }
-      });
-      return isMember;
-    }
-  }
-
-  /**
    * @method onChange
    * @description class method that handles user input in the add user form
    * @param {object} event
@@ -74,25 +57,23 @@ export class AddUserForm extends Component {
     this.setState({ error: '', userToAdd: {} });
     this.setState({ [event.target.name]: event.target.value });
     if (event.target.value.length > 0) {
-      this.props.findUser(event.target.value.toLowerCase()).then(
-        (res) => {
-          if (res.data.user) {
-            const user = res.data.user;
-            const isMember = this.isGroupMember(user.Groups);
-            this.setState({
-              userToAdd: {
-                userId: user.id,
-                username: user.username,
-                groups: user.Groups,
-                isMember
-              },
-              error: ''
-            });
-          } else {
-            this.setState({ error: 'User not found' });
-          }
+      this.props.findUser(event.target.value.toLowerCase()).then(() => {
+        if (this.props.foundUser.user) {
+          const user = this.props.foundUser.user;
+          const isMember = this.isGroupMember(user.Groups);
+          this.setState({
+            userToAdd: {
+              userId: user.id,
+              username: user.username,
+              groups: user.Groups,
+              isMember
+            },
+            error: ''
+          });
+        } else {
+          this.setState({ error: 'User not found' });
         }
-      );
+      });
     }
   }
 
@@ -105,7 +86,7 @@ export class AddUserForm extends Component {
    */
   onClick() {
     this.setState({ error: '' });
-    // if user is not a group member
+    // if user is not a group member then add the user
     if (this.state.userToAdd.userId && !this.state.userToAdd.isMember) {
       const groupId = this.props.groupId;
       const userToAdd = this.state.userToAdd;
@@ -117,12 +98,13 @@ export class AddUserForm extends Component {
         button: 'Yes Please!'
       }).then((willDelete) => {
         if (willDelete) {
-          this.props.addUser(groupId, userToAdd).then(
+          this.props.addUser(
+            groupId, userToAdd, this.props.groupMemberCount
+          ).then(
             () => {
               this.props.history.push('/group');
               Materialize.toast(
                 `${userToAdd.username} has been added to the group`, 2000);
-              this.props.getMemberCount(groupId);
             }
           );
         } else {
@@ -141,13 +123,14 @@ export class AddUserForm extends Component {
           dangerMode: true
         }).then((willDelete) => {
           if (willDelete) {
-            this.props.removeUser(groupId, userToAdd).then(
+            this.props.removeUser(
+              groupId, userToAdd, this.props.groupMemberCount
+            ).then(
               () => {
                 this.props.history.push('/group');
                 Materialize.toast(
                   `${userToAdd.username} has been removed from the group`,
                   2000);
-                this.props.getMemberCount(groupId);
               }
             );
           } else {
@@ -179,17 +162,39 @@ export class AddUserForm extends Component {
   }
 
   /**
+   * @method isGroupMember
+   * @description class method that checks if a user belongs to a group
+   * @param {Array} userGroups - an array of groups the user belongs to
+   * @return {bool} - returns a boolean
+   * @memberof AddUserForm
+   */
+  isGroupMember(userGroups) {
+    let isMember = false;
+    if (userGroups) {
+      userGroups.forEach((group) => {
+        if (group.id === parseInt(this.props.groupId, 10)) {
+          isMember = true;
+        }
+      });
+      return isMember;
+    }
+  }
+
+  /**
    * @method render
    * @description class method that renders the component
    * @returns {string} The HTML markup for the AddUserForm
    * @memberof AddUserForm
    */
   render() {
-    const userChip = <div className={ classnames('chip pointer', {
-      'bkg-green text-white': this.state.userToAdd.isMember === true,
-    }) } data-id={ this.state.userToAdd.userId }
-    onClick={ this.onClick }>{ this.state.userToAdd.username }
-    </div>;
+    const userChip = (<div
+      className={classnames('chip pointer', {
+        'bkg-green text-white': this.state.userToAdd.isMember === true,
+      })}
+      data-id={this.state.userToAdd.userId}
+      onClick={this.onClick}
+    >{ this.state.userToAdd.username }
+    </div>);
     const removePrompt = <p>Already a member. Click to remove from group</p>;
     const addPrompt = <p>Click to add to group</p>;
     const showPrompt = this.state.userToAdd.isMember ? removePrompt : addPrompt;
@@ -202,18 +207,25 @@ export class AddUserForm extends Component {
             </h5>
           </div>
         </div>
-        <form action="" className="col s12" onSubmit={ this.onSubmit }>
+        <form action="" className="col s12" onSubmit={this.onSubmit}>
           <div className="row">
             <div className="input-field col s12">
-              <input id="username" name="username"
-                type="text" className="validate"
-                value= {this.state.username}
-                onChange= { this.onChange} required autoComplete="off"/>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                className="validate"
+                value={this.state.username}
+                onChange={this.onChange}
+                required
+                autoComplete="off"
+              />
               <label htmlFor="username">Enter username</label>
               { (this.state.userToAdd.userId) ? userChip : null }
               { (this.state.userToAdd.userId) ? showPrompt : null }
               { this.state.error ? <span
-                className="error">{ this.state.error }</span> : null}
+                className="error"
+              >{ this.state.error }</span> : null}
             </div>
           </div>
         </form>
@@ -227,9 +239,11 @@ AddUserForm.propTypes = propTypes;
 const mapStateToProps = state => ({
   groupOwner: state.groupDetails[2],
   currentUser: state.auth.user.username,
-  groupId: state.groupDetails[0]
+  groupId: state.groupDetails[0],
+  foundUser: state.foundUser,
+  groupMemberCount: state.groupMemberCount
 });
 
 export default connect(
   mapStateToProps,
-  { findUser, addUser, removeUser, getMemberCount })(withRouter(AddUserForm));
+  { findUser, addUser, removeUser })(withRouter(AddUserForm));

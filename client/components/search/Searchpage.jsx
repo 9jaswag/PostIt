@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import Sidebar from '../dashboard/Sidebar.jsx';
-import SearchForm from './SearchForm.jsx';
-import RenderUser from './RenderUser.jsx';
+import Sidebar from '../dashboard/Sidebar';
+import SearchForm from './SearchForm';
+import RenderUser from './RenderUser';
 import { searchUserAction } from '../../actions/groupActions';
 
 const propTypes = {
-  searchUserAction: PropTypes.func.isRequired
+  searchUserAction: PropTypes.func.isRequired,
+  searchResult: PropTypes.object.isRequired
 };
 
 /**
@@ -56,6 +56,18 @@ export class SearchPage extends Component {
   }
 
   /**
+   * @method onSubmit
+   * @description class method that prevents form action on
+   * form submit
+   * @param {object} event
+   * @returns {void}
+   * @memberof Searchpage
+   */
+  onSubmit(event) {
+    event.preventDefault();
+  }
+
+  /**
    * @method searchUsers
    * @description class method for searching for users
    * @return {void}
@@ -68,29 +80,19 @@ export class SearchPage extends Component {
       offset: this.state.offset,
       limit: this.state.limit
     };
-    this.props.searchUserAction(payload).then(
-      (res) => {
+    this.props.searchUserAction(payload).then(() => {
+      if (this.props.searchResult.users) {
         this.setState(
-          { users: res.data.users, pagination: res.data.pagination, error: '' }
+          { users: this.props.searchResult.users,
+            pagination: this.props.searchResult.pagination,
+            error: '' }
         );
-      },
-      ({ response }) => {
-        this.setState({ error: response.data.error, users: [] });
+      } else {
+        this.setState({ error: this.props.searchResult.error, users: [] });
       }
-    );
+    });
   }
 
-  /**
-   * @method onSubmit
-   * @description class method that prevents form action on
-   * form submit
-   * @param {object} event
-   * @returns {void}
-   * @memberof Searchpage
-   */
-  onSubmit(event) {
-    event.preventDefault();
-  }
   /**
    * @method handlePagination
    * @description class method for handling the pagination of users
@@ -116,12 +118,12 @@ export class SearchPage extends Component {
     const { users, pagination, error } = this.state;
     // render users
     const renderUsers = users.map(user => (
-      <RenderUser user={ user } key={ user.id }/>
+      <RenderUser user={user} key={user.id} />
     ));
     // get page numbers
     const pageCount = pagination.numberOfPages;
     // remder page numbers
-    const renderPageNumbers = <ReactPaginate
+    const renderPageNumbers = (<ReactPaginate
       previousLabel={<i className="material-icons pointer">chevron_left</i>}
       nextLabel={<i className="material-icons pointer">chevron_right</i>}
       breakLabel={<a href="">...</a>}
@@ -132,7 +134,8 @@ export class SearchPage extends Component {
       onPageChange={this.handlePagination}
       containerClassName={'pagination pointer'}
       subContainerClassName={'pages pagination'}
-      activeClassName={'active'} />;
+      activeClassName={'active'}
+    />);
     return (
       <div className="row">
         { /* Sidebar*/ }
@@ -145,9 +148,11 @@ export class SearchPage extends Component {
                 Search Users
               </h5>
               <div className="row">
-                <SearchForm onSubmit={ this.onSubmit }
-                  onChange={ this.onChange }
-                  state={ this.state }/>
+                <SearchForm
+                  onSubmit={this.onSubmit}
+                  onChange={this.onChange}
+                  state={this.state}
+                />
               </div>
               <div className="row">
                 <div className="col s12">
@@ -170,4 +175,7 @@ export class SearchPage extends Component {
 
 SearchPage.propTypes = propTypes;
 
-export default connect(null, { searchUserAction })(SearchPage);
+const mapStateToProps = state => ({
+  searchResult: state.searchUser
+});
+export default connect(mapStateToProps, { searchUserAction })(SearchPage);

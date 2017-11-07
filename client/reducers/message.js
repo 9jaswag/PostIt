@@ -1,7 +1,3 @@
-/**
- * reducer to pass message to store
- */
-
 import { PASS_MESSAGE, SET_MESSAGE } from '../actions/types';
 
 /**

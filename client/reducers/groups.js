@@ -1,4 +1,5 @@
-import { SET_USER_GROUPS, SET_MEMBER_COUNT } from '../actions/types';
+import { SET_USER_GROUPS, SET_MEMBER_COUNT,
+  UPDATE_MEMBER_COUNT } from '../actions/types';
 
 
 /**
@@ -18,6 +19,8 @@ export default (state = [], action = {}) => {
 export const groupMemberCount = (state = 0, action = {}) => {
   switch (action.type) {
     case SET_MEMBER_COUNT:
+      return action.count;
+    case UPDATE_MEMBER_COUNT:
       return action.count;
     default:
       return state;

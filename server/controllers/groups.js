@@ -1,7 +1,3 @@
-/**
- * Group controller
- * handles all group related tasks
- */
 import Nexmo from 'nexmo';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
