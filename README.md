@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/9jaswag/PostIt.svg?branch=master)](https://travis-ci.org/9jaswag/PostIt)
 [![Code Climate](https://codeclimate.com/github/9jaswag/PostIt/badges/gpa.svg)](https://codeclimate.com/github/9jaswag/PostIt)
-[![Coverage Status](https://coveralls.io/repos/github/9jaswag/PostIt/badge.svg?branch=master)](https://coveralls.io/github/9jaswag/PostIt?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/9jaswag/PostIt/badge.svg?branch=development)](https://coveralls.io/github/9jaswag/PostIt?branch=development)
 
 ## PostIt
 PostIt is a simple application that allows friends and colleagues create groups for notifications. Users can post broadcast messages to groups and other group members will get notification based on the message priority.
