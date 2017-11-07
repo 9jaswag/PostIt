@@ -4,7 +4,9 @@ module.exports = {
       .url('http://localhost:9000/')
       .waitForElementVisible('body', 5000)
       .pause(2000)
-      .click('a.waves-effect.waves-light.btn.modal-trigger.margin-h.signin-modal')
+      .click(
+        'a.waves-effect.waves-light.btn.modal-trigger.margin-h.signin-modal'
+      )
       .setValue('input#username.signin', 'chioma')
       .setValue('input#password.signin', 'password')
       .click('input.btn.signin');
