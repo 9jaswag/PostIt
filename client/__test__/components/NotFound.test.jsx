@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import expect from 'expect';
 import NotFound from '../../components/NotFound';
 
 describe('404 Not Found component', () => {
