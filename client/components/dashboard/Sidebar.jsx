@@ -50,8 +50,9 @@ export class Sidebar extends Component {
         <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
           { loggedInUser ? welcomeChip : null }
           <Link to="/dashboard"
-            className="waves-effect waves-light btn one-whole margin-v dashboard"
-          >Dashboard</Link>
+            className="waves-effect waves-light btn margin-v dashboard">
+            Dashboard
+          </Link>
           <Link to="create-group"
             className="waves-effect waves-light btn one-whole create-group">
             Create Group

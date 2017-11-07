@@ -45,7 +45,10 @@ export class HomePage extends Component {
         <Link to="#signupModal"
           className="waves-effect waves-light btn modal-trigger signup-modal">
           Sign Up</Link>
-        <Link to="#signinModal" className="waves-effect waves-light btn modal-trigger margin-h signin-modal">Sign In</Link>
+        <Link to="#signinModal"
+          className="waves-effect btn modal-trigger margin-h signin-modal">
+          Sign In
+        </Link>
       </div>
     );
 
@@ -58,18 +61,21 @@ export class HomePage extends Component {
         { /* Page Content */}
         <div className="full-height fh home">
           <div className="row">
-            <div className="col s12 m6 l6 teal accent-4 valign-wrapper full-height home">
+            <div className=
+              "col s12 m6 l6 teal accent-4 valign-wrapper full-height home">
               <div className="centralize">
                 <h2 className="center-align text-white">PostIT</h2>
                 <h5 className="center-align text-white">
                   Prompt Messages, Prompt Delivery</h5>
                 { /* Modal Buttons for mobile only*/ }
-                <div className="show-on-small hide-on-med-and-up center-align margin-v2">
+                <div className=
+                  "show-on-small hide-on-med-and-up center-align margin-v2">
                   { isAuthenticated ? userLinks : guestLinks }
                 </div>
               </div>
             </div>
-            <div className="col s12 m6 l6 valign-wrapper full-height hide-on-small-only">
+            <div className=
+              "col s12 m6 l6 valign-wrapper full-height hide-on-small-only">
               <div className="center-align centralize">
                 { isAuthenticated ? userLinks : guestLinks }
               </div>
