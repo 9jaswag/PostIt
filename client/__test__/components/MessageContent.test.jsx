@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import MessageContent from '../../components/group/MessageContent.jsx';
+import expect from 'expect';
+import MessageContent from '../../components/group/MessageContent';
 import mockData from '../../__mocks__/mockData';
 
 describe('Create group modal', () => {
@@ -8,7 +9,7 @@ describe('Create group modal', () => {
   const props = messageContent.props;
   it('should render without crashing', () => {
     const component = shallow(
-      <MessageContent message={ props.message } />);
+      <MessageContent message={props.message} />);
     expect(component.node.type).toEqual('div');
   });
 });

@@ -1,5 +1,3 @@
-// mock localStorage
-
 let localStorage = {};
 
 export default {

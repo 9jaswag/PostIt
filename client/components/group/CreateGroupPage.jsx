@@ -1,13 +1,13 @@
 import React from 'react';
-import CreateGroupForm from './CreateGroupForm.jsx';
-import Sidebar from '../dashboard/Sidebar.jsx';
+import CreateGroupForm from './CreateGroupForm';
+import Sidebar from '../dashboard/Sidebar';
 
 /**
  * @function CreateGroupPage
  * @description the Create Group Page component.
  * @returns {string} The HTML markup for the CreateGroupPage component
  */
-const CreateGroupPage = () => <div className="row">
+const CreateGroupPage = () => (<div className="row">
   { /* Sidebar*/ }
   <Sidebar />
   { /* Main page*/ }
@@ -20,6 +20,6 @@ const CreateGroupPage = () => <div className="row">
       <CreateGroupForm />
     </div>
   </div>
-</div>;
+</div>);
 
 export default CreateGroupPage;
