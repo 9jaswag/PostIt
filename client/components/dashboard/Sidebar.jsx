@@ -6,7 +6,8 @@ import { logout } from '../../actions/signinAction';
 
 const propTypes = {
   auth: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 /**
@@ -16,6 +17,16 @@ const propTypes = {
  * @extends {Component}
  */
 export class Sidebar extends Component {
+  /**
+   * @description constructor that creates an instance of Sidebar.
+   * @param {any} props
+   * @memberof Sidebar
+   */
+  constructor(props) {
+    super(props);
+    this.logout = this.logout.bind(this);
+  }
+
   /**
    * @method logout
    * @description class method for logging out a user
@@ -42,28 +53,37 @@ export class Sidebar extends Component {
   render() {
     const isAuthenticated = this.props.auth;
     const loggedInUser = isAuthenticated.user.username;
-    const welcomeChip = <div
-      className="chip">{ `Welcome ${loggedInUser}` }</div>;
+    const welcomeChip = (<div
+      className="chip"
+    >{ `Welcome ${loggedInUser}` }</div>);
     return (
       <section className="left-sidebar">
         { /* Sidebar*/ }
         <div className="col s12 m3 l2 teal accent-4 full-height padding-top">
           { loggedInUser ? welcomeChip : null }
-          <Link to="/dashboard"
-            className="waves-effect waves-light btn margin-v dashboard">
+          <Link
+            to="/dashboard"
+            className="waves-effect waves-light btn margin-v dashboard"
+          >
             Dashboard
           </Link>
-          <Link to="create-group"
-            className="waves-effect waves-light btn one-whole create-group">
+          <Link
+            to="create-group"
+            className="waves-effect waves-light btn one-whole create-group"
+          >
             Create Group
           </Link>
-          <Link to="/search"
-            className="waves-effect waves-light btn one-whole margin-v search">
+          <Link
+            to="/search"
+            className="waves-effect waves-light btn one-whole margin-v search"
+          >
             Search User
           </Link>
-          <Link to="#"
-            onClick= { this.logout.bind(this) }
-            className="waves-effect waves-light btn one-whole logout">
+          <Link
+            to="#"
+            onClick={this.logout}
+            className="waves-effect waves-light btn one-whole logout"
+          >
             Logout
           </Link>
           <div className="footer col s12">

@@ -11,7 +11,8 @@ const MessageContent = ({ message }) => (
     <div className="card-content white-text">
       <h5 className="slim">{ message.title }</h5>
       <h6 className="inline-block slim">@{message.author} <small
-        className="padding-left">
+        className="padding-left"
+      >
         { new Date(message.createdAt).toLocaleTimeString({ hour12: true })
         }</small>
       </h6>
@@ -20,7 +21,8 @@ const MessageContent = ({ message }) => (
           'red darken-3': message.priority === 'critical',
           'amber accent-4': message.priority === 'urgent',
           'light-blue darken-3': message.priority === 'normal',
-        }) }>{ message.priority }</span>
+        })}
+      >{ message.priority }</span>
       <p className="flow-text">
         { message.message }
       </p>

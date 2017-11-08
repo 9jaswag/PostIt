@@ -6,7 +6,6 @@ import getMessages, { postMessage } from '../../actions/messageActions';
 
 const propTypes = {
   postMessage: PropTypes.func.isRequired,
-  groupId: PropTypes.string.isRequired,
   getMessages: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };
@@ -51,7 +50,6 @@ export class PostMessageForm extends Component {
           title: '',
           priority: 'normal'
         });
-        this.props.getMessages(this.props.groupId);
         Materialize.toast('Message posted', 2000);
         this.props.history.push('/group');
       },

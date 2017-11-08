@@ -8,22 +8,26 @@ import React from 'react';
  */
 const SearchForm = ({ onSubmit,
   onChange,
-  state }) => <form action="" onSubmit={ onSubmit }>
-  <div className="row">
-    <div className="input-field col s12">
-      <input placeholder="Enter a username"
-        id="username"
-        name="username"
-        type="text"
-        value={ state.username }
-        onChange={ onChange }
-        className="validate"
-        autoComplete="off"/>
-      <label htmlFor="username">Search</label>
+  state }) =>
+  (<form action="" onSubmit={onSubmit}>
+    <div className="row">
+      <div className="input-field col s12">
+        <input
+          placeholder="Enter a username"
+          id="username"
+          name="username"
+          type="text"
+          value={state.username}
+          onChange={onChange}
+          className="validate"
+          autoComplete="off"
+        />
+        <label htmlFor="username">Search</label>
+      </div>
+      <div className="col l12">{ state.errors && <span
+        className="error"
+      >{ state.errors }</span>}</div>
     </div>
-    <div className="col l12">{ state.errors && <span
-      className="error">{ state.errors }</span>}</div>
-  </div>
-</form>;
+  </form>);
 
 export default SearchForm;

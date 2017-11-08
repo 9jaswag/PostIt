@@ -189,11 +189,11 @@ export default {
                   if (user.phone !== req.decoded.phone) {
                     nexmo.message.sendSms(
                       '2347033130448',
-                      user.phone, req.body.message, (err, res) => {
+                      user.phone, req.body.message, (err, response) => {
                         if (err) {
                           return err;
                         }
-                        return res;
+                        return response;
                       });
                   }
                   return user;

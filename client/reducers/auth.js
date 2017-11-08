@@ -1,8 +1,3 @@
-
-/**
- * reducer to set current user's details to store
- */
-
 import isEmpty from 'lodash/isEmpty';
 import initialState from '../state';
 import { SET_CURRENT_USER } from '../actions/types';

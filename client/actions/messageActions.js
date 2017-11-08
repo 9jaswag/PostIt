@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_MESSAGE, PASS_MESSAGE } from './types';
+import { SET_MESSAGE, UPDATE_GROUP_MESSAGE } from './types';
 
 /**
  * @description action creator to set message in store
@@ -25,13 +25,13 @@ const getMessages = id =>
 export default getMessages;
 
 /**
- * @description action creator to pass a message to store
- * @return {object} returns object and action type
- * @param {object} messageObject object containing message detail
+ * @description action creator to update group message in store
+ * @param {objec} message - the message object
+ * @returns {void}
  */
-export const passMessage = messageObject => ({
-  type: PASS_MESSAGE,
-  messageObject
+export const updateGroupMessages = message => ({
+  type: UPDATE_GROUP_MESSAGE,
+  message
 });
 
 /**
@@ -42,7 +42,10 @@ export const passMessage = messageObject => ({
  * @param {object} messageDetails
  */
 export const postMessage = (id, messageDetails) =>
-  () => axios.post(`/api/v1/group/${id}/message`, messageDetails);
+  dispatch => axios.post(`/api/v1/group/${id}/message`, messageDetails)
+    .then((res) => {
+      dispatch(updateGroupMessages(res.data.data.message));
+    });
 
 /**
  * @function updateReadBy

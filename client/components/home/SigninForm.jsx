@@ -5,7 +5,8 @@ import { withRouter, Link } from 'react-router-dom';
 import Login from '../../actions/signinAction';
 
 const propTypes = {
-  Login: PropTypes.func.isRequired
+  Login: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 /**
@@ -31,17 +32,6 @@ export class SigninForm extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.removeBackdrop = this.removeBackdrop.bind(this);
-  }
-  /**
-   * @method removeBackdrop
-   * @description class method that removes the modal backdrop
-   * which remains after modal closes
-   * @return {void}
-   * @memberof SigninForm
-   */
-  removeBackdrop() {
-    const backdrop = document.querySelector('.modal-backdrop.fade.in');
-    backdrop.hidden = true;
   }
 
   /**
@@ -76,8 +66,19 @@ export class SigninForm extends Component {
           message: 'Incorrect Username/Password' },
         isLoading: false
         })
-      // server error response is not displayed for security reasons
     );
+  }
+
+  /**
+   * @method removeBackdrop
+   * @description class method that removes the modal backdrop
+   * which remains after modal closes
+   * @return {void}
+   * @memberof SigninForm
+   */
+  removeBackdrop() {
+    const backdrop = document.querySelector('.modal-backdrop.fade.in');
+    backdrop.hidden = true;
   }
 
   /**
@@ -89,43 +90,56 @@ export class SigninForm extends Component {
   render() {
     const { errors, isLoading } = this.state;
     return (
-      <form action="" className="col s12" onSubmit= { this.onSubmit }>
+      <form action="" className="col s12" onSubmit={this.onSubmit}>
         <div className="row center-align">
           { errors.message && <span className="error">
             { errors.message }</span>}
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <input id="username"
+            <input
+              id="username"
               name="username"
               type="text"
               className="validate signin"
-              value={ this.state.username }
-              onChange={ this.onChange } required autoComplete="off" />
+              value={this.state.username}
+              onChange={this.onChange}
+              required
+              autoComplete="off"
+            />
             <label htmlFor="username">Username</label>
           </div>
         </div>
         <div className="row">
           <div className="input-field col s12">
-            <input id="password"
+            <input
+              id="password"
               name="password"
               type="password"
               className="validate signin"
-              value={ this.state.password }
-              onChange={ this.onChange } required autoComplete="off" />
+              value={this.state.password}
+              onChange={this.onChange}
+              required
+              autoComplete="off"
+            />
             <label htmlFor="password">Password</label>
           </div>
         </div>
         <div className="row right-align">
           <div className="input-field col s12">
-            <input type="submit"
+            <input
+              type="submit"
               className="btn signin"
-              disabled= { isLoading } value="Sign In"/>
+              disabled={isLoading}
+              value="Sign In"
+            />
           </div>
         </div>
         <div className="row">
-          <Link to="/resetpassword"
-            onClick={ this.removeBackdrop }>
+          <Link
+            to="/resetpassword"
+            onClick={this.removeBackdrop}
+          >
             Forgot Password
           </Link>
         </div>

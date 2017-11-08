@@ -12,10 +12,7 @@ const propTypes = {
   findUser: PropTypes.func.isRequired,
   addUser: PropTypes.func.isRequired,
   foundUser: PropTypes.object.isRequired,
-  groupId: PropTypes.string.isRequired,
   history: PropTypes.object.isRequired,
-  groupOwner: PropTypes.string.isRequired,
-  currentUser: PropTypes.string.isRequired,
   removeUser: PropTypes.func.isRequired,
   groupMemberCount: PropTypes.number.isRequired
 };

@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Sidebar from '../dashboard/Sidebar.jsx';
-import PostMessageForm from './PostMessageForm.jsx';
-import AddUserForm from './AddUserForm.jsx';
-import getMessages, { passMessage,
-  updateReadBy } from '../../actions/messageActions';
+import Sidebar from '../dashboard/Sidebar';
+import PostMessageForm from './PostMessageForm';
+import AddUserForm from './AddUserForm';
+import getMessages, { updateReadBy } from '../../actions/messageActions';
 import { getMemberCount } from '../../actions/groupActions';
-import MessageCard from '../group/MessageCard.jsx';
+import MessageCard from '../group/MessageCard';
 
 const propTypes = {
   groupDetails: PropTypes.array.isRequired,
   getMessages: PropTypes.func.isRequired,
-  passMessage: PropTypes.func.isRequired,
-  updateReadBy: PropTypes.func.isRequired
+  updateReadBy: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  count: PropTypes.number.isRequired,
+  getMemberCount: PropTypes.func.isRequired
 };
 
 /** 
@@ -44,6 +46,51 @@ export class GroupPage extends Component {
     this.filterMessages = this.filterMessages.bind(this);
     this.onChange = this.onChange.bind(this);
   }
+
+  /**
+   * @method componentDidMount
+   * @description class method that gets the group's message
+   * and member count on component mount
+   * @return {void}
+   * @memberof GroupPage
+   */
+  componentDidMount() {
+    if (this.props.groupDetails) {
+      const groupId = this.props.groupDetails[0];
+      this.props.getMessages(groupId).then(
+        () => {
+          this.setState({ messages: this.props.messages }, () => {
+            this.filterMessages(this.props.messages);
+          });
+        },
+        ({ response }) => {
+          Materialize.toast(response.data.error, 2000);
+          this.props.history.push('/dashboard');
+        }
+      );
+      this.props.getMemberCount(groupId);
+    } else {
+      this.props.history.push('/dashboard');
+    }
+  }
+
+  /**
+   * @method componentWillReceiveProps
+   * @description class method that gets the new messages from store
+   * @param {object} nextProps new props coming into the component
+   * @return {void}
+   * @memberof GroupPage
+   */
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.messages.length > this.props.messages.length) {
+      this.setState({
+        messages: nextProps.messages
+      }, () => {
+        this.filterMessages(nextProps.messages);
+      });
+    }
+  }
+
   /**
    * @method onClick
    * @description class method that updates the read status of a message
@@ -53,17 +100,29 @@ export class GroupPage extends Component {
    * @memberof GroupPage
    */
   onClick(event) {
-    // get message readby, update readby and redirect to message
     if (!event.target.dataset.readby.includes(this.props.user.username)) {
       const readBy = {
         id: Number(event.target.dataset.id),
         readby: this.props.user.username };
       this.props.updateReadBy(readBy);
     }
-    sessionStorage.setItem('message', event.target.dataset.message);
-    this.props.passMessage(event.target.dataset.message);
     $('.tooltipped').tooltip('remove');
   }
+
+  /**
+   * @method onChange
+   * @description class method that handles the component's filter
+   * message select box changes
+   * @param {object} event
+   * @returns {void}
+   * @memberof GroupPage
+   */
+  onChange(event) {
+    this.setState({ displayState: event.target.value }, () => {
+      this.filterMessages(this.props.messages);
+    });
+  }
+
   /**
    * @method filterMessages
    * @description class method that filters the messages based on their
@@ -93,61 +152,7 @@ export class GroupPage extends Component {
       this.setState({ displayedMessage });
     }
   }
-  /**
-   * @method componentDidMount
-   * @description class method that gets the group's message
-   * and member count on component mount
-   * @return {void}
-   * @memberof GroupPage
-   */
-  componentDidMount() {
-    if (this.props.groupDetails) {
-      const groupId = this.props.groupDetails[0];
-      this.props.getMessages(groupId).then(
-        () => {
-          this.setState({ messages: this.props.messages }, () => {
-            this.filterMessages(this.props.messages);
-          });
-        },
-        ({ response }) => {
-          Materialize.toast(response.data.error, 2000);
-          this.props.history.push('/dashboard');
-        }
-      );
-      this.props.getMemberCount(groupId);
-    } else {
-      this.props.history.push('/dashboard');
-    }
-  }
-  /**
-   * @method componentWillReceiveProps
-   * @description class method that gets the new messages from store
-   * @param {object} nextProps new props coming into the component
-   * @return {void}
-   * @memberof GroupPage
-   */
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.messages.length > this.props.messages.length) {
-      this.setState({
-        messages: nextProps.messages
-      }, () => {
-        this.filterMessages(nextProps.messages);
-      });
-    }
-  }
-  /**
-   * @method onChange
-   * @description class method that handles the component's filter
-   * message select box changes
-   * @param {object} event
-   * @returns {void}
-   * @memberof GroupPage
-   */
-  onChange(event) {
-    this.setState({ displayState: event.target.value }, () => {
-      this.filterMessages(this.props.messages);
-    });
-  }
+
   /**
    * @method render
    * @description class method that renders the component
@@ -158,9 +163,11 @@ export class GroupPage extends Component {
     const { displayedMessage } = this.state;
     const groupName = this.props.groupDetails[1];
     const messageCards = displayedMessage.map(message =>
-      <MessageCard onClick={ this.onClick }
-        message={ message }
-        key={message.id}/>
+      (<MessageCard
+        onClick={this.onClick}
+        message={message}
+        key={message.id}
+      />)
     );
     return (
       <div>
@@ -181,8 +188,9 @@ export class GroupPage extends Component {
                     className="browser-default"
                     name="filter-message"
                     id="filter-message"
-                    value={ this.state.displayState }
-                    onChange={ this.onChange }>
+                    value={this.state.displayState}
+                    onChange={this.onChange}
+                  >
                     <option value="all">All</option>
                     <option value="unread">Unread</option>
                     <option value="archived">Archived</option>
@@ -190,7 +198,8 @@ export class GroupPage extends Component {
                 </div>
                 <div className="col s12 message-card-div overflow-y-scroll">
                   { (displayedMessage.length > 0) ? messageCards : <h6
-                    className="center-align margin-v2">
+                    className="center-align margin-v2"
+                  >
                     No Messages Available. Create one from the sidebar</h6> }
                 </div>
               </div>
@@ -210,7 +219,7 @@ export class GroupPage extends Component {
                 <div className="col s12 m12 l12 no-padding">
                   <PostMessageForm groupId={this.props.groupDetails[0]} />
                 </div>
-                <hr/>
+                <hr />
                 { /* Add new user div*/ }
                 <div className="col s12 m12 l12 no-padding">
                   <AddUserForm groupId={this.props.groupDetails[0]} />
@@ -236,6 +245,5 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { getMessages,
-    passMessage,
     updateReadBy,
     getMemberCount })(withRouter(GroupPage));
