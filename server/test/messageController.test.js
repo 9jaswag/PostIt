@@ -1,10 +1,9 @@
-// Message controller test
-
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 import userData from './data/userData';
 import messageData from './data/messageData';
+import generateToken from '../../helpers/generateToken';
 
 process.env.NODE_ENV = 'test';
 chai.use(chaiHttp);
@@ -13,19 +12,8 @@ let token;
 describe('Message controller test', () => {
   const { user } = userData;
   const { message } = messageData;
-  before((done) => {
-    chai.request(app)
-      .post('/api/v1/user/signin')
-      .type('form')
-      .send({
-        username: user.username,
-        password: user.password
-      })
-      .end((err, res) => {
-        res.body.should.have.property('token');
-        token = res.body.token;
-        done();
-      });
+  before(() => {
+    token = generateToken(user.demoUser);
   });
   describe('Update readby route', () => {
     it('should return status 401 if token is not in request header', (done) => {

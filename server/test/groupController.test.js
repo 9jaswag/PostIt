@@ -5,6 +5,7 @@ import app from '../app';
 import userData from './data/userData';
 import groupData from './data/groupData';
 import messageData from './data/messageData';
+import generateToken from '../../helpers/generateToken';
 
 process.env.NODE_ENV = 'test';
 chai.use(chaiHttp);
@@ -16,20 +17,8 @@ describe('Group controller test', () => {
   const { user } = userData;
   const { group } = groupData;
   const { message } = messageData;
-  before((done) => {
-    // runs before all tests in this block
-    chai.request(app)
-      .post('/api/v1/user/signin')
-      .type('form')
-      .send({
-        username: user.username,
-        password: user.password
-      })
-      .end((err, res) => {
-        res.body.should.have.property('token');
-        token = res.body.token;
-        done();
-      });
+  before(() => {
+    token = generateToken(user.demoUser);
   });
   describe('Create group route', () => {
     it('should return status 401 if token is not in request header', (done) => {
@@ -77,7 +66,7 @@ describe('Group controller test', () => {
           done();
         });
     });
-    it('should return status 400 for existing group', (done) => {
+    it('should return status 409 for existing group', (done) => {
       chai.request(app)
         .post('/api/v1/group')
         .type('form')
@@ -198,37 +187,25 @@ describe('Group controller test', () => {
           done();
         });
     });
-    it('should return status 404 if user does not exist', (done) => {
-      chai.request(app)
-        .post('/api/v1/group/1/user')
-        .type('form')
-        .set('x-access-token', fakeToken)
-        .send({
-          userId: user.secondId
-        })
-        .end((err, res) => {
-          res.should.have.status(404);
-          res.body.error.should.equals('User does not exist');
-          done();
-        });
-    });
+    it('should return status 404 if token decoded user does not exist',
+      (done) => {
+        chai.request(app)
+          .post('/api/v1/group/1/user')
+          .type('form')
+          .set('x-access-token', fakeToken)
+          .send({
+            userId: user.secondId
+          })
+          .end((err, res) => {
+            res.should.have.status(404);
+            res.body.error.should.equals('User does not exist');
+            done();
+          });
+      });
   });
   describe('Post message route', () => {
-    before((done) => {
-      chai.request(app)
-        .post('/api/v1/user/signup')
-        .type('form')
-        .send({
-          username: user.thirdUsername,
-          email: user.thirdEmail,
-          password: user.password,
-          phone: user.thirdPhone
-        })
-        .end((err, res) => {
-          res.body.should.have.property('token');
-          userToken = res.body.token;
-          done();
-        });
+    before(() => {
+      userToken = generateToken(user.demoUser2);
     });
     it('should return status 401 if token is not in request header', (done) => {
       chai.request(app)
