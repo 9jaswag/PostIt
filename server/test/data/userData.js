@@ -23,6 +23,18 @@ export default ({
     requestReset: 'request',
     resetRequestType: 'reset',
     wrongRequestType: 'rejoin',
-    wrongToken: 'wrong token'
+    wrongToken: 'wrong token',
+    demoUser: {
+      id: 4,
+      username: 'chuks',
+      email: 'chuks.opia@andela.com',
+      phone: '2347033130449'
+    },
+    demoUser2: {
+      id: 2,
+      username: 'user2',
+      email: 'user2@gmail.com',
+      phone: '2348012345679'
+    }
   }
 });

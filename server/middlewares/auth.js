@@ -1,11 +1,7 @@
-/**
- * Authentication Middleware
- */
-
 import jwt from 'jsonwebtoken';
 import models from '../models';
 
-// Middleware
+
 let token;
 
 /**
