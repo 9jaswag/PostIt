@@ -35,6 +35,7 @@ export class ResetPassword extends Component {
     this.onChange = this.onChange.bind(this);
     this.submitRequest = this.submitRequest.bind(this);
     this.submitReset = this.submitReset.bind(this);
+    this.removeBackdrop = this.removeBackdrop.bind(this);
   }
 
   /**
@@ -51,6 +52,7 @@ export class ResetPassword extends Component {
     } else {
       this.setState({ initial: true, secondary: false });
     }
+    this.removeBackdrop();
   }
 
   /**
@@ -123,6 +125,17 @@ export class ResetPassword extends Component {
         this.setState({ error: err.response.data.error });
       }
     );
+  }
+
+  /**
+   * @method removeBackdrop
+   * @description class method that removes the modal backdrop
+   * which remains after modal closes
+   * @return {void}
+   * @memberof SigninForm
+   */
+  removeBackdrop() {
+    $('#signinModal').modal('close');
   }
 
   /**

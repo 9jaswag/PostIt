@@ -31,7 +31,6 @@ export class SigninForm extends Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    this.removeBackdrop = this.removeBackdrop.bind(this);
   }
 
   /**
@@ -67,18 +66,6 @@ export class SigninForm extends Component {
         isLoading: false
         })
     );
-  }
-
-  /**
-   * @method removeBackdrop
-   * @description class method that removes the modal backdrop
-   * which remains after modal closes
-   * @return {void}
-   * @memberof SigninForm
-   */
-  removeBackdrop() {
-    const backdrop = document.querySelector('.modal-backdrop.fade.in');
-    backdrop.hidden = true;
   }
 
   /**
@@ -138,7 +125,6 @@ export class SigninForm extends Component {
         <div className="row">
           <Link
             to="/resetpassword"
-            onClick={this.removeBackdrop}
           >
             Forgot Password
           </Link>
