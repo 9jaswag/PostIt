@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import SignupForm from './SignupForm.jsx';
+import SignupForm from './SignupForm';
 import userSignupRequest from '../../actions/signupActions';
 
 const propTypes = {
@@ -31,7 +31,7 @@ export class SignupModal extends Component {
             <div className="row">
               <h5>Sign Up</h5>
             </div>
-            <SignupForm userSignupRequest= { userSignupRequest } />
+            <SignupForm userSignupRequest={userSignupRequest} />
           </div>
         </div>
       </div>

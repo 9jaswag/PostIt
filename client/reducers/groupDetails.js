@@ -1,7 +1,3 @@
-/**
- * reducer to set group detail in store
- */
-
 import { SET_GROUP_DETAILS } from '../actions/types';
 
 /**

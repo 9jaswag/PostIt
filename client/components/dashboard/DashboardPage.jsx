@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import Sidebar from '../dashboard/Sidebar.jsx';
+import Sidebar from '../dashboard/Sidebar';
 import { getGroups, setGroupToStore } from '../../actions/groupActions';
-import getMessages from '../../actions/messageActions';
-import GroupCards from '../group/GroupCards.jsx';
+import GroupCards from '../group/GroupCards';
 
 const propTypes = {
   getGroups: PropTypes.func.isRequired,
-  getMessages: PropTypes.func.isRequired,
+  setGroupToStore: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  groups: PropTypes.array.isRequired
 };
 
 /**
@@ -28,6 +29,17 @@ export class DashboardPage extends Component {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
+
+  /**
+   * @method componentDidMount
+   * @description class method that gets the user's groups on component mount
+   * @return {void}
+   * @memberof DashboardPage
+   */
+  componentDidMount() {
+    this.props.getGroups();
+  }
+
   /**
    * @method onClick
    * @description class method that handles the click of a group card
@@ -50,15 +62,6 @@ export class DashboardPage extends Component {
     $('.tooltipped').tooltip('remove');
     this.props.history.push('/group');
   }
-  /**
-   * @method componentDidMount
-   * @description class method that gets the user's groups on component mount
-   * @return {void}
-   * @memberof DashboardPage
-   */
-  componentDidMount() {
-    this.props.getGroups();
-  }
 
   /**
    * @method render
@@ -68,10 +71,11 @@ export class DashboardPage extends Component {
    */
   render() {
     const groups = this.props.groups;
-    const groupCards = groups.map(group => <GroupCards
-      onClick={ this.onClick }
-      group={ group }
-      key={ group.group.id }/>);
+    const groupCards = groups.map(group => (<GroupCards
+      onClick={this.onClick}
+      group={group}
+      key={group.group.id}
+    />));
     return (
       <div className="row">
         { /* Sidebar*/ }
@@ -84,7 +88,8 @@ export class DashboardPage extends Component {
             </h5>
             { /* Group cards*/ }
             { (groups.length > 0) ? groupCards : <h6
-              className="center-align margin-v2">
+              className="center-align margin-v2"
+            >
               No Groups Available. Create one from the sidebar</h6> }
           </div>
         </div>
@@ -102,4 +107,4 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getGroups, getMessages, setGroupToStore })(withRouter(DashboardPage));
+  { getGroups, setGroupToStore })(withRouter(DashboardPage));

@@ -1,15 +1,13 @@
-import 'babel-polyfill'
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import jwt from 'jsonwebtoken';
 import store from './store';
 import setAuthToken from './utilities/setAuthToken';
-import App from './components/App.jsx';
+import App from './components/App';
 import { setCurrentUser } from './actions/signinAction';
 import { setGroupDetail } from './actions/groupActions';
-import { passMessage } from './actions/messageActions';
 import './styles/main.scss';
 
 
@@ -20,12 +18,9 @@ if (localStorage.jwtToken) {
 if (sessionStorage.groupDetails) {
   store.dispatch(setGroupDetail(sessionStorage.groupDetails.split(',')));
 }
-if (sessionStorage.message) {
-  store.dispatch(passMessage(sessionStorage.message));
-}
 
 ReactDOM.render(
-  <Provider store={ store }>
+  <Provider store={store}>
     <div>
       <App />
     </div>

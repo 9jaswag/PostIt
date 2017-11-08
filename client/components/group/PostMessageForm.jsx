@@ -1,7 +1,3 @@
-/**
- * Component for form that posts a message to a group
- */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,7 +5,9 @@ import { withRouter } from 'react-router-dom';
 import getMessages, { postMessage } from '../../actions/messageActions';
 
 const propTypes = {
-  postMessage: PropTypes.func.isRequired
+  postMessage: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 /**
@@ -52,7 +50,6 @@ export class PostMessageForm extends Component {
           title: '',
           priority: 'normal'
         });
-        this.props.getMessages(this.props.groupId);
         Materialize.toast('Message posted', 2000);
         this.props.history.push('/group');
       },
@@ -96,43 +93,57 @@ export class PostMessageForm extends Component {
               </h5>
             </div>
           </div>
-          <form action="" className="col s12" onSubmit= { this.onSubmit }>
+          <form action="" className="col s12" onSubmit={this.onSubmit}>
             <div className="row form">
               <div className="input-field col s12">
-                <input type="text"
+                <input
+                  type="text"
                   cols="30"
                   rows="10"
                   id="title"
                   name="title"
-                  value={ this.state.title }
-                  onChange= { this.onChange }
-                  className="validate form" required autoComplete="off"/>
+                  value={this.state.title}
+                  onChange={this.onChange}
+                  className="validate form"
+                  required
+                  autoComplete="off"
+                />
                 <label htmlFor="title">Message Title</label>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <textarea cols="30"
-                  rows="10" id="message"
-                  name="message" value={ this.state.message }
-                  onChange= { this.onChange }
-                  className="materialize-textarea form" required
-                  autoComplete="off"></textarea>
+                <textarea
+                  cols="30"
+                  rows="10"
+                  id="message"
+                  name="message"
+                  value={this.state.message}
+                  onChange={this.onChange}
+                  className="materialize-textarea form"
+                  required
+                  autoComplete="off"
+                />
                 <label htmlFor="message">Message body</label>
               </div>
             </div>
             <div className="row form">
               <div className="input-field col s12">
-                <select className="browser-default"
-                  name="priority" id="priority"
-                  value={ this.state.priority }
-                  onChange= { this.onChange }>
+                <select
+                  className="browser-default"
+                  name="priority"
+                  id="priority"
+                  value={this.state.priority}
+                  onChange={this.onChange}
+                >
                   <option value="normal" defaultValue>Normal</option>
                   <option value="urgent">Urgent</option>
                   <option value="critical">Critical</option>
                 </select>
-                <label htmlFor="priority"
-                  className="active">Message Priority
+                <label
+                  htmlFor="priority"
+                  className="active"
+                >Message Priority
                 </label>
               </div>
             </div>
@@ -141,7 +152,8 @@ export class PostMessageForm extends Component {
                 <input
                   className="waves-effect waves-light one-whole btn margin-v2"
                   type="submit"
-                  value="Send Broadcast Message"/>
+                  value="Send Broadcast Message"
+                />
               </div>
             </div>
           </form>

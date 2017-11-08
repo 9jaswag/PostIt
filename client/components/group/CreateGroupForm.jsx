@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import createGroup from '../../actions/groupActions';
 
 const propTypes = {
-  createGroup: PropTypes.func.isRequired
+  createGroup: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 /**
@@ -79,15 +80,19 @@ export class CreateGroupForm extends Component {
     const { errors } = this.state;
     return (
       <div className="container">
-        <form action="" className="col s12" onSubmit={ this.onSubmit }>
+        <form action="" className="col s12" onSubmit={this.onSubmit}>
           <div className="row">
             <div className="input-field col s12">
-              <input type="text"
+              <input
+                type="text"
                 name="name"
                 id="name"
                 className="validate"
-                onChange={ this.onChange }
-                value={ this.state.name } required autoComplete="off" />
+                onChange={this.onChange}
+                value={this.state.name}
+                required
+                autoComplete="off"
+              />
               <label htmlFor="name">Group Name</label>
               { errors.group && <span className="error">
                 { errors.group }</span>}
@@ -95,13 +100,17 @@ export class CreateGroupForm extends Component {
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input type="text"
+              <input
+                type="text"
                 name="description"
                 id="description"
                 className="validate"
-                onChange={ this.onChange }
-                value={ this.state.description } data-length="60" required
-                autoComplete="off"/>
+                onChange={this.onChange}
+                value={this.state.description}
+                data-length="60"
+                required
+                autoComplete="off"
+              />
               <label htmlFor="description">Group Description</label>
               { errors.description && <span className="error">
                 { errors.description }</span>}
@@ -109,8 +118,11 @@ export class CreateGroupForm extends Component {
           </div>
           <div className="row">
             <div className="input-field col s12">
-              <input className="btn one-whole"
-                type="submit" value="Create Group"/>
+              <input
+                className="btn one-whole"
+                type="submit"
+                value="Create Group"
+              />
             </div>
           </div>
         </form>

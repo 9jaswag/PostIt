@@ -6,7 +6,8 @@ import PropTypes from 'prop-types';
 import resetPassword from '../../actions/resetPasswordAction';
 
 const propTypes = {
-  resetPassword: PropTypes.func.isRequired
+  resetPassword: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 /**
@@ -34,6 +35,22 @@ export class ResetPassword extends Component {
     this.onChange = this.onChange.bind(this);
     this.submitRequest = this.submitRequest.bind(this);
     this.submitReset = this.submitReset.bind(this);
+  }
+
+  /**
+   * @method componentWillMount
+   * @description class method that sets state to determine the form to show
+   * based on the page's URL
+   * @method componentWillMount
+   * @return {void}
+   * @memberof DashboardPage
+   */
+  componentWillMount() {
+    if (queryString.parse(location.search).token) {
+      this.setState({ initial: false, secondary: true });
+    } else {
+      this.setState({ initial: true, secondary: false });
+    }
   }
 
   /**
@@ -109,48 +126,38 @@ export class ResetPassword extends Component {
   }
 
   /**
-   * @method componentWillMount
-   * @description class method that sets state to determine the form to show
-   * based on the page's URL
-   * @method componentWillMount
-   * @return {void}
-   * @memberof DashboardPage
-   */
-  componentWillMount() {
-    if (queryString.parse(location.search).token) {
-      this.setState({ initial: false, secondary: true });
-    } else {
-      this.setState({ initial: true, secondary: false });
-    }
-  }
-
-  /**
    * @method render
    * @description class method that renders the component
    * @returns {string} The HTML markup for the ResetPassword component
    * @memberof ResetPassword
    */
   render() {
-    const requestResetForm = <div className="container">
+    const requestResetForm = (<div className="container">
       <h4 className="center-align text-white">Forgot password?</h4>
       <section className="padding bkg-white box-shadow margin-v-top-3">
-        <form action="" onSubmit={ this.submitRequest }>
+        <form action="" onSubmit={this.submitRequest}>
           <div className="input-field center-align col s12">
             <label htmlFor="email">Enter your email address</label>
-            <input type="email"
+            <input
+              type="email"
               name="email"
               id="email"
               className="validate"
-              value={ this.state.email }
-              onChange={ this.onChange }
-              required autoComplete="off"/>
-            <input type="submit"
+              value={this.state.email}
+              onChange={this.onChange}
+              required
+              autoComplete="off"
+            />
+            <input
+              type="submit"
               value="Submit"
-              className="btn one-whole display-block"/>
+              className="btn one-whole display-block"
+            />
           </div>
           <div className="center-align margin-v">
             { this.state.error && <span
-              className="error">{ this.state.error }</span>}
+              className="error"
+            >{ this.state.error }</span>}
           </div>
         </form>
         <div className="col s12 margin-v">
@@ -159,37 +166,46 @@ export class ResetPassword extends Component {
           </Link>
         </div>
       </section>
-    </div>;
-    const resetPasswordForm = <div className="container">
+    </div>);
+    const resetPasswordForm = (<div className="container">
       <h4 className="center-align text-white">Reset password?</h4>
       <section className="padding bkg-white box-shadow margin-v-top-3">
-        <form action="" onSubmit={ this.submitReset }>
+        <form action="" onSubmit={this.submitReset}>
           <div className="input-field col s12">
             <label htmlFor="password">Enter your new password</label>
-            <input type="password"
+            <input
+              type="password"
               name="password"
               id="password"
               className="validate"
-              value={ this.state.password }
-              onChange={ this.onChange } required/>
+              value={this.state.password}
+              onChange={this.onChange}
+              required
+            />
           </div>
           <div className="input-field col s12">
             <label htmlFor="confirmPassword">Confirm new password</label>
-            <input type="password"
+            <input
+              type="password"
               name="confirmPassword"
               id="confirmPassword"
               className="validate"
-              value={ this.state.confirmPassword }
-              onChange={ this.onChange } required/>
+              value={this.state.confirmPassword}
+              onChange={this.onChange}
+              required
+            />
           </div>
           <div className="input-field col s12">
-            <input type="submit"
+            <input
+              type="submit"
               value="Reset password"
-              className="btn one-whole display-block"/>
+              className="btn one-whole display-block"
+            />
           </div>
           <div className="center-align margin-v">
             { this.state.error && <span
-              className="error">{ this.state.error }</span>}
+              className="error"
+            >{ this.state.error }</span>}
           </div>
         </form>
         <div className="col s12 margin-v">
@@ -198,7 +214,7 @@ export class ResetPassword extends Component {
           </Link>
         </div>
       </section>
-    </div>;
+    </div>);
     return (
       <div className="teal accent-4 fh">
         <div className="container margin-v-top-5">

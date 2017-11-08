@@ -12,10 +12,14 @@
     "sessionStorage": true,
     "window": true,
     "jest": true,
-    "expect": true
+    "expect": true,
+    "Materialize": true,
+    "$": true,
+    "location": true
   },
   "rules": {
     "comma-dangle": 0,
+    "max-len": [1, 80, 2],
     "consistent-return": 0,
     "class-methods-use-this": 0,
     "jsx-a11y/img-has-alt": 0,
@@ -23,6 +27,7 @@
     "react/forbid-prop-types": 0,
     "react/prefer-stateless-function": 0,
     "jsx-a11y/href-no-hash": 0,
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    "jsx-a11y/label-has-for": 0
   }
 }

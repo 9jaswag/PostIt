@@ -1,8 +1,4 @@
-/**
- * reducer to pass message to store
- */
-
-import { PASS_MESSAGE, SET_MESSAGE } from '../actions/types';
+import { SET_MESSAGE, UPDATE_GROUP_MESSAGE } from '../actions/types';
 
 /**
  * @param {object} state object containing initial state
@@ -11,10 +7,10 @@ import { PASS_MESSAGE, SET_MESSAGE } from '../actions/types';
  */
 export default (state = [], action = {}) => {
   switch (action.type) {
-    case PASS_MESSAGE:
-      return Object.assign({}, state, { message: action.messageObject });
     case SET_MESSAGE:
       return action.messages;
+    case UPDATE_GROUP_MESSAGE:
+      return [action.message, ...state];
     default: return state;
   }
 };

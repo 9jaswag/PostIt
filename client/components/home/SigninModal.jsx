@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import SigninForm from './SigninForm.jsx';
+import React from 'react';
+import SigninForm from './SigninForm';
 
 /**
  * @function SigninModal
  * @description the SigninModal component.
  * @returns {string} The HTML markup for the SigninModal component
  */
-const SigninModal = () => <div>
+const SigninModal = () => (<div>
   {/* Sign In Modal */}
   <div id="signinModal" className="modal">
     <div className="modal-content">
@@ -16,6 +16,6 @@ const SigninModal = () => <div>
       <SigninForm />
     </div>
   </div>
-</div>;
+</div>);
 
 export default SigninModal;

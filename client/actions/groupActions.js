@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { SET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS } from './types';
+import { SET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS,
+  SET_FOUND_USER, UPDATE_MEMBER_COUNT, SET_SEARCHED_USERS } from './types';
 
 
 /**
@@ -32,6 +33,16 @@ export const setUserGroups = groups => ({
  */
 export const setGroupMemberCount = count => ({
   type: SET_MEMBER_COUNT,
+  count
+});
+
+/**
+ * @description action creator to update a group's member count to store
+ * @param {number} count - the group member count
+ * @returns {void}
+ */
+export const updateGroupMemberCount = count => ({
+  type: UPDATE_MEMBER_COUNT,
   count
 });
 
@@ -77,34 +88,63 @@ export const setGroupToStore = groupDetail => (dispatch) => {
 };
 
 /**
+ * @description action creator for setting a found user to store
+ * @param {object} user object containing search response
+ * @return {object} returns object and action type
+ */
+const setFoundUser = user => ({
+  type: SET_FOUND_USER,
+  user
+});
+
+/**
  * @function findUser
  * @description async action for finding a user
  * @param {string} username - username to be found
  * @return {promise} returns a user
  */
 export const findUser = username =>
-  () => axios.post('/api/v1/user/find', { username });
+  dispatch => axios.post('/api/v1/user/find', { username }).then((res) => {
+    dispatch(setFoundUser(res.data));
+  });
 
 
 /**
  * @function addUser
  * @description an async action creator for adding a user to a group
- * @param {number} id
- * @param {number} userId 
+ * @param {number} id - the group id
+ * @param {number} userId - the user's id
+ * @param {number} count - the current group member count
  * @return {promise} returns an array containing info of the added user
  */
-export const addUser = (id, userId) =>
-  () => axios.post(`/api/v1/group/${id}/user`, userId);
+export const addUser = (id, userId, count) =>
+  dispatch => axios.post(`/api/v1/group/${id}/user`, userId).then(() => {
+    dispatch(updateGroupMemberCount(count + 1));
+  });
 
 /**
  * @function removeUser
  * @description an async action creator for removing a user from a group
  * @param {number} id - the group's id
  * @param {number} userId - the user's id
+ * @param {number} count - the current group member count
  * @return {promise} calls the api to remove a user with the user's detail
+ * 
  */
-export const removeUser = (id, userId) =>
-  () => axios.patch(`/api/v1/group/${id}/remove`, userId);
+export const removeUser = (id, userId, count) =>
+  dispatch => axios.patch(`/api/v1/group/${id}/remove`, userId).then(() => {
+    dispatch(updateGroupMemberCount(count - 1));
+  });
+
+/**
+ * @description action creator to update search result to store
+ * @param {number} user - the group member count
+ * @returns {void}
+ */
+export const setSearchedUser = user => ({
+  type: SET_SEARCHED_USERS,
+  user
+});
 
 /**
  * @function searchUserAction
@@ -113,6 +153,12 @@ export const removeUser = (id, userId) =>
  * @return {promise} returns an array of matched users
  */
 export const searchUserAction = payload =>
-  () => axios.get(
-    `/api/v1/user/search?username=${payload.username}&offset=${payload.offset}&limit=${payload.limit}`
-  );
+  dispatch => axios.get(
+    `/api/v1/user/search?username=${
+      payload.username}&offset=${payload.offset}&limit=${payload.limit}`
+  ).then((res) => {
+    dispatch(setSearchedUser(res.data));
+  },
+  ({ response }) => {
+    dispatch(setSearchedUser(response.data));
+  });

@@ -1,9 +1,3 @@
-/* global location */
-
-/**
- * Component to protect auth required pages
- */
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -76,7 +70,7 @@ export default (ComposedComponent) => {
    */
     render() {
       return (
-        <ComposedComponent { ...this.props } />
+        <ComposedComponent {...this.props} />
       );
     }
   }
