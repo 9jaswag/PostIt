@@ -26,15 +26,20 @@ export const resetPasswordEmailTemplate = (url, resetToken, email, year) => `
     </div>
     <div style="text-align: center; padding: 0.5rem;">
       <p style="font-size: 1rem;">Hello there,</p>
-      <p style="font-size: 1rem;">Someone (hopefully you!) has requested a
-      password reset on your PostIT account. If you requested it, please click the
-      button below or copy the link into your browser to change
-      your password.</p>
-      <p style="font-size: 1rem;">If this is not you, please disregard this email</p>
-      <p style="padding: 0.5rem;"></p>
+      <p style="font-size: 1rem;">You recently requested a password reset
+      on your PostIT account. Click the button below to reset it</p>
+      <p style="padding: 0.3rem;"></p>
       <a style="padding: 0.7rem 2rem; background: #00a98f; color: white; text-decoration: none; border-radius: 2px;" href="http://${url}/resetpassword/?token=${resetToken}&email=${email}">RESET PASSWORD</a>
-      <p style="padding: 1rem; font-size: 1rem;">Link: http://${url}/resetpassword/?token=${resetToken}&email=${email}</p>
-      <p style="padding: 0.5rem;"></p> <hr/>
+      <p style="padding: 0.3rem;"></p>
+      <p style="padding: 1rem; font-size: 0.8rem;">If you did not request
+      a password reset, please ignore this email.
+      This password reset is only valid for the next 24 hours.</p>
+      <hr /> <p style="padding: 0.3rem;"></p>
+      <p style="padding: 1rem; font-size: 0.8rem;">If you're having trouble
+      clicking the password button, copy and paste the URL below into your
+      browser</p>
+      <p style="padding: 1rem; font-size: 0.8rem;">Link: http://${url}/resetpassword/?token=${resetToken}&email=${email}</p>
+      <p style="padding: 0.3rem;"></p> <hr/>
       <p style="font-size: 1rem;">PostIT © ${year}</p>
     </div>
   </div>
