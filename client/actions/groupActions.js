@@ -109,7 +109,9 @@ export const findUser = username =>
   dispatch => axios.post('/api/v1/user/find', { username }).then((res) => {
     dispatch(setFoundUser(res.data));
   },
-  err => err);
+  ({ response }) => {
+    dispatch(setFoundUser(response.data));
+  });
 
 
 /**
