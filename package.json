@@ -8,7 +8,7 @@
     "start": "babel-node ./server/bin/www",
     "start:prod": "node ./build/server/bin/www",
     "db-setup": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && npm run seed",
-    "test": "npm run db-setup && NODE_ENV=test nyc mocha --compilers js:babel-core/register server/test/userController.test server/test/groupController.test server/test/messageController.test server/test/helpers.test --timeout 50000",
+    "test": "npm run db-setup && NODE_ENV=test nyc mocha --compilers js:babel-core/register server/test/userController.test server/test/groupController.test server/test/messageController.test server/test/helpers.test server/test/userModel.test server/test/indexModel.test server/test/messageModel.test server/test/groupModel.test --timeout 50000",
     "lint": "esw server --color",
     "build-css": "node-sass --include-path scss ./template/styles/main.scss ./template/styles/style.css",
     "watch-css": "nodemon -e scss -x \"npm run build-css\"",
