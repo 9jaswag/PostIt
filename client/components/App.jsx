@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import HomePage from './home/HomePage';
 import DashboardPage from './dashboard/DashboardPage';
 import GroupPage from './group/GroupPage';
-import SearchPage from './search/Searchpage';
+import SearchPage from './search/SearchPage';
 import MessagePage from './group/MessagePage';
 import ResetPassword from './ResetPassword';
 import CreateGroupPage from './group/CreateGroupPage';

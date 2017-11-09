@@ -15,7 +15,6 @@ export default {
    */
   updateReadBy(req, res) {
     const errors = {};
-    // validation
     if (validator(req, res, 'updatereadby') !== 'validated') return;
     models.Message.findOne({
       where: { id: req.body.id },

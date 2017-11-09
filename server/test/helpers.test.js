@@ -1,6 +1,3 @@
-// helper functions test
-
-// import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 import customSort from '../../helpers/customSort';

@@ -20,7 +20,8 @@ export const setMessages = messages => ({
 const getMessages = id =>
   dispatch => axios.get(`/api/v1/group/${id}/messages`).then((res) => {
     dispatch(setMessages(res.data.message));
-  });
+  },
+  err => err);
 
 export default getMessages;
 
@@ -45,7 +46,8 @@ export const postMessage = (id, messageDetails) =>
   dispatch => axios.post(`/api/v1/group/${id}/message`, messageDetails)
     .then((res) => {
       dispatch(updateGroupMessages(res.data.data.message));
-    });
+    },
+    err => err);
 
 /**
  * @function updateReadBy

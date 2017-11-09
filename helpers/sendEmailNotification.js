@@ -8,9 +8,8 @@ import nodemailer from 'nodemailer';
  * @return {void}
  */
 const sendEmailNotification = (email, options) => {
-  // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
-    service: 'gmail', // secure:true for port 465, secure:false for port 587
+    service: 'gmail',
     port: 465,
     auth: {
       user: process.env.EMAIL_ADDRESS,
@@ -25,7 +24,6 @@ const sendEmailNotification = (email, options) => {
     html: options.message
   };
 
-  // send email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       return error;

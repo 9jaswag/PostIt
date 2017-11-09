@@ -136,13 +136,11 @@ export default {
             userId: req.decoded.id
           })
           .then((message) => {
-          // send response to client before attempting to send notification
             res.status(201).send({
               success: true,
               message: 'Message sent',
               data: { message }
             });
-            // message content
             const messageBody = emailTemplate(
               req.body.priority,
               req.headers.host,
@@ -150,9 +148,7 @@ export default {
               new Date().getFullYear()
             );
 
-            // send Email notification
             if (req.body.priority.toLowerCase() === 'urgent') {
-            // get users email and send message
               getUserEmails(req.params.group_id).then((users) => {
                 users.map((user) => {
                   if (user.email !== req.decoded.email) {
@@ -172,12 +168,9 @@ export default {
               apiSecret: process.env.API_SECRET,
             });
 
-            // send email and SMS Notification
             if (req.body.priority.toLowerCase() === 'critical') {
-            // get user email and phone details
               getUserEmails(req.params.group_id).then((users) => {
                 users.map((user) => {
-                // send email
                   if (user.email !== req.decoded.email) {
                     const messageOptions = {
                       subject: `${req.body.priority} message on PostIT`,
@@ -185,7 +178,6 @@ export default {
                     };
                     sendEmailNotification(user.email, messageOptions);
                   }
-                  // send sms
                   if (user.phone !== req.decoded.phone) {
                     nexmo.message.sendSms(
                       '2347033130448',
@@ -206,7 +198,6 @@ export default {
             error: error.message
           }));
       });
-      // @todo handle these errors "notNull Violation: title cannot be null"
     })
       .catch(error => res.status(500).send({
         success: false,
@@ -221,7 +212,6 @@ export default {
    */
   fetchMessage(req, res) {
     if (validator(req, res, 'fetchmessage') !== 'validated') return;
-    // check if group exists
     models.Group.findOne({
       where: { id: req.params.group_id }
     }).then((group) => {
@@ -229,7 +219,6 @@ export default {
         return res.status(404).send({ success: false,
           error: 'Group does not exist' });
       }
-      // check if user is group member
       models.UserGroup.findOne({
         where: { userId: req.decoded.id, groupId: req.params.group_id }
       }).then((groupMember) => {
@@ -264,7 +253,6 @@ export default {
       return res.status(400).send({ success: false,
         error: 'User and group id must be provided' });
     }
-    // cheeck if user and group exists
     models.UserGroup.findOne({
       where: {
         userId: req.body.userId,
