@@ -1,8 +1,3 @@
-/**
- * User controller
- * handles every user related task
- */
-
 import bcrypt from 'bcrypt';
 import models from '../models';
 import sendEmailNotification from '../../helpers/sendEmailNotification';
@@ -26,7 +21,6 @@ export default {
   signup(req, res) {
     const errors = {};
     if (validator(req, res, 'signup') !== 'validated') return;
-    // check if username exists
     models.User.findOne({ where: { username: req.body.username } })
       .then((foundUser) => {
         if (foundUser) {
@@ -34,7 +28,6 @@ export default {
           return res.status(409).send({
             success: false, errors });
         }
-        // check if email exists
         models.User.findOne({ where: { email: req.body.email } })
           .then((foundEmail) => {
             if (foundEmail) {
@@ -84,7 +77,6 @@ export default {
           });
       }
       if (user && user.verifyPassword(req.body.password)) {
-        // generate token
         const token = generateToken(user);
         return res.status(200).send({ success: true,
           message: 'Sign in successful',
@@ -126,7 +118,7 @@ export default {
       })
       .then((user) => {
         if (!user) {
-          return res.status(200)
+          return res.status(422)
             .send({ success: true, message: 'user not found' });
         }
         return res.status(200).send({ success: true, user });
@@ -160,18 +152,15 @@ export default {
         let mapCounter = 0;
         const groupsWithCount = [];
         user.Groups.map(group =>
-          // get messages that belong to each group
           group.getMessages({ attributes: ['readby'] })
             .then((messages) => {
               let unreadCount = 0;
               messages.forEach((message) => {
-                // if message has not been read by user, increment counter
                 if (!message.readby.includes(username)) unreadCount += 1;
               });
               groupsWithCount.push({ group, unreadCount });
               mapCounter += 1;
               if (mapCounter === user.Groups.length) {
-                // sort array to return by id and send response
                 res.status(200).send({
                   success: true,
                   groups: groupsWithCount.sort(customSort)
@@ -207,13 +196,12 @@ export default {
       attributes: ['id', 'username', 'email', 'phone'],
     })
       .then((users) => {
-        // res.status(200).send({ success: true, user });
         if (users.count > 0) {
           return res.status(200).send({ success: true,
             users: users.rows,
             pagination: paginate(users.count, limit, offset) });
         }
-        res.status(404).send({ success: false, error: 'User was not found' });
+        res.status(422).send({ success: false, error: 'User was not found' });
       })
       .catch((error) => {
         res.status(500).send({ success: false, error: error.message });
@@ -243,7 +231,6 @@ export default {
           const stringToHash = `${Math.random().toString()}`;
           const resetToken = bcrypt.hashSync(stringToHash, salt);
           const resetTime = Date.now();
-          // update table
           models.User.update({
             resetToken,
             resetTime
@@ -251,7 +238,6 @@ export default {
             where: { email }
           })
             .then(() => {
-              // message content
               const messageBody = resetPasswordEmailTemplate(
                 req.headers.host,
                 resetToken,
@@ -262,13 +248,13 @@ export default {
                 subject: 'Password Request on PostIT',
                 message: messageBody
               };
-              // send email
               sendEmailNotification(email, messageOptions);
               if (process.env.NODE_ENV === 'test') {
                 res.status(200).send({
                   success: true, message: 'Email sent', resetToken });
               }
-              res.status(200).send({ success: true, message: 'Email sent. Check your inbox' });
+              res.status(200).send({
+                success: true, message: 'Email sent. Check your inbox' });
             })
             .catch(error => res.status(400).send(
               { success: false, error: error.message }));
@@ -295,7 +281,6 @@ export default {
                 error: 'Link has expired. Request for another reset link.'
               });
           }
-          // reset user password and delete token and resetTime
           models.User.update({
             password: bcrypt.hashSync(password, salt),
             resetToken: null,

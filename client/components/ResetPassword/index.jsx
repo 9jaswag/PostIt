@@ -132,7 +132,7 @@ export class ResetPassword extends Component {
    * @description class method that removes the modal backdrop
    * which remains after modal closes
    * @return {void}
-   * @memberof SigninForm
+   * @memberof ResetPassword
    */
   removeBackdrop() {
     $('#signinModal').modal('close');

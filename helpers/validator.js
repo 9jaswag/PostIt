@@ -10,7 +10,6 @@
 const validator = (req, res, type) => {
   const errors = { };
   let hasError = false;
-  // validation check
   if (type === 'signin') {
     if (!req.body.username || req.body.username.trim() === '') {
       hasError = true;

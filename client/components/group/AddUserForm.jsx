@@ -83,7 +83,6 @@ export class AddUserForm extends Component {
    */
   onClick() {
     this.setState({ error: '' });
-    // if user is not a group member then add the user
     if (this.state.userToAdd.userId && !this.state.userToAdd.isMember) {
       const groupId = this.props.groupId;
       const userToAdd = this.state.userToAdd;
@@ -139,7 +138,6 @@ export class AddUserForm extends Component {
         Materialize.toast('Only group owner can remove users from group', 2000);
       }
     }
-    // reset state
     this.setState({
       username: '',
       fetchedUsers: [],

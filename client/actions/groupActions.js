@@ -54,7 +54,8 @@ export const updateGroupMemberCount = count => ({
 export const getGroups = () =>
   dispatch => axios.get('/api/v1/user/group').then((res) => {
     dispatch(setUserGroups(res.data.groups));
-  });
+  },
+  err => err);
 
 /**
  * @function getMemberCount
@@ -65,7 +66,8 @@ export const getGroups = () =>
 export const getMemberCount = id =>
   dispatch => axios.get(`/api/v1/group/${id}/count`).then((res) => {
     dispatch(setGroupMemberCount(res.data.group));
-  });
+  },
+  err => err);
 
 /**
  * @description action creator to set a group's details to store
@@ -106,7 +108,8 @@ const setFoundUser = user => ({
 export const findUser = username =>
   dispatch => axios.post('/api/v1/user/find', { username }).then((res) => {
     dispatch(setFoundUser(res.data));
-  });
+  },
+  err => err);
 
 
 /**
@@ -120,7 +123,8 @@ export const findUser = username =>
 export const addUser = (id, userId, count) =>
   dispatch => axios.post(`/api/v1/group/${id}/user`, userId).then(() => {
     dispatch(updateGroupMemberCount(count + 1));
-  });
+  },
+  err => err);
 
 /**
  * @function removeUser
@@ -134,7 +138,8 @@ export const addUser = (id, userId, count) =>
 export const removeUser = (id, userId, count) =>
   dispatch => axios.patch(`/api/v1/group/${id}/remove`, userId).then(() => {
     dispatch(updateGroupMemberCount(count - 1));
-  });
+  },
+  err => err);
 
 /**
  * @description action creator to update search result to store

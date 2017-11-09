@@ -1,8 +1,6 @@
 import controllers from '../controllers';
 import auth from '../middlewares/auth';
 
-// API routes
-
 export default (app) => {
   // base API
   app.get('/api', (req, res) => res.status(200).send({

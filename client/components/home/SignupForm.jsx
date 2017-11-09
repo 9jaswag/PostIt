@@ -65,7 +65,6 @@ export class SignupForm extends Component {
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
-    // validation checks
     if (this.state.password.length < 6) {
       return this.setState({
         errors: {

@@ -395,7 +395,7 @@ describe('User Controller Test', () => {
         })
         .set('x-access-token', token)
         .end((err, res) => {
-          res.should.have.status(200);
+          res.should.have.status(422);
           res.body.message.should.equals('user not found');
           done();
         });
@@ -487,7 +487,7 @@ describe('User Controller Test', () => {
         .type('form')
         .set('x-access-token', token)
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(422);
           res.body.error.should.equals('User was not found');
           done();
         });
