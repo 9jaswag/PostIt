@@ -48,12 +48,6 @@ export class DashboardPage extends Component {
    * @memberof DashboardPage
    */
   onClick(event) {
-    sessionStorage.setItem(
-      'groupDetails',
-      [event.target.dataset.id,
-        event.target.dataset.name,
-        event.target.dataset.owner
-      ]);
     this.props.setGroupToStore(
       [event.target.dataset.id,
         event.target.dataset.name,

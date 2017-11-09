@@ -2,6 +2,15 @@ import axios from 'axios';
 import { SET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS,
   SET_FOUND_USER, UPDATE_MEMBER_COUNT, SET_SEARCHED_USERS } from './types';
 
+/**
+ * @description action creator to set a group's details to store
+ * @param {array} groupDetails array containing group details
+ * @returns {object} returns object and action type
+ */
+export const setGroupDetail = groupDetails => ({
+  type: SET_GROUP_DETAILS,
+  groupDetails
+});
 
 /**
  * @function createGroup
@@ -11,7 +20,14 @@ import { SET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS,
  * @return {promise} returns an array containing info of the created group
  */
 const createGroup = groupDetails =>
-  () => axios.post('/api/v1/group', groupDetails);
+  dispatch => axios.post('/api/v1/group', groupDetails).then((res) => {
+    const groupDetail = [
+      res.data.data.group.id,
+      res.data.data.group.name,
+      res.data.data.group.owner
+    ];
+    dispatch(setGroupDetail(groupDetail));
+  });
 
 export default createGroup;
 
@@ -68,16 +84,6 @@ export const getMemberCount = id =>
     dispatch(setGroupMemberCount(res.data.group));
   },
   err => err);
-
-/**
- * @description action creator to set a group's details to store
- * @param {array} groupDetails array containing group details
- * @return {object} returns object and action type
- */
-export const setGroupDetail = groupDetails => ({
-  type: SET_GROUP_DETAILS,
-  groupDetails
-});
 
 /**
  * @function setGroupToStore

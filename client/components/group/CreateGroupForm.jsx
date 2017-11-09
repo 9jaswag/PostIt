@@ -57,8 +57,8 @@ export class CreateGroupForm extends Component {
     if (this.state.description.length < 61) {
       this.props.createGroup(this.state).then(
         () => {
-          this.props.history.push('/dashboard');
           Materialize.toast('Group created successfully', 2000);
+          this.props.history.push('/group');
         },
         ({ response }) => this.setState(
           { errors: response.data.errors, isLoading: false })

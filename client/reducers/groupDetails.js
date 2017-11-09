@@ -8,6 +8,7 @@ import { SET_GROUP_DETAILS } from '../actions/types';
 export default (state = [], action = {}) => {
   switch (action.type) {
     case SET_GROUP_DETAILS:
+      sessionStorage.setItem('groupDetails', action.groupDetails);
       return action.groupDetails;
     default: return state;
   }
