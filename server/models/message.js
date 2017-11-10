@@ -6,6 +6,11 @@ export default (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'Message title can not be empty'
+        }
+      }
     },
     message: {
       type: DataTypes.STRING,
