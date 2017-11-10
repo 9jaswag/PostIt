@@ -15,5 +15,24 @@ describe('Group model', () => {
     });
     done();
   });
+  it('should not create a group if group name is empty', (done) => {
+    models.Group.create(group.demoGroup2).then().catch((error) => {
+      error.errors[0].message.should.equal('Group name can not be empty');
+    });
+    done();
+  });
+  it('should not create a group if group description is empty', (done) => {
+    models.Group.create(group.demoGroup3).then().catch((error) => {
+      error.errors[0].message.should
+        .equal('Group description can not be empty');
+    });
+    done();
+  });
+  it('should not create a group if group owner is empty', (done) => {
+    models.Group.create(group.demoGroup4).then().catch((error) => {
+      error.errors[0].message.should.equal('Group must have an owner');
+    });
+    done();
+  });
 });
 

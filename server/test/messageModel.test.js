@@ -17,5 +17,35 @@ describe('Message model', () => {
     });
     done();
   });
+  it('should not create a message if title is empty', (done) => {
+    models.Message.create(message.demoMessage2).then().catch((error) => {
+      error.errors[0].message.should.equal('Message title can not be empty');
+    });
+    done();
+  });
+  it('should not create a message if message body is empty', (done) => {
+    models.Message.create(message.demoMessage3).then().catch((error) => {
+      error.errors[0].message.should.equal('Message can not be empty');
+    });
+    done();
+  });
+  it('should not create a message if message priority is null', (done) => {
+    models.Message.create(message.demoMessage4).then().catch((error) => {
+      error.errors[0].message.should.equal('priority cannot be null');
+    });
+    done();
+  });
+  it('should not create a message if message author is null', (done) => {
+    models.Message.create(message.demoMessage5).then().catch((error) => {
+      error.errors[0].message.should.equal('author cannot be null');
+    });
+    done();
+  });
+  it('should not create a message if message readby is null', (done) => {
+    models.Message.create(message.demoMessage6).then().catch((error) => {
+      error.errors[0].message.should.equal('readby cannot be null');
+    });
+    done();
+  });
 });
 
