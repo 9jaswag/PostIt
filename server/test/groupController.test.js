@@ -12,6 +12,7 @@ chai.use(chaiHttp);
 let token;
 let userToken;
 let fakeToken;
+let thirdToken;
 
 describe('Group controller test', () => {
   const { user } = userData;
@@ -83,14 +84,14 @@ describe('Group controller test', () => {
     });
   });
   describe('Add user route', () => {
-    before((done) => {
+    before(() => {
       fakeToken = jwt.sign({
         id: user.id,
         email: user.secondEmail,
         username: user.secondUsername,
         phone: user.secondPhone
       }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-      done();
+      thirdToken = generateToken(user.demoUser2);
     });
     it('should return status 401 if token is not in request header', (done) => {
       chai.request(app)
@@ -168,6 +169,21 @@ describe('Group controller test', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.message.should.equals('a Group ID is required');
+          done();
+        });
+    });
+    it('should return status 401 if user isnt group member', (done) => {
+      chai.request(app)
+        .post('/api/v1/group/1/user')
+        .type('form')
+        .set('x-access-token', thirdToken)
+        .send({
+          userId: user.id
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.should
+            .equals('Only group members can add users to group');
           done();
         });
     });
