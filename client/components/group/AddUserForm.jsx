@@ -43,6 +43,15 @@ export class AddUserForm extends Component {
     this.isGroupMember = this.isGroupMember.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.actionType === 'ADD_USER') {
+      Materialize.toast('user has been added to the group', 2000);
+    }
+    if (nextProps.actionType === 'REMOVE_USER') {
+      Materialize.toast('user has been removed from the group', 2000);
+    }
+  }
+
   /**
    * @method onChange
    * @description class method that handles user input in the add user form
@@ -96,12 +105,6 @@ export class AddUserForm extends Component {
         if (willDelete) {
           this.props.addUser(
             groupId, userToAdd, this.props.groupMemberCount
-          ).then(
-            () => {
-              this.props.history.push('/group');
-              Materialize.toast(
-                `${userToAdd.username} has been added to the group`, 2000);
-            }
           );
         } else {
           swal(`${userToAdd.username} was not added to the group`);
@@ -121,13 +124,6 @@ export class AddUserForm extends Component {
           if (willDelete) {
             this.props.removeUser(
               groupId, userToAdd, this.props.groupMemberCount
-            ).then(
-              () => {
-                this.props.history.push('/group');
-                Materialize.toast(
-                  `${userToAdd.username} has been removed from the group`,
-                  2000);
-              }
             );
           } else {
             swal(`${userToAdd.username} was not removed from the group`);
@@ -236,7 +232,8 @@ const mapStateToProps = state => ({
   currentUser: state.auth.user.username,
   groupId: state.groupDetails[0],
   foundUser: state.foundUser,
-  groupMemberCount: state.groupMemberCount
+  groupMemberCount: state.groupMemberCount,
+  actionType: state.actionType
 });
 
 export default connect(

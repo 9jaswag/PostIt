@@ -478,9 +478,23 @@ describe('Group controller test', () => {
           done();
         });
     });
-    it('should remove a user', (done) => {
+    it('should return status 401 if user isnt group owner', (done) => {
       chai.request(app)
         .patch('/api/v1/group/1/remove')
+        .type('form')
+        .set('x-access-token', token)
+        .send({
+          userId: user.id
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          res.body.error.should.equals('Only group owner can remove users');
+          done();
+        });
+    });
+    it('should remove a user', (done) => {
+      chai.request(app)
+        .patch('/api/v1/group/4/remove')
         .type('form')
         .set('x-access-token', token)
         .send({

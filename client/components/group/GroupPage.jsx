@@ -59,15 +59,12 @@ export class GroupPage extends Component {
       const groupId = this.props.groupDetails[0];
       this.props.getMessages(groupId).then(
         () => {
-          this.setState({ messages: this.props.messages }, () => {
-            this.filterMessages(this.props.messages);
-          });
-        },
-        ({ response }) => {
-          Materialize.toast(response.data.error, 2000);
-          this.props.history.push('/dashboard');
-        }
-      );
+          if (this.props.messages.length > 0) {
+            this.setState({ messages: this.props.messages }, () => {
+              this.filterMessages(this.props.messages);
+            });
+          }
+        });
       this.props.getMemberCount(groupId);
     } else {
       this.props.history.push('/dashboard');
@@ -88,6 +85,10 @@ export class GroupPage extends Component {
       }, () => {
         this.filterMessages(nextProps.messages);
       });
+    }
+    if (nextProps.error.error) {
+      Materialize.toast(nextProps.error.error, 2000);
+      this.props.history.push('/dashboard');
     }
   }
 
@@ -239,7 +240,8 @@ const mapStateToProps = state => ({
   groupDetails: state.groupDetails,
   user: state.auth.user,
   count: state.groupMemberCount,
-  messages: state.message
+  messages: state.message,
+  error: state.error
 });
 
 export default connect(

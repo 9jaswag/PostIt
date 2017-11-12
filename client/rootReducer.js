@@ -5,6 +5,8 @@ import message from './reducers/message';
 import groups, { groupMemberCount } from './reducers/groups';
 import foundUser from './reducers/foundUser';
 import searchUser from './reducers/searchUser';
+import error from './reducers/error';
+import actionType from './reducers/actionType';
 
 const appReducer = combineReducers({
   auth,
@@ -13,7 +15,9 @@ const appReducer = combineReducers({
   groups,
   groupMemberCount,
   foundUser,
-  searchUser
+  searchUser,
+  error,
+  actionType
 });
 
 export default (state, action) => {
