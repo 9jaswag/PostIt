@@ -65,6 +65,12 @@ export default ({
       email: 'jake@email.com',
       phone: '2343454545454',
       password: ''
+    },
+    demoUser8: {
+      id: 3,
+      username: 'user3',
+      email: 'user3@gmail.com',
+      phone: '2348012345670'
     }
   }
 });
