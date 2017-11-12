@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import getMessages, { postMessage } from '../../actions/messageActions';
+import { postMessage } from '../../actions/messageActions';
 
 const propTypes = {
   postMessage: PropTypes.func.isRequired,
-  getMessages: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };
 
@@ -33,6 +32,19 @@ export class PostMessageForm extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.postMessage 
+      && nextProps.message.length > this.props.message.length
+      && this.props.message.length !== 0) {
+      Materialize.toast('Message posted', 2000);
+      this.props.history.push('/group');
+    }
+    if (nextProps.error.error && nextProps.count === false) {
+      Materialize.toast(nextProps.error.error, 2000);
+      this.props.history.push('/dashboard');
+    }
+  }
+
   /**
    * @method onSubmit
    * @description class method that makes an action call
@@ -43,25 +55,12 @@ export class PostMessageForm extends Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.postMessage(this.props.groupId, this.state).then(
-      () => {
-        this.setState({
-          message: '',
-          title: '',
-          priority: 'normal'
-        });
-        Materialize.toast('Message posted', 2000);
-        this.props.history.push('/group');
-      },
-      ({ response }) => {
-        Materialize.toast(response.data.error, 2000);
-        this.setState({
-          message: '',
-          priority: 'normal',
-          title: '',
-        });
-      }
-    );
+    this.props.postMessage(this.props.groupId, this.state);
+    this.setState({
+      message: '',
+      title: '',
+      priority: 'normal'
+    });
   }
 
   /**
@@ -166,8 +165,10 @@ export class PostMessageForm extends Component {
 PostMessageForm.propTypes = propTypes;
 
 const mapStateToProps = state => ({
-  userDetails: state.auth.user
+  userDetails: state.auth.user,
+  message: state.message,
+  error: state.error
 });
 
 export default connect(
-  mapStateToProps, { postMessage, getMessages })(withRouter(PostMessageForm));
+  mapStateToProps, { postMessage })(withRouter(PostMessageForm));

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const propTypes = {
   userSignupRequest: PropTypes.func.isRequired,
@@ -43,6 +44,24 @@ export class SignupForm extends Component {
   }
 
   /**
+   * @method componentWillReceiveProps
+   * @description class method to check if signup was successful
+   * @param {object} nextProps new props coming into the component
+   * @return {void}
+   * @memberof SignupForm
+   */
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.isAuthenticated && nextProps.user.action === 'signup') {
+      $('#signupModal').modal('close');
+      Materialize.toast('Sign up successful. Welcome!', 2000);
+      this.props.history.push('/dashboard');
+    }
+    if (nextProps.user.errors) {
+      this.setState({ errors: nextProps.user.errors, isLoading: false });
+    }
+  }
+
+  /**
    * @typedef {object} KeyboardEvent
    */
 
@@ -78,15 +97,7 @@ export class SignupForm extends Component {
     const { username, email, password, phone } = this.state;
     const userData = {
       username, email, password, phone: formatPhoneNumber(phone) };
-    this.props.userSignupRequest(userData).then(
-      () => {
-        $('#signupModal').modal('close');
-        Materialize.toast('Sign up successful. Welcome!', 2000);
-        this.props.history.push('/dashboard');
-      },
-      ({ response }) => this.setState({
-        errors: response.data.errors, isLoading: false })
-    );
+    this.props.userSignupRequest(userData);
   }
 
   /**
@@ -178,6 +189,10 @@ export class SignupForm extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  user: state.auth
+});
+
 SignupForm.propTypes = propTypes;
 
-export default withRouter(SignupForm);
+export default connect(mapStateToProps)(withRouter(SignupForm));

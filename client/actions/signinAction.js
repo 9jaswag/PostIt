@@ -2,6 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthToken from '../utilities/setAuthToken';
 import { SET_CURRENT_USER } from './types';
+import { setAuthError } from './signupActions';
 
 /**
  * @description action creator that sets the current user to store
@@ -10,7 +11,8 @@ import { SET_CURRENT_USER } from './types';
  */
 export const setCurrentUser = user => ({
   type: SET_CURRENT_USER,
-  user
+  user,
+  action: 'signin'
 });
 
 /**
@@ -38,6 +40,7 @@ const Login = userData =>
     localStorage.setItem('jwtToken', token);
     setAuthToken(token);
     dispatch(setCurrentUser(jwt.decode(token)));
-  });
+  },
+  ({ response }) => dispatch(setAuthError(response.data)));
 
 export default Login;

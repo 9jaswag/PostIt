@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { SET_MESSAGE, UPDATE_GROUP_MESSAGE } from './types';
+import { setAction, setError } from './groupActions';
 
 /**
  * @description action creator to set message in store
@@ -20,8 +21,10 @@ export const setMessages = messages => ({
 const getMessages = id =>
   dispatch => axios.get(`/api/v1/group/${id}/messages`).then((res) => {
     dispatch(setMessages(res.data.message));
+    dispatch(setError({}));
+    dispatch(setAction('GET_MESSAGE'));
   },
-  err => err);
+  ({ response }) => dispatch(setError(response.data)));
 
 export default getMessages;
 
@@ -46,8 +49,9 @@ export const postMessage = (id, messageDetails) =>
   dispatch => axios.post(`/api/v1/group/${id}/message`, messageDetails)
     .then((res) => {
       dispatch(updateGroupMessages(res.data.data.message));
+      dispatch(setError({}));
     },
-    err => err);
+    ({ response }) => dispatch(setError(response.data)));
 
 /**
  * @function updateReadBy

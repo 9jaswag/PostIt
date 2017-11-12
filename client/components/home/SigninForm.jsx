@@ -6,7 +6,7 @@ import Login from '../../actions/signinAction';
 
 const propTypes = {
   Login: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };
 
 /**
@@ -34,6 +34,28 @@ export class SigninForm extends Component {
   }
 
   /**
+   * @method componentWillReceiveProps
+   * @description class method to check if sign in was successful
+   * @param {object} nextProps new props coming into the component
+   * @return {void}
+   * @memberof SigninForm
+   */
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.isAuthenticated && nextProps.user.action === 'signin') {
+      $('#signinModal').modal('close');
+      Materialize.toast('Sign in successful', 2000);
+      this.props.history.push('/dashboard');
+    }
+    if (nextProps.user.errors) {
+      this.setState(
+        { errors: {
+          message: 'Incorrect Username/Password' },
+        isLoading: false
+        });
+    }
+  }
+
+  /**
    * @method onChange
    * @description class method that sets user input to store
    * @param {object} event
@@ -54,18 +76,7 @@ export class SigninForm extends Component {
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
-    this.props.Login(this.state).then(
-      () => {
-        $('#signinModal').modal('close');
-        Materialize.toast('Sign in successful', 2000);
-        this.props.history.push('/dashboard');
-      },
-      () => this.setState(
-        { errors: {
-          message: 'Incorrect Username/Password' },
-        isLoading: false
-        })
-    );
+    this.props.Login(this.state);
   }
 
   /**
@@ -134,6 +145,10 @@ export class SigninForm extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  user: state.auth
+});
+
 SigninForm.propTypes = propTypes;
 
-export default connect(null, { Login })(withRouter(SigninForm));
+export default connect(mapStateToProps, { Login })(withRouter(SigninForm));

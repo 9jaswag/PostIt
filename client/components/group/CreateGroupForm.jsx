@@ -33,6 +33,18 @@ export class CreateGroupForm extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.groupDetails.length > 0 && !nextProps.error.errors) {
+      Materialize.toast('Group created successfully', 2000);
+      this.props.history.push('/group');
+    }
+    if (nextProps.error.errors) {
+      this.setState({
+        errors: nextProps.error.errors, isLoading: false
+      });
+    }
+  }
+
   /**
    * @method onChange
    * @description class method that sets user input to state
@@ -55,14 +67,7 @@ export class CreateGroupForm extends Component {
     event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
     if (this.state.description.length < 61) {
-      this.props.createGroup(this.state).then(
-        () => {
-          Materialize.toast('Group created successfully', 2000);
-          this.props.history.push('/group');
-        },
-        ({ response }) => this.setState(
-          { errors: response.data.errors, isLoading: false })
-      );
+      this.props.createGroup(this.state);
     } else {
       this.setState({ errors: {
         description: 'Group description must be 60 characters or less'
@@ -131,6 +136,11 @@ export class CreateGroupForm extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  groupDetails: state.groupDetails,
+  error: state.error
+});
+
 CreateGroupForm.propTypes = propTypes;
 
-export default connect(null, { createGroup })(withRouter(CreateGroupForm));
+export default connect(mapStateToProps, { createGroup })(withRouter(CreateGroupForm));

@@ -1,6 +1,14 @@
 import axios from 'axios';
-import { SET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS,
-  SET_FOUND_USER, UPDATE_MEMBER_COUNT, SET_SEARCHED_USERS } from './types';
+import {
+  ACTION_TYPE,
+  SET_ERROR,
+  SET_FOUND_USER,
+  SET_GROUP_DETAILS,
+  SET_MEMBER_COUNT,
+  SET_SEARCHED_USERS,
+  SET_USER_GROUPS,
+  UPDATE_MEMBER_COUNT,
+} from './types';
 
 /**
  * @description action creator to set a group's details to store
@@ -10,6 +18,26 @@ import { SET_USER_GROUPS, SET_MEMBER_COUNT, SET_GROUP_DETAILS,
 export const setGroupDetail = groupDetails => ({
   type: SET_GROUP_DETAILS,
   groupDetails
+});
+
+/**
+ * @description action creator to set error response to store
+ * @param {any} error error response
+ * @returns {object} returns object and action type
+ */
+export const setError = error => ({
+  type: SET_ERROR,
+  error
+});
+
+/**
+ * @description action creator to set dispatched action type to store
+ * @param {string} actionType the action type
+ * @returns {object} returns object containing action type
+ */
+export const setAction = actionType => ({
+  type: ACTION_TYPE,
+  actionType
 });
 
 /**
@@ -27,7 +55,9 @@ const createGroup = groupDetails =>
       res.data.data.group.owner
     ];
     dispatch(setGroupDetail(groupDetail));
-  });
+    dispatch(setError({}));
+  },
+  ({ response }) => dispatch(setError(response.data)));
 
 export default createGroup;
 
@@ -131,8 +161,10 @@ export const findUser = username =>
 export const addUser = (id, userId, count) =>
   dispatch => axios.post(`/api/v1/group/${id}/user`, userId).then(() => {
     dispatch(updateGroupMemberCount(count + 1));
+    dispatch(setError({}));
+    dispatch(setAction('ADD_USER'));
   },
-  err => err);
+  ({ response }) => dispatch(setError(response.data)));
 
 /**
  * @function removeUser
@@ -146,6 +178,8 @@ export const addUser = (id, userId, count) =>
 export const removeUser = (id, userId, count) =>
   dispatch => axios.patch(`/api/v1/group/${id}/remove`, userId).then(() => {
     dispatch(updateGroupMemberCount(count - 1));
+    dispatch(setError({}));
+    dispatch(setAction('REMOVE_USER'));
   },
   err => err);
 

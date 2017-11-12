@@ -70,36 +70,45 @@ export default {
               { success: false, error: 'User does not exist'
               });
         }
-      });
-      return models.UserGroup
-        .findOne({
-          where: {
-            userId: req.body.userId,
-            groupId: req.params.group_id
+        models.UserGroup.findOne({
+          where: { userId: req.decoded.id, groupId: req.params.group_id }
+        }).then((groupMember) => {
+          if (!groupMember) {
+            return res.status(401).send({
+              success: false,
+              error: 'Only group members can add users to group' });
           }
-        })
-        .then((user) => {
-          if (user) {
-            return res.status(409).send({ success: false,
-              error: 'User already belongs to this group' });
-          }
-          models.UserGroup.create({
-            userId: req.body.userId,
-            groupId: req.params.group_id
-          }).then(usergroup => res.status(201).send({
-            success: true,
-            message: 'User successfully added to group',
-            group: usergroup
-          }))
-            .catch(error => res.status(400).send({
+          return models.UserGroup
+            .findOne({
+              where: {
+                userId: req.body.userId,
+                groupId: req.params.group_id
+              }
+            })
+            .then((groupUser) => {
+              if (groupUser) {
+                return res.status(409).send({ success: false,
+                  error: 'User already belongs to this group' });
+              }
+              models.UserGroup.create({
+                userId: req.body.userId,
+                groupId: req.params.group_id
+              }).then(usergroup => res.status(201).send({
+                success: true,
+                message: 'User successfully added to group',
+                group: usergroup
+              }))
+                .catch(error => res.status(400).send({
+                  success: false,
+                  error: error.message
+                }));
+            })
+            .catch(error => res.status(500).send({
               success: false,
               error: error.message
             }));
-        })
-        .catch(error => res.status(500).send({
-          success: false,
-          error: error.message
-        }));
+        });
+      });
     });
   },
   /**
@@ -263,15 +272,28 @@ export default {
         return res.status(404).send({ success: false,
           error: 'User or group does not exist' });
       }
-      models.UserGroup.destroy({
+      models.Group.findOne({
         where: {
-          userId: req.body.userId,
-          groupId: req.params.group_id
+          owner: req.decoded.username,
+          id: req.params.group_id
         }
-      }).then(removedUser => res.status(200).send({
-        success: true,
-        removedUser
-      }));
+      }).then((groupOwner) => {
+        if (!groupOwner) {
+          return res.status(401).send({
+            success: false,
+            error: 'Only group owner can remove users'
+          });
+        }
+        models.UserGroup.destroy({
+          where: {
+            userId: req.body.userId,
+            groupId: req.params.group_id
+          }
+        }).then(removedUser => res.status(200).send({
+          success: true,
+          removedUser
+        }));
+      });
     })
       .catch(error => res.status(500).send({
         success: false,
