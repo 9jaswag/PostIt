@@ -1,6 +1,9 @@
 import expect from 'expect';
 import groupDetails from '../../reducers/groupDetails';
 import mockData from '../../__mocks__/mockData';
+import mockSessionStorage from '../../__mocks__/mockSessionStorage';
+
+Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
 
 describe('group detail reducer', () => {
   const { reducer } = mockData;

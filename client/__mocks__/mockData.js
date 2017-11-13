@@ -1,6 +1,6 @@
 import { SET_GROUP_DETAILS, SET_USER_GROUPS,
-  SET_MEMBER_COUNT, PASS_MESSAGE,
-  SET_CURRENT_USER, SET_MESSAGE } from '../actions/types';
+  SET_MEMBER_COUNT, UPDATE_GROUP_MESSAGE,
+  SET_CURRENT_USER, SET_MESSAGE, UPDATE_MEMBER_COUNT, AUTH_ERROR } from '../actions/types';
 
 export default ({
   eventObject: {
@@ -69,17 +69,6 @@ export default ({
       type: SET_GROUP_DETAILS,
       groupDetails: 5
     }],
-    passMessageAction: [{
-      type: PASS_MESSAGE,
-      messageObject: [{
-        id: 1,
-        title: 'Mwanzo of Awesomeness ',
-        message: 'this is it',
-        priority: 'urgent',
-        author: 'chuks',
-        readby: ['chuks']
-      }]
-    }],
     searchPayload: {
       username: 'chuks',
       offset: 0,
@@ -99,7 +88,7 @@ export default ({
       { type: SET_CURRENT_USER }
     ],
     logoutAction: [
-      { type: SET_CURRENT_USER, user: {} }
+      { type: SET_CURRENT_USER, user: {}, action: 'signin' }
     ],
     auth: {
       isAuthenticated: true,
@@ -141,7 +130,12 @@ export default ({
           Groups: []
         } } })),
         addUser: jest.fn(() => Promise.resolve()),
-        removeUser: jest.fn(() => Promise.resolve())
+        removeUser: jest.fn(() => Promise.resolve()),
+        foundUser: {
+          user: {}
+        },
+        history: { push: jest.fn() },
+        groupMemberCount: 1
       },
       errorResponse: { error: 'user already belongs to this group' },
       onChangeTarget: {
@@ -151,6 +145,7 @@ export default ({
     createGroupForm: {
       props: {
         createGroup: jest.fn(() => Promise.resolve()),
+        history: { push: jest.fn() }
       },
       errorResponse: { errors: { group: 'group already exists' } },
       onChangeTarget: {
@@ -163,6 +158,20 @@ export default ({
           success: false,
           errors: 'No cant do'
         }
+      },
+      longDescription:
+      'this is a very very long description which will not get validated',
+      nextProps: {
+        groupDetails: [1],
+        error: {}
+      },
+      errorNextProps: {
+        groupDetails: [],
+        error: { errors: 'group not created' }
+      },
+      createGroupStore: {
+        groupDetails: 1,
+        error: {}
       }
     },
     dashboardPage: {
@@ -214,8 +223,9 @@ export default ({
       },
       props: {
         groupDetails: [3, 'HNG'],
+        history: { push: jest.fn() },
+        count: 5,
         getMessages: jest.fn(() => Promise.resolve()),
-        passMessage: jest.fn(),
         updateReadBy: jest.fn(),
         getMemberCount: jest.fn(),
         user: {
@@ -271,7 +281,8 @@ export default ({
           readby: ['chuks'],
           groupId: 1,
           userId: 2
-        }]
+        }],
+        error: { error: 'you are not a group member' }
       },
       failedResponse: {
         data: { error: 'No group found' }
@@ -341,7 +352,8 @@ export default ({
         createdAt: '2017-08-19T16:37:06.603Z'
       },
       props: {
-        history: { push: jest.fn() }
+        history: { push: jest.fn() },
+        location: { state: { message: 'yh' } }
       }
     },
     postMessage: {
@@ -349,7 +361,9 @@ export default ({
         auth: { user: {} }
       },
       props: {
-        postMessage: jest.fn(() => Promise.resolve())
+        postMessage: jest.fn(() => Promise.resolve()),
+        history: { push: jest.fn() },
+        message: [1]
       },
       onChangeTarget: {
         target: {
@@ -362,6 +376,15 @@ export default ({
           success: false,
           message: 'No cant do'
         }
+      },
+      nextProps: {
+        postMessage: jest.fn(),
+        message: [1, 2, 3, 4],
+        error: {}
+      },
+      errorNextProps: {
+        error: { error: 'message not sent' },
+        count: false
       }
     },
     renderUser: {
@@ -376,7 +399,8 @@ export default ({
     },
     resetPassword: {
       props: {
-        resetPassword: jest.fn(() => Promise.resolve())
+        resetPassword: jest.fn(() => Promise.resolve()),
+        history: { push: jest.fn() }
       },
       onChangeTarget: {
         target: {
@@ -408,7 +432,8 @@ export default ({
     },
     searchPage: {
       props: {
-        searchUserAction: jest.fn(() => Promise.resolve())
+        searchUserAction: jest.fn(() => Promise.resolve()),
+        searchResult: {}
       },
       searchResponse: { count: 5,
         limit: 2,
@@ -445,12 +470,14 @@ export default ({
           }
         },
         logout: jest.fn(() => Promise.resolve()),
-        createGroup: jest.fn(() => Promise.resolve())
+        createGroup: jest.fn(() => Promise.resolve()),
+        history: { push: jest.fn() }
       }
     },
     signinForm: {
       props: {
-        Login: jest.fn(() => Promise.resolve())
+        Login: jest.fn(() => Promise.resolve()),
+        history: { push: jest.fn() }
       },
       errorState: { errors: { message: 'an error' } },
       onChangeTarget: {
@@ -460,11 +487,21 @@ export default ({
       },
       failedRequest: {
         errors: { username: 'not exist' }
-      }
+      },
+      nextProps: {
+        user: { isAuthenticated: true, action: 'signin' }
+      },
+      errorNextProps: {
+        user: { errors: 'nope' }
+      },
+      store: {
+        user: {}
+      },
     },
     signupForm: {
       props: {
-        userSignupRequest: jest.fn(() => Promise.resolve())
+        userSignupRequest: jest.fn(() => Promise.resolve()),
+        history: { push: jest.fn() }
       },
       onChangeTarget: {
         target: {
@@ -481,6 +518,15 @@ export default ({
       emailError: { errors: { email: 'email does not exist' } },
       failedRequest: {
         data: { errors: { username: 'does not exist' } }
+      },
+      nextProps: {
+        user: { isAuthenticated: true, action: 'signup' }
+      },
+      errorNextProps: {
+        user: { errors: 'username exists' }
+      },
+      store: {
+        user: {}
       }
     },
     signupModal: {
@@ -503,7 +549,12 @@ export default ({
         username: 'chuks'
       }
     },
+    setAuthError: {
+      type: AUTH_ERROR,
+      error: 'auth failed'
+    },
     setCurrentUserAction: {
+      action: undefined,
       isAuthenticated: true,
       user: {
         id: 1,
@@ -530,19 +581,6 @@ export default ({
       type: SET_MEMBER_COUNT,
       count: 3
     },
-    passMessage: {
-      type: PASS_MESSAGE,
-      messageObject: {
-        title: 'The End',
-        message: 'this is the end'
-      }
-    },
-    passMessageAction: {
-      message: {
-        message: 'this is the end',
-        title: 'The End'
-      }
-    },
     setMessage: {
       type: SET_MESSAGE,
       messages: {
@@ -553,6 +591,20 @@ export default ({
     setMessageAction: {
       message: 'this is the end',
       title: 'The End'
+    },
+    updateMessage: {
+      type: UPDATE_GROUP_MESSAGE,
+      message: {
+        title: 'The End',
+        message: 'this is the end'
+      }
+    },
+    updateMessageAction: [{
+      message: 'this is the end', title: 'The End'
+    }],
+    updateGroupCount: {
+      type: UPDATE_MEMBER_COUNT,
+      count: 3
     }
   }
 });

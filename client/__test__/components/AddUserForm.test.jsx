@@ -30,12 +30,40 @@ describe('Add user form Component', () => {
     component.instance().props.findUser();
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
+  it('should not contain error in state', () => {
+    props.foundUser = {};
+    const component = shallow(<AddUserForm {...props} />);
+    component.instance().onChange(addUser.onChangeTarget);
+    component.instance().props.findUser();
+    expect(component.instance().state.error).toEqual('');
+  });
   it('should contain the method onClick', () => {
     const component = shallow(<AddUserForm {...props} />);
     const onClickSpy = jest.spyOn(component.instance(), 'onClick');
     component.instance().onClick();
     expect(onClickSpy).toHaveBeenCalledTimes(1);
   });
+  it('should contain the method componentWillReceiveProps', () => {
+    const component = shallow(<AddUserForm {...props} />);
+    const componentWillReceivePropsSpy = jest.spyOn(
+      component.instance(), 'componentWillReceiveProps');
+    const nextProps = {
+      actionType: 'ADD_USER'
+    };
+    component.instance().componentWillReceiveProps(nextProps);
+    expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should call componentWillReceiveProps if nextProps has actionType',
+    () => {
+      const component = shallow(<AddUserForm {...props} />);
+      const componentWillReceivePropsSpy = jest.spyOn(
+        component.instance(), 'componentWillReceiveProps');
+      const nextProps = {
+        actionType: 'REMOVE_USER'
+      };
+      component.instance().componentWillReceiveProps(nextProps);
+      expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
+    });
   it('should add the user to a group', () => {
     const component = shallow(<AddUserForm {...props} />);
     component.setState({ userToAdd: {

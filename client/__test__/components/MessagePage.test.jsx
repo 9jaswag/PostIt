@@ -49,4 +49,12 @@ describe('Add user form Component', () => {
     component.instance().componentWillMount();
     expect(componentWillMountSpy).toHaveBeenCalledTimes(1);
   });
+  it('should render the connected component', () => {
+    const component = shallow(<MessagePage
+      store={store}
+      message={message}
+      {...props}
+    />);
+    expect(component.node.type).toEqual('div');
+  });
 });

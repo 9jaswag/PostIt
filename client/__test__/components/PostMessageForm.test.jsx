@@ -23,6 +23,20 @@ describe('Post message form component', () => {
     component.instance().onChange(postMessage.onChangeTarget);
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
   });
+  it('should contain the method componentWillReceiveProps', () => {
+    const component = shallow(<PostMessageForm {...props} />);
+    const componentWillReceivePropsSpy = jest
+      .spyOn(component.instance(), 'componentWillReceiveProps');
+    const nextProps = postMessage.nextProps;
+    component.instance().componentWillReceiveProps(nextProps);
+    expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should contain empty message state', () => {
+    const component = shallow(<PostMessageForm {...props} />);
+    const nextProps = postMessage.errorNextProps;
+    component.instance().componentWillReceiveProps(nextProps);
+    expect(component.instance().state.message).toEqual('');
+  });
   it('should contain the method onSubmit', () => {
     const event = mockData.eventObject;
     const component = shallow(<PostMessageForm {...props} />);

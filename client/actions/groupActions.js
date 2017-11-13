@@ -49,12 +49,12 @@ export const setAction = actionType => ({
  */
 const createGroup = groupDetails =>
   dispatch => axios.post('/api/v1/group', groupDetails).then((res) => {
-    const groupDetail = [
+    const details = [
       res.data.data.group.id,
       res.data.data.group.name,
       res.data.data.group.owner
     ];
-    dispatch(setGroupDetail(groupDetail));
+    dispatch(setGroupDetail(details));
     dispatch(setError({}));
   },
   ({ response }) => dispatch(setError(response.data)));
