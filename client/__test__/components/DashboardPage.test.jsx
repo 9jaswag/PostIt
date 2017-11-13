@@ -4,10 +4,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import ConnectedDashboardPage,
 { DashboardPage } from '../../components/dashboard/DashboardPage';
-import mockSessionStorage from '../../__mocks__/mockSessionStorage';
 import mockData from '../../__mocks__/mockData';
-
-Object.defineProperty(window, 'sessionStorage', { value: mockSessionStorage });
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

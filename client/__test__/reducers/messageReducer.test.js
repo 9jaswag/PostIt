@@ -8,14 +8,16 @@ describe('message reducer', () => {
   it('should return an initial state', () => {
     expect(message(undefined, {})).toEqual(initialState);
   });
-  it('should handle PASS_MESSAGE:', () => {
-    const action = reducer.passMessage;
-    const expectedAction = reducer.passMessageAction;
-    expect(message(initialState, action)).toEqual(expectedAction);
-  });
   it('should handle SET_MESSAGE:', () => {
     const action = reducer.setMessage;
     const expectedAction = reducer.setMessageAction;
+    expect(
+      message(initialState, action)
+    ).toEqual(expectedAction);
+  });
+  it('should handle UPDATE_GROUP_MESSAGE:', () => {
+    const action = reducer.updateMessage;
+    const expectedAction = reducer.updateMessageAction;
     expect(
       message(initialState, action)
     ).toEqual(expectedAction);

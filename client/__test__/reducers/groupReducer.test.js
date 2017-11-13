@@ -25,4 +25,9 @@ describe('groupMemberCount reducer', () => {
     const expectedAction = reducer.setMemberCount.count;
     expect(groupMemberCount(0, action)).toEqual(expectedAction);
   });
+  it('should handle UPDATE_MEMBER_COUNT', () => {
+    const action = reducer.updateGroupCount;
+    const expectedAction = reducer.setMemberCount.count;
+    expect(groupMemberCount(0, action)).toEqual(expectedAction);
+  });
 });

@@ -13,5 +13,11 @@ describe('auth reducer', () => {
     const expectedAction = reducer.setCurrentUserAction;
     expect(auth(initialState, action)).toEqual(expectedAction);
   });
+  it('should handle AUTH_ERROR', () => {
+    const initialState = reducer.authInitialState;
+    const action = reducer.setAuthError;
+    const expectedAction = reducer.setAuthError.error;
+    expect(auth(initialState, action)).toEqual(expectedAction);
+  });
 });
 

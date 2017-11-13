@@ -25,4 +25,8 @@ global.event = {
   }
 };
 
+global.Materialize = {
+  toast: jest.fn()
+};
+
 global.swal = () => Promise.resolve(true);

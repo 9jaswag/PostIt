@@ -13,11 +13,17 @@ describe('Search User Action', () => {
   it('should dispatch no action creator', (done) => {
     moxios.stubRequest('/api/v1/user/search', {
       status: 200,
-      response: {}
+      response: {
+        success: true,
+        users: [{ id: 1, username: 'chuks' }]
+      }
     });
     const payload = action.searchPayload;
     const store = mockStore({});
-    const expectedActions = action.emptyAction;
+    const expectedActions = {
+      type: 'SET_SEARCHED_USERS',
+      users: [{ id: 1, username: 'chuks' }]
+    };
 
     store.dispatch(searchUserAction(payload)).then(() => {
       expect(store.getActions()).toEqual(expectedActions);

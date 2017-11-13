@@ -1,10 +1,17 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { SignupForm } from '../../components/home/SignupForm';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import ConnectedComponent,
+{ SignupForm } from '../../components/home/SignupForm';
 import mockData from '../../__mocks__/mockData';
 
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+const { signupForm } = mockData.componentData;
+const store = mockStore(signupForm.store);
+
 describe('Signup form component test', () => {
-  const { signupForm } = mockData.componentData;
   const props = signupForm.props;
   const event = mockData.eventObject;
   it('should render without crashing', () => {
@@ -16,6 +23,20 @@ describe('Signup form component test', () => {
     const onChangeSpy = jest.spyOn(component.instance(), 'onChange');
     component.instance().onChange(signupForm.onChangeTarget);
     expect(onChangeSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should contain the method componentWillReceiveProps', () => {
+    const component = shallow(<SignupForm {...props} />);
+    const componentWillReceivePropsSpy = jest
+      .spyOn(component.instance(), 'componentWillReceiveProps');
+    const nextProps = signupForm.nextProps;
+    component.instance().componentWillReceiveProps(nextProps);
+    expect(componentWillReceivePropsSpy).toHaveBeenCalledTimes(1);
+  });
+  it('should contain error in state', () => {
+    const component = shallow(<SignupForm {...props} />);
+    const nextProps = signupForm.errorNextProps;
+    component.instance().componentWillReceiveProps(nextProps);
+    expect(component.instance().state.errors).toEqual('username exists');
   });
   it('should contain the method onSubmit', () => {
     const component = shallow(<SignupForm {...props} />);
@@ -59,5 +80,12 @@ describe('Signup form component test', () => {
     component.setState(signupForm.submitState);
     component.instance().onSubmit(event);
     expect(component.instance().state.username).toEqual('chuks');
+  });
+  it('should render the connected component', () => {
+    const component = shallow(<ConnectedComponent
+      store={store}
+      {...props}
+    />);
+    expect(component.nodes.length).toBe(1);
   });
 });
