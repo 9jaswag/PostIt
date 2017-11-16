@@ -3,7 +3,7 @@ import auth from '../middlewares/auth';
 
 export default (app) => {
   // base API
-  app.get('/api', (req, res) => res.status(200).send({
+  app.get('/api/v1', (req, res) => res.status(200).send({
     message: 'Welcome to the Post IT API!',
   }));
 

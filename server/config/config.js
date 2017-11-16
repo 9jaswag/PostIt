@@ -11,11 +11,7 @@ module.exports = {
     dialect: 'postgres'
   },
   development: {
-    username: 'chuks',
-    password: 'fgsltw@postgres',
-    database: 'postit-dev',
-    host: '127.0.0.1',
-    port: 5432,
+    use_env_variable: 'DATABASE_URL_DEV',
     dialect: 'postgres'
   }
 };
